@@ -15,7 +15,7 @@ interface CardProps {
   name: string;
   rating: number;
   numRatings: number;
-  dateAdded: Date;
+  dateAdded: number;
   reviews: any;
 }
 
