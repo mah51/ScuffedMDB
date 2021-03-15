@@ -90,7 +90,7 @@ export const Nav = ({ user }) => {
               mr={3}
               leftIcon={<AddIcon />}
             >
-              Action
+              Add review
             </Button>
 
             <Menu>
@@ -106,7 +106,7 @@ export const Nav = ({ user }) => {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Link 2</MenuItem>
+                <MenuItem>Do something else..</MenuItem>
                 <MenuDivider />
                 <MenuItem as={"a"} href={"/api/signout"}>
                   Sign Out

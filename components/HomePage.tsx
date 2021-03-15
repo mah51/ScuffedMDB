@@ -9,7 +9,9 @@ interface HomePageProps {
 export const HomePage = (props) => {
   return (
     <AppLayout user={props.user}>
-      <div>{/* <CardGrid /> */}</div>
+      <div>
+        <CardGrid />
+      </div>
     </AppLayout>
   );
 };

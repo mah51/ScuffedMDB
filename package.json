@@ -17,6 +17,7 @@
     "cross-env": "^7.0.3",
     "framer-motion": "^3.10.3",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
     "next": "10.0.8",
     "react": "17.0.1",
     "react-dom": "17.0.1",

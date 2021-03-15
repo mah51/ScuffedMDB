@@ -1,14 +1,6 @@
-import {
-  Box,
-  ButtonGroup,
-  Flex,
-  IconButton,
-  Link,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Box, ButtonGroup, Flex, IconButton, Text } from "@chakra-ui/react";
 import * as React from "react";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaInstagram } from "react-icons/fa";
 
 export const Footer = () => {
   return (
@@ -28,18 +20,11 @@ export const Footer = () => {
         >
           <h1>ScuffedMDB</h1>
         </a>
-        <Stack
-          my={{ base: "6", md: 0 }}
-          direction={{ base: "column", md: "row" }}
-          marginStart={{ md: "8" }}
-          fontSize="sm"
-          spacing={{ base: "2", md: "8" }}
-          textAlign={{ base: "center", md: "start" }}
-        >
-          <Text>&copy; {new Date().getFullYear()} ScuffedMDB Inc</Text>
-          <Link>Privacy</Link>
-          <Link>Terms and Conditions</Link>
-        </Stack>
+
+        <Text marginStart={{ md: "auto" }} justifySelf={"middle"}>
+          Made by Mikerophone 🤠
+        </Text>
+
         <ButtonGroup
           marginStart={{ md: "auto" }}
           color="gray.600"
@@ -47,21 +32,21 @@ export const Footer = () => {
         >
           <IconButton
             as="a"
-            href="www.google.com"
-            aria-label="LinkedIn"
-            icon={<FaLinkedin />}
+            href="https://www.instagram.com/michael.__.hall/"
+            aria-label="Instagram"
+            icon={<FaInstagram />}
           />
           <IconButton
             as="a"
-            href="www.google.com"
-            aria-label="LinkedIn"
+            href="https://www.github.com/mah51"
+            aria-label="GitHub"
             icon={<FaGithub />}
           />
           <IconButton
             as="a"
-            href="www.google.com"
-            aria-label="LinkedIn"
-            icon={<FaTwitter />}
+            href="https://discord.gg/UmXUUaA"
+            aria-label="Discord"
+            icon={<FaDiscord />}
           />
         </ButtonGroup>
       </Flex>
