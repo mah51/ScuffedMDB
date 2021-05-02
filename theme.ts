@@ -1,6 +1,6 @@
 // 1. import `extendTheme` function
-import { ColorMode, extendTheme, ThemeConfig } from "@chakra-ui/react";
-import { Theme } from "@emotion/react";
+import { ColorMode, extendTheme, ThemeConfig } from '@chakra-ui/react';
+import { Theme } from '@emotion/react';
 // 2. Add your color mode config
 interface CustomTheme extends ThemeConfig {
   initialColorMode: ColorMode;
@@ -8,7 +8,7 @@ interface CustomTheme extends ThemeConfig {
 }
 
 const config: CustomTheme = {
-  initialColorMode: "dark",
+  initialColorMode: `dark`,
   useSystemColorMode: true,
 };
 
