@@ -32,7 +32,6 @@ import { AiFillStar } from 'react-icons/ai';
 import { getMovies } from '../utils/queries';
 import { MovieType } from '../models/movie';
 import { ReviewEndpointBodyType } from '../types/APITypes';
-import { config } from '../utils/config';
 
 function ReviewModal({ isAdmin }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -78,7 +77,7 @@ function ReviewModal({ isAdmin }) {
       comment,
       rating,
     };
-    const res = await fetch(`${config.appUri}/api/review`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URI}/api/review`, {
       method: `post`,
       body: JSON.stringify(data),
     });

@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verify } from 'jsonwebtoken';
 import { parse } from 'cookie';
-import { config } from '../../utils/config';
 import { DiscordUser } from '../../types/generalTypes';
 import Movie, { MovieType } from '../../models/movie';
 import User from '../../models/user';
@@ -15,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return null;
     }
 
-    const token = parse(req.headers.cookie)[config.cookieName];
+    const { token } = parse(req.headers.cookie);
     if (!token) {
       return null;
     }
@@ -26,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { iat, exp, ...user } = verify(
         token,
-        config.jwtSecret,
+        process.env.JWT_TOKEN,
       ) as DiscordUser & { iat: number; exp: number };
       const discUser: any = await User.findOne({ id: user.id });
       if (!discUser) {
@@ -61,7 +60,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ) / 10;
       movie.markModified(`reviews`);
       await movie.save();
-      res
+      return res
         .status(200)
         .json({ movie, type: existingReview ? `modification` : `addition` });
     } catch (err) {

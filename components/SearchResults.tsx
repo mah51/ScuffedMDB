@@ -1,21 +1,22 @@
-import { Button, IconButton } from '@chakra-ui/button';
+import {
+  Button,
+  IconButton,
+  Image,
+  Box,
+  Center,
+  Flex,
+  Text,
+  VStack,
+  Spinner,
+} from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { Image } from '@chakra-ui/image';
-import { Box, Center, Flex, Text, VStack } from '@chakra-ui/layout';
-import { Spinner } from '@chakra-ui/spinner';
+
 import axios from 'axios';
-import React, { useEffect } from 'react';
-import { config } from '../utils/config';
+import React from 'react';
 
 export const SearchResults = ({ data, loading, error }) => {
-  useEffect(() => {
-    console.log(`data: `, data);
-    console.log(`loading: `, loading);
-    console.log(`error: `, error);
-  }, [data, loading, error]);
-
   const addMovie = async (movieID) => {
-    await axios.post(`${config.appUri}/api/movie/`, {
+    await axios.post(`${process.env.NEXT_PUBLIC_APP_URI}/api/movie/`, {
       id: movieID,
     });
   };

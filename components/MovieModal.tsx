@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import {
   useDisclosure,
   Modal,
@@ -20,7 +19,6 @@ import {
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 
 import { SearchResults } from './SearchResults';
-import { config } from '../utils/config';
 
 function MovieModal() {
   const [results, setResults] = useState([]);
@@ -36,11 +34,11 @@ function MovieModal() {
     if (error) setError(``);
     setLoading(true);
     try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${config.movieAPIKey}&language=en-US&query=${e.target.value}&page=1&include_adult=false`,
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URI}/api/movie-api`,
       );
-      const { status, data } = response;
-      if (status !== 200) {
+      const data = await response.json();
+      if (response.status !== 200) {
         setError(data.status_message);
       }
       setLoading(false);

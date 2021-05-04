@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { verify } from 'jsonwebtoken';
 import { parse } from 'cookie';
 import axios from 'axios';
-import { config } from '../../utils/config';
 import { DiscordUser } from '../../types/generalTypes';
 import Movie, { MovieType } from '../../models/movie';
 import User from '../../models/user';
@@ -16,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return null;
     }
 
-    const token = parse(req.headers.cookie)[config.cookieName];
+    const { token } = parse(req.headers.cookie);
     if (!token) {
       return null;
     }
@@ -24,14 +23,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { iat, exp, ...user } = verify(
         token,
-        config.jwtSecret,
+        process.env.JWT_CODE,
       ) as DiscordUser & { iat: number; exp: number };
+
       const discUser = await User.findOne({ id: user.id });
       if (!discUser) {
         return res.status(401);
       }
+
       const { data: movieData, status } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${movieID}?api_key=${config.movieAPIKey}&language=en-US`,
+        `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.MOVIE_API_KEY}&language=en-US`,
       );
       if (status !== 200 || movieData.status_code) {
         return res.status(status);
@@ -57,10 +58,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         `reviews.user`,
         `avatar username id discriminator`,
       );
-      res.status(200).send({ data: movies });
+      return res.status(200).send({ data: movies });
     } catch (err) {
       console.error(err);
-      res.status(500);
+      return res.status(500);
     }
+  } else {
+    return null;
   }
 };

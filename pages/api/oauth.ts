@@ -1,16 +1,15 @@
 import { serialize } from 'cookie';
 import { sign } from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { config } from '../../utils/config';
 import { DiscordUser } from '../../types/generalTypes';
 import User, { UserType } from '../../models/user';
 import dbConnect from '../../utils/dbConnect';
 
 const scope = [`identify`, `email`].join(` `);
-const REDIRECT_URI = `${config.appUri}/api/oauth`;
+const REDIRECT_URI = `${process.env.NEXT_PUBLIC_APP_URI}/api/oauth`;
 
 const OAUTH_QS = new URLSearchParams({
-  client_id: config.clientId,
+  client_id: process.env.CLIENT_ID,
   redirect_uri: REDIRECT_URI,
   response_type: `code`,
   scope,
@@ -31,8 +30,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (!code || typeof code !== `string`) return res.redirect(OAUTH_URI);
 
   const body = new URLSearchParams({
-    client_id: config.clientId,
-    client_secret: config.clientSecret,
+    client_id: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRET,
     grant_type: `authorization_code`,
     redirect_uri: REDIRECT_URI,
     code,
@@ -91,14 +90,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     count.premium_type = me.premium_type;
     await count.save();
   }
+
   const token = sign(
     count ? count.toJSON() : newUser.toJSON(),
-    config.jwtSecret,
+    process.env.JWT_CODE,
     { expiresIn: `30d` },
   );
   res.setHeader(
     `Set-Cookie`,
-    serialize(config.cookieName, token, {
+    serialize(`token`, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV !== `development`,
       sameSite: `lax`,
@@ -106,5 +106,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }),
   );
 
-  res.redirect(`/`);
+  return res.redirect(`/`);
 };
