@@ -3,8 +3,12 @@ import { GetServerSideProps } from 'next';
 import { Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 
 import { useQuery } from 'react-query';
+import { format } from 'date-fns';
 import { parseUser } from '../utils/parseDiscordUser';
 import { getUsers } from '../utils/queries';
+import UserTable from '../components/UserTable';
+import { AppLayout } from '../components/AppLayout';
+import { getFlags } from '../utils/userFlags';
 
 function Users({ user, users }) {
   if (!user || !user.isAdmin) {
@@ -26,14 +30,21 @@ function Users({ user, users }) {
   }
 
   const { data } = useQuery(`users`, getUsers, { initialData: users });
-  console.log(data);
+  const usrs = data.map((usr) => ({
+    username: `${usr.username}#${usr.discriminator}`,
+    createdAt: format(new Date(usr.createdAt), `dd/MM/yy-HH:mm:ss`),
+    image: `https://cdn.discordapp.com/avatars/${usr.id}/${usr.avatar}.jpg`,
+    id: usr.id,
+    updatedAt: format(new Date(usr.updatedAt), `dd/MM/yy-HH:mm:ss`),
+    flags: getFlags(user.public_flags),
+  }));
   return (
-    <Flex maxWidth="7xl" mx="auto">
-      <Heading>All Users!</Heading>
-      {data?.map((usr, i) => (
-        <Text key={i.toString()}>{usr.username}</Text>
-      ))}
-    </Flex>
+    <AppLayout user={user}>
+      <Flex maxWidth="7xl" mx="auto" direction="column" alignItems="center">
+        <Heading>All Users</Heading>
+        <UserTable data={usrs} />
+      </Flex>
+    </AppLayout>
   );
 }
 

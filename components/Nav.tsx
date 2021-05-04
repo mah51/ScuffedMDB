@@ -30,7 +30,7 @@ const links = [
   { link: `/users`, name: `All Users`, adminOnly: true },
 ];
 
-export const Nav = ({ user }) => {
+export const Nav = ({ user, showMovies }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { colorMode, toggleColorMode } = useColorMode();
@@ -61,11 +61,11 @@ export const Nav = ({ user }) => {
                 )
               }
             />
-            {(user.isReviewer || user.isAdmin) && (
+            {(user.isReviewer || user.isAdmin) && showMovies && (
               <ReviewModal isAdmin={user.isAdmin} />
             )}
 
-            {user.isAdmin && <MovieModal />}
+            {user.isAdmin && showMovies && <MovieModal />}
             <Menu>
               <MenuButton
                 mr={5}

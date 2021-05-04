@@ -1,16 +1,18 @@
+import React from 'react';
 import { DiscordUser } from '../types/generalTypes';
 import { Nav } from './Nav';
 import { Footer } from './Footer';
 
 interface AppLayoutProps {
   user: DiscordUser;
-  children: React.FC<any>;
+  children: any;
+  showMovies?: boolean;
 }
 
-export const AppLayout = (props) => (
+export const AppLayout = ({ showMovies, user, children }: AppLayoutProps) => (
   <>
-    <Nav user={props.user} />
-    {props.children}
+    <Nav user={user} showMovies={showMovies} />
+    {children}
     <Footer />
   </>
 );
