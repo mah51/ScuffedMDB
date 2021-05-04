@@ -23,14 +23,12 @@ import {
   Text,
   Textarea,
   Heading,
-  AlertIcon,
-  Alert,
   useToast,
 } from '@chakra-ui/react';
 
 import { useQuery, useQueryClient } from 'react-query';
 
-import { AiOutlineStar } from 'react-icons/ai';
+import { AiFillStar } from 'react-icons/ai';
 import { getMovies } from '../utils/queries';
 import { MovieType } from '../models/movie';
 import { ReviewEndpointBodyType } from '../types/APITypes';
@@ -154,7 +152,7 @@ function ReviewModal({ isAdmin }) {
                   </Text>
                 </Flex>
               </FormLabel>
-              <Box px={4}>
+              <Box>
                 <Slider
                   min={0}
                   max={10}
@@ -163,14 +161,19 @@ function ReviewModal({ isAdmin }) {
                   defaultValue={0}
                 >
                   <SliderTrack bg="purple.50">
-                    <SliderFilledTrack bg="purple.300" />
+                    <SliderFilledTrack
+                      bg={useColorModeValue(`purple.500`, `purple.300`)}
+                    />
                   </SliderTrack>
                   <SliderThumb
                     boxSize={5}
                     bg={useColorModeValue(`white`, `gray.700`)}
                     outline="1px solid var(--chakra-colors-purple-300)"
                   >
-                    <Box color="purple.300" as={AiOutlineStar} />
+                    <Box
+                      color={useColorModeValue(`purple.500`, `purple.300`)}
+                      as={AiFillStar}
+                    />
                   </SliderThumb>
                 </Slider>
               </Box>
