@@ -20,6 +20,7 @@ import {
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 
 import { SearchResults } from './SearchResults';
+import { config } from '../utils/config';
 
 function MovieModal() {
   const [results, setResults] = useState([]);
@@ -36,7 +37,7 @@ function MovieModal() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}&language=en-US&query=${e.target.value}&page=1&include_adult=false`,
+        `https://api.themoviedb.org/3/search/movie?api_key=${config.movieAPIKey}&language=en-US&query=${e.target.value}&page=1&include_adult=false`,
       );
       const { status, data } = response;
       if (status !== 200) {

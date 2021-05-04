@@ -31,7 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(401);
       }
       const { data: movieData, status } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}&language=en-US`,
+        `https://api.themoviedb.org/3/movie/${movieID}?api_key=${config.movieAPIKey}&language=en-US`,
       );
       if (status !== 200 || movieData.status_code) {
         return res.status(status);

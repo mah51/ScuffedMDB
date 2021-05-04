@@ -5,6 +5,7 @@ import { Box, Center, Flex, Text, VStack } from '@chakra-ui/layout';
 import { Spinner } from '@chakra-ui/spinner';
 import axios from 'axios';
 import React, { useEffect } from 'react';
+import { config } from '../utils/config';
 
 export const SearchResults = ({ data, loading, error }) => {
   useEffect(() => {
@@ -14,7 +15,7 @@ export const SearchResults = ({ data, loading, error }) => {
   }, [data, loading, error]);
 
   const addMovie = async (movieID) => {
-    await axios.post(`${process.env.NEXT_PUBLIC_APP_URI}/api/movie/`, {
+    await axios.post(`${config.appUri}/api/movie/`, {
       id: movieID,
     });
   };

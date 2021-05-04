@@ -24,7 +24,10 @@ export const config = {
   cookieName: `token`,
   clientId: validateEnv(`CLIENT_ID`),
   clientSecret: validateEnv(`CLIENT_SECRET`),
-  appUri: validateEnv(`NEXT_PUBLIC_APP_URI`, `http://localhost:3000`, true),
+  movieAPIKey: validateEnv(`NEXT_PUBLIC_MOVIE_API_KEY`),
+  appUri:
+    process.env.VERCEL_URL ||
+    validateEnv(`NEXT_PUBLIC_APP_URI`, `http://localhost:3000`, true),
   jwtSecret: validateEnv(
     `JWT_SECRET`,
     `this is a development value that should be changed in production!!!!!`,
