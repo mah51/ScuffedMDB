@@ -35,12 +35,13 @@ function MovieModal() {
     setLoading(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_APP_URI}/api/movie-api`,
+        `${process.env.NEXT_PUBLIC_APP_URI}/api/movie-api?search=${e.target.value}`,
       );
       const data = await response.json();
       if (response.status !== 200) {
         setError(data.status_message);
       }
+      console.log(data);
       setLoading(false);
       setResults(data.results.splice(0, 5));
     } catch (err) {
