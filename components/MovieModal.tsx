@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useDisclosure,
   Modal,
@@ -14,20 +14,53 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  useToast,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 
+import { useQueryClient } from 'react-query';
 import { SearchResults } from './SearchResults';
 
 function MovieModal() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(``);
+  const [success, setSuccess] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = React.useRef();
+  const queryClient = useQueryClient();
+  const toast = useToast();
+  useEffect(() => {
+    if (success) {
+      queryClient.invalidateQueries(`movies`).catch(() => {});
+      toast({
+        title: success.type === `addition` ? `Movie Added` : `Movie Deleted`,
+        description:
+          success.type === `addition`
+            ? `${success.data?.name} was successfully added`
+            : `${success.data.name} was successfully deleted`,
+        status: `success`,
+        duration: 5000,
+        isClosable: true,
+      });
+      onClose();
+      setSuccess(null);
+    } else if (error) {
+      toast({
+        title: `There was an error`,
+        description: error,
+        status: `error`,
+        duration: 5000,
+        isClosable: true,
+      });
+      setSuccess(null);
+      setError(null);
+    }
+  }, [success, error]);
 
   const handleChange = async (e) => {
     if (e.target.value.length === 0) return setResults([]);
@@ -41,7 +74,6 @@ function MovieModal() {
       if (response.status !== 200) {
         setError(data.status_message);
       }
-      console.log(data);
       setLoading(false);
       setResults(data.results.splice(0, 5));
     } catch (err) {
@@ -87,13 +119,22 @@ function MovieModal() {
             </FormControl>
 
             {results ? (
-              <SearchResults data={results} loading={loading} error={error} />
+              <SearchResults
+                data={results}
+                loading={loading}
+                error={error}
+                setSuccess={setSuccess}
+                setError={setError}
+              />
             ) : (
               ``
             )}
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter
+            bg={useColorModeValue(`gray.50`, `gray.800`)}
+            roundedBottom="md"
+          >
             <Button colorScheme="purple" mr={3}>
               Add movie
             </Button>

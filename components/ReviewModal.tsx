@@ -41,8 +41,10 @@ function ReviewModal({ isAdmin }) {
   const [movie, setMovie] = useState(null);
   const [movieError, setMovieError] = useState(``);
   const [success, setSuccess] = useState(``);
+
   const queryClient = useQueryClient();
   const toast = useToast();
+
   useEffect(() => {
     if (success) {
       queryClient.invalidateQueries(`movies`).catch(() => {});

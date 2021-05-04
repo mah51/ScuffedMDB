@@ -7,6 +7,7 @@ import Movie, { MovieType } from '../../models/movie';
 import User from '../../models/user';
 import dbConnect from '../../utils/dbConnect';
 import { MovieEndpointBodyType } from '../../types/APITypes';
+import { useAPIAuth } from '../../utils/useAPIAuth';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
@@ -19,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (!token) {
       return null;
     }
-    const { id: movieID }: MovieEndpointBodyType = req.body;
+    const { id: movieID }: MovieEndpointBodyType = JSON.parse(req.body);
     try {
       const { iat, exp, ...user } = verify(
         token,
@@ -37,8 +38,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       if (status !== 200 || movieData.status_code) {
         return res.status(status);
       }
+      const existingMovie = await Movie.findOne({ movieID });
+      if (existingMovie) {
+        return res.status(400).send({ message: `Movie already exists!` });
+      }
       const newMovie: MovieType = new Movie({
         name: movieData.original_title,
+        movieID,
         image: `https://image.tmdb.org/t/p/original/${movieData.backdrop_path}`,
         description: movieData.overview,
         tagLine: movieData.tagline,
@@ -47,7 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         reviews: [],
       });
       await newMovie.save();
-      return res.status(200).send({ data: newMovie });
+      return res.status(200).send({ data: newMovie, type: `addition` });
     } catch (err) {
       console.error(err);
       return res.status(500);
@@ -63,7 +69,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       console.error(err);
       return res.status(500);
     }
+  } else if (req.method === `DELETE`) {
+    const { id } = JSON.parse(req.body);
+    const discUser = await useAPIAuth(req, res, process.env.JWT_CODE);
+    if (!discUser || !discUser.isAdmin) {
+      return res
+        .status(401)
+        .send({ message: `You are unauthorized to use that :(` });
+    }
+
+    const movie = await Movie.findOne({ _id: id });
+    if (!movie) {
+      return res.status(404);
+    }
+    const deletedMovie = await Movie.deleteOne({ _id: id });
+    if (deletedMovie.ok === 1) {
+      return res.status(200).send(movie);
+    }
+
+    return res.status(500);
   } else {
-    return null;
+    return res.status(405).send({ message: `method not allowed` });
   }
 };

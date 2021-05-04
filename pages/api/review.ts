@@ -6,6 +6,7 @@ import Movie, { MovieType } from '../../models/movie';
 import User from '../../models/user';
 import dbConnect from '../../utils/dbConnect';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
+import { useAPIAuth } from '../../utils/useAPIAuth';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
@@ -25,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { iat, exp, ...user } = verify(
         token,
-        process.env.JWT_TOKEN,
+        process.env.JWT_CODE,
       ) as DiscordUser & { iat: number; exp: number };
       const discUser: any = await User.findOne({ id: user.id });
       if (!discUser) {
@@ -67,7 +68,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       console.error(err);
       return res.status(500);
     }
+  } else if (req.method === `DELETE`) {
+    // TODO Delete reviews...
+    return res.status(405);
   } else {
-    return null;
+    return res.status(405).send({ message: `method not allowed :(` });
   }
 };

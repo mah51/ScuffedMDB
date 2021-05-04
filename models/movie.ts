@@ -18,6 +18,7 @@ const reviewSchema = new mongoose.Schema(
 const movieSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
+    movieID: { type: String },
     image: { type: String },
     description: { type: String },
     tagLine: { type: String },
@@ -40,6 +41,7 @@ export interface ReviewType {
 export interface MovieType extends Document {
   name: string;
   image?: string;
+  movieID: string;
   description?: string;
   tagLine?: string;
   rating: number;

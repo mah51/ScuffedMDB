@@ -11,16 +11,32 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 
-import axios from 'axios';
 import React from 'react';
 
-export const SearchResults = ({ data, loading, error }) => {
+export const SearchResults = ({
+  data,
+  loading,
+  error,
+  setSuccess,
+  setError,
+}) => {
   const addMovie = async (movieID) => {
-    await axios.post(`${process.env.NEXT_PUBLIC_APP_URI}/api/movie/`, {
-      id: movieID,
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URI}/api/movie/`,
+      {
+        method: `post`,
+        body: JSON.stringify({ id: movieID }),
+      },
+    );
+    const dta = await response.json();
+    if (response.status === 200) {
+      setSuccess(dta);
+    } else {
+      setError(dta.message);
+    }
   };
 
+  // eslint-disable-next-line no-nested-ternary
   return loading ? (
     <Center>
       <Spinner

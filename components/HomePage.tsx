@@ -11,7 +11,7 @@ interface HomePageProps {
 export const HomePage = ({ user, movies }: HomePageProps) => (
   <AppLayout user={user} showMovies>
     <div>
-      <CardGrid movies={movies} />
+      <CardGrid movies={movies} user={user} />
     </div>
   </AppLayout>
 );
