@@ -25,9 +25,7 @@ export const config = {
   clientId: validateEnv(`CLIENT_ID`),
   clientSecret: validateEnv(`CLIENT_SECRET`),
   movieAPIKey: validateEnv(`MOVIE_API_KEY`),
-  appUri:
-    process.env.VERCEL_URL ||
-    validateEnv(`NEXT_PUBLIC_APP_URI`, `http://localhost:3000`, true),
+  appUri: validateEnv(`NEXT_PUBLIC_APP_URI`, `http://localhost:3000`, true),
   jwtSecret: validateEnv(
     `JWT_SECRET`,
     `this is a development value that should be changed in production!!!!!`,
