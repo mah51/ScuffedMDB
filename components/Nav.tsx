@@ -4,10 +4,10 @@ import {
   Flex,
   Avatar,
   HStack,
-  Link,
   IconButton,
   Button,
   Menu,
+  Link as ChakraLink,
   MenuButton,
   MenuList,
   MenuItem,
@@ -16,27 +16,19 @@ import {
   useColorModeValue,
   useColorMode,
   Stack,
+  Heading,
 } from '@chakra-ui/react';
 import { IoMoon, IoSunny } from 'react-icons/io5';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import Link from 'next/link';
 import MovieModal from './MovieModal';
+import ReviewModal from './ReviewModal';
 
-const Links = [`Home`, `My Reviews`];
-
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded="md"
-    _hover={{
-      textDecoration: `none`,
-      bg: useColorModeValue(`gray.200`, `gray.700`),
-    }}
-    href="#"
-  >
-    {children}
-  </Link>
-);
+const links = [
+  { link: `/`, name: `Home` },
+  { link: `/reviews`, name: `My Reviews` },
+  { link: `/users`, name: `All Users`, adminOnly: true },
+];
 
 export const Nav = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,34 +37,24 @@ export const Nav = ({ user }) => {
 
   return (
     <>
-      <Box px={4}>
-        <Flex h={16} alignItems="center" justifyContent="space-between">
-          <IconButton
-            size="md"
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label="Open Menu"
-            display={{ md: !isOpen ? `none` : `inherit` }}
-            onClick={isOpen ? onClose : onOpen}
-          />
-          <HStack spacing={8} alignItems="center">
-            <Box>
-              <strong>ScuffedMDB</strong>
-            </Box>
-            <HStack as="nav" spacing={4} display={{ base: `none`, md: `flex` }}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </HStack>
+      <Box width="100vw">
+        <Flex
+          h={16}
+          maxWidth="full"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <HStack spacing={8} alignItems="center" ml={5}>
+            <Heading fontSize="2xl">ScuffedMDB</Heading>
           </HStack>
 
-          <Stack align="center" direction="row" spacing={3}>
+          <Stack align="center" direction="row" spacing={3} mx={4}>
             <IconButton
-              size="sm"
               variant="ghost"
               aria-label="Toggle Color Mode"
               onClick={toggleColorMode}
               icon={
-                colorMode == `light` ? (
+                colorMode === `light` ? (
                   <IoMoon size={18} />
                 ) : (
                   <IoSunny size={18} />
@@ -80,20 +62,13 @@ export const Nav = ({ user }) => {
               }
             />
             {(user.isReviewer || user.isAdmin) && (
-              <Button
-                variant="solid"
-                colorScheme="purple"
-                size="sm"
-                mr={user.isAdmin ? 0 : 3}
-                leftIcon={<AddIcon />}
-              >
-                Add review
-              </Button>
+              <ReviewModal isAdmin={user.isAdmin} />
             )}
 
             {user.isAdmin && <MovieModal />}
             <Menu>
               <MenuButton
+                mr={5}
                 as={Button}
                 rounded="full"
                 variant="link"
@@ -106,7 +81,16 @@ export const Nav = ({ user }) => {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Do something else..</MenuItem>
+                {links.map((link, i) => {
+                  if (link.adminOnly && !user.isAdmin) {
+                    return null;
+                  }
+                  return (
+                    <Link href={link.link}>
+                      <MenuItem>{link.name}</MenuItem>
+                    </Link>
+                  );
+                })}
                 <MenuDivider />
                 <MenuItem as="a" href="/api/signout">
                   Sign Out
@@ -115,16 +99,6 @@ export const Nav = ({ user }) => {
             </Menu>
           </Stack>
         </Flex>
-
-        {isOpen ? (
-          <Box pb={4}>
-            <Stack as="nav" spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
       </Box>
     </>
   );

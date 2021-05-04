@@ -1,4 +1,5 @@
 export interface DiscordUser {
+  _id: string;
   id: string;
   username: string;
   avatar: string;

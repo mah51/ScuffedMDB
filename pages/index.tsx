@@ -1,22 +1,23 @@
-import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import React from 'react';
+import { useQuery } from 'react-query';
 import { HomePage } from '../components/HomePage';
 import { LandingPage } from '../components/LandingPage';
 import { DiscordUser } from '../types/generalTypes';
 import { parseUser } from '../utils/parseDiscordUser';
+import { getMovies } from '../utils/queries';
 
 interface HomePageProps {
   user: DiscordUser | null;
   movies: [];
 }
 
-export default function Home(props: HomePageProps) {
-  if (!props.user) {
+export default function Home({ user, movies }: HomePageProps) {
+  if (!user) {
     return <LandingPage />;
   }
-
-  return <HomePage user={props.user} movies={props.movies} />;
+  const { data } = useQuery(`movies`, getMovies, { initialData: movies });
+  return <HomePage user={user} movies={data} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -24,8 +25,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!user) {
     return { props: { user: null } };
   }
-  const { data: movies } = await axios.get(
-    `${process.env.NEXT_PUBLIC_APP_URI}/api/movie`,
-  );
+  const movies = await getMovies();
   return { props: { user, movies } };
 };

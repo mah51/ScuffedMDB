@@ -3,7 +3,7 @@ import { sign } from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { config } from '../../utils/config';
 import { DiscordUser } from '../../types/generalTypes';
-import User from '../../models/user';
+import User, { UserType } from '../../models/user';
 import dbConnect from '../../utils/dbConnect';
 
 const scope = [`identify`, `email`].join(` `);
@@ -46,7 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       method: `POST`,
       body,
     },
-  ).then((res) => res.json());
+  ).then((re) => re.json());
 
   if (!access_token || typeof access_token !== `string`) {
     return res.redirect(OAUTH_URI);
@@ -57,15 +57,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     {
       headers: { Authorization: `${token_type} ${access_token}` },
     },
-  ).then((res) => res.json());
+  ).then((r) => r.json());
 
   if (!(`id` in me)) {
     return res.redirect(OAUTH_URI);
   }
 
-  const count: any = await User.findOne({ id: me.id });
+  const count: UserType = await User.findOne({ id: me.id });
 
-  let newUser: any;
+  let newUser: UserType;
   if (!count?.id) {
     newUser = new User({
       id: me.id,

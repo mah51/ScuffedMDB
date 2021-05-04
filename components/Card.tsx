@@ -1,26 +1,19 @@
 import Image from 'next/image';
 import {
   Box,
-  Heading,
   Text,
   Stack,
   Avatar,
   useColorModeValue,
   AvatarGroup,
-  Divider,
+  Flex,
+  chakra,
 } from '@chakra-ui/react';
-import moment from 'moment';
-import { Flex } from '@chakra-ui/layout';
 
-interface CardProps {
-  image: string;
-  name: string;
-  rating: number;
-  numRatings: number;
-  dateAdded: number;
-  reviews: any;
-  description: string;
-  tagLine: string;
+import { MovieType } from '../models/movie';
+
+interface CardProps extends MovieType {
+  dateAdded: Date;
 }
 
 export const Card = ({
@@ -28,13 +21,14 @@ export const Card = ({
   name,
   reviews,
   rating,
-  numRatings,
+  numReviews,
   dateAdded,
   tagLine,
   description,
 }: CardProps) => (
-  <Box
+  <chakra.div
     position="relative"
+    direction="column"
     maxW="400px"
     w="full"
     bg={useColorModeValue(`white`, `gray.900`)}
@@ -50,10 +44,9 @@ export const Card = ({
     overflow="hidden"
   >
     <Box
-      rounded="md"
       opacity={0}
       top={0}
-      zIndex={999}
+      zIndex={10}
       left={0}
       right={0}
       bottom={0}
@@ -65,7 +58,7 @@ export const Card = ({
       bg={useColorModeValue(`white`, `gray.800`)}
       transitionTimingFunction="spring(1 100 10 10)"
       _hover={{
-        opacity: 0.9,
+        opacity: 0.95,
         shadow: `2xl`,
       }}
     >
@@ -77,38 +70,59 @@ export const Card = ({
         View more
       </Text>
     </Box>
-    <Box h="210px" bg="gray.100" mt={-6} mx={-6} mb={6} pos="relative">
-      <Image src={image} layout="fill" />
+    <Box mt={-6} mx={-6} mb={6} pos="relative">
+      <Image src={image} layout="responsive" width="16px" height="9px" />
     </Box>
 
-    <Stack isTruncated>
-      <Flex isTruncated alignItems="center" justifyContent="space-between">
-        <Heading
-          color={useColorModeValue(`gray.700`, `white`)}
-          fontSize="2xl"
-          fontFamily="body"
-          isTruncated
-        >
-          {name}
-        </Heading>
-        <Box ml={3}>
-          <AvatarGroup size="md" max={5}>
+    <Flex isTruncated direction="column" justifyContent="space-between">
+      <Stack isTruncated spacing={0}>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Text
+            as="h3"
+            color={useColorModeValue(`gray.700`, `white`)}
+            fontSize="2xl"
+            fontWeight="bold"
+            isTruncated
+          >
+            {name}
+          </Text>
+          <chakra.span
+            fontWeight="semibold"
+            fontSize="md"
+            ml={3}
+            color={useColorModeValue(`gray.900`, `white`)}
+          >
+            {numReviews > 0 ? `${rating} / 10` : `No reviews`}
+          </chakra.span>
+        </Flex>
+
+        <Text color="gray.500" isTruncated>
+          {tagLine}
+        </Text>
+      </Stack>
+      {numReviews > 0 && (
+        <Flex mt={3}>
+          <AvatarGroup size="md" max={4}>
             {reviews.map((review) => (
               <Avatar
-                name={review.username}
-                src={`https://cdn.discordapp.com/avatars/${review.id}/${review.avatar}`}
+                // @ts-ignore
+                src={`https://cdn.discordapp.com/avatars/${review.user.id}/${review.user.avatar}`}
               />
             ))}
           </AvatarGroup>
 
-          <Text fontWeight={600}>
-            {rating} · {numRatings} reviews
-          </Text>
-        </Box>
-      </Flex>
-      <Text mt={2} color="gray.500" isTruncated>
-        {tagLine}
-      </Text>
-    </Stack>
-  </Box>
+          <Flex direction="column" alignSelf="stretch">
+            <Text
+              ml={2}
+              my="auto"
+              color={useColorModeValue(`gray.600`, `gray.300`)}
+            >
+              {` `}·{` `}
+              {numReviews} reviews
+            </Text>
+          </Flex>
+        </Flex>
+      )}
+    </Flex>
+  </chakra.div>
 );

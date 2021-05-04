@@ -1,16 +1,17 @@
 import { DiscordUser } from '../types/generalTypes';
 import { AppLayout } from './AppLayout';
 import { CardGrid } from './CardGrid';
+import { MovieType } from '../models/movie';
 
 interface HomePageProps {
   user: DiscordUser;
-  movies: [];
+  movies: MovieType[];
 }
 
-export const HomePage = (props) => (
-  <AppLayout user={props.user}>
+export const HomePage = ({ user, movies }: HomePageProps) => (
+  <AppLayout user={user}>
     <div>
-      <CardGrid movies={props.movies} />
+      <CardGrid movies={movies} />
     </div>
   </AppLayout>
 );

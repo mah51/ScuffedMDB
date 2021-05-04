@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const theme = extendTheme({
   colors: {
@@ -10,11 +11,15 @@ const theme = extendTheme({
   },
 });
 
+const queryClient = new QueryClient();
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 }
 

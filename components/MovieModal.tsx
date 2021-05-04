@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useDisclosure } from '@chakra-ui/hooks';
 import {
+  useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -16,6 +16,7 @@ import {
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
+
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 
 import { SearchResults } from './SearchResults';
@@ -56,7 +57,7 @@ function MovieModal() {
       <Button
         variant="outline"
         colorScheme="gray"
-        size="sm"
+        display={{ base: `none`, md: `block` }}
         mr={3}
         leftIcon={<AddIcon />}
         onClick={onOpen}
