@@ -1,7 +1,41 @@
-import { Box, ButtonGroup, Flex, IconButton, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  chakra,
+  Stack,
+  Text,
+  Tooltip,
+  useColorModeValue,
+  VisuallyHidden,
+} from '@chakra-ui/react';
 import * as React from 'react';
-import { FaDiscord, FaGithub, FaInstagram } from 'react-icons/fa';
+import { FaDiscord, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
+function SocialIcons({ children, href, label }) {
+  return (
+    <Tooltip label={label}>
+      <chakra.button
+        bg={useColorModeValue(`blackAlpha.100`, `whiteAlpha.100`)}
+        rounded="full"
+        w={8}
+        h={8}
+        cursor="pointer"
+        as="a"
+        href={href}
+        display="inline-flex"
+        alignItems="center"
+        justifyContent="center"
+        transition="background 0.3s ease"
+        _hover={{
+          bg: useColorModeValue(`blackAlpha.200`, `whiteAlpha.200`),
+        }}
+      >
+        <VisuallyHidden>{label}</VisuallyHidden>
+        {children}
+      </chakra.button>
+    </Tooltip>
+  );
+}
 export const Footer = () => (
   <Box as="footer" role="contentinfo" mt={8} py="6">
     <Flex
@@ -19,30 +53,24 @@ export const Footer = () => (
         Made by Mikerophone 🤠
       </Text>
 
-      <ButtonGroup
-        marginStart={{ md: `auto` }}
-        color="gray.600"
-        variant="ghost"
-      >
-        <IconButton
-          as="a"
+      <Stack direction="row" spacing={6} ml="auto" mr={{ base: `auto`, md: 5 }}>
+        <SocialIcons label="GitHub" href="https://github.com/mah51/">
+          <FaGithub />
+        </SocialIcons>
+        <SocialIcons
+          label="LinkedIn"
+          href="https://www.linkedin.com/in/michael-hall-86616b17b/"
+        >
+          <FaLinkedin />
+        </SocialIcons>
+
+        <SocialIcons
+          label="Instagram"
           href="https://www.instagram.com/michael.__.hall/"
-          aria-label="Instagram"
-          icon={<FaInstagram />}
-        />
-        <IconButton
-          as="a"
-          href="https://www.github.com/mah51"
-          aria-label="GitHub"
-          icon={<FaGithub />}
-        />
-        <IconButton
-          as="a"
-          href="https://discord.gg/UmXUUaA"
-          aria-label="Discord"
-          icon={<FaDiscord />}
-        />
-      </ButtonGroup>
+        >
+          <FaInstagram />
+        </SocialIcons>
+      </Stack>
     </Flex>
   </Box>
 );
