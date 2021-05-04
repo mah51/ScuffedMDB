@@ -14,7 +14,7 @@ function validateEnv<T extends string = string>(
 
       return defaultValue;
     }
-    throw new Error(`${key} is not defined in environment variables`);
+    console.warn(`okay there is no back up either`);
   }
 
   return value;
