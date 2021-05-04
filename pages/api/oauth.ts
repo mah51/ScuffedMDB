@@ -7,9 +7,7 @@ import User, { UserType } from '../../models/user';
 import dbConnect from '../../utils/dbConnect';
 
 const scope = [`identify`, `email`].join(` `);
-const REDIRECT_URI = `${
-  process.env.production ? `movie-web-typescript.vercel.app` : config.appUri
-}/api/oauth`;
+const REDIRECT_URI = `${config.appUri}/api/oauth`;
 
 const OAUTH_QS = new URLSearchParams({
   client_id: config.clientId,
