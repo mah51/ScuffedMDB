@@ -72,13 +72,15 @@ function MovieModal() {
       );
       const data = await response.json();
       if (response.status !== 200) {
-        setError(data.status_message);
+        console.log(data);
+        return setError(data.status_message);
       }
       setLoading(false);
       setResults(data.results.splice(0, 5));
     } catch (err) {
       if (err) {
-        setError(err);
+        console.log(err);
+        setError(err.message);
         setLoading(false);
       }
     }
