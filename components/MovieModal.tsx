@@ -16,6 +16,7 @@ import {
   InputLeftElement,
   useToast,
   useColorModeValue,
+  Flex,
 } from '@chakra-ui/react';
 
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
@@ -62,13 +63,13 @@ function MovieModal() {
     }
   }, [success, error]);
 
-  const handleChange = async (e) => {
-    if (e.target.value.length === 0) return setResults([]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (error) setError(``);
     setLoading(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_APP_URI}/api/movie-api?search=${e.target.value}`,
+        `${process.env.NEXT_PUBLIC_APP_URI}/api/movie-api?search=${e.target[0].value}`,
       );
       const data = await response.json();
       if (response.status !== 200) {
@@ -76,6 +77,9 @@ function MovieModal() {
         return setError(data.status_message);
       }
       setLoading(false);
+      if (!data?.results?.length) {
+        setError(`No results found :(`);
+      }
       setResults(data.results.splice(0, 5));
     } catch (err) {
       if (err) {
@@ -105,20 +109,26 @@ function MovieModal() {
           <ModalHeader>Add a movie</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Find movie</FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <SearchIcon color="gray.300" />
-                </InputLeftElement>
-                <Input
-                  onChange={handleChange}
-                  ref={initialRef}
-                  type="text"
-                  placeholder="Search OMDB..."
-                />
-              </InputGroup>
-            </FormControl>
+            <form onSubmit={handleSubmit}>
+              <FormControl>
+                <FormLabel>Find movie</FormLabel>
+                <Flex>
+                  <InputGroup>
+                    <InputLeftElement pointerEvents="none">
+                      <SearchIcon color="gray.300" />
+                    </InputLeftElement>
+                    <Input
+                      ref={initialRef}
+                      type="text"
+                      placeholder="Search OMDB..."
+                    />
+                  </InputGroup>
+                  <Button type="submit" ml={5} colorScheme="purple">
+                    Search
+                  </Button>
+                </Flex>
+              </FormControl>
+            </form>
 
             {results ? (
               <SearchResults
