@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema<UserType, UserModel>(
     flags: { type: Number, required: true },
     locale: { type: String, required: true },
     mfa_enabled: { type: Boolean, required: true },
-    premium_type: { type: Number, required: true },
+    premium_type: { type: Number, default: 0 },
     isAdmin: { type: Boolean, default: false },
     isReviewer: { type: Boolean, default: false },
   },
@@ -28,7 +28,7 @@ export interface UserType extends Document {
   flags: number;
   locale: string;
   mfa_enabled: boolean;
-  premium_type: number;
+  premium_type?: number;
   isAdmin?: boolean;
   isReviewer?: boolean;
 }

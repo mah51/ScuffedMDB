@@ -61,7 +61,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (!(`id` in me)) {
     return res.redirect(OAUTH_URI);
   }
-
+  console.log(me.premium_type);
+  console.log(typeof me.premium_type);
   const count: UserType = await User.findOne({ id: me.id });
 
   let newUser: UserType;
