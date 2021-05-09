@@ -84,7 +84,7 @@ export const Nav = ({ user, showMovies }: NavProps) => {
                   src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpg`}
                 />
               </MenuButton>
-              <MenuList>
+              <MenuList zIndex={999}>
                 {links.map((link, i) => {
                   if (link.adminOnly && !user.isAdmin) {
                     return null;

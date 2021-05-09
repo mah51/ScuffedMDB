@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema<UserType, UserModel>(
     isReviewer: { type: Boolean, default: false },
     isBanned: { type: Boolean, default: false },
     banReason: { type: String },
+    bio: { type: String },
   },
   { timestamps: true },
 );
@@ -41,6 +42,7 @@ export interface UserType extends Document {
   isBanned?: boolean;
   banReason?: string;
   updatedAt?: string;
+  bio?: string;
 }
 
 type UserModel = Model<UserType>;

@@ -18,7 +18,6 @@ import {
   IconButton,
   useToast,
   Popover,
-  Box,
   PopoverTrigger,
   Input,
   Stack,
@@ -31,9 +30,11 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
+  Link,
 } from '@chakra-ui/react';
 import { FaUserPlus, FaUserShield, FaUserSlash } from 'react-icons/fa';
 import { useQueryClient } from 'react-query';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 const Form = ({ firstFieldRef, onCancel, user, isBanned, banReason }) => {
   const queryClient = useQueryClient();
@@ -215,14 +216,22 @@ function UserTable({ data }) {
             <Flex justifyContent="center">
               <Avatar src={row?.original?.image} />
               <VStack ml={3} alignItems="flex-start">
-                <Text fontSize="lg" fontWeight="semibold">
-                  {row?.original?.username}
-                  <chakra.span
-                    color={useColorModeValue(`gray.400`, `gray.600`)}
-                  >
-                    #{row?.original?.discriminator}
-                  </chakra.span>
-                </Text>
+                <Link
+                  href={`${process.env.NEXT_PUBLIC_APP_URI}/user/${row.original._id}`}
+                  isExternal
+                >
+                  <Flex>
+                    <Text fontSize="lg" fontWeight="semibold">
+                      {row?.original?.username}
+                      <chakra.span
+                        color={useColorModeValue(`gray.400`, `gray.600`)}
+                      >
+                        #{row?.original?.discriminator}
+                      </chakra.span>
+                    </Text>
+                    <ExternalLinkIcon mx="5px" my="auto" />
+                  </Flex>
+                </Link>
                 <Text
                   fontSize="sm"
                   color={useColorModeValue(`gray.400`, `gray.600`)}

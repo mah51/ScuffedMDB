@@ -6,7 +6,6 @@ import Movie, { MovieType } from '../../models/movie';
 import User from '../../models/user';
 import dbConnect from '../../utils/dbConnect';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
-import { useAPIAuth } from '../../utils/useAPIAuth';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
