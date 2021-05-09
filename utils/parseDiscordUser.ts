@@ -23,11 +23,15 @@ export async function parseUser(
     ) as DiscordUser & { iat: number; exp: number };
 
     const mongooseUser = await User.findOne({ id: user.id }).lean();
+    if (!mongooseUser) {
+      return null;
+    }
     mongooseUser._id = mongooseUser.toString();
     mongooseUser.createdAt = mongooseUser.createdAt.getTime();
     mongooseUser.updatedAt = mongooseUser.updatedAt.getTime();
     return mongooseUser;
   } catch (e) {
+    console.error(e);
     return null;
   }
 }

@@ -26,6 +26,7 @@ export default function Home({ user, movies }: HomePageProps) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const user: UserType = await parseUser(ctx);
+
   if (!user) {
     return { props: { user: null } };
   }
