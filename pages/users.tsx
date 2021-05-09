@@ -9,8 +9,13 @@ import { getUsers } from '../utils/queries';
 import UserTable from '../components/UserTable';
 import { AppLayout } from '../components/AppLayout';
 import { getFlags } from '../utils/userFlags';
+import { UserType } from '../models/user';
+import BannedPage from '../components/BannedPage';
 
 function Users({ user, users }) {
+  if (user?.isBanned) {
+    return <BannedPage user={user} />;
+  }
   if (!user || !user.isAdmin) {
     return (
       <Flex
@@ -30,18 +35,25 @@ function Users({ user, users }) {
   }
 
   const { data } = useQuery(`users`, getUsers, { initialData: users });
-  const usrs = data.map((usr) => ({
-    username: `${usr.username}#${usr.discriminator}`,
+  const usrs = data.map((usr: UserType) => ({
+    username: usr.username,
+    discriminator: usr.discriminator,
     createdAt: format(new Date(usr.createdAt), `dd/MM/yy-HH:mm:ss`),
     image: `https://cdn.discordapp.com/avatars/${usr.id}/${usr.avatar}.jpg`,
     id: usr.id,
-    updatedAt: format(new Date(usr.updatedAt), `dd/MM/yy-HH:mm:ss`),
-    flags: getFlags(user.public_flags),
+    isBanned: usr.isBanned,
+    banReason: usr.banReason,
+    isAdmin: usr.isAdmin,
+    isReviewer: usr.isReviewer,
+    updatedAt: format(new Date(usr.last_updated), `dd/MM/yy-HH:mm:ss`),
+    flags: getFlags(usr.public_flags),
+    // eslint-disable-next-line no-underscore-dangle
+    _id: usr._id,
   }));
   return (
     <AppLayout user={user}>
       <Flex maxWidth="7xl" mx="auto" direction="column" alignItems="center">
-        <Heading>All Users</Heading>
+        <Heading mb={10}>All Users</Heading>
         <UserTable data={usrs} />
       </Flex>
     </AppLayout>
@@ -49,7 +61,7 @@ function Users({ user, users }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const user = parseUser(ctx);
+  const user: UserType = await parseUser(ctx);
   if (!user) {
     return { props: { user: null } };
   }

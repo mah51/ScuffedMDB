@@ -71,11 +71,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } else if (req.method === `DELETE`) {
     const { id } = JSON.parse(req.body);
-    const discUser = await useAPIAuth(req, res, process.env.JWT_CODE);
+    const discUser = await useAPIAuth(req, res);
     if (!discUser || !discUser.isAdmin) {
       return res
         .status(401)
-        .send({ message: `You are unauthorized to use that :(` });
+        .json({ message: `You are unauthorized to use that :(` });
     }
 
     const movie = await Movie.findOne({ _id: id });
@@ -84,11 +84,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
     const deletedMovie = await Movie.deleteOne({ _id: id });
     if (deletedMovie.ok === 1) {
-      return res.status(200).send(movie);
+      return res.status(200).json(movie);
     }
 
     return res.status(500);
   } else {
-    return res.status(405).send({ message: `method not allowed` });
+    return res.status(405).json({ message: `method not allowed` });
   }
 };

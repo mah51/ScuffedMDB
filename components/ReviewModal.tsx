@@ -49,6 +49,7 @@ function ReviewModal({ isAdmin }) {
     if (success) {
       queryClient.invalidateQueries(`movies`).catch(() => {});
       toast({
+        variant: `subtle`,
         title: success === `addition` ? `Review Added` : `Review Modified`,
         description:
           success === `addition`
@@ -167,11 +168,7 @@ function ReviewModal({ isAdmin }) {
                       bg={useColorModeValue(`purple.500`, `purple.300`)}
                     />
                   </SliderTrack>
-                  <SliderThumb
-                    boxSize={5}
-                    bg={useColorModeValue(`white`, `gray.700`)}
-                    outline="1px solid var(--chakra-colors-purple-300)"
-                  >
+                  <SliderThumb boxSize={5}>
                     <Box
                       color={useColorModeValue(`purple.500`, `purple.300`)}
                       as={AiFillStar}

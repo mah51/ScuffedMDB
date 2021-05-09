@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../../models/user';
+import { useAPIAuth } from '../../../utils/useAPIAuth';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === `GET`) {
@@ -7,5 +8,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).send({ users });
   }
+
   return null;
 };

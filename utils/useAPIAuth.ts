@@ -4,7 +4,7 @@ import { MovieEndpointBodyType } from '../types/APITypes';
 import { DiscordUser } from '../types/generalTypes';
 import User from '../models/user';
 
-async function useAPIAuth(req, res, JWT_SECRET) {
+async function useAPIAuth(req, res, JWT_SECRET = process.env.JWT_CODE) {
   if (!req.headers.cookie) {
     return null;
   }

@@ -23,6 +23,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
 import MovieModal from './MovieModal';
 import ReviewModal from './ReviewModal';
+import { UserType } from '../models/user';
 
 const links = [
   { link: `/`, name: `Home` },
@@ -30,9 +31,12 @@ const links = [
   { link: `/users`, name: `All Users`, adminOnly: true },
 ];
 
-export const Nav = ({ user, showMovies }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+interface NavProps {
+  user: UserType;
+  showMovies: any;
+}
 
+export const Nav = ({ user, showMovies }: NavProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (

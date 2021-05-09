@@ -3,12 +3,13 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { HomePage } from '../components/HomePage';
 import { LandingPage } from '../components/LandingPage';
-import { DiscordUser } from '../types/generalTypes';
+import { UserType } from '../models/user';
 import { parseUser } from '../utils/parseDiscordUser';
 import { getMovies } from '../utils/queries';
+import BannedPage from '../components/BannedPage';
 
 interface HomePageProps {
-  user: DiscordUser | null;
+  user: UserType | null;
   movies: [];
 }
 
@@ -16,12 +17,15 @@ export default function Home({ user, movies }: HomePageProps) {
   if (!user) {
     return <LandingPage />;
   }
+  if (user.isBanned) {
+    return <BannedPage user={user} />;
+  }
   const { data } = useQuery(`movies`, getMovies, { initialData: movies });
   return <HomePage user={user} movies={data} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const user = parseUser(ctx);
+  const user: UserType = await parseUser(ctx);
   if (!user) {
     return { props: { user: null } };
   }

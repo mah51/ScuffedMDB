@@ -6,6 +6,7 @@ export interface DiscordUser {
   discriminator: string;
   public_flags: number;
   flags: number;
+  email: string;
   locale: string;
   mfa_enabled: boolean;
   premium_type: number;

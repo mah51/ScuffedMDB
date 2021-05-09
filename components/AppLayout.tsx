@@ -2,9 +2,10 @@ import React from 'react';
 import { DiscordUser } from '../types/generalTypes';
 import { Nav } from './Nav';
 import { Footer } from './Footer';
+import { UserType } from '../models/user';
 
 interface AppLayoutProps {
-  user: DiscordUser;
+  user: UserType;
   children: any;
   showMovies?: boolean;
 }

@@ -18,7 +18,11 @@ export const getFlags = (int) => {
   // eslint-disable-next-line no-restricted-syntax
   for (const flag in flags) {
     if (int & flags[flag]) {
-      userFlags.push(flag);
+      const arr = flag.toLowerCase().split(`_`);
+      const push = `${
+        arr[0].slice(0, 1).toUpperCase() + arr[0].slice(1)
+      } ${arr[1].slice(0, 1).toUpperCase()}${arr[1].slice(1)}`;
+      userFlags.push(push);
     }
   }
   return userFlags;

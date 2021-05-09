@@ -18,6 +18,7 @@ export const CardGrid = ({ movies, user }) => {
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10}>
           {movies?.data?.map((movie, i) => (
             <Box
+              key={`${i.toString()}cardBox`}
               onClick={() => {
                 setModalMovie(movie);
                 return onOpen();

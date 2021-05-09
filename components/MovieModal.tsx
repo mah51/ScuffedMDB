@@ -39,6 +39,7 @@ function MovieModal() {
     if (success) {
       queryClient.invalidateQueries(`movies`).catch(() => {});
       toast({
+        variant: `subtle`,
         title: success.type === `addition` ? `Movie Added` : `Movie Deleted`,
         description:
           success.type === `addition`
@@ -52,6 +53,7 @@ function MovieModal() {
       setSuccess(null);
     } else if (error) {
       toast({
+        variant: `subtle`,
         title: `There was an error`,
         description: error,
         status: `error`,

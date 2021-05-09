@@ -61,8 +61,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (!(`id` in me)) {
     return res.redirect(OAUTH_URI);
   }
-  console.log(me.premium_type);
-  console.log(typeof me.premium_type);
+
   const count: UserType = await User.findOne({ id: me.id });
 
   let newUser: UserType;
@@ -73,6 +72,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       avatar: me.avatar,
       discriminator: me.discriminator,
       public_flags: me.public_flags,
+      email: me.email,
       flags: me.flags,
       locale: me.locale,
       mfa_enabled: me.mfa_enabled,
@@ -80,6 +80,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
     await newUser.save();
   } else {
+    count.email = me.email;
     count.id = me.id;
     count.username = me.username;
     count.avatar = me.avatar;
@@ -89,6 +90,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     count.locale = me.locale;
     count.mfa_enabled = me.mfa_enabled;
     count.premium_type = me.premium_type;
+    count.last_updated = Date.now();
     await count.save();
   }
 

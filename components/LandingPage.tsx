@@ -16,7 +16,7 @@ export const LandingPage = () => (
     <Box
       w={{ base: `full`, md: 11 / 12, xl: 8 / 12 }}
       mx="auto"
-      textAlign={{ base: `left`, md: `center` }}
+      textAlign={{ base: `left`, sm: `center` }}
     >
       <chakra.h1
         mb={6}

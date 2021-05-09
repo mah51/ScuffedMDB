@@ -69,6 +69,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
       onClose();
       if (response.status !== 200) {
         return toast({
+          variant: `subtle`,
           title: `There was an error`,
           description: data.message,
           status: `error`,
@@ -79,6 +80,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
       await queryClient.invalidateQueries(`movies`);
       console.log(data);
       toast({
+        variant: `subtle`,
         title: `Movie Deleted`,
         description: `${data.name} was deleted successfully :)`,
         status: `success`,
@@ -88,6 +90,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
     } catch (err) {
       setLoading(false);
       toast({
+        variant: `subtle`,
         title: `There was an error`,
         description: err.message,
         status: `error`,
