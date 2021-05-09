@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { useAPIAuth } from '../../../utils/useAPIAuth';
 import User from '../../../models/user';
+import dbConnect from '../../../utils/dbConnect';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await dbConnect();
   if (req.method === `PUT`) {
     const reqUser = await useAPIAuth(req, res);
     if (!reqUser || !reqUser.isAdmin) {

@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { useAPIAuth } from '../../utils/useAPIAuth';
+import dbConnect from '../../utils/dbConnect';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await dbConnect();
   const discUser = await useAPIAuth(req, res, process.env.JWT_CODE);
   try {
     if (!discUser) {

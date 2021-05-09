@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../../models/user';
-import { useAPIAuth } from '../../../utils/useAPIAuth';
+import dbConnect from '../../../utils/dbConnect';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await dbConnect();
   if (req.method === `GET`) {
     const users = await User.find({});
 

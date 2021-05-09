@@ -3,6 +3,7 @@ import { parse } from 'cookie';
 import { verify } from 'jsonwebtoken';
 import { DiscordUser } from '../types/generalTypes';
 import User, { UserType } from '../models/user';
+import dbConnect from './dbConnect';
 
 export async function parseUser(
   ctx: GetServerSidePropsContext,
@@ -21,7 +22,7 @@ export async function parseUser(
       token,
       process.env.JWT_CODE,
     ) as DiscordUser & { iat: number; exp: number };
-
+    await dbConnect();
     const mongooseUser = await User.findOne({ id: user.id }).lean();
     if (!mongooseUser) {
       return null;
