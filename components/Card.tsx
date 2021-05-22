@@ -92,7 +92,11 @@ export const Card = ({
             ml={3}
             color={useColorModeValue(`gray.900`, `white`)}
           >
-            {numReviews > 0 ? `${rating} / 10` : `No reviews`}
+            {numReviews > 0
+              ? `${rating} / 10 · ${numReviews} review${
+                  numReviews > 1 ? 's' : ''
+                }`
+              : `No reviews`}
           </chakra.span>
         </Flex>
 
@@ -100,29 +104,6 @@ export const Card = ({
           {tagLine}
         </Text>
       </Stack>
-      {numReviews > 0 && (
-        <Flex mt={3}>
-          <AvatarGroup size="md" max={4}>
-            {reviews.map((review) => (
-              <Avatar
-                // @ts-ignore
-                src={`https://cdn.discordapp.com/avatars/${review.user.id}/${review.user.avatar}`}
-              />
-            ))}
-          </AvatarGroup>
-
-          <Flex direction="column" alignSelf="stretch">
-            <Text
-              ml={2}
-              my="auto"
-              color={useColorModeValue(`gray.600`, `gray.300`)}
-            >
-              {` `}·{` `}
-              {numReviews} reviews
-            </Text>
-          </Flex>
-        </Flex>
-      )}
     </Flex>
   </chakra.div>
 );

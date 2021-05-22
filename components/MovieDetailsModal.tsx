@@ -185,7 +185,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                             </HStack>
 
                             <Text textAlign="left" isTruncated>
-                              {review.comment}
+                              {review.comment || 'No comment provided...'}
                             </Text>
                           </Flex>
                         </Flex>
@@ -208,7 +208,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
               <Flex mr="auto">
                 <Text fontWeight="semibold">
                   Created •{` `}
-                  {format(new Date(movie.createdAt), `dd/MM/yy HH:mm:ss`)}
+                  {format(new Date(movie.createdAt), `dd/MM/yy • HH:mm:ss`)}
                 </Text>
               </Flex>
               <Popover
