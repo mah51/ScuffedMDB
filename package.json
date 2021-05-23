@@ -19,6 +19,7 @@
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.12.7",
         "next": "^10.2.2",
+        "next-plausible": "^1.6.1",
         "react": "17.0.1",
         "react-dom": "17.0.1",
         "react-icons": "^4.2.0",
