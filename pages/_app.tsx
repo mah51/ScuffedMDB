@@ -17,7 +17,7 @@ const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <PlausibleProvider
-      domain="michael-hall.me"
+      domain="movie.michael-hall.me"
       selfHosted
       trackOutboundLinks
       enabled={process.env.NODE_ENV === 'production'}
