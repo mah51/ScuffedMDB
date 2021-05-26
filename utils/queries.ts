@@ -4,9 +4,7 @@ export const getMovies = async () => {
     );
     // eslint-disable-next-line no-return-await
     const movies = await res.json();
-    return {
-        data: movies.data.sort((a, b) => a.createdAt - b.createdAt).reverse(),
-    };
+    return movies.data.sort((a, b) => a.createdAt - b.createdAt).reverse();
 };
 
 export const getUsers = async () => {

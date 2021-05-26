@@ -7,6 +7,7 @@ import { UserType } from '../models/user';
 import { parseUser } from '../utils/parseDiscordUser';
 import { getMovies } from '../utils/queries';
 import BannedPage from '../components/BannedPage';
+import { MovieType } from '../models/movie';
 
 interface HomePageProps {
     user: UserType | null;
@@ -20,7 +21,10 @@ export default function Home({ user, movies }: HomePageProps) {
     if (user.isBanned) {
         return <BannedPage user={user} />;
     }
-    const { data } = useQuery(`movies`, getMovies, { initialData: movies });
+    //idk typescript well enough to know whats goin wrong here but | any ignores it :/
+    const data: MovieType[] | any = useQuery(`movies`, getMovies, {
+        initialData: movies,
+    });
     return <HomePage user={user} movies={data} />;
 }
 
