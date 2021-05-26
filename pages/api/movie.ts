@@ -32,19 +32,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(401);
       }
 
-      const { data: movieData, status } = await axios.get(
+      const { data: movieData, status: movieStatus } = await axios.get(
         `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.MOVIE_API_KEY}&language=en-US`,
       );
-      if (status !== 200 || movieData.status_code) {
-        return res.status(status);
+
+      if (movieStatus !== 200 || movieData.status_code) {
+        return res.status(movieStatus);
       }
+
       const existingMovie = await Movie.findOne({ movieID });
       if (existingMovie) {
         return res.status(400).send({ message: `Movie already exists!` });
       }
+
+      const genres = movieData?.genres?.map((genre) => {
+        return genre.name;
+      });
+
       const newMovie: MovieType = new Movie({
         name: movieData.original_title,
         movieID,
+        genres: [...genres],
         image: `https://image.tmdb.org/t/p/original/${movieData.backdrop_path}`,
         description: movieData.overview,
         tagLine: movieData.tagline,

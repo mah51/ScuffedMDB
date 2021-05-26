@@ -9,27 +9,27 @@ import { getMovies } from '../utils/queries';
 import BannedPage from '../components/BannedPage';
 
 interface HomePageProps {
-  user: UserType | null;
-  movies: [];
+    user: UserType | null;
+    movies: [];
 }
 
 export default function Home({ user, movies }: HomePageProps) {
-  if (!user) {
-    return <LandingPage />;
-  }
-  if (user.isBanned) {
-    return <BannedPage user={user} />;
-  }
-  const { data } = useQuery(`movies`, getMovies, { initialData: movies });
-  return <HomePage user={user} movies={data} />;
+    if (!user) {
+        return <LandingPage />;
+    }
+    if (user.isBanned) {
+        return <BannedPage user={user} />;
+    }
+    const { data } = useQuery(`movies`, getMovies, { initialData: movies });
+    return <HomePage user={user} movies={data} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const user: UserType = await parseUser(ctx);
+    const user: UserType = await parseUser(ctx);
 
-  if (!user) {
-    return { props: { user: null } };
-  }
-  const movies = await getMovies();
-  return { props: { user, movies } };
+    if (!user) {
+        return { props: { user: null } };
+    }
+    const movies = await getMovies();
+    return { props: { user, movies } };
 };
