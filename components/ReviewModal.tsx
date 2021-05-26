@@ -65,7 +65,9 @@ function ReviewModal({ isAdmin }) {
     }, [success]);
 
     const initialRef = React.useRef();
-    const { data: movies } = useQuery(`movies`, getMovies);
+    const {
+        data: { data: movies },
+    } = useQuery(`movies`, getMovies);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
