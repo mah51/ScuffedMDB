@@ -22,6 +22,11 @@ import {
     Flex,
     Text,
     Textarea,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
     Heading,
     useToast,
 } from '@chakra-ui/react';
@@ -95,6 +100,10 @@ function ReviewModal({ isAdmin }) {
             return onClose();
         }
         return setCommentError(`There was an error...`);
+    };
+
+    const handleRatingChange = (x) => {
+        setRating(x);
     };
 
     return (
@@ -181,31 +190,51 @@ function ReviewModal({ isAdmin }) {
                                 </Flex>
                             </FormLabel>
                             <Box>
-                                <Slider
-                                    min={0}
-                                    max={10}
-                                    step={1}
-                                    onChange={(e) => setRating(e)}
-                                    defaultValue={0}
-                                >
-                                    <SliderTrack bg="purple.50">
-                                        <SliderFilledTrack
-                                            bg={useColorModeValue(
-                                                `purple.500`,
-                                                `purple.300`,
-                                            )}
-                                        />
-                                    </SliderTrack>
-                                    <SliderThumb boxSize={5}>
-                                        <Box
-                                            color={useColorModeValue(
-                                                `purple.500`,
-                                                `purple.300`,
-                                            )}
-                                            as={AiFillStar}
-                                        />
-                                    </SliderThumb>
-                                </Slider>
+                                <Flex>
+                                    <NumberInput
+                                        max={10}
+                                        min={0}
+                                        inputMode="decimal"
+                                        step={0.5}
+                                        maxW="100px"
+                                        mr="2rem"
+                                        value={rating}
+                                        onChange={handleRatingChange}
+                                    >
+                                        <NumberInputField />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                    </NumberInput>
+                                    <Slider
+                                        min={0}
+                                        max={10}
+                                        step={0.5}
+                                        flex="1"
+                                        focusThumbOnChange={false}
+                                        value={rating}
+                                        onChange={handleRatingChange}
+                                    >
+                                        <SliderTrack>
+                                            <SliderFilledTrack
+                                                bg={useColorModeValue(
+                                                    `purple.500`,
+                                                    `purple.300`,
+                                                )}
+                                            />
+                                        </SliderTrack>
+                                        <SliderThumb fontSize="sm" boxSize={6}>
+                                            <Box
+                                                color={useColorModeValue(
+                                                    `purple.500`,
+                                                    `purple.300`,
+                                                )}
+                                                as={AiFillStar}
+                                            />
+                                        </SliderThumb>
+                                    </Slider>
+                                </Flex>
                             </Box>
 
                             <Text my={3}>Enter a comment!</Text>
@@ -215,8 +244,9 @@ function ReviewModal({ isAdmin }) {
                                     e.preventDefault();
 
                                     if (
-                                        comment?.length > 300 ||
-                                        comment?.length < 10
+                                        (e.target.value?.length > 300 ||
+                                            e.target.value?.length < 10) &&
+                                        e.target.value.length !== 0
                                     ) {
                                         setCommentError(
                                             `Comment needs to be more than 10 characters and less than 300`,
