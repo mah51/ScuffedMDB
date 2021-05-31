@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 import {
     Modal,
@@ -32,10 +32,10 @@ import {
     PopoverArrow,
     PopoverFooter,
     useToast,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
-import { format } from 'date-fns';
-import { useQueryClient } from 'react-query';
+import { format } from "date-fns";
+import { useQueryClient } from "react-query";
 
 function MovieDetailsModal({ isOpen, onClose, movie, user }) {
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -58,7 +58,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                     method: `delete`,
                     // eslint-disable-next-line no-underscore-dangle
                     body: JSON.stringify({ id: movie?._id }),
-                },
+                }
             );
             const data = await response.json();
 
@@ -104,7 +104,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                 initialFocusRef={initialRef}
                 isOpen={isOpen}
                 onClose={onClose}
-                size="xl"
+                size="4xl"
             >
                 <ModalOverlay />
                 <ModalContent>
@@ -152,7 +152,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                     </AccordionButton>
                                 </h2>
                                 <AccordionPanel
-                                    maxHeight="400px"
+                                    maxHeight="600px"
                                     overflowY="scroll"
                                     my={5}
                                 >
@@ -173,6 +173,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                                             direction="column"
                                                             width="full"
                                                             isTruncated
+                                                            pr={3}
                                                         >
                                                             <HStack
                                                                 justifyContent="space-between"
@@ -199,24 +200,39 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                                                 <Text
                                                                     fontSize="lg"
                                                                     fontWeight="semibold"
+                                                                    mr={4}
                                                                 >
                                                                     {
                                                                         review.rating
-                                                                    }{' '}
+                                                                    }{" "}
                                                                     / 10
                                                                 </Text>
                                                             </HStack>
-
-                                                            <Text
-                                                                textAlign="left"
-                                                                isTruncated
+                                                            <Flex
+                                                                maxW="full"
+                                                                justifyContent="space-between"
                                                             >
-                                                                {review.comment ||
-                                                                    'No comment provided...'}
-                                                            </Text>
+                                                                <Text
+                                                                    textAlign="left"
+                                                                    isTruncated
+                                                                >
+                                                                    {review.comment ||
+                                                                        "No comment provided..."}
+                                                                </Text>
+                                                                <Button
+                                                                    as={"a"}
+                                                                    href={`${process.env.NEXT_PUBLIC_APP_URI}/user/${review.user._id}`}
+                                                                    size="sm"
+                                                                    variant="ghost"
+                                                                    colorScheme="purple"
+                                                                >
+                                                                    Visit
+                                                                    profile
+                                                                </Button>
+                                                            </Flex>
                                                         </Flex>
                                                     </Flex>
-                                                ),
+                                                )
                                             )}
                                         </SimpleGrid>
                                     ) : (
@@ -243,7 +259,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                     Created •{` `}
                                     {format(
                                         new Date(movie.createdAt),
-                                        `dd/MM/yy • HH:mm:ss`,
+                                        `dd/MM/yy • HH:mm:ss`
                                     )}
                                 </Text>
                             </Flex>
@@ -269,7 +285,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                     <PopoverArrow />
                                     <PopoverCloseButton />
                                     <PopoverBody>
-                                        Are you sure you want to delete{' '}
+                                        Are you sure you want to delete{" "}
                                         {movie.name}?
                                     </PopoverBody>
                                     <PopoverFooter
