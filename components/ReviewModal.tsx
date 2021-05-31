@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { AddIcon } from '@chakra-ui/icons';
+import React, { useState, useEffect } from "react";
+import { AddIcon } from "@chakra-ui/icons";
 import {
     Box,
     Button,
@@ -29,14 +29,14 @@ import {
     NumberDecrementStepper,
     Heading,
     useToast,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from "react-query";
 
-import { AiFillStar } from 'react-icons/ai';
-import { getMovies } from '../utils/queries';
-import { MovieType } from '../models/movie';
-import { ReviewEndpointBodyType } from '../types/APITypes';
+import { AiFillStar } from "react-icons/ai";
+import { getMovies } from "../utils/queries";
+import { MovieType } from "../models/movie";
+import { ReviewEndpointBodyType } from "../types/APITypes";
 
 function ReviewModal({ isAdmin }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -89,7 +89,7 @@ function ReviewModal({ isAdmin }) {
             {
                 method: `post`,
                 body: JSON.stringify(data),
-            },
+            }
         );
 
         const successData = await res.json();
@@ -97,6 +97,7 @@ function ReviewModal({ isAdmin }) {
         if (res.status === 200) {
             setSuccess(successData.type);
             setComment(``);
+            setMovie(null);
             return onClose();
         }
         return setCommentError(`There was an error...`);
@@ -145,11 +146,11 @@ function ReviewModal({ isAdmin }) {
                                 onChange={(e) => {
                                     e.preventDefault();
                                     const movieFound = movies.filter(
-                                        (mv) => mv.name === e.target.value,
+                                        (mv) => mv.name === e.target.value
                                     )[0];
                                     if (!movieFound) {
                                         return setMovieError(
-                                            `Please select a valid movie!`,
+                                            `Please select a valid movie!`
                                         );
                                     }
                                     setMovieError(``);
@@ -165,7 +166,7 @@ function ReviewModal({ isAdmin }) {
                                 <Text
                                     color={useColorModeValue(
                                         `red.600`,
-                                        `red.300`,
+                                        `red.300`
                                     )}
                                 >
                                     {movieError}
@@ -182,7 +183,7 @@ function ReviewModal({ isAdmin }) {
                                     <Text
                                         color={useColorModeValue(
                                             `gray.600`,
-                                            `gray.400`,
+                                            `gray.400`
                                         )}
                                     >
                                         {rating}/10
@@ -195,7 +196,7 @@ function ReviewModal({ isAdmin }) {
                                         max={10}
                                         min={0}
                                         inputMode="decimal"
-                                        step={0.5}
+                                        step={0.1}
                                         maxW="100px"
                                         mr="2rem"
                                         value={rating}
@@ -220,7 +221,7 @@ function ReviewModal({ isAdmin }) {
                                             <SliderFilledTrack
                                                 bg={useColorModeValue(
                                                     `purple.500`,
-                                                    `purple.300`,
+                                                    `purple.300`
                                                 )}
                                             />
                                         </SliderTrack>
@@ -228,7 +229,7 @@ function ReviewModal({ isAdmin }) {
                                             <Box
                                                 color={useColorModeValue(
                                                     `purple.500`,
-                                                    `purple.300`,
+                                                    `purple.300`
                                                 )}
                                                 as={AiFillStar}
                                             />
@@ -249,7 +250,7 @@ function ReviewModal({ isAdmin }) {
                                         e.target.value.length !== 0
                                     ) {
                                         setCommentError(
-                                            `Comment needs to be more than 10 characters and less than 300`,
+                                            `Comment needs to be more than 10 characters and less than 300`
                                         );
                                     } else {
                                         setCommentError(``);
@@ -263,7 +264,7 @@ function ReviewModal({ isAdmin }) {
                                 <Text
                                     color={useColorModeValue(
                                         `red.600`,
-                                        `red.300`,
+                                        `red.300`
                                     )}
                                 >
                                     {commentError}
