@@ -23,7 +23,7 @@ function EditUser({ user, desiredUser, movies }: EditUserProps) {
     const allRatings = movies
         .map((movie: any) => {
             const rev = movie.reviews.find(
-                (review: any) => review.user.id === user.id
+                (review: any) => review.user.id === desiredUser.id
             );
             rev.movie = {
                 name: movie.name,

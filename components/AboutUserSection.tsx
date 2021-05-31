@@ -9,7 +9,7 @@ export default function AboutUserSection({ user, reviews }) {
                 size="2xl"
                 src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`}
             />
-            <VStack>
+            <VStack textAlign="left">
                 <Heading size="3xl">
                     {user.username}
                     <chakra.span color="gray.500" fontSize="2xl">
