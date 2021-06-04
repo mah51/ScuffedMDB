@@ -9,7 +9,7 @@ import dbConnect from "../../utils/dbConnect";
 import { MovieEndpointBodyType } from "../../types/APITypes";
 import { useAPIAuth } from "../../utils/useAPIAuth";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const MovieAPI = async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect();
     if (req.method === `POST`) {
         if (!req.headers.cookie) {
@@ -103,3 +103,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(405).json({ message: `method not allowed` });
     }
 };
+
+export default MovieAPI;

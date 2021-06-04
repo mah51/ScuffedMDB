@@ -56,7 +56,6 @@ export async function getServerSideProps(ctx) {
         desiredUser.updatedAt = desiredUser.updatedAt.getTime();
     }
     const movies = await getMovies();
-
     return {
         props: {
             user,
