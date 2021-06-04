@@ -103,26 +103,30 @@ export const CardGrid = ({ movies: unSortedMovies, user }) => {
                         <MenuButton as={Button} rightIcon={<BiChevronDown />}>
                             Sort by...
                         </MenuButton>
-                        <MenuList>
+                        <MenuList zIndex={998}>
                             <MenuItem
+                                zIndex={999}
                                 isDisabled={sort === "recent"}
                                 onClick={() => setSort("recent")}
                             >
                                 Recent
                             </MenuItem>
                             <MenuItem
+                                zIndex={999}
                                 isDisabled={sort === "old"}
                                 onClick={() => setSort("old")}
                             >
                                 Old
                             </MenuItem>
                             <MenuItem
+                                zIndex={999}
                                 isDisabled={sort === "best"}
                                 onClick={() => setSort("best")}
                             >
                                 Best
                             </MenuItem>
                             <MenuItem
+                                zIndex={999}
                                 isDisabled={sort === "worst"}
                                 onClick={() => setSort("worst")}
                             >
