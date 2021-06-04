@@ -84,7 +84,7 @@ export const CardGrid = ({ movies: unSortedMovies, user }) => {
                     my={7}
                     justifyContent="space-between"
                 >
-                    <InputGroup maxWidth="200px">
+                    <InputGroup maxWidth={["full", , "200px"]} mb={[5, , 0]}>
                         <InputLeftElement
                             pointerEvents="none"
                             children={<AiOutlineSearch color="gray.300" />}

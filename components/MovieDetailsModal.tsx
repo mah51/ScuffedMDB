@@ -32,6 +32,7 @@ import {
     PopoverArrow,
     PopoverFooter,
     useToast,
+    chakra,
 } from "@chakra-ui/react";
 
 import { format } from "date-fns";
@@ -112,7 +113,21 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                         borderBottom="1px solid"
                         borderColor={useColorModeValue(`gray.300`, `gray.600`)}
                     >
-                        <Heading>{movie?.name}</Heading>
+                        <Flex justifyContent="space-between">
+                            <Heading>{movie?.name}</Heading>
+                            <Heading mr={10}>
+                                {movie?.rating.toFixed(1)}
+                                {
+                                    <chakra.span
+                                        fontSize="xl"
+                                        color={"gray.500"}
+                                    >
+                                        /10
+                                    </chakra.span>
+                                }
+                            </Heading>
+                        </Flex>
+
                         <Text>{movie?.tagLine}</Text>
                     </ModalHeader>
                     <ModalCloseButton />

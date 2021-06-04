@@ -19,7 +19,6 @@ function EditUser({ user, desiredUser, movies }: EditUserProps) {
     if (!user) {
         return null;
     }
-    console.log(movies);
     const allRatings = movies
         .map((movie: any) => {
             const rev = movie.reviews.find(
@@ -31,8 +30,9 @@ function EditUser({ user, desiredUser, movies }: EditUserProps) {
             };
             return rev;
         })
-        .filter((x) => (x ? true : false));
-    console.log(allRatings);
+        .filter((x) => (x ? true : false))
+        .sort((a, b) => a.rating - b.rating)
+        .reverse();
     return (
         <AppLayout user={user}>
             <Flex direction="column" pt={16} maxW="6xl" mx="auto">
