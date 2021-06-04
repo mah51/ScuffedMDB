@@ -28,7 +28,7 @@ export const CardGrid = ({ movies: unSortedMovies, user }) => {
     const [modalMovie, setModalMovie] = useState(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [filter, setFilter] = useState("");
-    const [sort, setSort] = useState("date");
+    const [sort, setSort] = useState("recent");
     const movies = {
         data: unSortedMovies.data
             ?.filter((mv) => {
@@ -38,7 +38,7 @@ export const CardGrid = ({ movies: unSortedMovies, user }) => {
                 return false;
             })
             .sort((a, b) => {
-                if (sort === "date") {
+                if (sort === "recent" || sort === "old") {
                     return (
                         new Date(a.createdAt).getTime() -
                         new Date(b.createdAt).getTime()
@@ -51,9 +51,10 @@ export const CardGrid = ({ movies: unSortedMovies, user }) => {
             }),
     };
 
-    if (sort === "best") {
+    if (sort === "best" || sort === "recent") {
         movies.data = movies.data.reverse();
     }
+
     return (
         <>
             <MovieDetailsModal
@@ -104,10 +105,16 @@ export const CardGrid = ({ movies: unSortedMovies, user }) => {
                         </MenuButton>
                         <MenuList>
                             <MenuItem
-                                isDisabled={sort === "date"}
-                                onClick={() => setSort("date")}
+                                isDisabled={sort === "recent"}
+                                onClick={() => setSort("recent")}
                             >
-                                Date
+                                Recent
+                            </MenuItem>
+                            <MenuItem
+                                isDisabled={sort === "old"}
+                                onClick={() => setSort("old")}
+                            >
+                                Old
                             </MenuItem>
                             <MenuItem
                                 isDisabled={sort === "best"}
