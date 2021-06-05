@@ -122,6 +122,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                         fontSize="xl"
                                         color={"gray.500"}
                                     >
+                                        {" "}
                                         /10
                                     </chakra.span>
                                 }
@@ -180,7 +181,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                                         key={`${i.toString}review`}
                                                     >
                                                         <Avatar
-                                                            size="lg"
+                                                            size="xl"
                                                             src={`https://cdn.discordapp.com/avatars/${review.user.id}/${review.user.avatar}`}
                                                         />
                                                         <Flex
@@ -196,7 +197,11 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                                                 isTruncated
                                                             >
                                                                 <Text
-                                                                    fontSize="lg"
+                                                                    fontSize={[
+                                                                        "lg",
+                                                                        ,
+                                                                        "3xl",
+                                                                    ]}
                                                                     fontWeight="semibold"
                                                                     alignSelf="flex-start"
                                                                 >
@@ -213,14 +218,24 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                                                     }
                                                                 </Text>
                                                                 <Text
-                                                                    fontSize="lg"
+                                                                    fontSize={[
+                                                                        "lg",
+                                                                        ,
+                                                                        "3xl",
+                                                                    ]}
                                                                     fontWeight="semibold"
                                                                     mr={4}
                                                                 >
-                                                                    {
-                                                                        review.rating
-                                                                    }{" "}
-                                                                    / 10
+                                                                    {review.rating.toFixed(
+                                                                        1
+                                                                    )}
+                                                                    <chakra.span
+                                                                        fontSize="md"
+                                                                        color="gray.500"
+                                                                    >
+                                                                        {" "}
+                                                                        /10
+                                                                    </chakra.span>
                                                                 </Text>
                                                             </HStack>
                                                             <Flex
