@@ -1,8 +1,8 @@
-import { HStack, Text, useColorModeValue } from '@chakra-ui/react';
+import { HStack, Text } from '@chakra-ui/react';
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
 import React from 'react';
 
-export default function Rating({ rating, numReviews }) {
+export const Rating = ({ rating, numReviews }) => {
     if (numReviews === 0) {
         return <Text>No reviews</Text>;
     }
@@ -19,4 +19,4 @@ export default function Rating({ rating, numReviews }) {
     }
 
     return <HStack direction="row">{stars}</HStack>;
-}
+};

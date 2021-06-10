@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
     useDisclosure,
     Modal,
@@ -17,14 +17,14 @@ import {
     useToast,
     useColorModeValue,
     Flex,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { AddIcon, SearchIcon } from "@chakra-ui/icons";
+import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 
-import { useQueryClient } from "react-query";
-import { SearchResults } from "./SearchResults";
+import { useQueryClient } from 'react-query';
+import SearchResults from '../SearchResults';
 
-function MovieModal() {
+export const MovieModal = () => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(``);
@@ -158,7 +158,7 @@ function MovieModal() {
                         bg={useColorModeValue(`gray.50`, `gray.800`)}
                         roundedBottom="md"
                     >
-                        <Button colorScheme={"purple"} onClick={onClose}>
+                        <Button colorScheme={'purple'} onClick={onClose}>
                             Cancel
                         </Button>
                     </ModalFooter>
@@ -166,6 +166,4 @@ function MovieModal() {
             </Modal>
         </>
     );
-}
-
-export default MovieModal;
+};

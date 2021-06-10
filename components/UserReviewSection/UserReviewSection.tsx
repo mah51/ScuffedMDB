@@ -1,15 +1,14 @@
 import {
     AspectRatio,
     chakra,
-    Divider,
     Flex,
     Heading,
     Image,
     Text,
-} from "@chakra-ui/react";
-import React from "react";
+} from '@chakra-ui/react';
+import React from 'react';
 
-export default function UserReviewSection({ reviews }) {
+export const UserReviewSection = ({ reviews }) => {
     return (
         <Flex mt={5} maxW="6xl" width="full" direction="column">
             {reviews.map((review) => (
@@ -28,7 +27,7 @@ export default function UserReviewSection({ reviews }) {
                         overflow="hidden"
                     >
                         <Heading>
-                            {review.movie.name}{" "}
+                            {review.movie.name}{' '}
                             <chakra.span color="gray.500">
                                 • {review.rating.toFixed(1)}
                             </chakra.span>
@@ -39,4 +38,4 @@ export default function UserReviewSection({ reviews }) {
             ))}
         </Flex>
     );
-}
+};

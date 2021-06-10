@@ -3,13 +3,10 @@ import {
     chakra,
     useColorModeValue,
     Text,
-    Stack,
     Button,
     Icon,
-    Image,
-    Container,
     Flex,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export const LandingPage = () => (
     <Flex

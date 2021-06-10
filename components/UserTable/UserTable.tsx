@@ -47,7 +47,7 @@ const Form = ({ firstFieldRef, onCancel, user, isBanned, banReason }) => {
             {
                 method: `delete`,
                 body: JSON.stringify({ user: usr, reason }),
-            },
+            }
         );
         const resData = await response.json();
         if (response.status === 200) {
@@ -175,14 +175,14 @@ const PopoverForm = ({ user, isBanned, banReason }) => {
     );
 };
 
-function UserTable({ data }) {
+export const UserTable = ({ data }) => {
     const queryClient = useQueryClient();
     const toast = useToast();
 
     const handlePromote = async (promotion: 'admin' | 'reviewer', user) => {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_APP_URI}/api/user/`,
-            { method: `put`, body: JSON.stringify({ promotion, user }) },
+            { method: `put`, body: JSON.stringify({ promotion, user }) }
         );
 
         const resData = await response.json();
@@ -234,7 +234,7 @@ function UserTable({ data }) {
                                             <chakra.span
                                                 color={useColorModeValue(
                                                     `gray.400`,
-                                                    `gray.600`,
+                                                    `gray.600`
                                                 )}
                                             >
                                                 #{row?.original?.discriminator}
@@ -247,7 +247,7 @@ function UserTable({ data }) {
                                     fontSize="sm"
                                     color={useColorModeValue(
                                         `gray.400`,
-                                        `gray.600`,
+                                        `gray.600`
                                     )}
                                 >
                                     {row?.original?.id}
@@ -327,11 +327,16 @@ function UserTable({ data }) {
                 ),
             },
         ],
-        [],
+        []
     );
 
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-        useTable({ columns, data });
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+    } = useTable({ columns, data });
 
     return (
         <Table {...getTableProps()}>
@@ -370,6 +375,4 @@ function UserTable({ data }) {
             </Tbody>
         </Table>
     );
-}
-
-export default UserTable;
+};

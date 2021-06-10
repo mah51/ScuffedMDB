@@ -2,18 +2,15 @@ import Image from 'next/image';
 import {
     Box,
     Text,
-    Stack,
-    Avatar,
     useColorModeValue,
-    AvatarGroup,
     Flex,
     chakra,
     Badge,
     HStack,
 } from '@chakra-ui/react';
 
-import { MovieType } from '../models/movie';
-import Rating from './Rating';
+import { MovieType } from '../../models/movie';
+import Rating from '../Rating';
 
 interface reviewSchema {
     user: {

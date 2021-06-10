@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { AddIcon } from "@chakra-ui/icons";
+import React, { useState, useEffect } from 'react';
+import { AddIcon } from '@chakra-ui/icons';
 import {
     Box,
     Button,
@@ -29,16 +29,16 @@ import {
     NumberDecrementStepper,
     Heading,
     useToast,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from 'react-query';
 
-import { AiFillStar } from "react-icons/ai";
-import { getMovies } from "../utils/queries";
-import { MovieType } from "../models/movie";
-import { ReviewEndpointBodyType } from "../types/APITypes";
+import { AiFillStar } from 'react-icons/ai';
+import { getMovies } from '../../utils/queries';
+import { MovieType } from '../../models/movie';
+import { ReviewEndpointBodyType } from '../../types/APITypes';
 
-function ReviewModal({ isAdmin }) {
+export const ReviewModal = ({ isAdmin }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState(``);
@@ -291,6 +291,4 @@ function ReviewModal({ isAdmin }) {
             </Modal>
         </>
     );
-}
-
-export default ReviewModal;
+};

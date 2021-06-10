@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import {
     Modal,
@@ -33,12 +33,12 @@ import {
     PopoverFooter,
     useToast,
     chakra,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { format } from "date-fns";
-import { useQueryClient } from "react-query";
+import { format } from 'date-fns';
+import { useQueryClient } from 'react-query';
 
-function MovieDetailsModal({ isOpen, onClose, movie, user }) {
+export const MovieDetailsModal = ({ isOpen, onClose, movie, user }) => {
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -120,9 +120,9 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                 {
                                     <chakra.span
                                         fontSize="xl"
-                                        color={"gray.500"}
+                                        color={'gray.500'}
                                     >
-                                        {" "}
+                                        {' '}
                                         /10
                                     </chakra.span>
                                 }
@@ -198,9 +198,9 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                                             >
                                                                 <Text
                                                                     fontSize={[
-                                                                        "lg",
+                                                                        'lg',
                                                                         ,
-                                                                        "3xl",
+                                                                        '3xl',
                                                                     ]}
                                                                     fontWeight="semibold"
                                                                     alignSelf="flex-start"
@@ -219,9 +219,9 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                                                 </Text>
                                                                 <Text
                                                                     fontSize={[
-                                                                        "lg",
+                                                                        'lg',
                                                                         ,
-                                                                        "3xl",
+                                                                        '3xl',
                                                                     ]}
                                                                     fontWeight="semibold"
                                                                     mr={4}
@@ -233,7 +233,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                                                         fontSize="md"
                                                                         color="gray.500"
                                                                     >
-                                                                        {" "}
+                                                                        {' '}
                                                                         /10
                                                                     </chakra.span>
                                                                 </Text>
@@ -247,10 +247,10 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                                                     isTruncated
                                                                 >
                                                                     {review.comment ||
-                                                                        "No comment provided..."}
+                                                                        'No comment provided...'}
                                                                 </Text>
                                                                 <Button
-                                                                    as={"a"}
+                                                                    as={'a'}
                                                                     href={`${process.env.NEXT_PUBLIC_APP_URI}/user/${review.user._id}`}
                                                                     size="sm"
                                                                     variant="ghost"
@@ -315,7 +315,7 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
                                     <PopoverArrow />
                                     <PopoverCloseButton />
                                     <PopoverBody>
-                                        Are you sure you want to delete{" "}
+                                        Are you sure you want to delete{' '}
                                         {movie.name}?
                                     </PopoverBody>
                                     <PopoverFooter
@@ -345,6 +345,4 @@ function MovieDetailsModal({ isOpen, onClose, movie, user }) {
             </Modal>
         </>
     );
-}
-
-export default MovieDetailsModal;
+};

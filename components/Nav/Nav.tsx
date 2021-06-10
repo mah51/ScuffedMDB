@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import {
     Box,
     Flex,
@@ -7,22 +6,20 @@ import {
     IconButton,
     Button,
     Menu,
-    Link as ChakraLink,
     MenuButton,
     MenuList,
     MenuItem,
     MenuDivider,
-    useDisclosure,
     useColorModeValue,
     useColorMode,
     Stack,
     Heading,
-} from "@chakra-ui/react";
-import { IoMoon, IoSunny } from "react-icons/io5";
-import Link from "next/link";
-import MovieModal from "./MovieModal";
-import ReviewModal from "./ReviewModal";
-import { UserType } from "../models/user";
+} from '@chakra-ui/react';
+import { IoMoon, IoSunny } from 'react-icons/io5';
+import Link from 'next/link';
+import MovieModal from '../MovieModal';
+import ReviewModal from '../ReviewModal';
+import { UserType } from '../../models/user';
 
 const links = [
     { link: `/`, name: `Home` },
@@ -42,8 +39,8 @@ export const Nav = ({ user, showMovies }: NavProps) => {
         <>
             <Box
                 width="100vw"
-                borderTop={"5px solid"}
-                borderColor={useColorModeValue("purple.500", "purple.300")}
+                borderTop={'5px solid'}
+                borderColor={useColorModeValue('purple.500', 'purple.300')}
             >
                 <Flex
                     h={20}

@@ -8,7 +8,6 @@ import {
     InputLeftElement,
     Input,
     Button,
-    Text,
     Heading,
     Menu,
     MenuButton,
@@ -16,19 +15,18 @@ import {
     MenuList,
     chakra,
     useColorModeValue,
-} from "@chakra-ui/react";
-import { AiOutlineSearch } from "react-icons/ai";
-import { BiChevronDown } from "react-icons/bi";
-import { useState } from "react";
-import { Card } from "./Card";
-import MovieDetailsModal from "./MovieDetailsModal";
-import movie from "../pages/api/movie";
+} from '@chakra-ui/react';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { BiChevronDown } from 'react-icons/bi';
+import { useState } from 'react';
+import Card from '../Card';
+import MovieDetailsModal from '../MovieDetailsModal';
 
 export const CardGrid = ({ movies: unSortedMovies, user }) => {
     const [modalMovie, setModalMovie] = useState(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [filter, setFilter] = useState("");
-    const [sort, setSort] = useState("recent");
+    const [filter, setFilter] = useState('');
+    const [sort, setSort] = useState('recent');
     const movies = {
         data: unSortedMovies.data
             ?.filter((mv) => {
@@ -38,20 +36,20 @@ export const CardGrid = ({ movies: unSortedMovies, user }) => {
                 return false;
             })
             .sort((a, b) => {
-                if (sort === "recent" || sort === "old") {
+                if (sort === 'recent' || sort === 'old') {
                     return (
                         new Date(a.createdAt).getTime() -
                         new Date(b.createdAt).getTime()
                     );
-                } else if (sort === "best") {
+                } else if (sort === 'best') {
                     return a.rating - b.rating;
-                } else if (sort === "worst") {
+                } else if (sort === 'worst') {
                     return a.rating - b.rating;
                 }
             }),
     };
 
-    if (sort === "best" || sort === "recent") {
+    if (sort === 'best' || sort === 'recent') {
         movies.data = movies.data.reverse();
     }
 
@@ -65,26 +63,26 @@ export const CardGrid = ({ movies: unSortedMovies, user }) => {
             />
             <Container maxW="container.xl" mt={10}>
                 <Heading fontSize="6xl" textAlign="center">
-                    We have watched{" "}
+                    We have watched{' '}
                     {
                         <chakra.span
                             color={useColorModeValue(
-                                "purple.500",
-                                "purple.300"
+                                'purple.500',
+                                'purple.300'
                             )}
                         >
                             {unSortedMovies?.data?.length}
                         </chakra.span>
-                    }{" "}
+                    }{' '}
                     movies
                 </Heading>
                 <Flex
                     width="full"
-                    direction={{ base: "column", md: "row" }}
+                    direction={{ base: 'column', md: 'row' }}
                     my={7}
                     justifyContent="space-between"
                 >
-                    <InputGroup maxWidth={["full", , "200px"]} mb={[5, , 0]}>
+                    <InputGroup maxWidth={['full', , '200px']} mb={[5, , 0]}>
                         <InputLeftElement
                             pointerEvents="none"
                             children={<AiOutlineSearch color="gray.300" />}
@@ -106,29 +104,29 @@ export const CardGrid = ({ movies: unSortedMovies, user }) => {
                         <MenuList zIndex={998}>
                             <MenuItem
                                 zIndex={999}
-                                isDisabled={sort === "recent"}
-                                onClick={() => setSort("recent")}
+                                isDisabled={sort === 'recent'}
+                                onClick={() => setSort('recent')}
                             >
                                 Recent
                             </MenuItem>
                             <MenuItem
                                 zIndex={999}
-                                isDisabled={sort === "old"}
-                                onClick={() => setSort("old")}
+                                isDisabled={sort === 'old'}
+                                onClick={() => setSort('old')}
                             >
                                 Old
                             </MenuItem>
                             <MenuItem
                                 zIndex={999}
-                                isDisabled={sort === "best"}
-                                onClick={() => setSort("best")}
+                                isDisabled={sort === 'best'}
+                                onClick={() => setSort('best')}
                             >
                                 Best
                             </MenuItem>
                             <MenuItem
                                 zIndex={999}
-                                isDisabled={sort === "worst"}
-                                onClick={() => setSort("worst")}
+                                isDisabled={sort === 'worst'}
+                                onClick={() => setSort('worst')}
                             >
                                 Worst
                             </MenuItem>

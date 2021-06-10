@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, Flex, Heading, chakra, VStack, Text } from "@chakra-ui/react";
 
-export default function AboutUserSection({ user, reviews }) {
+export const AboutUserSection = ({ user, reviews }) => {
     return (
         <Flex justifyContent="center">
             <Avatar
