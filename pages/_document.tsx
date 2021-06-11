@@ -10,7 +10,7 @@ import Document, {
 import theme from '../theme';
 
 class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext): any {
+  static async getInitialProps(ctx: DocumentContext): Promise<any> {
     const initialProps = await Document.getInitialProps(ctx);
     return { ...initialProps };
   }

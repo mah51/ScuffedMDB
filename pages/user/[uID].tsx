@@ -8,6 +8,7 @@ import User from '../../models/user';
 import { getMovies } from '../../utils/queries';
 import { MovieType } from '../../models/movie';
 import UserReviewSection from '../../components/UserReviewSection';
+import { GetServerSideProps } from 'next';
 
 interface EditUserProps {
   user: UserType;

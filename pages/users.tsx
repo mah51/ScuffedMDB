@@ -12,7 +12,12 @@ import { getFlags } from '../utils/userFlags';
 import { UserType } from '../models/user';
 import BannedPage from '../components/BannedPage';
 
-function Users({ user, users }) {
+interface UsersProps {
+  user: UserType;
+  users: UserType[];
+}
+
+function Users({ user, users }: UsersProps): React.ReactChild {
   if (user?.isBanned) {
     return <BannedPage user={user} />;
   }
