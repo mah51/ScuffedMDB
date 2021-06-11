@@ -14,7 +14,7 @@ const theme = extendTheme({
 
 const queryClient = new QueryClient();
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
   return (
     <PlausibleProvider
       domain="movie.michael-hall.me"

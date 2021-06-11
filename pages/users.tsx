@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { parseUser } from '../utils/parseDiscordUser';
 import { getUsers } from '../utils/queries';
 import UserTable from '../components/UserTable';
-import { AppLayout } from '../components/AppLayout';
+import AppLayout from '../components/AppLayout';
 import { getFlags } from '../utils/userFlags';
 import { UserType } from '../models/user';
 import BannedPage from '../components/BannedPage';

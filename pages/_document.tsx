@@ -10,12 +10,12 @@ import Document, {
 import theme from '../theme';
 
 class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext) {
+  static async getInitialProps(ctx: DocumentContext): any {
     const initialProps = await Document.getInitialProps(ctx);
     return { ...initialProps };
   }
 
-  render() {
+  render(): any {
     return (
       <Html>
         <Head />
