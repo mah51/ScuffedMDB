@@ -6,7 +6,7 @@ import dbConnect from '../../../utils/dbConnect';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
   if (req.method === `PUT`) {
-    const reqUser = await useAPIAuth(req, res);
+    const reqUser = await useAPIAuth(req);
     if (!reqUser || !reqUser.isAdmin) {
       return res
         .status(401)
@@ -33,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({ update, ...updatedUser });
   }
   if (req.method === `DELETE`) {
-    const reqUser = await useAPIAuth(req, res);
+    const reqUser = await useAPIAuth(req);
     if (!reqUser || !reqUser.isAdmin) {
       return res
         .status(401)

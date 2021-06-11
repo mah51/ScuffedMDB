@@ -44,7 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       headers: { 'Content-Type': `application/x-www-form-urlencoded` },
       method: `POST`,
       body,
-    },
+    }
   ).then((re) => re.json());
 
   if (!access_token || typeof access_token !== `string`) {
@@ -55,7 +55,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     `http://discord.com/api/users/@me`,
     {
       headers: { Authorization: `${token_type} ${access_token}` },
-    },
+    }
   ).then((r) => r.json());
 
   if (!(`id` in me)) {
@@ -97,16 +97,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const token = sign(
     count ? count.toJSON() : newUser.toJSON(),
     process.env.JWT_CODE,
-    { expiresIn: `30d` },
+    { expiresIn: `30d` }
   );
   res.setHeader(
     `Set-Cookie`,
     serialize(`token`, token, {
-      httpOnly: true,
       secure: process.env.NODE_ENV !== `development`,
       sameSite: `lax`,
       path: `/`,
-    }),
+    })
   );
 
   return res.redirect(`/`);

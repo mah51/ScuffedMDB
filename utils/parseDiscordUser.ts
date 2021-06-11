@@ -6,7 +6,7 @@ import User, { UserType } from '../models/user';
 import dbConnect from './dbConnect';
 
 export async function parseUser(
-  ctx: GetServerSidePropsContext,
+  ctx: GetServerSidePropsContext
 ): Promise<UserType | null> {
   if (!ctx.req.headers.cookie) {
     return null;
@@ -18,18 +18,16 @@ export async function parseUser(
   }
 
   try {
-    const { iat, exp, ...user } = verify(
-      token,
-      process.env.JWT_CODE,
-    ) as DiscordUser & { iat: number; exp: number };
+    const { ...user } = verify(token, process.env.JWT_CODE) as DiscordUser & {
+      iat: number;
+      exp: number;
+    };
     await dbConnect();
-    const mongooseUser = await User.findOne({ id: user.id }).lean();
+    const mongooseUser: UserType = await User.findOne({ id: user.id }).lean();
     if (!mongooseUser) {
       return null;
     }
     mongooseUser._id = mongooseUser.toString();
-    mongooseUser.createdAt = mongooseUser.createdAt.getTime();
-    mongooseUser.updatedAt = mongooseUser.updatedAt.getTime();
     return mongooseUser;
   } catch (e) {
     console.error(e);

@@ -8,7 +8,7 @@ import User from '../../models/user';
 import { getMovies } from '../../utils/queries';
 import { MovieType } from '../../models/movie';
 import UserReviewSection from '../../components/UserReviewSection';
-import { GetServerSideProps } from 'next';
+import type { GetServerSidePropsContext } from 'next';
 
 interface EditUserProps {
   user: UserType;
@@ -54,7 +54,9 @@ interface returnProps {
   props: EditUserProps;
 }
 
-export async function getServerSideProps(ctx): Promise<returnProps> {
+export async function getServerSideProps(
+  ctx: GetServerSidePropsContext
+): Promise<returnProps> {
   const { uID } = ctx.query;
   const user: UserType = await parseUser(ctx);
   let desiredUser: any;

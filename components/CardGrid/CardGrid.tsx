@@ -1,157 +1,221 @@
 import {
-    Container,
-    SimpleGrid,
-    useDisclosure,
-    Box,
-    Flex,
-    InputGroup,
-    InputLeftElement,
-    Input,
-    Button,
-    Heading,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
-    chakra,
-    useColorModeValue,
+  Container,
+  SimpleGrid,
+  useDisclosure,
+  Box,
+  Flex,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  Button,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  chakra,
+  useColorModeValue,
+  useToast,
+  useColorMode,
 } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiChevronDown } from 'react-icons/bi';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import Card from '../Card';
 import MovieDetailsModal from '../MovieDetailsModal';
+import movie, { MovieType, ReviewType } from '../../models/movie';
+import { UserType } from '../../models/user';
+import { NextSeo } from 'next-seo';
 
-export const CardGrid = ({ movies: unSortedMovies, user }) => {
-    const [modalMovie, setModalMovie] = useState(null);
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const [filter, setFilter] = useState('');
-    const [sort, setSort] = useState('recent');
-    const movies = {
-        data: unSortedMovies.data
-            ?.filter((mv) => {
-                if (mv.name.toLowerCase().includes(filter)) {
-                    return true;
-                }
-                return false;
-            })
-            .sort((a, b) => {
-                if (sort === 'recent' || sort === 'old') {
-                    return (
-                        new Date(a.createdAt).getTime() -
-                        new Date(b.createdAt).getTime()
-                    );
-                } else if (sort === 'best') {
-                    return a.rating - b.rating;
-                } else if (sort === 'worst') {
-                    return a.rating - b.rating;
-                }
-            }),
-    };
+interface CardGridProps {
+  movies: { data: MovieType[] };
+  user: UserType;
+  movieID?: string | string[];
+}
 
-    if (sort === 'best' || sort === 'recent') {
-        movies.data = movies.data.reverse();
+export const CardGrid: React.FC<CardGridProps> = ({
+  movies: unSortedMovies,
+  user,
+  movieID,
+}): React.ReactElement => {
+  const [modalMovie, setModalMovie] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [filter, setFilter] = useState('');
+  const [sort, setSort] = useState('recent');
+
+  const toast = useToast();
+  const { colorMode } = useColorMode();
+  // Fix for https://github.com/chakra-ui/chakra-ui/issues/3076
+  useEffect(() => {
+    toast.update(`otherToast`, {
+      variant: `subtle`,
+      title: 'Movie not found',
+      description: 'The shared movie does not exist',
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    });
+  }, [colorMode]);
+
+  useEffect(() => {
+    if (movieID && !isOpen) {
+      const foundMovie = movies.data.find((mv) => mv._id === movieID);
+      if (!foundMovie) {
+        toast({
+          id: 'otherToast',
+          variant: `subtle`,
+          title: 'Movie not found',
+          description: 'The shared movie does not exist',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
+      }
+      setModalMovie(foundMovie);
+      onOpen();
+      return;
     }
+  }, []);
 
-    return (
-        <>
-            <MovieDetailsModal
-                isOpen={isOpen}
-                onClose={onClose}
-                movie={modalMovie}
-                user={user}
+  const movies = {
+    data: unSortedMovies.data
+      ?.filter((mv) => {
+        if (mv.name.toLowerCase().includes(filter)) {
+          return true;
+        }
+        return false;
+      })
+      .sort((a, b) => {
+        if (sort === 'recent' || sort === 'old') {
+          return (
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
+        } else if (sort === 'best') {
+          return a.rating - b.rating;
+        } else if (sort === 'worst') {
+          return a.rating - b.rating;
+        }
+      }),
+  };
+
+  if (sort === 'best' || sort === 'recent') {
+    movies.data = movies.data.reverse();
+  }
+
+  return (
+    <>
+      <NextSeo
+        openGraph={{
+          title: modalMovie ? modalMovie.name : 'ScuffedMDB',
+          description: modalMovie
+            ? 'A user has shared this movie with you.'
+            : 'A private movie rating website',
+          images: [
+            {
+              url: modalMovie
+                ? modalMovie.image
+                : 'https://movie.michael-hall.me/sitePicture.jpg',
+              width: 1920,
+              height: 1080,
+              alt: modalMovie ? movie.name : 'Image of ScuffedMDB',
+            },
+          ],
+        }}
+      />
+      <MovieDetailsModal
+        isOpen={isOpen}
+        onClose={onClose}
+        movie={modalMovie}
+        user={user}
+      />
+      <Container maxW="container.xl" mt={10}>
+        <Heading fontSize="6xl" textAlign="center">
+          We have watched{' '}
+          {
+            <chakra.span color={useColorModeValue('purple.500', 'purple.300')}>
+              {unSortedMovies?.data?.length}
+            </chakra.span>
+          }{' '}
+          movies
+        </Heading>
+        <Flex
+          width="full"
+          direction={{ base: 'column', md: 'row' }}
+          my={7}
+          justifyContent="space-between"
+        >
+          <InputGroup
+            maxWidth={{ base: 'full', md: '200px' }}
+            mb={{ base: 5, md: 0 }}
+          >
+            <InputLeftElement pointerEvents="none">
+              <AiOutlineSearch color="gray.300" />
+            </InputLeftElement>
+            <Input
+              variant="filled"
+              type="text"
+              placeholder="Search"
+              onChange={(e) => setFilter(e.target.value.toLowerCase())}
             />
-            <Container maxW="container.xl" mt={10}>
-                <Heading fontSize="6xl" textAlign="center">
-                    We have watched{' '}
-                    {
-                        <chakra.span
-                            color={useColorModeValue(
-                                'purple.500',
-                                'purple.300'
-                            )}
-                        >
-                            {unSortedMovies?.data?.length}
-                        </chakra.span>
-                    }{' '}
-                    movies
-                </Heading>
-                <Flex
-                    width="full"
-                    direction={{ base: 'column', md: 'row' }}
-                    my={7}
-                    justifyContent="space-between"
-                >
-                    <InputGroup maxWidth={['full', , '200px']} mb={[5, , 0]}>
-                        <InputLeftElement
-                            pointerEvents="none"
-                            children={<AiOutlineSearch color="gray.300" />}
-                        />
-                        <Input
-                            variant="filled"
-                            type="text"
-                            placeholder="Search"
-                            onChange={(e) =>
-                                setFilter(e.target.value.toLowerCase())
-                            }
-                        />
-                    </InputGroup>
+          </InputGroup>
 
-                    <Menu>
-                        <MenuButton as={Button} rightIcon={<BiChevronDown />}>
-                            Sort by...
-                        </MenuButton>
-                        <MenuList zIndex={998}>
-                            <MenuItem
-                                zIndex={999}
-                                isDisabled={sort === 'recent'}
-                                onClick={() => setSort('recent')}
-                            >
-                                Recent
-                            </MenuItem>
-                            <MenuItem
-                                zIndex={999}
-                                isDisabled={sort === 'old'}
-                                onClick={() => setSort('old')}
-                            >
-                                Old
-                            </MenuItem>
-                            <MenuItem
-                                zIndex={999}
-                                isDisabled={sort === 'best'}
-                                onClick={() => setSort('best')}
-                            >
-                                Best
-                            </MenuItem>
-                            <MenuItem
-                                zIndex={999}
-                                isDisabled={sort === 'worst'}
-                                onClick={() => setSort('worst')}
-                            >
-                                Worst
-                            </MenuItem>
-                        </MenuList>
-                    </Menu>
-                </Flex>
-                <SimpleGrid
-                    columns={{ base: 1, md: 2, lg: 3 }}
-                    spacing={10}
-                    alignItems="stretch"
-                >
-                    {movies?.data?.map((movie, i) => (
-                        <Box
-                            key={`${i.toString()}cardBox`}
-                            height="full"
-                            onClick={() => {
-                                setModalMovie(movie);
-                                return onOpen();
-                            }}
-                        >
-                            <Card {...movie} key={`${i.toString()}card`} />
-                        </Box>
-                    ))}
-                </SimpleGrid>
-            </Container>
-        </>
-    );
+          <Menu>
+            <MenuButton as={Button} rightIcon={<BiChevronDown />}>
+              Sort by...
+            </MenuButton>
+            <MenuList zIndex={998}>
+              <MenuItem
+                zIndex={999}
+                isDisabled={sort === 'recent'}
+                onClick={() => setSort('recent')}
+              >
+                Recent
+              </MenuItem>
+              <MenuItem
+                zIndex={999}
+                isDisabled={sort === 'old'}
+                onClick={() => setSort('old')}
+              >
+                Old
+              </MenuItem>
+              <MenuItem
+                zIndex={999}
+                isDisabled={sort === 'best'}
+                onClick={() => setSort('best')}
+              >
+                Best
+              </MenuItem>
+              <MenuItem
+                zIndex={999}
+                isDisabled={sort === 'worst'}
+                onClick={() => setSort('worst')}
+              >
+                Worst
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Flex>
+        <SimpleGrid
+          columns={{ base: 1, md: 2, lg: 3 }}
+          spacing={10}
+          alignItems="stretch"
+        >
+          {movies?.data?.map((movie: MovieType<ReviewType[]>, i) => (
+            <Box
+              key={`${i.toString()}cardBox`}
+              height="full"
+              onClick={() => {
+                setModalMovie(movie);
+                return onOpen();
+              }}
+            >
+              <Card movie={movie} key={`${i.toString()}card`} />
+            </Box>
+          ))}
+        </SimpleGrid>
+      </Container>
+    </>
+  );
 };

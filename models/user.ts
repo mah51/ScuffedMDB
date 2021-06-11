@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema<UserType, UserModel>(
     banReason: { type: String },
     bio: { type: String },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export default mongoose.models.User || mongoose.model(`User`, userSchema);
@@ -38,10 +38,10 @@ export interface UserType extends Document {
   email?: string;
   isAdmin?: boolean;
   isReviewer?: boolean;
-  createdAt?: string;
+  createdAt?: Date;
   isBanned?: boolean;
   banReason?: string;
-  updatedAt?: string;
+  updatedAt?: Date;
   bio?: string;
 }
 

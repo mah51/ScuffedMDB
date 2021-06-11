@@ -13,6 +13,7 @@ const flags = {
   EARLY_VERIFIED_BOT_DEVELOPER: 1 << 17,
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getFlags = (int) => {
   const userFlags = [];
   // eslint-disable-next-line no-restricted-syntax

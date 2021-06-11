@@ -1,6 +1,5 @@
 // 1. import `extendTheme` function
 import { ColorMode, extendTheme, ThemeConfig } from '@chakra-ui/react';
-import { Theme } from '@emotion/react';
 // 2. Add your color mode config
 interface CustomTheme extends ThemeConfig {
   initialColorMode: ColorMode;

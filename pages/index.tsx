@@ -8,6 +8,7 @@ import { parseUser } from '../utils/parseDiscordUser';
 import { getMovies } from '../utils/queries';
 import BannedPage from '../components/BannedPage';
 import { MovieType } from '../models/movie';
+import { useRouter } from 'next/router';
 
 interface HomePageProps {
   user: UserType | null;
@@ -18,6 +19,9 @@ export default function Home({
   user,
   movies,
 }: HomePageProps): React.ReactChild {
+  const router = useRouter();
+  const { movieID } = router.query;
+
   if (!user) {
     return <LandingPage />;
   }
@@ -28,7 +32,7 @@ export default function Home({
   const data: MovieType[] | any = useQuery(`movies`, getMovies, {
     initialData: movies,
   });
-  return <HomePage user={user} movies={data} />;
+  return <HomePage user={user} movies={data} movieID={movieID} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

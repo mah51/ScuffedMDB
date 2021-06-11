@@ -20,13 +20,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const { comment, rating, movieID }: ReviewEndpointBodyType = JSON.parse(
-      req.body,
+      req.body
     );
     try {
-      const { iat, exp, ...user } = verify(
-        token,
-        process.env.JWT_CODE,
-      ) as DiscordUser & { iat: number; exp: number };
+      const { ...user } = verify(token, process.env.JWT_CODE) as DiscordUser & {
+        iat: number;
+        exp: number;
+      };
       const discUser: any = await User.findOne({ id: user.id });
       if (!discUser) {
         return res.status(401);
@@ -44,7 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
       const existingReview = movie.reviews.filter(
         // eslint-disable-next-line no-underscore-dangle
-        (rv) => rv.user.toString() === discUser._id.toString(),
+        (rv) => rv.user.toString() === discUser._id.toString()
       )[0];
       if (existingReview) {
         const index = movie.reviews.indexOf(existingReview);
@@ -56,7 +56,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         Math.round(
           (movie.reviews.reduce<number>((a, b) => a + b.rating, 0) /
             movie.reviews.length) *
-            10,
+            10
         ) / 10;
       movie.markModified(`reviews`);
       await movie.save();

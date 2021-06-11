@@ -3,6 +3,7 @@ import { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import PlausibleProvider from 'next-plausible';
+import { DefaultSeo } from 'next-seo';
 
 const theme = extendTheme({
   colors: {
@@ -16,19 +17,22 @@ const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
   return (
-    <PlausibleProvider
-      domain="movie.michael-hall.me"
-      selfHosted
-      trackOutboundLinks
-      enabled={process.env.NODE_ENV === 'production'}
-      customDomain={'https://stats.michael-hall.me'}
-    >
-      <QueryClientProvider client={queryClient}>
-        <ChakraProvider theme={theme}>
-          <Component {...pageProps} />
-        </ChakraProvider>
-      </QueryClientProvider>
-    </PlausibleProvider>
+    <>
+      <DefaultSeo titleTemplate={'%s | SMDB'} />
+      <PlausibleProvider
+        domain="movie.michael-hall.me"
+        selfHosted
+        trackOutboundLinks
+        enabled={process.env.NODE_ENV === 'production'}
+        customDomain={'https://stats.michael-hall.me'}
+      >
+        <QueryClientProvider client={queryClient}>
+          <ChakraProvider theme={theme}>
+            <Component {...pageProps} />
+          </ChakraProvider>
+        </QueryClientProvider>
+      </PlausibleProvider>
+    </>
   );
 }
 

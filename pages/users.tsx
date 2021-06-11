@@ -11,6 +11,7 @@ import AppLayout from '../components/AppLayout';
 import { getFlags } from '../utils/userFlags';
 import { UserType } from '../models/user';
 import BannedPage from '../components/BannedPage';
+import { NextSeo } from 'next-seo';
 
 interface UsersProps {
   user: UserType;
@@ -56,12 +57,15 @@ function Users({ user, users }: UsersProps): React.ReactChild {
     _id: usr._id,
   }));
   return (
-    <AppLayout user={user}>
-      <Flex maxWidth="7xl" mx="auto" direction="column" alignItems="center">
-        <Heading mb={10}>All Users</Heading>
-        <UserTable data={usrs} />
-      </Flex>
-    </AppLayout>
+    <>
+      <NextSeo title="Users" />
+      <AppLayout user={user}>
+        <Flex maxWidth="7xl" mx="auto" direction="column" alignItems="center">
+          <Heading mb={10}>All Users</Heading>
+          <UserTable data={usrs} />
+        </Flex>
+      </AppLayout>
+    </>
   );
 }
 
