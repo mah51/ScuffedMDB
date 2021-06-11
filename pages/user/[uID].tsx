@@ -24,11 +24,15 @@ function EditUser({
   if (!user) {
     return null;
   }
+
   const allRatings = movies
     .map((movie: any) => {
-      const rev = movie.reviews.find(
+      const rev = movie?.reviews?.find(
         (review: any) => review.user.id === desiredUser.id
       );
+      if (!rev) {
+        return null;
+      }
       rev.movie = {
         name: movie.name,
         image: movie.image,
