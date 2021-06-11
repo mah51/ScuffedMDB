@@ -1,5 +1,5 @@
 module.exports = {
-  testPathForConsistencyCheck: 'Rating/Rating.test.tsx',
+  testPathForConsistencyCheck: './components/Rating/Rating.test.tsx',
 
   resolveSnapshotPath: (testPath, snapshotExtension) =>
     `${testPath}${snapshotExtension}`,
