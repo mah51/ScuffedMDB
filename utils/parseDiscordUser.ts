@@ -23,11 +23,16 @@ export async function parseUser(
       exp: number;
     };
     await dbConnect();
-    const mongooseUser: UserType = await User.findOne({ id: user.id }).lean();
+
+    const mongooseUser: any = await User.findOne({
+      id: user.id,
+    }).lean();
     if (!mongooseUser) {
       return null;
     }
     mongooseUser._id = mongooseUser.toString();
+    mongooseUser.createdAt = mongooseUser.createdAt.getTime();
+    mongooseUser.updatedAt = mongooseUser.updatedAt.getTime();
     return mongooseUser;
   } catch (e) {
     console.error(e);

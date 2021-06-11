@@ -38,10 +38,10 @@ export interface UserType extends Document {
   email?: string;
   isAdmin?: boolean;
   isReviewer?: boolean;
-  createdAt?: Date;
+  createdAt?: Date | number;
   isBanned?: boolean;
   banReason?: string;
-  updatedAt?: Date;
+  updatedAt?: Date | number;
   bio?: string;
 }
 

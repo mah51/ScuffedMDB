@@ -60,11 +60,13 @@ export async function getServerSideProps(
   const { uID } = ctx.query;
   const user: UserType = await parseUser(ctx);
   let desiredUser: any;
-  if (user) {
+  if (user && uID !== 'me') {
     desiredUser = await User.findById(uID).lean();
     desiredUser._id = desiredUser._id.toString();
     desiredUser.createdAt = desiredUser.createdAt.getTime();
     desiredUser.updatedAt = desiredUser.updatedAt.getTime();
+  } else if (uID === 'me') {
+    desiredUser = user;
   }
   const movies = await getMovies();
   return {
