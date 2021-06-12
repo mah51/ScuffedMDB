@@ -113,7 +113,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
           site_name: `ScuffedMDB`,
           images: [
             {
-              url: `https://www.movie.michael-hall.me/static/images/sitePicture.png`,
+              url: `https://www.movie.michael-hall.me/sitePicture.png`,
               alt: `Profile Picture`,
             },
           ],
