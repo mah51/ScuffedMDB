@@ -9,4 +9,7 @@ Designed to be used by friends throughout quarantine.
 ![Screen Shot 2021-05-24 at 00 12 08](https://user-images.githubusercontent.com/47287285/119243078-93bd3200-bb5b-11eb-9691-957cb1336ec0.png)
 
 TODO:
-Fix bunch of errors to do with incorrect hook useage & react-table. ;(
+
+- Fix bunch of errors to do with incorrect hook usage & react-table. ;(
+- Add pagination to the API & FrontEnd cards
+- Add tests if you wanna learn how to do em.

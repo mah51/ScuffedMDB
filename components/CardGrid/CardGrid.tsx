@@ -116,7 +116,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
             {
               url: modalMovie
                 ? modalMovie.image
-                : 'https://movie.michael-hall.me/sitePicture.jpg',
+                : 'https://movie.michael-hall.me/sitePicture.png',
               width: 1920,
               height: 1080,
               alt: modalMovie ? movie.name : 'Image of ScuffedMDB',
