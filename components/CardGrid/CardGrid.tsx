@@ -108,21 +108,21 @@ export const CardGrid: React.FC<CardGridProps> = ({
     <>
       <NextSeo
         openGraph={{
-          title: modalMovie ? modalMovie.name : 'ScuffedMDB',
-          description: modalMovie
-            ? 'A user has shared this movie with you.'
-            : 'A private movie rating website',
+          title: `ScuffedMDB`,
+          type: `website`,
+          site_name: `ScuffedMDB`,
           images: [
             {
-              url: modalMovie
-                ? modalMovie.image
-                : 'https://movie.michael-hall.me/sitePicture.png',
-              width: 1920,
-              height: 1080,
-              alt: modalMovie ? movie.name : 'Image of ScuffedMDB',
+              url: `https://www.movie.michael-hall.me/static/images/sitePicture.png`,
+              alt: `Profile Picture`,
             },
           ],
         }}
+        description={
+          modalMovie
+            ? 'A user has shared this movie with you.'
+            : 'A private movie rating website'
+        }
       />
       <MovieDetailsModal
         isOpen={isOpen}

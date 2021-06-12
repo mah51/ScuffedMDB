@@ -18,7 +18,21 @@ const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
   return (
     <>
-      <DefaultSeo titleTemplate={'%s | SMDB'} />
+      <DefaultSeo
+        titleTemplate={'%s | SMDB'}
+        description={'A private movie rating website'}
+        openGraph={{
+          title: `ScuffedMDB`,
+          type: `website`,
+          site_name: `ScuffedMDB`,
+          images: [
+            {
+              url: `https://www.movie.michael-hall.me/sitePicture.png`,
+              alt: `Profile Picture`,
+            },
+          ],
+        }}
+      />
       <PlausibleProvider
         domain="movie.michael-hall.me"
         selfHosted
