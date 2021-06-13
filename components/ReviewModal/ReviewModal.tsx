@@ -115,7 +115,7 @@ export const ReviewModal = ({ isAdmin }) => {
         Add review
       </Button>
 
-      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose} id={'review-modal'}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
