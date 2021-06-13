@@ -33,12 +33,14 @@ import {
   PopoverFooter,
   useToast,
   chakra,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { format } from 'date-fns';
 import { useQueryClient } from 'react-query';
 import { MovieType, ReviewType } from '../../models/movie';
 import { UserType } from '../../models/user';
+import { AddIcon, CopyIcon } from '@chakra-ui/icons';
 
 interface MovieDetailsModalProps {
   isOpen: any;
@@ -56,6 +58,7 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
 
+  const { onOpen: reviewOnOpen } = useDisclosure({ id: 'review-modal' });
   const open = () => setIsPopoverOpen(!isPopoverOpen);
   const close = () => setIsPopoverOpen(false);
   const initialRef = React.useRef();
@@ -252,52 +255,85 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
               </AccordionItem>
             </Accordion>
           </ModalBody>
-          {user.isAdmin && movie?.createdAt && (
-            <ModalFooter
-              bg={useColorModeValue(`gray.50`, `gray.800`)}
-              roundedBottom="md"
-            >
-              <Flex mr="auto">
-                <Text fontWeight="semibold">
-                  Created •{` `}
-                  {format(new Date(movie.createdAt), `dd/MM/yy • HH:mm:ss`)}
-                </Text>
-              </Flex>
-              <Popover
-                isOpen={isPopoverOpen}
-                onClose={close}
-                onOpen={open}
-                placement="right"
-              >
-                <PopoverTrigger>
-                  <Button colorScheme="red" isLoading={loading}>
-                    Delete Movie
-                  </Button>
-                </PopoverTrigger>
 
-                <PopoverContent>
-                  <PopoverHeader fontWeight="semibold">
-                    Confirmation
-                  </PopoverHeader>
-                  <PopoverArrow />
-                  <PopoverCloseButton />
-                  <PopoverBody>
-                    Are you sure you want to delete {movie.name}?
-                  </PopoverBody>
-                  <PopoverFooter d="flex" justifyContent="flex-end">
-                    <ButtonGroup size="sm">
-                      <Button variant="outline" onClick={close}>
-                        Cancel
-                      </Button>
-                      <Button colorScheme="red" onClick={handleMovieDelete}>
-                        Confirm
-                      </Button>
-                    </ButtonGroup>
-                  </PopoverFooter>
-                </PopoverContent>
-              </Popover>
-            </ModalFooter>
-          )}
+          <ModalFooter
+            bg={useColorModeValue(`gray.50`, `gray.800`)}
+            roundedBottom="md"
+          >
+            <Flex mr="auto">
+              <Text fontWeight="semibold">
+                Created •{` `}
+                {movie &&
+                  format(new Date(movie?.createdAt), `dd/MM/yy • HH:mm:ss`)}
+              </Text>
+            </Flex>
+            <HStack>
+              <Button
+                leftIcon={<CopyIcon />}
+                onClick={() => {
+                  toast({
+                    variant: 'subtle',
+                    title: 'Copied to clipboard',
+                    description: `${movie?.name} copied to clipboard`,
+                    isClosable: true,
+                    duration: 5000,
+                    status: 'success',
+                  });
+                  navigator.clipboard.writeText(
+                    `${process.env.NEXT_PUBLIC_APP_URI}/?movieID=${movie?._id}`
+                  );
+                }}
+                variant="outline"
+              >
+                Share
+              </Button>
+              <Button
+                leftIcon={<AddIcon />}
+                onClick={() => {
+                  onClose();
+                  reviewOnOpen();
+                }}
+                colorScheme="purple"
+              >
+                Add review
+              </Button>
+              {user.isAdmin && movie?.createdAt && (
+                <Popover
+                  isOpen={isPopoverOpen}
+                  onClose={close}
+                  onOpen={open}
+                  placement="right"
+                >
+                  <PopoverTrigger>
+                    <Button colorScheme="red" isLoading={loading}>
+                      Delete Movie
+                    </Button>
+                  </PopoverTrigger>
+
+                  <PopoverContent>
+                    <PopoverHeader fontWeight="semibold">
+                      Confirmation
+                    </PopoverHeader>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverBody>
+                      Are you sure you want to delete {movie.name}?
+                    </PopoverBody>
+                    <PopoverFooter d="flex" justifyContent="flex-end">
+                      <ButtonGroup size="sm">
+                        <Button variant="outline" onClick={close}>
+                          Cancel
+                        </Button>
+                        <Button colorScheme="red" onClick={handleMovieDelete}>
+                          Confirm
+                        </Button>
+                      </ButtonGroup>
+                    </PopoverFooter>
+                  </PopoverContent>
+                </Popover>
+              )}
+            </HStack>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

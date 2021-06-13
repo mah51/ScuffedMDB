@@ -39,7 +39,7 @@ import { MovieType } from '../../models/movie';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
 
 export const ReviewModal = ({ isAdmin }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure({ id: 'review-modal' });
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState(``);
   const [commentError, setCommentError] = useState(``);
