@@ -130,13 +130,15 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
             <Flex justifyContent="space-between">
               <Heading>{movie?.name}</Heading>
               <Heading mr={10}>
-                {movie?.rating.toFixed(1)}
-                {
+                {movie?.numReviews > 0
+                  ? movie?.rating.toFixed(1)
+                  : 'No reviews'}
+                {movie?.numReviews > 0 && (
                   <chakra.span fontSize="xl" color={'gray.500'}>
                     {' '}
                     /10
                   </chakra.span>
-                }
+                )}
               </Heading>
             </Flex>
 
@@ -144,7 +146,7 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody my={3}>
-            <Accordion allowToggle>
+            <Accordion allowToggle defaultIndex={[1]}>
               <AccordionItem border="none">
                 <h2>
                   <AccordionButton>
@@ -176,14 +178,20 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
-                <AccordionPanel maxHeight="600px" overflowY="scroll" my={5}>
+                <AccordionPanel height="full" overflowY="scroll" my={5}>
                   {movie?.reviews?.length > 0 ? (
                     <SimpleGrid columns={1} spacingY={5}>
                       {movie?.reviews?.map((review, i) => (
                         <Flex width="100%" key={`${i.toString}review`}>
                           <Avatar
                             size="xl"
-                            src={`https://cdn.discordapp.com/avatars/${review.user.id}/${review.user.avatar}`}
+                            src={
+                              review?.user?.avatar
+                                ? `https://cdn.discordapp.com/avatars/${review.user.id}/${review.user.avatar}`
+                                : `https://cdn.discordapp.com/embed/avatars/${
+                                    Number(user.discriminator) % 5
+                                  }.png`
+                            }
                           />
                           <Flex
                             ml={3}

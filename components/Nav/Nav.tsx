@@ -88,7 +88,13 @@ export const Nav = ({ user, showMovies }: NavProps) => {
                 <Avatar
                   size="sm"
                   boxShadow="none"
-                  src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpg`}
+                  src={
+                    user.avatar
+                      ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpg`
+                      : `https://cdn.discordapp.com/embed/avatars/${
+                          Number(user.discriminator) % 5
+                        }.png`
+                  }
                 />
               </MenuButton>
               <MenuList zIndex={999}>

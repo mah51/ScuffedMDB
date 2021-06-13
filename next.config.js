@@ -59,6 +59,7 @@ module.exports = {
     NEXT_PUBLIC_APP_URI: process.env.NEXT_PUBLIC_APP_URI,
     CLIENT_ID: process.env.CLIENT_ID,
     CLIENT_SECRET: process.env.CLIENT_SECRET,
+    OWNER_ID: process.env.OWNER_ID,
     MONGODB_URI: process.env.MONGODB_URI,
     MOVIE_API_KEY: process.env.MOVIE_API_KEY,
   },

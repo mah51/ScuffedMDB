@@ -45,7 +45,13 @@ function Users({ user, users }: UsersProps): React.ReactChild {
     username: usr.username,
     discriminator: usr.discriminator,
     createdAt: format(new Date(usr.createdAt), `dd/MM/yy-HH:mm:ss`),
-    image: `https://cdn.discordapp.com/avatars/${usr.id}/${usr.avatar}.jpg`,
+    image: usr.avatar
+      ? `https://cdn.discordapp.com/avatars/${usr.id}/${usr.avatar}.jpg`
+      : user.avatar
+      ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpg`
+      : `https://cdn.discordapp.com/embed/avatars/${
+          Number(user.discriminator) % 5
+        }.png`,
     id: usr.id,
     isBanned: usr.isBanned,
     banReason: usr.banReason,

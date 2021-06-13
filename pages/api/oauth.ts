@@ -65,6 +65,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const count: UserType = await User.findOne({ id: me.id });
 
   let newUser: UserType;
+  const isOwner = process.env.OWNER_ID === me.id;
+
   if (!count?.id) {
     newUser = new User({
       id: me.id,
@@ -77,6 +79,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       locale: me.locale,
       mfa_enabled: me.mfa_enabled,
       premium_type: me.premium_type,
+      isAdmin: isOwner,
+      isReviewer: isOwner,
     });
     await newUser.save();
   } else {
@@ -91,6 +95,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     count.mfa_enabled = me.mfa_enabled;
     count.premium_type = me.premium_type;
     count.last_updated = Date.now();
+
+    if (isOwner) {
+      count.isAdmin = true;
+      count.isReviewer = true;
+    }
     await count.save();
   }
 

@@ -17,7 +17,13 @@ export const AboutUserSection: React.FC<AboutUserSectionProps> = ({
       <Avatar
         mr={10}
         size="2xl"
-        src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`}
+        src={
+          user.avatar
+            ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`
+            : `https://cdn.discordapp.com/embed/avatars/${
+                Number(user.discriminator) % 5
+              }.png`
+        }
       />
       <VStack textAlign="left" alignItems="flex-start">
         <Heading size="3xl">

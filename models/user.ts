@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema<UserType, UserModel>(
   {
     id: { type: String, required: true },
     username: { type: String, required: true },
-    avatar: { type: String, required: true },
+    avatar: { type: String },
     discriminator: { type: String, required: true },
     public_flags: { type: Number, required: true },
     flags: { type: Number, required: true },
@@ -27,7 +27,7 @@ export default mongoose.models.User || mongoose.model(`User`, userSchema);
 export interface UserType extends Document {
   id: string;
   username: string;
-  avatar: string;
+  avatar?: string;
   discriminator: string;
   public_flags: number;
   flags: number;
