@@ -66,7 +66,13 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
         </Text>
       </Box>
       <Box mt={-6} mx={-6} mb={6} pos="relative">
-        <Image src={image} layout="responsive" width="16px" height="9px" />
+        <Image
+          src={image}
+          layout="responsive"
+          width="16px"
+          height="9px"
+          alt={`${movie?.name} poster`}
+        />
       </Box>
 
       <Flex isTruncated direction="column" justifyContent="space-between">

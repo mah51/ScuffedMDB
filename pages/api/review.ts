@@ -7,7 +7,10 @@ import User from '../../models/user';
 import dbConnect from '../../utils/dbConnect';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
   if (req.method === `POST`) {
     if (!req.headers.cookie) {
@@ -74,3 +77,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).send({ message: `method not allowed :(` });
   }
 };
+
+export default handler;

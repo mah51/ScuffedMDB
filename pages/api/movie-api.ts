@@ -2,8 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { useAPIAuth } from '../../utils/useAPIAuth';
 import dbConnect from '../../utils/dbConnect';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const discUser = await useAPIAuth(req, process.env.JWT_CODE);
   try {
     if (!discUser) {
@@ -20,3 +24,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).send(err);
   }
 };
+
+export default handler;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Box,
@@ -17,7 +17,6 @@ import {
   SliderFilledTrack,
   SliderTrack,
   SliderThumb,
-  useDisclosure,
   useColorModeValue,
   Flex,
   Text,
@@ -29,7 +28,10 @@ import {
   NumberDecrementStepper,
   Heading,
   useToast,
+  useColorMode,
 } from '@chakra-ui/react';
+
+import { useBetween } from 'use-between';
 
 import { useQuery, useQueryClient } from 'react-query';
 
@@ -37,13 +39,17 @@ import { AiFillStar } from 'react-icons/ai';
 import { getMovies } from '../../utils/queries';
 import { MovieType } from '../../models/movie';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
+import { ReviewModalContext, useMovie } from '../../utils/ModalContext';
 
-export const ReviewModal = ({ isAdmin }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure({ id: 'review-modal' });
+export const ReviewModal: React.FC<{ isAdmin: boolean }> = ({
+  isAdmin,
+}): React.ReactElement => {
+  const { colorMode } = useColorMode();
+  const { movie, setMovie } = useBetween(useMovie);
+  const { isOpen, onOpen, onClose } = useContext(ReviewModalContext);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState(``);
   const [commentError, setCommentError] = useState(``);
-  const [movie, setMovie] = useState(null);
   const [movieError, setMovieError] = useState(``);
   const [success, setSuccess] = useState(``);
 
@@ -66,12 +72,12 @@ export const ReviewModal = ({ isAdmin }) => {
       });
       setSuccess(null);
     }
-  }, [success]);
+  }, [movie?.name, queryClient, success, toast]);
 
   const initialRef = React.useRef();
   const { data: movies } = useQuery(`movies`, getMovies);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, onClose) => {
     e.preventDefault();
     if (!movie) {
       return setMovieError(`Please select a valid movie.`);
@@ -115,7 +121,12 @@ export const ReviewModal = ({ isAdmin }) => {
         Add review
       </Button>
 
-      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose} id={'review-modal'}>
+      <Modal
+        initialFocusRef={initialRef}
+        isOpen={isOpen}
+        onClose={onClose}
+        id={'review-modal'}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -130,7 +141,7 @@ export const ReviewModal = ({ isAdmin }) => {
                 Select Movie
               </FormLabel>
               <Select
-                placeholder="No Movie Selected"
+                placeholder={movie?.name || 'No Movie Selected'}
                 onChange={(e) => {
                   e.preventDefault();
                   const movieFound = movies.filter(
@@ -144,12 +155,16 @@ export const ReviewModal = ({ isAdmin }) => {
                 }}
               >
                 {movies &&
-                  movies?.map((_: MovieType) => (
-                    <option key={_.name}>{_.name}</option>
-                  ))}
+                  movies?.map((_: MovieType) =>
+                    movie?.name !== _.name ? (
+                      <option key={_.name}>{_.name}</option>
+                    ) : (
+                      ''
+                    )
+                  )}
               </Select>
               {movieError && (
-                <Text color={useColorModeValue(`red.600`, `red.300`)}>
+                <Text color={colorMode === 'light' ? `red.600` : `red.300`}>
                   {movieError}
                 </Text>
               )}
@@ -228,7 +243,7 @@ export const ReviewModal = ({ isAdmin }) => {
                 resize="vertical"
               />
               {commentError && (
-                <Text color={useColorModeValue(`red.600`, `red.300`)}>
+                <Text color={colorMode === 'light' ? `red.600` : `red.300`}>
                   {commentError}
                 </Text>
               )}
@@ -242,7 +257,7 @@ export const ReviewModal = ({ isAdmin }) => {
             <Button
               colorScheme="purple"
               mr={3}
-              onClick={handleSubmit}
+              onClick={(e) => handleSubmit(e, onClose)}
               isDisabled={!!(commentError || movieError)}
             >
               Add Review

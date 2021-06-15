@@ -33,7 +33,10 @@ interface NavProps {
   showMovies: any;
 }
 
-export const Nav = ({ user, showMovies }: NavProps) => {
+export const Nav: React.FC<NavProps> = ({
+  user,
+  showMovies,
+}): React.ReactElement => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -103,7 +106,7 @@ export const Nav = ({ user, showMovies }: NavProps) => {
                     return null;
                   }
                   return (
-                    <Link href={link.link} key={i.toString()}>
+                    <Link href={link.link} key={i.toString()} passHref>
                       <MenuItem>{link.name}</MenuItem>
                     </Link>
                   );

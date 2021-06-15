@@ -24,7 +24,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import Card from '../Card';
 import MovieDetailsModal from '../MovieDetailsModal';
-import movie, { MovieType, ReviewType } from '../../models/movie';
+import { MovieType, ReviewType } from '../../models/movie';
 import { UserType } from '../../models/user';
 import { NextSeo } from 'next-seo';
 
@@ -56,28 +56,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
       duration: 5000,
       isClosable: true,
     });
-  }, [colorMode]);
-
-  useEffect(() => {
-    if (movieID && !isOpen) {
-      const foundMovie = movies.data.find((mv) => mv._id === movieID);
-      if (!foundMovie) {
-        toast({
-          id: 'otherToast',
-          variant: `subtle`,
-          title: 'Movie not found',
-          description: 'The shared movie does not exist',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
-        return;
-      }
-      setModalMovie(foundMovie);
-      onOpen();
-      return;
-    }
-  }, []);
+  }, [colorMode, toast]);
 
   const movies = {
     data: unSortedMovies.data
@@ -99,6 +78,28 @@ export const CardGrid: React.FC<CardGridProps> = ({
         }
       }),
   };
+
+  useEffect(() => {
+    if (movieID && !isOpen) {
+      const foundMovie = movies.data.find((mv) => mv._id === movieID);
+      if (!foundMovie) {
+        toast({
+          id: 'otherToast',
+          variant: `subtle`,
+          title: 'Movie not found',
+          description: 'The shared movie does not exist',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
+      }
+      setModalMovie(foundMovie);
+      onOpen();
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (sort === 'best' || sort === 'recent') {
     movies.data = movies.data.reverse();

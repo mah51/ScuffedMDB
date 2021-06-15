@@ -3,8 +3,12 @@ import dbConnect from '../../../utils/dbConnect';
 import { useAPIAuth } from '../../../utils/useAPIAuth';
 import User from '../../../models/user';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
   await dbConnect();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const user = await useAPIAuth(req);
   if (!user) {
     return res.status(401).json({
@@ -22,3 +26,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   foundUser.updatedAt = foundUser.updatedAt.getTime();
   return res.status(200).json(foundUser);
 };
+
+export default handler;

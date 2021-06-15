@@ -7,8 +7,16 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
+import { MovieType, ReviewType } from '../../models/movie';
+import { UserType } from '../../models/user';
 
-export const UserReviewSection = ({ reviews }) => {
+interface UserReviewProps extends ReviewType<UserType> {
+  movie: MovieType;
+}
+
+export const UserReviewSection: React.FC<{
+  reviews: UserReviewProps[];
+}> = ({ reviews }): React.ReactElement => {
   return (
     <Flex mt={5} maxW="6xl" width="full" direction="column">
       {reviews.map((review, i) => (
@@ -16,6 +24,7 @@ export const UserReviewSection = ({ reviews }) => {
           <AspectRatio ratio={16 / 9} minWidth="200px" mr={7}>
             <Image
               src={review.movie.image}
+              alt={review.user.username + "'s profile"}
               objectFit="fill"
               borderRadius="2xl"
             />

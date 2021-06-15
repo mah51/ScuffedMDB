@@ -2,7 +2,14 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../../models/user';
 import dbConnect from '../../../utils/dbConnect';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+type Data = {
+  users: any;
+};
+
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+): Promise<void> => {
   await dbConnect();
   if (req.method === `GET`) {
     const users = await User.find({});
@@ -12,3 +19,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   return null;
 };
+
+export default handler;

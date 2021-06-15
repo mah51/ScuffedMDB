@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import {
   Modal,
@@ -33,14 +33,15 @@ import {
   PopoverFooter,
   useToast,
   chakra,
-  useDisclosure,
 } from '@chakra-ui/react';
 
+import { useBetween } from 'use-between';
 import { format } from 'date-fns';
 import { useQueryClient } from 'react-query';
 import { MovieType, ReviewType } from '../../models/movie';
 import { UserType } from '../../models/user';
 import { AddIcon, CopyIcon } from '@chakra-ui/icons';
+import { ReviewModalContext, useMovie } from '../../utils/ModalContext';
 
 interface MovieDetailsModalProps {
   isOpen: any;
@@ -55,10 +56,11 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
   movie,
   user,
 }): React.ReactElement => {
+  const { setMovie: setModalMovie } = useBetween(useMovie);
+  const { onOpen: reviewOnOpen } = useContext(ReviewModalContext);
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { onOpen: reviewOnOpen } = useDisclosure({ id: 'review-modal' });
   const open = () => setIsPopoverOpen(!isPopoverOpen);
   const close = () => setIsPopoverOpen(false);
   const initialRef = React.useRef();
@@ -123,6 +125,7 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
         isOpen={isOpen}
         onClose={onClose}
         size="4xl"
+        id={'movie-details-modal'}
       >
         <ModalOverlay />
         <ModalContent>
@@ -290,8 +293,9 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
               <Button
                 leftIcon={<AddIcon />}
                 onClick={() => {
+                  setModalMovie(movie);
                   onClose();
-                  reviewOnOpen();
+                  return reviewOnOpen();
                 }}
                 colorScheme="purple"
               >

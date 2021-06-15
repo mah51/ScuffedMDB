@@ -31,6 +31,7 @@ import {
   FormLabel,
   FormHelperText,
   Link,
+  useColorMode,
 } from '@chakra-ui/react';
 import { FaUserPlus, FaUserShield, FaUserSlash } from 'react-icons/fa';
 import { useQueryClient } from 'react-query';
@@ -40,6 +41,7 @@ const Form = ({ firstFieldRef, onCancel, user, isBanned, banReason }) => {
   const queryClient = useQueryClient();
   const toast = useToast();
   const [reason, setReason] = useState(``);
+  const { colorMode } = useColorMode();
   const handleBan = async (e, usr) => {
     e.preventDefault();
     const response = await fetch(
@@ -75,7 +77,7 @@ const Form = ({ firstFieldRef, onCancel, user, isBanned, banReason }) => {
     return (
       <Stack spacing={4}>
         <Text>Ban Reason</Text>
-        <Text color={useColorModeValue(`gray.600`, `gray.400`)}>
+        <Text color={colorMode === 'light' ? `gray.600` : `gray.400`}>
           {banReason}
         </Text>
         <ButtonGroup d="flex" justifyContent="center">
@@ -172,7 +174,9 @@ const PopoverForm = ({ user, isBanned, banReason }) => {
   );
 };
 
-export const UserTable = ({ data }) => {
+export const UserTable: React.FC<{ data: any }> = ({
+  data,
+}): React.ReactElement => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
@@ -303,6 +307,7 @@ export const UserTable = ({ data }) => {
         ),
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

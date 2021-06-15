@@ -24,7 +24,7 @@ import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import { useQueryClient } from 'react-query';
 import SearchResults from '../SearchResults';
 
-export const MovieModal = () => {
+export const MovieModal: React.FC = (): React.ReactElement => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(``);
@@ -63,7 +63,7 @@ export const MovieModal = () => {
       setSuccess(null);
       setError(null);
     }
-  }, [success, error]);
+  }, [success, error, onClose, queryClient, toast]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

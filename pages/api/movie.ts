@@ -9,7 +9,10 @@ import dbConnect from '../../utils/dbConnect';
 import { MovieEndpointBodyType } from '../../types/APITypes';
 import { useAPIAuth } from '../../utils/useAPIAuth';
 
-const MovieAPI = async (req: NextApiRequest, res: NextApiResponse) => {
+const MovieAPI = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
   if (req.method === `POST`) {
     if (!req.headers.cookie) {
@@ -80,6 +83,7 @@ const MovieAPI = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } else if (req.method === `DELETE`) {
     const { id } = JSON.parse(req.body);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const discUser = await useAPIAuth(req);
     if (!discUser || !discUser.isAdmin) {
       return res

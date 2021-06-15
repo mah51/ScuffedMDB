@@ -19,6 +19,7 @@ function SkeletonImage({ result }) {
     <Skeleton isLoaded={imageLoaded} width="full" height="full">
       <Image
         onLoad={() => setImageLoaded(true)}
+        alt={`${result?.name} poster`}
         layout="fill"
         src={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`}
       />
@@ -26,13 +27,13 @@ function SkeletonImage({ result }) {
   );
 }
 
-export const SearchResults = ({
-  data,
-  loading,
-  error,
-  setSuccess,
-  setError,
-}) => {
+export const SearchResults: React.FC<{
+  data: any;
+  loading: boolean;
+  error: any;
+  setSuccess: any;
+  setError: any;
+}> = ({ data, loading, error, setSuccess, setError }): React.ReactElement => {
   const addMovie = async (movieID) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URI}/api/movie/`,

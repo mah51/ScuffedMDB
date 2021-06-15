@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Heading, Text, useColorMode } from '@chakra-ui/react';
 
 import { useQuery } from 'react-query';
 import { format } from 'date-fns';
@@ -18,7 +18,8 @@ interface UsersProps {
   users: UserType[];
 }
 
-function Users({ user, users }: UsersProps): React.ReactChild {
+function Users({ user, users }: UsersProps): React.ReactElement {
+  const { colorMode } = useColorMode();
   if (user?.isBanned) {
     return <BannedPage user={user} />;
   }
@@ -33,13 +34,18 @@ function Users({ user, users }: UsersProps): React.ReactChild {
       >
         <Heading>You are not authorized to view this page 😢</Heading>
 
-        <Text color={useColorModeValue(`gray.400`, `gray.600`)} as="a" href="/">
+        <Text
+          color={colorMode === 'light' ? `gray.400` : `gray.600`}
+          as="a"
+          href="/"
+        >
           Click to go to the homepage!
         </Text>
       </Flex>
     );
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data } = useQuery(`users`, getUsers, { initialData: users });
   const usrs = data.map((usr: UserType) => ({
     username: usr.username,

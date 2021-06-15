@@ -3,9 +3,13 @@ import { useAPIAuth } from '../../../utils/useAPIAuth';
 import User from '../../../models/user';
 import dbConnect from '../../../utils/dbConnect';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
   await dbConnect();
   if (req.method === `PUT`) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const reqUser = await useAPIAuth(req);
     if (!reqUser || !reqUser.isAdmin) {
       return res
@@ -33,6 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({ update, ...updatedUser });
   }
   if (req.method === `DELETE`) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const reqUser = await useAPIAuth(req);
     if (!reqUser || !reqUser.isAdmin) {
       return res
@@ -59,3 +64,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
   return res.status(405).json({ message: `method not allowed` });
 };
+
+export default handler;

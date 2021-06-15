@@ -29,6 +29,7 @@ export default function Home({
     return <BannedPage user={user} />;
   }
   //idk typescript well enough to know whats goin wrong here but | any ignores it :/
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const data: MovieType[] | any = useQuery(`movies`, getMovies, {
     initialData: movies,
   });

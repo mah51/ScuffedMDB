@@ -17,7 +17,10 @@ const OAUTH_QS = new URLSearchParams({
 
 const OAUTH_URI = `https://discord.com/api/oauth2/authorize?${OAUTH_QS}`;
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
   if (req.method !== `GET`) return res.redirect(`/`);
 
@@ -119,3 +122,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   return res.redirect(`/`);
 };
+
+export default handler;

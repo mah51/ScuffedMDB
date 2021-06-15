@@ -29,7 +29,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       status: `error`,
       isClosable: true,
     });
-  }, [colorMode]);
+  }, [colorMode, toast]);
   useEffect(() => {
     if (!user.isAdmin && !user.isReviewer) {
       toast({
@@ -42,7 +42,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         isClosable: true,
       });
     }
-  }, []);
+  }, [toast, user]);
   return (
     <>
       <NextSeo title="Home" />
