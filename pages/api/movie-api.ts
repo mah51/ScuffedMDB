@@ -19,6 +19,7 @@ const handler = async (
       `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=en-US&query=${search}&page=1&include_adult=false`
     );
     const data = await response.json();
+    console.log(data)
     return res.status(200).send(data);
   } catch (err) {
     return res.status(500).send(err);
