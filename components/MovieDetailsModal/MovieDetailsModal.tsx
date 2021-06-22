@@ -33,6 +33,8 @@ import {
   PopoverFooter,
   useToast,
   chakra,
+  Stack,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 
 import { useBetween } from 'use-between';
@@ -60,6 +62,7 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
   const { onOpen: reviewOnOpen } = useContext(ReviewModalContext);
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const avatarSize = useBreakpointValue({ base: 'sm', md: 'xl' });
 
   const open = () => setIsPopoverOpen(!isPopoverOpen);
   const close = () => setIsPopoverOpen(false);
@@ -133,7 +136,10 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
             borderBottom="1px solid"
             borderColor={useColorModeValue(`gray.300`, `gray.600`)}
           >
-            <Flex justifyContent="space-between">
+            <Flex
+              justifyContent="space-between"
+              direction={{ base: 'column', md: 'row' }}
+            >
               <Heading>{movie?.name}</Heading>
               <Heading mr={10}>
                 {movie?.numReviews > 0
@@ -190,7 +196,7 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
                       {movie?.reviews?.map((review, i) => (
                         <Flex width="100%" key={`${i.toString}review`}>
                           <Avatar
-                            size="xl"
+                            size={avatarSize}
                             src={
                               review?.user?.avatar
                                 ? `https://cdn.discordapp.com/avatars/${review.user.id}/${review.user.avatar}`
@@ -270,7 +276,7 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
                   format(new Date(movie?.createdAt), `dd/MM/yy • HH:mm:ss`)}
               </Text>
             </Flex>
-            <HStack>
+            <Stack direction={{ base: 'column', md: 'row' }}>
               <Button
                 leftIcon={<CopyIcon />}
                 onClick={() => {
@@ -336,7 +342,7 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
                   </PopoverContent>
                 </Popover>
               )}
-            </HStack>
+            </Stack>
           </ModalFooter>
         </ModalContent>
       </Modal>
