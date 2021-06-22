@@ -19,7 +19,6 @@ import {
 import { IoMoon, IoSunny } from 'react-icons/io5';
 import Link from 'next/link';
 import MovieModal from '../MovieModal';
-import ReviewModal from '../ReviewModal';
 import { UserType } from '../../models/user';
 
 const links = [
@@ -75,9 +74,6 @@ export const Nav: React.FC<NavProps> = ({
                 )
               }
             />
-            {(user.isReviewer || user.isAdmin) && showMovies && (
-              <ReviewModal isAdmin={user.isAdmin} />
-            )}
 
             {user.isAdmin && showMovies && <MovieModal />}
             <Menu>

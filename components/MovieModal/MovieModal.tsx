@@ -75,15 +75,16 @@ export const MovieModal: React.FC = (): React.ReactElement => {
       );
       const data = await response.json();
       if (response.status !== 200) {
+        console.error(data.status_message);
         return setError(data.status_message);
       }
       setLoading(false);
       if (!data?.results?.length) {
         setError(`No results found :(`);
       }
-
       setResults(data.results.splice(0, 5));
     } catch (err) {
+      console.error(err);
       if (err) {
         setError(err.message);
         setLoading(false);
@@ -94,8 +95,8 @@ export const MovieModal: React.FC = (): React.ReactElement => {
   return (
     <>
       <Button
-        variant="outline"
-        colorScheme="gray"
+        variant="solid"
+        colorScheme="purple"
         mr={3}
         leftIcon={<AddIcon />}
         onClick={onOpen}

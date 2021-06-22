@@ -112,7 +112,8 @@ export const ReviewModal: React.FC<{ isAdmin: boolean }> = ({
   return (
     <>
       <Button
-        variant="solid"
+        variant="ghost"
+        width="full"
         colorScheme="purple"
         mr={isAdmin ? 0 : 3}
         leftIcon={<AddIcon />}
@@ -141,6 +142,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean }> = ({
                 Select Movie
               </FormLabel>
               <Select
+                bg={useColorModeValue('white', 'gray.700')}
                 placeholder={movie?.name || 'No Movie Selected'}
                 onChange={(e) => {
                   e.preventDefault();

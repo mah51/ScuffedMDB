@@ -17,6 +17,7 @@ import {
   useColorModeValue,
   useToast,
   useColorMode,
+  Stack,
 } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiChevronDown } from 'react-icons/bi';
@@ -27,6 +28,7 @@ import MovieDetailsModal from '../MovieDetailsModal';
 import { MovieType, ReviewType } from '../../models/movie';
 import { UserType } from '../../models/user';
 import { NextSeo } from 'next-seo';
+import ReviewModal from '../ReviewModal';
 
 interface CardGridProps {
   movies: { data: MovieType[] };
@@ -138,7 +140,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
         user={user}
       />
       <Container maxW="container.xl" mt={10}>
-        <Heading fontSize="6xl" textAlign="center">
+        <Heading fontSize={{ base: '4xl', md: '6xl' }} textAlign="center">
           We have watched{' '}
           {
             <chakra.span color={useColorModeValue('purple.500', 'purple.300')}>
@@ -153,56 +155,61 @@ export const CardGrid: React.FC<CardGridProps> = ({
           my={7}
           justifyContent="space-between"
         >
-          <InputGroup
-            maxWidth={{ base: 'full', md: '200px' }}
-            mb={{ base: 5, md: 0 }}
-          >
-            <InputLeftElement pointerEvents="none">
-              <AiOutlineSearch color="gray.300" />
-            </InputLeftElement>
-            <Input
-              variant="filled"
-              type="text"
-              placeholder="Search"
-              onChange={(e) => setFilter(e.target.value.toLowerCase())}
-            />
-          </InputGroup>
+          <Flex mb={{ base: 4, md: 0 }}>
+            {(user.isReviewer || user.isAdmin) && (
+              <ReviewModal isAdmin={user.isAdmin} />
+            )}
+          </Flex>
 
-          <Menu>
-            <MenuButton as={Button} rightIcon={<BiChevronDown />}>
-              Sort by...
-            </MenuButton>
-            <MenuList zIndex={998}>
-              <MenuItem
-                zIndex={999}
-                isDisabled={sort === 'recent'}
-                onClick={() => setSort('recent')}
-              >
-                Recent
-              </MenuItem>
-              <MenuItem
-                zIndex={999}
-                isDisabled={sort === 'old'}
-                onClick={() => setSort('old')}
-              >
-                Old
-              </MenuItem>
-              <MenuItem
-                zIndex={999}
-                isDisabled={sort === 'best'}
-                onClick={() => setSort('best')}
-              >
-                Best
-              </MenuItem>
-              <MenuItem
-                zIndex={999}
-                isDisabled={sort === 'worst'}
-                onClick={() => setSort('worst')}
-              >
-                Worst
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          <Stack direction={{ base: 'column', md: 'row' }}>
+            <InputGroup maxWidth={{ base: 'full', md: '200px' }}>
+              <InputLeftElement pointerEvents="none">
+                <AiOutlineSearch color="gray.300" />
+              </InputLeftElement>
+              <Input
+                variant="filled"
+                type="text"
+                placeholder="Search"
+                onChange={(e) => setFilter(e.target.value.toLowerCase())}
+              />
+            </InputGroup>
+
+            <Menu>
+              <MenuButton as={Button} rightIcon={<BiChevronDown />}>
+                Sort by...
+              </MenuButton>
+              <MenuList zIndex={998}>
+                <MenuItem
+                  zIndex={999}
+                  isDisabled={sort === 'recent'}
+                  onClick={() => setSort('recent')}
+                >
+                  Recent
+                </MenuItem>
+                <MenuItem
+                  zIndex={999}
+                  isDisabled={sort === 'old'}
+                  onClick={() => setSort('old')}
+                >
+                  Old
+                </MenuItem>
+                <MenuItem
+                  zIndex={999}
+                  isDisabled={sort === 'best'}
+                  onClick={() => setSort('best')}
+                >
+                  Best
+                </MenuItem>
+                <MenuItem
+                  zIndex={999}
+                  isDisabled={sort === 'worst'}
+                  onClick={() => setSort('worst')}
+                >
+                  Worst
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Stack>
         </Flex>
         <SimpleGrid
           columns={{ base: 1, md: 2, lg: 3 }}
