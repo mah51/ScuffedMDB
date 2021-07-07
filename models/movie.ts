@@ -19,6 +19,14 @@ const movieSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     movieID: { type: String },
+    releaseDate: { type: String },
+    revenue: { type: Number },
+    budget: { type: Number },
+    originalLanguage: { type: String },
+    runtime: { type: Number },
+    voteAverage: { type: Number },
+    voteCount: { type: Number },
+    imdbID: { type: String },
     image: { type: String },
     genres: { type: Array },
     description: { type: String },
@@ -41,6 +49,14 @@ export interface ReviewType<T = string> {
 
 export interface MovieType<T = ReviewType[]> extends Document {
   name: string;
+  releaseDate: string;
+  revenue: number;
+  budget: number;
+  originalLanguage: string;
+  runtime: number;
+  voteAverage: number;
+  voteCount: number;
+  imdbID: string;
   image?: string;
   genres: string;
   movieID: string;
