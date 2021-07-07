@@ -53,7 +53,7 @@ const MovieAPI = async (
       });
 
       const newMovie: MovieType = new Movie({
-        name: movieData.original_title,
+        name: movieData.title || movieData.original_title, //select english title if it exists.
         movieID,
         releaseDate: movieData.release_date,
         revenue: movieData.revenue,
