@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { useAPIAuth } from '../../../utils/useAPIAuth';
 import dbConnect from '../../../utils/dbConnect';
-import Movie, { MovieType } from '../../../models/movie';
+import Movie from '../../../models/movie';
 
 const handler = async (
   req: NextApiRequest,

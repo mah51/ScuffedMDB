@@ -16,7 +16,9 @@ export default function MoviePage({
 }: MoviePageProps): JSX.Element {
   return (
     <div>
-      <p>Welcome to the new movie page :)</p>
+      <p>
+        Welcome to the new movie page {JSON.stringify(movie)} {error} :)
+      </p>
     </div>
   );
 }
