@@ -9,6 +9,7 @@ import { getMovies } from '../../utils/queries';
 import { MovieType } from '../../models/movie';
 import UserReviewSection from '../../components/UserReviewSection';
 import type { GetServerSidePropsContext } from 'next';
+import dbConnect from '../../utils/dbConnect';
 
 interface EditUserProps {
   user: UserType;
@@ -63,6 +64,7 @@ export async function getServerSideProps(
 ): Promise<returnProps> {
   const { uID } = ctx.query;
   const user: UserType = await parseUser(ctx);
+  await dbConnect();
   let desiredUser: any;
   if (user && uID !== 'me') {
     desiredUser = await User.findById(uID).lean();

@@ -72,6 +72,7 @@ const MovieAPI = async (
         reviews: [],
       });
       await newMovie.save();
+
       return res.status(200).send({ data: newMovie, type: `addition` });
     } catch (err) {
       console.error(err);
