@@ -147,7 +147,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean }> = ({
                 onChange={(e) => {
                   e.preventDefault();
                   const movieFound = movies.filter(
-                    (mv) => mv.name === e.target.value
+                    (mv) => mv?.name === e.target.value
                   )[0];
                   if (!movieFound) {
                     return setMovieError(`Please select a valid movie!`);

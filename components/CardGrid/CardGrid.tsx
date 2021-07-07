@@ -107,13 +107,15 @@ export const CardGrid: React.FC<CardGridProps> = ({
     movies.data = movies.data.reverse();
   }
 
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
+
   return (
     <>
       <NextSeo
         openGraph={{
-          title: `ScuffedMDB`,
+          title: siteName,
           type: `website`,
-          site_name: `ScuffedMDB`,
+          site_name: siteName,
           images: [
             {
               width: 2542,
@@ -123,7 +125,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
                 : `https://www.movie.michael-hall.me/sitePicture.png`,
               alt: modalMovie
                 ? `${modalMovie.name} poster`
-                : 'ScuffedMDB webpage',
+                : siteName + ' webpage',
             },
           ],
         }}

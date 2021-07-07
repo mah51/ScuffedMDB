@@ -36,43 +36,52 @@ const SocialIcons = ({ children, href, label }) => {
     </Tooltip>
   );
 };
-export const Footer: React.FC = (): React.ReactElement => (
-  <Box as="footer" role="contentinfo" mt={8} py="6">
-    <Flex
-      direction={{ base: `column`, md: `row` }}
-      maxW={{ base: `xl`, md: `7xl` }}
-      mx="auto"
-      px={{ base: `6`, md: `8` }}
-      align="center"
-    >
-      <Link href="/">
-        <a aria-current="page" aria-label="Back to Home page" rel="home">
-          <h1>ScuffedMDB</h1>
-        </a>
-      </Link>
+export const Footer: React.FC = (): React.ReactElement => {
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
 
-      <Text marginStart={{ md: `auto` }} justifySelf="middle">
-        Made by Mikerophone 🤠
-      </Text>
+  return (
+    <Box as="footer" role="contentinfo" mt={8} py="6">
+      <Flex
+        direction={{ base: `column`, md: `row` }}
+        maxW={{ base: `xl`, md: `7xl` }}
+        mx="auto"
+        px={{ base: `6`, md: `8` }}
+        align="center"
+      >
+        <Link href="/">
+          <a aria-current="page" aria-label="Back to Home page" rel="home">
+            <h1>{siteName}</h1>
+          </a>
+        </Link>
 
-      <Stack direction="row" spacing={6} ml="auto" mr={{ base: `auto`, md: 5 }}>
-        <SocialIcons label="GitHub" href="https://github.com/mah51/">
-          <FaGithub />
-        </SocialIcons>
-        <SocialIcons
-          label="LinkedIn"
-          href="https://www.linkedin.com/in/michael-hall-86616b17b/"
+        <Text marginStart={{ md: `auto` }} justifySelf="middle">
+          Made by Mikerophone 🤠
+        </Text>
+
+        <Stack
+          direction="row"
+          spacing={6}
+          ml="auto"
+          mr={{ base: `auto`, md: 5 }}
         >
-          <FaLinkedin />
-        </SocialIcons>
+          <SocialIcons label="GitHub" href="https://github.com/mah51/">
+            <FaGithub />
+          </SocialIcons>
+          <SocialIcons
+            label="LinkedIn"
+            href="https://www.linkedin.com/in/michael-hall-86616b17b/"
+          >
+            <FaLinkedin />
+          </SocialIcons>
 
-        <SocialIcons
-          label="Instagram"
-          href="https://www.instagram.com/michael.__.hall/"
-        >
-          <FaInstagram />
-        </SocialIcons>
-      </Stack>
-    </Flex>
-  </Box>
-);
+          <SocialIcons
+            label="Instagram"
+            href="https://www.instagram.com/michael.__.hall/"
+          >
+            <FaInstagram />
+          </SocialIcons>
+        </Stack>
+      </Flex>
+    </Box>
+  );
+};
