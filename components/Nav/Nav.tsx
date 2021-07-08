@@ -37,7 +37,8 @@ export const Nav: React.FC<NavProps> = ({
   showMovies,
 }): React.ReactElement => {
   const { colorMode, toggleColorMode } = useColorMode();
-
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME;
+  const shortSiteName = process.env.NEXT_PUBLIC_SHORT_SITE_NAME;
   return (
     <>
       <Box
@@ -55,7 +56,10 @@ export const Nav: React.FC<NavProps> = ({
             <Link href="/">
               <a>
                 <Heading fontSize="2xl">
-                  {useBreakpointValue({ base: 'SMDB', md: 'ScuffedMDB' })}
+                  {useBreakpointValue({
+                    base: shortSiteName || 'SMDB',
+                    md: siteName || 'ScuffedMDB',
+                  })}
                 </Heading>
               </a>
             </Link>

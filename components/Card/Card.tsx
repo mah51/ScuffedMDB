@@ -5,8 +5,8 @@ import {
   useColorModeValue,
   Flex,
   chakra,
-  Badge,
   HStack,
+  Tag,
 } from '@chakra-ui/react';
 
 import { MovieType, ReviewType } from '../../models/movie';
@@ -87,7 +87,9 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
             >
               {name}
             </Text>
-            <Badge colorScheme="purple">{genres[0]}</Badge>
+            <Tag colorScheme="purple" fontWeight="600">
+              {genres[0]}
+            </Tag>
           </Flex>
           <HStack justifyContent="space-between" alignItems="flex-start" mt={3}>
             <Text color="gray.500" isTruncated>

@@ -19,6 +19,7 @@
     "date-fns": "^2.21.1",
     "framer-motion": "^3.10.3",
     "jsonwebtoken": "^8.5.1",
+    "millify": "^4.0.0",
     "mongoose": "^5.12.7",
     "next": "^11.0.0",
     "next-plausible": "^1.6.1",

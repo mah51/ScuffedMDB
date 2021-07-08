@@ -14,8 +14,13 @@ const handler = async (
     const { isLean, id } = req.query;
 
     const movie: any = isLean
-      ? await Movie.findById(id).lean()
-      : await Movie.findById(id);
+      ? await Movie.findById(id)
+          .populate(`reviews.user`, `avatar username id discriminator`)
+          .lean()
+      : await Movie.findById(id).populate(
+          `reviews.user`,
+          `avatar username id discriminator`
+        );
 
     return res.status(200).json(movie);
   } catch (err) {

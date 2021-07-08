@@ -18,3 +18,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.borderRadius-xl {
+  border-radius: var(--chakra-radii-xl);
+}

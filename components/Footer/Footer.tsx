@@ -45,7 +45,7 @@ export const Footer: React.FC = (): React.ReactElement => {
         direction={{ base: `column`, md: `row` }}
         maxW={{ base: `xl`, md: `7xl` }}
         mx="auto"
-        px={{ base: `6`, md: `8` }}
+        px={{ base: `6`, md: `0` }}
         align="center"
       >
         <Link href="/">

@@ -19,11 +19,17 @@ const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
+  const shortSiteName =
+    process.env.NEXT_PUBLIC_SITE_NAME ||
+    process.env.NEXT_PUBLIC_SITE_NAME ||
+    'SMDB';
 
+  const siteURI =
+    process.env.NEXT_PUBLIC_APP_URI || 'https://www.movie.michael-hall.me';
   return (
     <>
       <DefaultSeo
-        titleTemplate={'%s | SMDB'}
+        titleTemplate={`%s | ${shortSiteName}`}
         description={'A private movie rating website'}
         openGraph={{
           title: siteName,
@@ -31,8 +37,8 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
           site_name: siteName,
           images: [
             {
-              url: `https://www.movie.michael-hall.me/sitePicture.png`,
-              alt: `Profile Picture`,
+              url: `${siteURI}/sitePicture.png`,
+              alt: `Screenshot of ${siteName}`,
             },
           ],
         }}
