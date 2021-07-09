@@ -7,15 +7,17 @@ interface AppLayoutProps {
   user: UserType;
   children: any;
   showMovies?: boolean;
+  showReview?: boolean;
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
   showMovies,
+  showReview,
   user,
   children,
 }): React.ReactElement => (
   <>
-    <Nav user={user} showMovies={showMovies} />
+    <Nav user={user} showMovies={showMovies} showReview={showReview} />
     {children}
     <Footer />
   </>

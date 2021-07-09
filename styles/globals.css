@@ -18,3 +18,54 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.borderRadius-xl {
+  border-radius: var(--chakra-radii-xl);
+}
+
+.bouncing-arrow {
+  -webkit-animation: bounce 2s ease-in-out;
+  animation: bounce 2s ease-in-out;
+  animation-delay: 5s;
+  -webkit-animation-delay: 5s;
+  -webkit-animation-iteration-count: 3;
+  animation-iteration-count: 3;
+}
+
+@-webkit-keyframes bounce {
+  0%,
+  25%,
+  50%,
+  75%,
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  40% {
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
+  60% {
+    -webkit-transform: translateY(-12px);
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  25%,
+  50%,
+  75%,
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  40% {
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+  }
+  60% {
+    -webkit-transform: translateY(12px);
+    transform: translateY(12px);
+  }
+}

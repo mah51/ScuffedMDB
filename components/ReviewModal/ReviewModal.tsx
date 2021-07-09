@@ -41,8 +41,9 @@ import { MovieType } from '../../models/movie';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
 import { ReviewModalContext, useMovie } from '../../utils/ModalContext';
 
-export const ReviewModal: React.FC<{ isAdmin: boolean }> = ({
+export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
   isAdmin,
+  inNav = false,
 }): React.ReactElement => {
   const { colorMode } = useColorMode();
   const { movie, setMovie } = useBetween(useMovie);
@@ -113,7 +114,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean }> = ({
     <>
       <Button
         variant="ghost"
-        width="full"
+        width={inNav ? '' : 'full'}
         colorScheme="purple"
         mr={isAdmin ? 0 : 3}
         leftIcon={<AddIcon />}

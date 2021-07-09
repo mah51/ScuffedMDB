@@ -16,6 +16,7 @@ async function useAPIAuth(
   if (!token) {
     return null;
   }
+
   try {
     const { ...user } = verify(
       token,
