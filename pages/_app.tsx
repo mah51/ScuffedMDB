@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
   const shortSiteName =
-    process.env.NEXT_PUBLIC_SITE_NAME ||
+    process.env.NEXT_PUBLIC_SHORT_SITE_NAME ||
     process.env.NEXT_PUBLIC_SITE_NAME ||
     'SMDB';
 
