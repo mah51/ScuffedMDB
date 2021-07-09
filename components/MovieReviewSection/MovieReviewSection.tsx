@@ -60,7 +60,7 @@ export default function MovieReviewSection({ movie }: Props): ReactElement {
       <VStack alignItems="center" spacing={3} mt={{ base: 28, lg: 0 }}>
         <Wave mx="auto" width={{ base: '70%', md: '30%' }} />
         <Heading fontSize="6xl">
-          {movie.reviews.length} Review{movie.reviews.length > 1 && 's'}
+          {movie.reviews.length} Review{movie.reviews.length !== 1 && 's'}
         </Heading>
         <Wave
           mt={'15px!important'}

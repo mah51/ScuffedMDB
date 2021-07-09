@@ -51,7 +51,7 @@ export default function MoviePage({
     );
   }
   return (
-    <AppLayout user={user}>
+    <AppLayout user={user} showMovies showReview>
       <MovieDetailsSection movie={movie} user={user} />
       <MovieReviewSection movie={movie} />
     </AppLayout>

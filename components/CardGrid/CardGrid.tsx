@@ -1,7 +1,6 @@
 import {
   Container,
   SimpleGrid,
-  useDisclosure,
   Box,
   Flex,
   InputGroup,
@@ -24,12 +23,11 @@ import { BiChevronDown } from 'react-icons/bi';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Card from '../Card';
-import MovieDetailsModal from '../MovieDetailsModal';
 import { MovieType, ReviewType } from '../../models/movie';
 import { UserType } from '../../models/user';
 import { NextSeo } from 'next-seo';
 import ReviewModal from '../ReviewModal';
-
+import Link from 'next/link';
 interface CardGridProps {
   movies: { data: MovieType[] };
   user: UserType;
@@ -39,10 +37,7 @@ interface CardGridProps {
 export const CardGrid: React.FC<CardGridProps> = ({
   movies: unSortedMovies,
   user,
-  movieID,
 }): React.ReactElement => {
-  const [modalMovie, setModalMovie] = useState(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('recent');
 
@@ -81,28 +76,6 @@ export const CardGrid: React.FC<CardGridProps> = ({
       }),
   };
 
-  useEffect(() => {
-    if (movieID && !isOpen) {
-      const foundMovie = movies.data.find((mv) => mv._id === movieID);
-      if (!foundMovie) {
-        toast({
-          id: 'otherToast',
-          variant: `subtle`,
-          title: 'Movie not found',
-          description: 'The shared movie does not exist',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
-        return;
-      }
-      setModalMovie(foundMovie);
-      onOpen();
-      return;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   if (sort === 'best' || sort === 'recent') {
     movies.data = movies.data.reverse();
   }
@@ -120,27 +93,14 @@ export const CardGrid: React.FC<CardGridProps> = ({
             {
               width: 2542,
               height: 1312,
-              url: modalMovie
-                ? modalMovie.image
-                : `https://www.movie.michael-hall.me/sitePicture.png`,
-              alt: modalMovie
-                ? `${modalMovie.name} poster`
-                : siteName + ' webpage',
+              url: `https://www.movie.michael-hall.me/sitePicture.png`,
+              alt: siteName + ' webpage',
             },
           ],
         }}
-        description={
-          modalMovie
-            ? 'A user has shared this movie with you.'
-            : 'A private movie rating website'
-        }
+        description={'A private movie rating website'}
       />
-      <MovieDetailsModal
-        isOpen={isOpen}
-        onClose={onClose}
-        movie={modalMovie}
-        user={user}
-      />
+
       <Container maxW="container.xl" mt={10}>
         <Heading fontSize={{ base: '4xl', md: '6xl' }} textAlign="center">
           We have watched{' '}
@@ -219,16 +179,15 @@ export const CardGrid: React.FC<CardGridProps> = ({
           alignItems="stretch"
         >
           {movies?.data?.map((movie: MovieType<ReviewType[]>, i) => (
-            <Box
+            <Link
               key={`${i.toString()}cardBox`}
-              height="full"
-              onClick={() => {
-                setModalMovie(movie);
-                return onOpen();
-              }}
+              href={`/movie/${movie._id}`}
+              passHref
             >
-              <Card movie={movie} key={`${i.toString()}card`} />
-            </Box>
+              <Box as={'a'} height="full">
+                <Card movie={movie} key={`${i.toString()}card`} />
+              </Box>
+            </Link>
           ))}
         </SimpleGrid>
       </Container>

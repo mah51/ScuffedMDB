@@ -21,6 +21,7 @@ import Link from 'next/link';
 import MovieModal from '../MovieModal';
 import { UserType } from '../../models/user';
 import { getUserAvatar } from '../../utils/utils';
+import ReviewModal from '../ReviewModal';
 
 const links = [
   { link: `/`, name: `Home` },
@@ -30,12 +31,14 @@ const links = [
 
 interface NavProps {
   user: UserType;
-  showMovies: any;
+  showMovies: boolean;
+  showReview: boolean;
 }
 
 export const Nav: React.FC<NavProps> = ({
   user,
   showMovies,
+  showReview,
 }): React.ReactElement => {
   const { colorMode, toggleColorMode } = useColorMode();
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME;
@@ -80,7 +83,13 @@ export const Nav: React.FC<NavProps> = ({
               }
             />
 
-            {user.isAdmin && showMovies && <MovieModal />}
+            <Stack isInline>
+              {user.isReviewer && showReview && (
+                <ReviewModal isAdmin={user.isAdmin} inNav />
+              )}
+              {user.isAdmin && showMovies && <MovieModal />}
+            </Stack>
+
             <Menu>
               <MenuButton
                 mr={5}
