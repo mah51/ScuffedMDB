@@ -4,7 +4,10 @@ This is the movie rating website v2.0 (now with dark mode&trade;)
 
 Designed to be used by friends to rate movies watched together :).
 
-![Screen Shot 2021-05-24 at 00 11 40](https://user-images.githubusercontent.com/47287285/119243076-915ad800-bb5b-11eb-96c3-a943db35e4ea.png)
+![Screen Shot 2021-07-09 at 06 08 38](https://user-images.githubusercontent.com/47287285/125026289-25392280-e07c-11eb-979a-67769c36c4ea.png)
+![Screen Shot 2021-07-09 at 06 09 20](https://user-images.githubusercontent.com/47287285/125026321-371ac580-e07c-11eb-9881-1ec8a70c0f23.png)
+![Screen Shot 2021-07-09 at 06 09 06](https://user-images.githubusercontent.com/47287285/125026308-2f5b2100-e07c-11eb-873e-2eabcf0906fb.png)
+![Screen Shot 2021-07-09 at 06 10 31](https://user-images.githubusercontent.com/47287285/125026394-616c8300-e07c-11eb-9678-a6e497119b7d.png)
 
 
 ## How to host this yourself:
@@ -18,10 +21,7 @@ Designed to be used by friends to rate movies watched together :).
 
 TODO:
 
+
 - Fix bunch of errors to do with incorrect hook usage & react-table. ;(
 - Add pagination to the API & FrontEnd cards
 - Add tests if you wanna learn how to do em.
-- Make it look good on mobile :o
-
-  ![Screen Shot 2021-05-24 at 00 12 04](https://user-images.githubusercontent.com/47287285/119243077-928c0500-bb5b-11eb-80f5-f0412ee8a3c5.png)
-![Screen Shot 2021-05-24 at 00 12 08](https://user-images.githubusercontent.com/47287285/119243078-93bd3200-bb5b-11eb-9691-957cb1336ec0.png)
