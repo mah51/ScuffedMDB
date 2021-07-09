@@ -20,6 +20,7 @@ import { IoMoon, IoSunny } from 'react-icons/io5';
 import Link from 'next/link';
 import MovieModal from '../MovieModal';
 import { UserType } from '../../models/user';
+import { getUserAvatar } from '../../utils/utils';
 
 const links = [
   { link: `/`, name: `Home` },
@@ -88,17 +89,7 @@ export const Nav: React.FC<NavProps> = ({
                 variant="link"
                 cursor="pointer"
               >
-                <Avatar
-                  size="sm"
-                  boxShadow="none"
-                  src={
-                    user.avatar
-                      ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpg`
-                      : `https://cdn.discordapp.com/embed/avatars/${
-                          Number(user.discriminator) % 5
-                        }.png`
-                  }
-                />
+                <Avatar size="sm" boxShadow="none" src={getUserAvatar(user)} />
               </MenuButton>
               <MenuList zIndex={999}>
                 {links.map((link, i) => {

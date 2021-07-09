@@ -4,13 +4,14 @@ import React from 'react';
 import AppLayout from '../../components/AppLayout';
 import BannedPage from '../../components/BannedPage';
 import MovieDetailsSection from '../../components/MovieDetailsSection';
-import { MovieType } from '../../models/movie';
+import MovieReviewSection from '../../components/MovieReviewSection';
+import { MovieType, ReviewType } from '../../models/movie';
 import { UserType } from '../../models/user';
 import { parseUser } from '../../utils/parseDiscordUser';
 import { getMovie } from '../../utils/queries';
 
 interface MoviePageProps {
-  movie?: MovieType;
+  movie?: MovieType<ReviewType<UserType>[]>;
   revalidate?: number;
   error?: string;
   user?: UserType;
@@ -52,6 +53,7 @@ export default function MoviePage({
   return (
     <AppLayout user={user}>
       <MovieDetailsSection movie={movie} user={user} />
+      <MovieReviewSection movie={movie} />
     </AppLayout>
   );
 }
