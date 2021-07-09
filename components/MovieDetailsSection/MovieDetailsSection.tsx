@@ -48,9 +48,10 @@ import useScrollPosition from '../../hooks/useScrollPosition.hook';
 import { AddIcon } from '@chakra-ui/icons';
 import { useBetween } from 'use-between';
 import { ReviewModalContext, useMovie } from '../../utils/ModalContext';
-import { HamburgerIcon, ExternalLinkIcon, EditIcon } from '@chakra-ui/icons';
+import { ExternalLinkIcon, EditIcon } from '@chakra-ui/icons';
 import { useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
+import { SettingsIcon } from '@chakra-ui/icons';
 
 interface Props {
   movie: MovieType<ReviewType<UserType>[]>;
@@ -109,7 +110,13 @@ export default function MovieDetailsSection({
             />
           </Flex>
         )}
-        <Box mt={{ base: '5', md: 'calc(100vh / 9)' }}>
+        <Box
+          mt={{
+            base: '5',
+            md: 'calc(100vh / 15)',
+            xl: 'calc(calc(100vh / 3) - 270px)',
+          }}
+        >
           <MovieAdminOptions isAdmin={user.isAdmin} movie={movie} />
           <Flex direction={{ base: 'column', lg: 'row' }}>
             <Flex
@@ -324,7 +331,9 @@ export default function MovieDetailsSection({
                     {' '}
                     /10
                   </chakra.span>{' '}
-                  <chakra.span fontSize="xl">{movie.voteCount}</chakra.span>
+                  <chakra.span fontSize="xl">
+                    {millify(movie.voteCount)}
+                  </chakra.span>
                   <chakra.span
                     fontSize="xl"
                     fontWeight="normal"
@@ -441,7 +450,7 @@ const MovieAdminOptions = ({
     }
   };
   return (
-    <Flex mb={3}>
+    <Flex mb={3} maxWidth={{ base: '90%', lg: 'full' }} mx="auto">
       <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
@@ -481,7 +490,7 @@ const MovieAdminOptions = ({
         <MenuButton
           as={IconButton}
           aria-label="Options"
-          icon={<HamburgerIcon />}
+          icon={<SettingsIcon />}
           variant="outline"
         />
         <MenuList>

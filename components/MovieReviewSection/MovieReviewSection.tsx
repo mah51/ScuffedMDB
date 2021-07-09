@@ -19,7 +19,7 @@ interface Props {
 
 const Review = ({ review }: { review: ReviewType<UserType> }) => {
   return (
-    <VStack mt={5} alignItems="flex-start" spacing={3} px={4}>
+    <VStack mt={8} alignItems="flex-start" spacing={3} px={4}>
       <Flex
         direction={{ base: 'column', lg: 'row' }}
         width="full"

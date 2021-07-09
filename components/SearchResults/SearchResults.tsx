@@ -94,7 +94,7 @@ export const SearchResults: React.FC<{
 
           <Center margin="auto">
             <Text mx={8} textAlign="center">
-              {result.title}
+              {result.title} - {new Date(result.release_date).getFullYear()}
             </Text>
           </Center>
         </Flex>
