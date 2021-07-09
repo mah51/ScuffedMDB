@@ -384,7 +384,7 @@ const MovieAdminOptions = ({
   movie,
 }: {
   isAdmin: boolean;
-  movie: MovieType;
+  movie: MovieType<ReviewType<UserType>[]>;
 }): JSX.Element => {
   const { colorMode } = useColorMode();
   const { setMovie: setModalMovie } = useBetween(useMovie);
