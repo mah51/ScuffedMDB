@@ -71,7 +71,7 @@ export default function MovieDetailsSection({
             left={'50%'}
             transform={'translateX(-50%)'}
             color={'gray.500'}
-            visuallyHidden={!scrollPosition}
+            visibility={scrollPosition ? 'hidden' : 'visible'}
             opacity={scrollPosition ? 0 : 1}
             transition={'all 0.25s'}
           >

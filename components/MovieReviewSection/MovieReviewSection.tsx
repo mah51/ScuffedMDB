@@ -6,7 +6,6 @@ import {
   Avatar,
   chakra,
   Text,
-  Stack,
 } from '@chakra-ui/react';
 import React, { ReactElement } from 'react';
 import { MovieType, ReviewType } from '../../models/movie';
@@ -59,11 +58,15 @@ export default function MovieReviewSection({ movie }: Props): ReactElement {
   return (
     <Box maxWidth="7xl" mx={'auto'}>
       <VStack alignItems="center" spacing={3} mt={{ base: 28, lg: 0 }}>
-        <Wave mx="auto" width="30%" />
+        <Wave mx="auto" width={{ base: '70%', md: '30%' }} />
         <Heading fontSize="6xl">
           {movie.reviews.length} Review{movie.reviews.length > 1 && 's'}
         </Heading>
-        <Wave mt={'15px!important'} mx="auto!important" width="30%" />
+        <Wave
+          mt={'15px!important'}
+          mx="auto!important"
+          width={{ base: '70%', md: '30%' }}
+        />
       </VStack>
       <Flex mt={10} direction="column">
         {movie.reviews.map((review: ReviewType<UserType>, i) => (

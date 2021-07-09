@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import PlausibleProvider from 'next-plausible';
 import { DefaultSeo } from 'next-seo';
 import { ReviewModalContext } from '../utils/ModalContext';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const theme = extendTheme({
   colors: {
