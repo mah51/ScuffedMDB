@@ -39,9 +39,7 @@ export default function Home({ movies }: HomePageProps): React.ReactChild {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await dbConnect();
   //Scuffed, but makes sure that Schema gets registered before next-auth tries to access it.
-  await user.db;
   const movies = await getMovies();
   const session = await getSession(ctx);
 

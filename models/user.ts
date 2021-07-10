@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema<UserType, UserModel>(
   { timestamps: true }
 );
 
-export default mongoose.models.User || mongoose.model(`User`, userSchema);
+export default mongoose.models?.User || mongoose.model(`User`, userSchema);
 
 export interface UserType extends Document {
   discord_id: string;
