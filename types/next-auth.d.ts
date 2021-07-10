@@ -13,7 +13,6 @@ declare module 'next-auth' {
   interface User {
     avatar: string;
     createdAt: string;
-    discord_id: string;
     discriminator: string;
     email: string;
     exp: number;

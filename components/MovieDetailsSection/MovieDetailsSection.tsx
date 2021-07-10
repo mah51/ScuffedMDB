@@ -66,9 +66,7 @@ export default function MovieDetailsSection({
 }: Props): ReactElement {
   const bp = useBreakpoint();
   const [isLargerThan800] = useMediaQuery('(min-width: 800px)');
-  const userReview = movie.reviews.find(
-    (rating) => rating.user.discord_id === user.discord_id
-  );
+  const userReview = movie.reviews.find((rating) => rating.user.id === user.id);
 
   const averageReview =
     movie.reviews.length > 0

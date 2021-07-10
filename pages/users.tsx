@@ -61,7 +61,7 @@ function Users({ users }: UsersProps): React.ReactNode {
     discriminator: usr.discriminator,
     createdAt: format(new Date(usr.createdAt), `dd/MM/yy-HH:mm:ss`),
     image: usr.image,
-    id: usr.discord_id,
+    id: usr.id,
     isBanned: usr.isBanned,
     banReason: usr.banReason,
     isAdmin: usr.isAdmin,

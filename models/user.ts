@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema<UserType, UserModel>(
     discord_id: { type: String, required: true },
     username: { type: String, required: true },
     avatar: { type: String },
+    emailVerified: { type: String, default: null },
     discriminator: { type: String, required: true },
     public_flags: { type: Number, required: true },
     flags: { type: Number, required: true },
@@ -25,6 +26,7 @@ const userSchema = new mongoose.Schema<UserType, UserModel>(
 export default mongoose.models?.User || mongoose.model(`User`, userSchema);
 
 export interface UserType extends Document {
+  id: string;
   discord_id: string;
   username: string;
   avatar?: string;
@@ -46,6 +48,7 @@ export interface UserType extends Document {
 }
 
 export interface PlainUserType {
+  id: string;
   discord_id: string;
   username: string;
   avatar?: string;

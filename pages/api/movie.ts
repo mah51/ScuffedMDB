@@ -70,7 +70,7 @@ const MovieAPI = async (
     try {
       const movies = await Movie.find({}).populate(
         `reviews.user`,
-        `avatar username discord_id discriminator`
+        `avatar username id discriminator`
       );
 
       return res.status(200).send({ data: movies });

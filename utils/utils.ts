@@ -6,7 +6,7 @@ export const getTotalCharCode = (phrase: string): number => {
 
 export const getUserAvatar = (user: UserType): string => {
   return user.avatar
-    ? `https://cdn.discordapp.com/avatars/${user.discord_id}/${user.avatar}`
+    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`
     : `https://cdn.discordapp.com/embed/avatars/${
         Number(user.discriminator) % 5
       }.png`;

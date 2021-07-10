@@ -20,12 +20,11 @@ export default class User extends Models.User.model {
   isReviewer: boolean;
   isBanned: boolean;
   banReason?: string;
-  discord_id: string;
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   constructor(profile: any) {
     super(profile);
-    this.discord_id = profile?.discord_id;
+    this.id = profile?.id;
     this.image = profile?.image;
     this.username = profile?.username;
     this.avatar = profile?.avatar;
@@ -49,7 +48,7 @@ export const UserSchema = {
   columns: {
     //@ts-ignore
     ...Models.User.schema.columns,
-    discord_id: {
+    id: {
       type: 'varchar',
     },
     image: {

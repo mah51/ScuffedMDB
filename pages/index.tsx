@@ -9,7 +9,7 @@ import { MovieType, ReviewType } from '../models/movie';
 import { useRouter } from 'next/router';
 import { getSession, useSession } from 'next-auth/client';
 import { UserAuthType } from '../types/next-auth';
-import { UserType } from '../models/user';
+import user, { UserType } from '../models/user';
 
 interface HomePageProps {
   movies: MovieType<ReviewType<UserType>[]>[];

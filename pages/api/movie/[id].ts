@@ -14,11 +14,11 @@ const handler = async (
 
     const movie: any = isLean
       ? await Movie.findById(id)
-          .populate(`reviews.user`, `avatar username discord_id discriminator`)
+          .populate(`reviews.user`, `avatar username id discriminator`)
           .lean()
       : await Movie.findById(id).populate(
           `reviews.user`,
-          `avatar username discord_id discriminator`
+          `avatar username id discriminator`
         );
 
     return res.status(200).json(movie);
