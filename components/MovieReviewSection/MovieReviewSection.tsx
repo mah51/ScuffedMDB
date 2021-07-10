@@ -10,7 +10,6 @@ import {
 import React, { ReactElement } from 'react';
 import { MovieType, ReviewType } from '../../models/movie';
 import { UserType } from '../../models/user';
-import { getUserAvatar } from '../../utils/utils';
 import Wave from '../Wave';
 
 interface Props {
@@ -25,7 +24,7 @@ const Review = ({ review }: { review: ReviewType<UserType> }) => {
         width="full"
         alignItems="center"
       >
-        <Avatar size="lg" src={getUserAvatar(review.user)} />
+        <Avatar size="lg" src={review.user.image} />
         <chakra.div display="flex" alignItems="center">
           <Heading size="2xl" ml={5} maxWidth="full" isTruncated>
             {review.user.username}

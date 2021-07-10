@@ -28,6 +28,7 @@ export default mongoose.models?.User || mongoose.model(`User`, userSchema);
 export interface UserType extends Document {
   discord_id: string;
   username: string;
+  image: string;
   avatar?: string;
   discriminator: string;
   public_flags: number;
@@ -52,6 +53,7 @@ export interface PlainUserType {
   avatar?: string;
   discriminator: string;
   public_flags: number;
+  image: string;
   flags: number;
   locale: string;
   mfa_enabled: boolean;
