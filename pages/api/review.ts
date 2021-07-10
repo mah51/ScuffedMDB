@@ -35,7 +35,7 @@ const handler = async (
       }
       const existingReview = movie.reviews.filter(
         // eslint-disable-next-line no-underscore-dangle
-        (rv) => rv.user.toString() === discUser._id.toString()
+        (rv) => rv.user.toString() === session.user.id
       )[0];
       if (existingReview) {
         const index = movie.reviews.indexOf(existingReview);
