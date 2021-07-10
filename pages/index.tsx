@@ -29,7 +29,7 @@ export default function Home({ movies }: HomePageProps): React.ReactChild {
   if (session?.user?.isBanned) {
     return <BannedPage user={session.user} />;
   }
-  //idk typescript well enough to know whats goin wrong here but | any ignores it :/
+  //idk typescript well enough to know whats goin wrong here but | any ignores it :/ :(
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const data: MovieType<ReviewType<UserType>[]>[] | any = useQuery(
     `movies`,
