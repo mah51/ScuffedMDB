@@ -7,6 +7,7 @@ import {
   Icon,
   Flex,
 } from '@chakra-ui/react';
+import { signIn } from 'next-auth/client';
 
 export const LandingPage: React.FC = (): React.ReactElement => {
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
@@ -52,7 +53,6 @@ export const LandingPage: React.FC = (): React.ReactElement => {
           The website where cool kids write movie reviews :).
         </chakra.p>
         <Button
-          as="a"
           variant="solid"
           color={useColorModeValue(`purple.700`, `purple.300`)}
           display="inline-flex"
@@ -60,7 +60,12 @@ export const LandingPage: React.FC = (): React.ReactElement => {
           justifyContent="center"
           w={{ base: `full`, sm: `auto` }}
           mb={{ base: 2, sm: 0 }}
-          href="/api/oauth"
+          // as="a"
+          // href="/api/oauth"
+          onClick={(e) => {
+            e.preventDefault();
+            signIn('discord');
+          }}
           size="lg"
         >
           Log in with discord

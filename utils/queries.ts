@@ -1,5 +1,4 @@
 import { MovieType } from '../models/movie';
-import { UserType } from '../models/user';
 
 export const getMovies = async (): Promise<MovieType[]> => {
   const res: Response = await fetch(
@@ -31,12 +30,4 @@ export const getMovie = async (
   const movie = await res.json();
 
   return movie;
-};
-
-export const getUsers = async (): Promise<UserType[]> => {
-  const res: Response = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URI}/api/users`
-  );
-  const data = await res.json();
-  return data.users;
 };

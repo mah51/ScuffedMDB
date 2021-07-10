@@ -1,10 +1,10 @@
 import React from 'react';
 import Nav from '../Nav';
 import Footer from '../Footer';
-import { UserType } from '../../models/user';
+import { UserAuthType } from '../../types/next-auth';
 
 interface AppLayoutProps {
-  user: UserType;
+  user: UserAuthType;
   children: any;
   showMovies?: boolean;
   showReview?: boolean;
