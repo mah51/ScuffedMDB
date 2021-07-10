@@ -5,15 +5,14 @@ import HomePage from '../components/HomePage';
 import LandingPage from '../components/LandingPage';
 import { getMovies } from '../utils/queries';
 import BannedPage from '../components/BannedPage';
-import { MovieType } from '../models/movie';
+import { MovieType, ReviewType } from '../models/movie';
 import { useRouter } from 'next/router';
 import { getSession, useSession } from 'next-auth/client';
 import { UserAuthType } from '../types/next-auth';
-import dbConnect from '../utils/dbConnect';
-import user from '../models/user';
+import { UserType } from '../models/user';
 
 interface HomePageProps {
-  movies: [];
+  movies: MovieType<ReviewType<UserType>[]>[];
   session: UserAuthType;
 }
 
@@ -32,9 +31,14 @@ export default function Home({ movies }: HomePageProps): React.ReactChild {
   }
   //idk typescript well enough to know whats goin wrong here but | any ignores it :/
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const data: MovieType[] | any = useQuery(`movies`, getMovies, {
-    initialData: movies,
-  });
+  const data: MovieType<ReviewType<UserType>[]>[] | any = useQuery(
+    `movies`,
+    getMovies,
+    {
+      initialData: movies,
+    }
+  );
+
   return <HomePage user={session.user} movies={data} movieID={movieID} />;
 }
 

@@ -1,40 +1,21 @@
-import { MovieType } from '../models/movie';
-import user from '../models/user';
-import dbConnect from './dbConnect';
+import { MovieType, ReviewType } from '../models/movie';
+import { UserType } from '../models/user';
 
-export const getMovies = async (): Promise<MovieType[]> => {
-  const db = await dbConnect();
-  //Scuffed, but makes sure that Schema gets registered before next-auth tries to access it.
-  const unSortedMovies = await db.models.Movie.find({}).lean();
-
+export const getMovies = async (): Promise<
+  MovieType<ReviewType<UserType>[]>[]
+> => {
+  const res: Response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URI}/api/movie`
+  );
   // eslint-disable-next-line no-return-await
+  const unsortedMovies = await res.json();
 
-  const movies = unSortedMovies
-    .map((movie) => {
-      const reviews = movie.reviews.map((review) => ({
-        ...review,
-        _id: review._id.toString(),
-        user: {
-          ...review.user,
-          id: review.user.id.toString(),
-          createdAt: review.user.createdAt?.getTime(),
-          updatedAt: review.user.updatedAt?.getTime(),
-        },
-      }));
-      return {
-        ...movie,
-        reviews,
-        _id: movie._id.toString(),
-        createdAt: movie.createdAt.getTime(),
-        updatedAt: movie.updatedAt.getTime(),
-      };
-    })
+  const movies = unsortedMovies.data
     .sort(
       (a, b) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     )
     .reverse();
-
   return movies;
 };
 
@@ -52,4 +33,12 @@ export const getMovie = async (
   const movie = await res.json();
 
   return movie;
+};
+
+export const getUsers = async (): Promise<UserType[]> => {
+  const res: Response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URI}/api/users`
+  );
+  const data = await res.json();
+  return data.users;
 };

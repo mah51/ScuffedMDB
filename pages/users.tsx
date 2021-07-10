@@ -5,13 +5,15 @@ import { format } from 'date-fns';
 import UserTable from '../components/UserTable';
 import AppLayout from '../components/AppLayout';
 import { getFlags } from '../utils/userFlags';
-import user, { UserType } from '../models/user';
+import { UserType } from '../models/user';
 import BannedPage from '../components/BannedPage';
 import { NextSeo } from 'next-seo';
 import { getSession, useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import dbConnect from '../utils/dbConnect';
 import { UserAuthType } from '../types/next-auth';
+import { getUsers } from '../utils/queries';
+import { useQuery } from 'react-query';
 
 interface UsersProps {
   users: UserType[];
@@ -21,7 +23,7 @@ function Users({ users }: UsersProps): React.ReactNode {
   const { colorMode } = useColorMode();
   const [session, loading] = useSession();
   const router = useRouter();
-
+  const { data } = useQuery(`users`, getUsers, { initialData: users });
   if (typeof window !== 'undefined' && loading) return null;
 
   if (!session) return router.push('/');
@@ -54,7 +56,7 @@ function Users({ users }: UsersProps): React.ReactNode {
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const usrs = users.map((usr: UserAuthType) => ({
+  const usrs = data.map((usr: UserAuthType) => ({
     username: usr.username,
     discriminator: usr.discriminator,
     createdAt: format(new Date(usr.createdAt), `dd/MM/yy-HH:mm:ss`),
@@ -84,15 +86,10 @@ function Users({ users }: UsersProps): React.ReactNode {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await dbConnect();
-  const unProcessedUsers: any = await user.find({}).lean();
-  const session = await getSession(ctx);
 
-  const users = unProcessedUsers.map((user) => {
-    user.createdAt = user.createdAt.getTime();
-    user.updatedAt = user.updatedAt.getTime();
-    user._id = user._id.toString();
-    return user;
-  });
+  const session = await getSession(ctx);
+  if (!session || !session.user.isAdmin) return { props: { session } };
+  const users = await getUsers();
 
   return { props: { session, users } };
 };
