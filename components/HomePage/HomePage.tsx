@@ -42,7 +42,8 @@ export const HomePage: React.FC<HomePageProps> = ({
         isClosable: true,
       });
     }
-  }, [toast, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
   return (
     <>
       <NextSeo title="Home" />
