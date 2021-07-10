@@ -5,7 +5,7 @@ import AppLayout from '../../components/AppLayout';
 import AboutUserSection from '../../components/AboutUserSection';
 import User from '../../models/user';
 import { getMovies } from '../../utils/queries';
-import { MovieType } from '../../models/movie';
+import { MovieType, ReviewType } from '../../models/movie';
 import UserReviewSection from '../../components/UserReviewSection';
 import type { GetServerSidePropsContext } from 'next';
 import dbConnect from '../../utils/dbConnect';
@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 interface EditUserProps {
   session?: Session;
   desiredUser: UserType;
-  movies: MovieType[];
+  movies: MovieType<ReviewType<UserType>[]>[];
 }
 
 function EditUser({ desiredUser, movies }: EditUserProps): React.ReactNode {
