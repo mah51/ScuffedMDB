@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { useAPIAuth } from '../../utils/useAPIAuth';
+import { getSession } from 'next-auth/client';
 import dbConnect from '../../utils/dbConnect';
 
 const handler = async (
@@ -8,11 +8,13 @@ const handler = async (
 ): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const discUser = await useAPIAuth(req, process.env.JWT_CODE);
+  const session = await getSession({ req });
+  if (!session?.user?.isAdmin) {
+    return res
+      .status(401)
+      .json({ message: `You are not authorized to do that :(` });
+  }
   try {
-    if (!discUser) {
-      return res.status(401);
-    }
     const { search } = req.query;
 
     const response = await fetch(

@@ -1,9 +1,7 @@
+import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { verify } from 'jsonwebtoken';
-import { parse } from 'cookie';
-import { DiscordUser } from '../../types/generalTypes';
+
 import Movie, { MovieType } from '../../models/movie';
-import User from '../../models/user';
 import dbConnect from '../../utils/dbConnect';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
 
@@ -13,30 +11,20 @@ const handler = async (
 ): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
   if (req.method === `POST`) {
-    if (!req.headers.cookie) {
-      return null;
-    }
-
-    const { token } = parse(req.headers.cookie);
-    if (!token) {
-      return null;
-    }
-
     const { comment, rating, movieID }: ReviewEndpointBodyType = JSON.parse(
       req.body
     );
     try {
-      const { ...user } = verify(token, process.env.JWT_CODE) as DiscordUser & {
-        iat: number;
-        exp: number;
-      };
-      const discUser: any = await User.findOne({ id: user.id });
-      if (!discUser) {
-        return res.status(401);
+      const session = await getSession({ req });
+      if (!session?.user?.isReviewer) {
+        return res
+          .status(401)
+          .json({ message: `You are not authorized to do that :(` });
       }
+
       const review = {
         // eslint-disable-next-line no-underscore-dangle
-        user: discUser._id,
+        user: session.user.sub,
         comment,
         rating,
       };

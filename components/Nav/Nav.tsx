@@ -19,9 +19,9 @@ import {
 import { IoMoon, IoSunny } from 'react-icons/io5';
 import Link from 'next/link';
 import MovieModal from '../MovieModal';
-import { UserType } from '../../models/user';
-import { getUserAvatar } from '../../utils/utils';
+import { UserAuthType } from '../../types/next-auth';
 import ReviewModal from '../ReviewModal';
+import { signout } from 'next-auth/client';
 
 const links = [
   { link: `/`, name: `Home` },
@@ -30,7 +30,7 @@ const links = [
 ];
 
 interface NavProps {
-  user: UserType;
+  user: UserAuthType;
   showMovies: boolean;
   showReview: boolean;
 }
@@ -98,7 +98,7 @@ export const Nav: React.FC<NavProps> = ({
                 variant="link"
                 cursor="pointer"
               >
-                <Avatar size="sm" boxShadow="none" src={getUserAvatar(user)} />
+                <Avatar size="sm" boxShadow="none" src={user.image} />
               </MenuButton>
               <MenuList zIndex={999}>
                 {links.map((link, i) => {
@@ -112,7 +112,11 @@ export const Nav: React.FC<NavProps> = ({
                   );
                 })}
                 <MenuDivider />
-                <MenuItem as="a" href="/api/signout">
+                <MenuItem
+                  onClick={() => {
+                    signout();
+                  }}
+                >
                   Sign Out
                 </MenuItem>
               </MenuList>

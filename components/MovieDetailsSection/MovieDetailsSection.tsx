@@ -52,10 +52,11 @@ import { ExternalLinkIcon, EditIcon } from '@chakra-ui/icons';
 import { useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import { SettingsIcon } from '@chakra-ui/icons';
+import { UserAuthType } from '../../types/next-auth';
 
 interface Props {
   movie: MovieType<ReviewType<UserType>[]>;
-  user: UserType;
+  user: UserAuthType;
 }
 
 //TODO: Add SEO here

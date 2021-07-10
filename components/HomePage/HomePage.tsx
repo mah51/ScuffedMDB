@@ -3,11 +3,11 @@ import { useColorMode, useToast } from '@chakra-ui/react';
 import AppLayout from '../AppLayout';
 import CardGrid from '../CardGrid';
 import { MovieType } from '../../models/movie';
-import { UserType } from '../../models/user';
+import { UserAuthType } from '../../types/next-auth';
 import { NextSeo } from 'next-seo';
 
 interface HomePageProps {
-  user: UserType;
+  user: UserAuthType;
   movies: { data: MovieType[] };
   movieID: string | string[];
 }
@@ -29,7 +29,8 @@ export const HomePage: React.FC<HomePageProps> = ({
       status: `error`,
       isClosable: true,
     });
-  }, [colorMode, toast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colorMode]);
   useEffect(() => {
     if (!user.isAdmin && !user.isReviewer) {
       toast({
@@ -42,7 +43,8 @@ export const HomePage: React.FC<HomePageProps> = ({
         isClosable: true,
       });
     }
-  }, [toast, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <NextSeo title="Home" />

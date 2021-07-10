@@ -1,6 +1,6 @@
+import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../utils/dbConnect';
-import { useAPIAuth } from '../../../utils/useAPIAuth';
 import User from '../../../models/user';
 
 const handler = async (
@@ -9,11 +9,11 @@ const handler = async (
 ): Promise<void> => {
   await dbConnect();
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const user = await useAPIAuth(req);
-  if (!user) {
-    return res.status(401).json({
-      message: `You are unauthorized to view this page, please login first!`,
-    });
+  const session = await getSession({ req });
+  if (!session?.user) {
+    return res
+      .status(401)
+      .json({ message: `You are not authorized to do that :(` });
   }
   const { uID } = req.query;
   const foundUser: any = User.findById(uID).lean();
