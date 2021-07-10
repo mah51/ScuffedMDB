@@ -5,7 +5,7 @@ export default class User extends Models.User.model {
   // You can extend the options in a model but you should not remove the base
   // properties or change the order of the built-in options on the constructor
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  id: string;
+
   username: string;
   image: string;
   avatar: string;
@@ -20,11 +20,12 @@ export default class User extends Models.User.model {
   isReviewer: boolean;
   isBanned: boolean;
   banReason?: string;
+  discord_id: string;
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   constructor(profile: any) {
     super(profile);
-    this.id = profile?.id;
+    this.discord_id = profile?.id;
     this.image = profile?.image;
     this.username = profile?.username;
     this.avatar = profile?.avatar;
@@ -48,10 +49,10 @@ export const UserSchema = {
   columns: {
     //@ts-ignore
     ...Models.User.schema.columns,
-    id: {
+    image: {
       type: 'varchar',
     },
-    image: {
+    discord_id: {
       type: 'varchar',
     },
     username: {

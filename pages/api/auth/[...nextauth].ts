@@ -24,6 +24,7 @@ export default NextAuth({
         }
         return {
           id: profile.id,
+          discord_id: profile.id,
           name: profile.username,
           image: profile.image_url,
           avatar: profile.avatar,

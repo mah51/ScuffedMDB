@@ -19,6 +19,7 @@ interface HomePageProps {
 export default function Home({ movies }: HomePageProps): React.ReactChild {
   const router = useRouter();
   const [session, loading] = useSession();
+  console.log(session);
 
   if (typeof window !== 'undefined' && loading) return null;
 

@@ -26,7 +26,6 @@ const userSchema = new mongoose.Schema<UserType, UserModel>(
 export default mongoose.models?.User || mongoose.model(`User`, userSchema);
 
 export interface UserType extends Document {
-  id: string;
   discord_id: string;
   username: string;
   avatar?: string;
@@ -48,7 +47,6 @@ export interface UserType extends Document {
 }
 
 export interface PlainUserType {
-  id: string;
   discord_id: string;
   username: string;
   avatar?: string;
