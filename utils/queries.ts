@@ -1,5 +1,4 @@
 import { MovieType } from '../models/movie';
-import user, { PlainUserType } from '../models/user';
 
 export const getMovies = async (): Promise<MovieType[]> => {
   const res: Response = await fetch(

@@ -5,6 +5,7 @@ import { getSession, useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useEffect } from 'react';
+import { useQuery } from 'react-query';
 import AppLayout from '../../components/AppLayout';
 import BannedPage from '../../components/BannedPage';
 import MovieDetailsSection from '../../components/MovieDetailsSection';
@@ -22,13 +23,22 @@ interface MoviePageProps {
 }
 
 export default function MoviePage({
-  movie,
   error,
+  ...props
 }: MoviePageProps): JSX.Element {
   const { colorMode } = useColorMode();
   const [session, loading] = useSession();
 
   const router = useRouter();
+  const { id } = router.query;
+  const { data }: { data: MovieType<ReviewType<UserType>[]> } = useQuery(
+    'movie',
+    async () => {
+      return await getMovie(typeof id === 'string' ? id : id.join(''), true);
+    },
+    //@ts-ignore
+    { initialData: props.movie }
+  );
   useEffect(() => {
     if (!session && !loading) router.push('/');
   }, [loading, router, session]);
@@ -66,8 +76,8 @@ export default function MoviePage({
   }
   return (
     <AppLayout user={user} showMovies showReview>
-      <MovieDetailsSection movie={movie} user={user} />
-      <MovieReviewSection movie={movie} />
+      <MovieDetailsSection movie={data} user={user} />
+      <MovieReviewSection movie={data} />
     </AppLayout>
   );
 }

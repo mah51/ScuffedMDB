@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongoose';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import NextAuth from 'next-auth';
 
 declare module 'next-auth' {
