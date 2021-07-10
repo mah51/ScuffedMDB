@@ -1,7 +1,9 @@
-import { MovieType } from '../models/movie';
+import { MovieType, ReviewType } from '../models/movie';
 import { UserType } from '../models/user';
 
-export const getMovies = async (): Promise<MovieType[]> => {
+export const getMovies = async (): Promise<
+  MovieType<ReviewType<UserType>[]>[]
+> => {
   const res: Response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URI}/api/movie`
   );

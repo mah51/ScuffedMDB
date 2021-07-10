@@ -1,25 +1,24 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../utils/dbConnect';
 import Movie from '../../../models/movie';
+import User from '../../../models/user';
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-
+  User.schema;
   try {
     const { isLean, id } = req.query;
 
     const movie: any = isLean
       ? await Movie.findById(id)
-          .populate(`reviews.user`, `avatar username id discriminator`)
+          .populate(`reviews.user`, `avatar username discord_id discriminator`)
           .lean()
       : await Movie.findById(id).populate(
           `reviews.user`,
-          `avatar username id discriminator`
+          `avatar username discord_id discriminator`
         );
 
     return res.status(200).json(movie);

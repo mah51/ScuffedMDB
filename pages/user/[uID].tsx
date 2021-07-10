@@ -1,30 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Divider, Flex } from '@chakra-ui/react';
 import { UserType } from '../../models/user';
-import { parseUser } from '../../utils/parseDiscordUser';
 import AppLayout from '../../components/AppLayout';
 import AboutUserSection from '../../components/AboutUserSection';
 import User from '../../models/user';
 import { getMovies } from '../../utils/queries';
-import { MovieType } from '../../models/movie';
+import { MovieType, ReviewType } from '../../models/movie';
 import UserReviewSection from '../../components/UserReviewSection';
 import type { GetServerSidePropsContext } from 'next';
 import dbConnect from '../../utils/dbConnect';
+import { getSession, useSession } from 'next-auth/client';
+import type { Session } from 'next-auth';
+import { useRouter } from 'next/router';
 
 interface EditUserProps {
-  user: UserType;
+  session?: Session;
   desiredUser: UserType;
-  movies: MovieType[];
+  movies: MovieType<ReviewType<UserType>[]>[];
 }
 
-function EditUser({
-  user,
-  desiredUser,
-  movies,
-}: EditUserProps): React.ReactChild {
-  if (!user) {
-    return null;
+function EditUser({ desiredUser, movies }: EditUserProps): React.ReactNode {
+  const [session, loading] = useSession();
+
+  const router = useRouter();
+  useEffect(() => {
+    if (!session && !loading) router.push('/');
+  }, [loading, router, session]);
+  if ((typeof window !== 'undefined' && loading) || !session) return null;
+  if (!session) {
+    router.push('/');
   }
+  const user = session.user;
 
   const allRatings = movies
     .map((movie: any) => {
@@ -63,21 +69,18 @@ export async function getServerSideProps(
   ctx: GetServerSidePropsContext
 ): Promise<returnProps> {
   const { uID } = ctx.query;
-  const user: UserType = await parseUser(ctx);
   await dbConnect();
-  let desiredUser: any;
-  if (user && uID !== 'me') {
-    desiredUser = await User.findById(uID).lean();
-    desiredUser._id = desiredUser._id.toString();
-    desiredUser.createdAt = desiredUser.createdAt.getTime();
-    desiredUser.updatedAt = desiredUser.updatedAt.getTime();
-  } else if (uID === 'me') {
-    desiredUser = user;
-  }
+  const session = await getSession(ctx);
+
+  const desiredUser: any = await User.findById(uID).lean();
+  desiredUser._id = desiredUser._id.toString();
+  desiredUser.createdAt = desiredUser.createdAt.getTime();
+  desiredUser.updatedAt = desiredUser.updatedAt.getTime();
+
   const movies = await getMovies();
   return {
     props: {
-      user,
+      session,
       desiredUser: desiredUser || null,
       movies: movies,
     },

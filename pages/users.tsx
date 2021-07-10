@@ -1,25 +1,35 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
 import { Flex, Heading, Text, useColorMode } from '@chakra-ui/react';
-
-import { useQuery } from 'react-query';
 import { format } from 'date-fns';
-import { parseUser } from '../utils/parseDiscordUser';
-import { getUsers } from '../utils/queries';
 import UserTable from '../components/UserTable';
 import AppLayout from '../components/AppLayout';
 import { getFlags } from '../utils/userFlags';
 import { UserType } from '../models/user';
 import BannedPage from '../components/BannedPage';
 import { NextSeo } from 'next-seo';
+import { getSession, useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
+import dbConnect from '../utils/dbConnect';
+import { UserAuthType } from '../types/next-auth';
+import { getUsers } from '../utils/queries';
+import { useQuery } from 'react-query';
 
 interface UsersProps {
-  user: UserType;
   users: UserType[];
 }
 
-function Users({ user, users }: UsersProps): React.ReactElement {
+function Users({ users }: UsersProps): React.ReactNode {
   const { colorMode } = useColorMode();
+  const [session, loading] = useSession();
+  const router = useRouter();
+  const { data } = useQuery(`users`, getUsers, { initialData: users });
+  if (typeof window !== 'undefined' && loading) return null;
+
+  if (!session) return router.push('/');
+
+  const user = session.user;
+
   if (user?.isBanned) {
     return <BannedPage user={user} />;
   }
@@ -46,24 +56,17 @@ function Users({ user, users }: UsersProps): React.ReactElement {
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data } = useQuery(`users`, getUsers, { initialData: users });
-  const usrs = data.map((usr: UserType) => ({
+  const usrs = data.map((usr: UserAuthType) => ({
     username: usr.username,
     discriminator: usr.discriminator,
     createdAt: format(new Date(usr.createdAt), `dd/MM/yy-HH:mm:ss`),
-    image: usr.avatar
-      ? `https://cdn.discordapp.com/avatars/${usr.id}/${usr.avatar}.jpg`
-      : user.avatar
-      ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpg`
-      : `https://cdn.discordapp.com/embed/avatars/${
-          Number(user.discriminator) % 5
-        }.png`,
-    id: usr.id,
+    image: usr.image,
+    id: usr.discord_id,
     isBanned: usr.isBanned,
     banReason: usr.banReason,
     isAdmin: usr.isAdmin,
     isReviewer: usr.isReviewer,
-    updatedAt: format(new Date(usr.last_updated), `dd/MM/yy-HH:mm:ss`),
+    updatedAt: format(new Date(usr.updatedAt), `dd/MM/yy-HH:mm:ss`),
     flags: getFlags(usr.public_flags),
     // eslint-disable-next-line no-underscore-dangle
     _id: usr._id,
@@ -82,12 +85,13 @@ function Users({ user, users }: UsersProps): React.ReactElement {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const user: UserType = await parseUser(ctx);
-  if (!user) {
-    return { props: { user: null } };
-  }
+  await dbConnect();
+
+  const session = await getSession(ctx);
+  if (!session || !session.user.isAdmin) return { props: { session } };
   const users = await getUsers();
-  return { props: { user, users } };
+
+  return { props: { session, users } };
 };
 
 export default Users;

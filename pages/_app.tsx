@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme, useDisclosure } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Provider as NextAuthProvider } from 'next-auth/client';
 import PlausibleProvider from 'next-plausible';
 import { DefaultSeo } from 'next-seo';
 import { ReviewModalContext } from '../utils/ModalContext';
@@ -51,13 +52,21 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
         enabled={process.env.NODE_ENV === 'production'}
         customDomain={'https://stats.michael-hall.me'}
       >
-        <QueryClientProvider client={queryClient}>
-          <ChakraProvider theme={theme}>
-            <ReviewModalContext.Provider value={{ isOpen, onOpen, onClose }}>
-              <Component {...pageProps} />
-            </ReviewModalContext.Provider>
-          </ChakraProvider>
-        </QueryClientProvider>
+        <NextAuthProvider
+          session={pageProps.session}
+          options={{
+            clientMaxAge: 60, // Re-fetch session if cache is older than 60 seconds
+            keepAlive: 5 * 60, // Send keepAlive message every 5 minutes
+          }}
+        >
+          <QueryClientProvider client={queryClient}>
+            <ChakraProvider theme={theme}>
+              <ReviewModalContext.Provider value={{ isOpen, onOpen, onClose }}>
+                <Component {...pageProps} />
+              </ReviewModalContext.Provider>
+            </ChakraProvider>
+          </QueryClientProvider>
+        </NextAuthProvider>
       </PlausibleProvider>
     </>
   );

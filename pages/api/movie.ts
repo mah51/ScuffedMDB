@@ -1,38 +1,26 @@
+import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { verify } from 'jsonwebtoken';
-import { parse } from 'cookie';
 import axios from 'axios';
-import { DiscordUser } from '../../types/generalTypes';
 import Movie, { MovieType } from '../../models/movie';
 import User from '../../models/user';
 import dbConnect from '../../utils/dbConnect';
 import { MovieEndpointBodyType } from '../../types/APITypes';
-import { useAPIAuth } from '../../utils/useAPIAuth';
 
 const MovieAPI = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
+  //register user schema???
+  User.schema;
   if (req.method === `POST`) {
-    if (!req.headers.cookie) {
-      return null;
-    }
-
-    const { token } = parse(req.headers.cookie);
-    if (!token) {
-      return null;
-    }
     const { id: movieID }: MovieEndpointBodyType = JSON.parse(req.body);
     try {
-      const { ...user } = verify(token, process.env.JWT_CODE) as DiscordUser & {
-        iat: number;
-        exp: number;
-      };
-
-      const discUser = await User.findOne({ id: user.id });
-      if (!discUser) {
-        return res.status(401);
+      const session = await getSession({ req });
+      if (!session?.user?.isAdmin) {
+        return res
+          .status(401)
+          .json({ message: `You are not authorized to do that :(` });
       }
 
       const { data: movieData, status: movieStatus } = await axios.get(
@@ -82,7 +70,7 @@ const MovieAPI = async (
     try {
       const movies = await Movie.find({}).populate(
         `reviews.user`,
-        `avatar username id discriminator`
+        `avatar username discord_id discriminator`
       );
 
       return res.status(200).send({ data: movies });
@@ -93,11 +81,11 @@ const MovieAPI = async (
   } else if (req.method === `DELETE`) {
     const { id } = JSON.parse(req.body);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const discUser = await useAPIAuth(req);
-    if (!discUser || !discUser.isAdmin) {
+    const session = await getSession({ req });
+    if (!session?.user?.isAdmin) {
       return res
         .status(401)
-        .json({ message: `You are unauthorized to use that :(` });
+        .json({ message: `You are not authorized to do that :(` });
     }
 
     const movie = await Movie.findOne({ _id: id });
