@@ -112,7 +112,7 @@ export default NextAuth({
       if (session?.user) {
         try {
           await dbConnect();
-          const findUser = await user.findById(token.id);
+          const findUser = await user.findById(token.sub);
           if (!findUser) {
             throw new Error('User not found in session callback');
           }

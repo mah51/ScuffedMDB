@@ -2,7 +2,6 @@ import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import Movie, { MovieType } from '../../models/movie';
-import User from '../../models/user';
 import dbConnect from '../../utils/dbConnect';
 import { MovieEndpointBodyType } from '../../types/APITypes';
 
@@ -11,8 +10,6 @@ const MovieAPI = async (
   res: NextApiResponse
 ): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
-  //register user schema???
-  User.schema;
   if (req.method === `POST`) {
     const { id: movieID }: MovieEndpointBodyType = JSON.parse(req.body);
     try {
