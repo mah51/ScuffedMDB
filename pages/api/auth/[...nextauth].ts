@@ -118,9 +118,11 @@ export default NextAuth({
           if (!findUser) {
             console.error('User not found in session callback');
           }
-          token.isBanned = findUser.isBanned;
-          token.isReviewer = findUser.isReviewer;
-          token.isAdmin = findUser.isAdmin;
+          if (findUser) {
+            token.isBanned = findUser.isBanned;
+            token.isReviewer = findUser.isReviewer;
+            token.isAdmin = findUser.isAdmin;
+          }
         } catch (e) {
           console.error(e);
         }
