@@ -112,9 +112,11 @@ export default NextAuth({
       if (session?.user) {
         try {
           await dbConnect();
-          const findUser = await user.findById(token.sub);
+
+          const findUser = await user.findById(token.id);
+
           if (!findUser) {
-            throw new Error('User not found in session callback');
+            console.error('User not found in session callback');
           }
           token.isBanned = findUser.isBanned;
           token.isReviewer = findUser.isReviewer;

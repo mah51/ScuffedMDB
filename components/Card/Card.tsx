@@ -7,6 +7,7 @@ import {
   chakra,
   HStack,
   Tag,
+  // useTheme,
 } from '@chakra-ui/react';
 
 import { MovieType, ReviewType } from '../../models/movie';
@@ -17,6 +18,39 @@ interface CardProps {
 }
 
 export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
+  // const {
+  //   __breakpoints: { asObject: bpsAsObject },
+  // } = useTheme();
+
+  // const bpsAsObjectPx = {};
+
+  // Object.keys(bpsAsObject).forEach((bp) => {
+  //   bpsAsObjectPx[bp] = parseInt(bpsAsObject[bp].slice(0, -2)) * 16;
+  // });
+
+  // const calculatePxToVw = (absolute: number, breakpoint: number) =>
+  //   absolute > breakpoint ? 100 : Math.round((absolute / breakpoint) * 100);
+  // const imageSizesOnWidthAndBreakpoints = (width: number, bps: any) =>
+  //   `(min-width: ${bps.base}px) and (max-width: ${
+  //     bps.sm - 1
+  //   }px): ${calculatePxToVw(width, bps.sm - 1)}vw, (min-width: ${
+  //     bps.sm
+  //   }px) and (max-width: ${bps.md - 1}px): ${calculatePxToVw(
+  //     width,
+  //     bps.md - 1
+  //   )}vw, (min-width: ${bps.md}px) and (max-width: ${
+  //     bps.lg - 1
+  //   }px): ${calculatePxToVw(width, bps.lg - 1)}vw, (min-width: ${
+  //     bps.lg
+  //   }px) and (max-width: ${bps.xl - 1}px): ${calculatePxToVw(
+  //     width,
+  //     bps.xl - 1
+  //   )}vw, (min-width: ${bps.xl}px) and (max-width: ${
+  //     bps['2xl'] - 1
+  //   }px): ${calculatePxToVw(width, bps['2xl'] - 1)}vw, (min-width: ${
+  //     bps['2xl']
+  //   }px) and (max-width: 2560px): ${calculatePxToVw(width, 2560)}vw,`;
+
   const { image, name, genres, rating, numReviews, tagLine } = movie;
   return (
     <chakra.div
@@ -69,8 +103,10 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
         <Image
           src={image}
           layout="responsive"
-          width="16px"
-          height="9px"
+          width="400px"
+          // sizes={imageSizesOnWidthAndBreakpoints(400, bpsAsObjectPx)}
+          sizes="(max-width: 2561px) 400px"
+          height="225px"
           alt={`${movie?.name} poster`}
         />
       </Box>

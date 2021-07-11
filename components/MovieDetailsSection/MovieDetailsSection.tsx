@@ -137,6 +137,7 @@ export default function MovieDetailsSection({
                   className={'borderRadius-xl'}
                   src={movie.image}
                   alt={`${movie.name} poster`}
+                  sizes={'50vw'}
                   layout="fill"
                 ></Image>
               </AspectRatio>
