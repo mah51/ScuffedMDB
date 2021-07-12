@@ -1,0 +1,18 @@
+name: Trello Issue List
+on:
+  issues:
+    types: [opened]
+env:
+  TRELLO_KEY: ${{ secrets.TRELLO_KEY }}
+  TRELLO_TOKEN: ${{ secrets.TRELLO_TOKEN }}
+  
+jobs:
+  issue_send:
+    name: Send Issue to Trello
+    runs-on: ubuntu-latest
+    steps:
+      - name: Runs trello manage
+        uses: sisodiya2421/trello-manage@master
+        with:
+          repo-name: ${{ github.repository }}
+          trello-username: ${{ secrets.TRELLO_USERNAME }}
