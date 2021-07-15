@@ -23,12 +23,6 @@ import { UserAuthType } from '../../types/next-auth';
 import ReviewModal from '../ReviewModal';
 import { signout } from 'next-auth/client';
 
-const links = [
-  { link: `/`, name: `Home` },
-  { link: `/user/me`, name: `My Reviews` },
-  { link: `/users`, name: `All Users`, adminOnly: true },
-];
-
 interface NavProps {
   user: UserAuthType;
   showMovies: boolean;
@@ -40,6 +34,11 @@ export const Nav: React.FC<NavProps> = ({
   showMovies,
   showReview,
 }): React.ReactElement => {
+  const links = [
+    { link: `/`, name: `Home` },
+    { link: `/user/${user?.sub}`, name: `My Reviews` },
+    { link: `/users`, name: `All Users`, adminOnly: true },
+  ];
   const { colorMode, toggleColorMode } = useColorMode();
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME;
   const shortSiteName = process.env.NEXT_PUBLIC_SHORT_SITE_NAME;
