@@ -2,7 +2,6 @@ import React from 'react';
 import { Avatar, Flex, Heading, chakra, VStack, Text } from '@chakra-ui/react';
 import { UserType } from '../../models/user';
 import { ReviewType } from '../../models/movie';
-import { getUserAvatar } from '../../utils/utils';
 
 interface AboutUserSectionProps {
   user: UserType;
