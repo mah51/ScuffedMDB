@@ -48,7 +48,9 @@ const Review = ({ review }: { review: ReviewType<UserType> }) => {
           </Text>
         </chakra.div>
       </Flex>
-      <Text fontSize="lg">{review.comment || 'No comment'}</Text>
+      <Text fontSize="lg" color={review?.comment ? 'white' : 'gray.500'}>
+        {review.comment || 'No comment'}
+      </Text>
     </VStack>
   );
 };

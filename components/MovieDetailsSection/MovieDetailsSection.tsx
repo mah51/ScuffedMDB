@@ -66,7 +66,10 @@ export default function MovieDetailsSection({
 }: Props): ReactElement {
   const bp = useBreakpoint();
   const [isLargerThan800] = useMediaQuery('(min-width: 800px)');
-  const userReview = movie.reviews.find((rating) => rating.user.id === user.id);
+
+  const userReview = movie.reviews.find(
+    (rating) => rating.user._id === user.sub
+  );
 
   const averageReview =
     movie.reviews.length > 0
@@ -283,13 +286,13 @@ export default function MovieDetailsSection({
                     </>
                   ) : (
                     <Button
-                      variant="ghost"
+                      variant="solid"
                       leftIcon={<AddIcon />}
                       onClick={() => {
                         setModalMovie(movie);
                         return reviewOnOpen();
                       }}
-                      colorScheme="gray"
+                      colorScheme="purple"
                     >
                       Add one!
                     </Button>
