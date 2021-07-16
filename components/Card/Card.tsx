@@ -10,11 +10,12 @@ import {
   // useTheme,
 } from '@chakra-ui/react';
 
-import { MovieType, ReviewType } from '../../models/movie';
+import { ReviewType, SerializedMovieType } from '../../models/movie';
 import Rating from '../Rating';
+import { PopulatedUserType } from '../../models/user';
 
 interface CardProps {
-  movie: MovieType<ReviewType[]>;
+  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
 }
 
 export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {

@@ -18,6 +18,12 @@ async function dbConnect() {
       return;
     }
 
+    if (!process.env.MONGODB_URI) {
+      throw new Error(
+        'MONGODB_URI not set in .env.local, cannot connect to the db'
+      );
+    }
+
     return mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

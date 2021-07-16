@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { useColorMode, useToast } from '@chakra-ui/react';
 import AppLayout from '../AppLayout';
 import CardGrid from '../CardGrid';
-import { MovieType } from '../../models/movie';
-import { UserAuthType } from '../../types/next-auth';
+import { ReviewType, SerializedMovieType } from '../../models/movie';
+import { UserAuthType } from 'next-auth';
 import { NextSeo } from 'next-seo';
+import { PopulatedUserType } from '../../models/user';
 
 interface HomePageProps {
   user: UserAuthType;
-  movies: { data: MovieType[] };
+  movies: { data: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] };
   movieID: string | string[];
 }
 

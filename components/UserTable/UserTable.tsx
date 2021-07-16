@@ -174,9 +174,24 @@ const PopoverForm = ({ user, isBanned, banReason }) => {
   );
 };
 
-export const UserTable: React.FC<{ data: any }> = ({
-  data,
-}): React.ReactElement => {
+export const UserTable: React.FC<{
+  data:
+    | {
+        username: string;
+        discriminator: string;
+        createdAt: string;
+        image: string;
+        id: string;
+        isBanned: boolean;
+        banReason?: string;
+        isAdmin: boolean;
+        isReviewer: boolean;
+        updatedAt: string;
+        flags: string[];
+        _id: string;
+      }[]
+    | undefined;
+}> = ({ data }): JSX.Element => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
@@ -212,7 +227,7 @@ export const UserTable: React.FC<{ data: any }> = ({
       {
         Header: `User`,
         accessor: `username`,
-        Cell: ({ row }) => (
+        Cell: ({ row }: any) => (
           <Tooltip
             label={row?.original?.flags.join(` ,`) || `No user flags`}
             placement="top"
@@ -257,7 +272,7 @@ export const UserTable: React.FC<{ data: any }> = ({
       },
       {
         Header: `Actions`,
-        Cell: ({ row }) => (
+        Cell: ({ row }: { row: any }) => (
           <HStack justifyContent="center">
             <Tooltip
               label={

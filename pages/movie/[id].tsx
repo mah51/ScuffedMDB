@@ -10,38 +10,39 @@ import AppLayout from '../../components/AppLayout';
 import BannedPage from '../../components/BannedPage';
 import MovieDetailsSection from '../../components/MovieDetailsSection';
 import MovieReviewSection from '../../components/MovieReviewSection';
-import { MovieType, ReviewType } from '../../models/movie';
-import { UserType } from '../../models/user';
+import { ReviewType, SerializedMovieType } from '../../models/movie';
+import { PopulatedUserType } from '../../models/user';
 import { getMovie } from '../../utils/queries';
 
 interface MoviePageProps {
-  movie?: MovieType<ReviewType<UserType>[]>;
-  revalidate?: number;
+  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   error?: string;
-
-  session?: Session;
 }
 
 export default function MoviePage({
   error,
   ...props
-}: MoviePageProps): JSX.Element {
+}: MoviePageProps): JSX.Element | null {
   const { colorMode } = useColorMode();
   const [session, loading] = useSession();
 
   const router = useRouter();
   const { id } = router.query;
-  const { data }: { data: MovieType<ReviewType<UserType>[]> } = useQuery(
+  const { data } = useQuery(
     'movie',
     async () => {
-      return await getMovie(typeof id === 'string' ? id : id.join(''), true);
+      return await getMovie(id, true);
     },
-    //@ts-ignore
+
     { initialData: props.movie }
   );
+
   useEffect(() => {
     if (!session && !loading) router.push('/');
   }, [loading, router, session]);
+
+  if (!id) return <div>No movie selected</div>;
+
   if ((typeof window !== 'undefined' && loading) || !session) return null;
   if (!session) {
     router.push('/');
@@ -83,18 +84,20 @@ export default function MoviePage({
 }
 
 interface SSRProps {
-  props: MoviePageProps;
+  props: {
+    session: Session | null;
+    revalidate: number;
+    movie: SerializedMovieType<ReviewType<PopulatedUserType>[]> | null;
+  };
 }
 
 export async function getServerSideProps(
   ctx: GetServerSidePropsContext
 ): Promise<SSRProps> {
   const { id } = ctx.query;
+  if (!id) return { props: { session: null, revalidate: 60, movie: null } };
   const session = await getSession();
-  const movie: any = await getMovie(
-    typeof id === 'string' ? id : id.join(''),
-    true
-  );
+  const movie = await getMovie(id, true);
 
   return {
     props: {

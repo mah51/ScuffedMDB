@@ -1,11 +1,16 @@
 import React from 'react';
 import { Avatar, Flex, Heading, chakra, VStack, Text } from '@chakra-ui/react';
-import { UserType } from '../../models/user';
+import { PopulatedUserType, UserType } from '../../models/user';
 import { ReviewType } from '../../models/movie';
 
 interface AboutUserSectionProps {
   user: UserType;
-  reviews: ReviewType[];
+  reviews: (
+    | (ReviewType<PopulatedUserType> & {
+        movie?: { name: string; image?: string };
+      })
+    | null
+  )[];
 }
 
 export const AboutUserSection: React.FC<AboutUserSectionProps> = ({

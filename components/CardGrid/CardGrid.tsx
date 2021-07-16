@@ -23,14 +23,16 @@ import { BiChevronDown } from 'react-icons/bi';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Card from '../Card';
-import { MovieType, ReviewType } from '../../models/movie';
-import { UserType } from '../../models/user';
+import { ReviewType, SerializedMovieType } from '../../models/movie';
+import { PopulatedUserType } from '../../models/user';
 import { NextSeo } from 'next-seo';
 import ReviewModal from '../ReviewModal';
 import Link from 'next/link';
+import { UserAuthType } from 'next-auth';
+
 interface CardGridProps {
-  movies: { data: MovieType[] };
-  user: UserType;
+  movies: { data: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] };
+  user: UserAuthType;
   movieID?: string | string[];
 }
 
@@ -178,17 +180,22 @@ export const CardGrid: React.FC<CardGridProps> = ({
           spacing={10}
           alignItems="stretch"
         >
-          {movies?.data?.map((movie: MovieType<ReviewType[]>, i) => (
-            <Link
-              key={`${i.toString()}cardBox`}
-              href={`/movie/${movie._id}`}
-              passHref
-            >
-              <Box as={'a'} height="full">
-                <Card movie={movie} key={`${i.toString()}card`} />
-              </Box>
-            </Link>
-          ))}
+          {movies?.data?.map(
+            (
+              movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
+              i
+            ) => (
+              <Link
+                key={`${i.toString()}cardBox`}
+                href={`/movie/${movie._id}`}
+                passHref
+              >
+                <Box as={'a'} height="full">
+                  <Card movie={movie} key={`${i.toString()}card`} />
+                </Box>
+              </Link>
+            )
+          )}
         </SimpleGrid>
       </Container>
     </>

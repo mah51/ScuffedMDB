@@ -37,10 +37,8 @@ import { useQuery, useQueryClient } from 'react-query';
 
 import { AiFillStar } from 'react-icons/ai';
 import { getMovies } from '../../utils/queries';
-import { MovieType, ReviewType } from '../../models/movie';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
 import { ReviewModalContext, useMovie } from '../../utils/ModalContext';
-import { UserType } from '../../models/user';
 
 export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
   isAdmin,
@@ -105,6 +103,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
       setMovie(null);
       return onClose();
     }
+    if (res.status === 401) return setCommentError('You are not authorized');
     return setCommentError(`There was an error...`);
   };
 
@@ -149,9 +148,9 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
                 placeholder={movie?.name || 'No Movie Selected'}
                 onChange={(e) => {
                   e.preventDefault();
-                  const movieFound = movies.filter(
+                  const movieFound = movies.find(
                     (mv) => mv?.name === e.target.value
-                  )[0];
+                  );
                   if (!movieFound) {
                     return setMovieError(`Please select a valid movie!`);
                   }
@@ -160,7 +159,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
                 }}
               >
                 {movies &&
-                  movies?.map((_: MovieType<ReviewType<UserType>[]>) =>
+                  movies?.map((_) =>
                     movie?.name !== _.name ? (
                       <option key={_.name}>{_.name}</option>
                     ) : (

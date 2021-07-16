@@ -1,24 +1,28 @@
-import { GetServerSideProps } from 'next';
 import React from 'react';
 import { useQuery } from 'react-query';
 import HomePage from '../components/HomePage';
 import LandingPage from '../components/LandingPage';
 import { getMovies } from '../utils/queries';
 import BannedPage from '../components/BannedPage';
-import { MovieType, ReviewType } from '../models/movie';
+import { ReviewType, SerializedMovieType } from '../models/movie';
 import { useRouter } from 'next/router';
 import { getSession, useSession } from 'next-auth/client';
-import { UserAuthType } from '../types/next-auth';
-import { UserType } from '../models/user';
+import { PopulatedUserType } from '../models/user';
+import { GetServerSidePropsContext } from 'next';
+import { Session } from 'next-auth';
 
 interface HomePageProps {
-  movies: MovieType<ReviewType<UserType>[]>[];
-  session: UserAuthType;
+  movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
 }
 
 export default function Home({ movies }: HomePageProps): React.ReactChild {
   const router = useRouter();
   const [session, loading] = useSession();
+  const data:
+    | SerializedMovieType<ReviewType<PopulatedUserType>[]>[]
+    | unknown = useQuery(`movies`, getMovies, {
+    initialData: movies,
+  });
 
   if (typeof window !== 'undefined' && loading) return null;
 
@@ -31,18 +35,22 @@ export default function Home({ movies }: HomePageProps): React.ReactChild {
   }
   //idk typescript well enough to know whats goin wrong here but | any ignores it :/ :(
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const data: MovieType<ReviewType<UserType>[]>[] | any = useQuery(
-    `movies`,
-    getMovies,
-    {
-      initialData: movies,
-    }
-  );
+
+  if (!data) {
+    return <div>There was an error locating movie data :(</div>;
+  }
 
   return <HomePage user={session.user} movies={data} movieID={movieID} />;
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps = async (
+  ctx: GetServerSidePropsContext
+): Promise<{
+  props: {
+    session: Session;
+    movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+  };
+}> => {
   //Scuffed, but makes sure that Schema gets registered before next-auth tries to access it.
   const movies = await getMovies();
   const session = await getSession(ctx);

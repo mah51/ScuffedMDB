@@ -1,22 +1,22 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { Flex, Heading, Text, useColorMode } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import UserTable from '../components/UserTable';
 import AppLayout from '../components/AppLayout';
 import { getFlags } from '../utils/userFlags';
-import { UserType } from '../models/user';
+import { SerializedUser } from '../models/user';
 import BannedPage from '../components/BannedPage';
 import { NextSeo } from 'next-seo';
 import { getSession, useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import dbConnect from '../utils/dbConnect';
-import { UserAuthType } from '../types/next-auth';
 import { getUsers } from '../utils/queries';
 import { useQuery } from 'react-query';
+import { Session } from 'next-auth';
 
 interface UsersProps {
-  users: UserType[];
+  users: SerializedUser[];
 }
 
 function Users({ users }: UsersProps): React.ReactNode {
@@ -56,12 +56,12 @@ function Users({ users }: UsersProps): React.ReactNode {
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const usrs = data.map((usr: UserAuthType) => ({
+  const usrs = data?.map((usr: SerializedUser) => ({
     username: usr.username,
     discriminator: usr.discriminator,
     createdAt: format(new Date(usr.createdAt), `dd/MM/yy-HH:mm:ss`),
     image: usr.image,
-    id: usr.id,
+    id: usr.discord_id,
     isBanned: usr.isBanned,
     banReason: usr.banReason,
     isAdmin: usr.isAdmin,
@@ -71,6 +71,7 @@ function Users({ users }: UsersProps): React.ReactNode {
     // eslint-disable-next-line no-underscore-dangle
     _id: usr._id,
   }));
+
   return (
     <>
       <NextSeo title="Users" />
@@ -84,11 +85,19 @@ function Users({ users }: UsersProps): React.ReactNode {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps = async (
+  ctx: GetServerSidePropsContext
+): Promise<{
+  props: {
+    session: Session | null;
+    users: SerializedUser[];
+  };
+}> => {
   await dbConnect();
 
   const session = await getSession(ctx);
-  if (!session || !session.user.isAdmin) return { props: { session } };
+  if (!session || !session.user.isAdmin)
+    return { props: { session, users: [] } };
   const users = await getUsers();
 
   return { props: { session, users } };

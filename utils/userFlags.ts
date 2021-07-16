@@ -1,4 +1,4 @@
-const flags = {
+const flags: { [key: string]: number } = {
   DISCORD_EMPLOYEE: 1 << 0,
   PARTNERED_SERVER_OWNER: 1 << 1,
   HYPESQUAD_EVENTS: 1 << 2,
@@ -14,8 +14,8 @@ const flags = {
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getFlags = (int) => {
-  const userFlags = [];
+export const getFlags = (int: number): string[] => {
+  const userFlags: string[] = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const flag in flags) {
     if (int & flags[flag]) {

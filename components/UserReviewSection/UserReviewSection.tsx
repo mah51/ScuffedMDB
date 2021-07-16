@@ -7,15 +7,16 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
-import { MovieType, ReviewType } from '../../models/movie';
-import { UserType } from '../../models/user';
-
-interface UserReviewProps extends ReviewType<UserType> {
-  movie: MovieType;
-}
+import { ReviewType } from '../../models/movie';
+import { PopulatedUserType } from '../../models/user';
 
 export const UserReviewSection: React.FC<{
-  reviews: UserReviewProps[];
+  reviews: (
+    | (ReviewType<PopulatedUserType> & {
+        movie?: { name: string; image?: string };
+      })
+    | null
+  )[];
 }> = ({ reviews }): React.ReactElement => {
   return (
     <Flex mt={5} maxW="6xl" width="full" direction="column">
@@ -23,8 +24,8 @@ export const UserReviewSection: React.FC<{
         <Flex mt={10} width="6xl" key={i.toString()}>
           <AspectRatio ratio={16 / 9} minWidth="200px" mr={7}>
             <Image
-              src={review.movie.image}
-              alt={review.user.username + "'s profile"}
+              src={review?.movie?.image}
+              alt={review?.user?.username + "'s profile"}
               objectFit="fill"
               borderRadius="2xl"
             />
@@ -36,12 +37,12 @@ export const UserReviewSection: React.FC<{
             overflow="hidden"
           >
             <Heading>
-              {review.movie.name}{' '}
+              {review?.movie?.name}{' '}
               <chakra.span color="gray.500">
-                • {review.rating.toFixed(1)}
+                • {review?.rating.toFixed(1)}
               </chakra.span>
             </Heading>
-            <Text fontSize="2xl">{review.comment}</Text>
+            <Text fontSize="2xl">{review?.comment}</Text>
           </Flex>
         </Flex>
       ))}

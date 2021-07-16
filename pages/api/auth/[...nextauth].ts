@@ -1,10 +1,11 @@
+import { SerializedUser } from './../../../models/user';
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 import Models from '../../../models';
 //@ts-ignore
 import { TypeORMLegacyAdapter } from '@next-auth/typeorm-legacy-adapter';
 import dbConnect from '../../../utils/dbConnect';
-import user from '../../../models/user';
+import user, { LeanMongoUser } from '../../../models/user';
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -113,7 +114,7 @@ export default NextAuth({
         try {
           await dbConnect();
 
-          const findUser = await user.findById(token.id);
+          const findUser = await user.findById(token.sub);
 
           if (!findUser) {
             console.error('User not found in session callback');
@@ -131,8 +132,13 @@ export default NextAuth({
 
       return session;
     },
-    async jwt(token, user) {
-      return { ...token, ...user };
+    async jwt(
+      token: { name: string; iat: number; exp: number; picture: string },
+      user: SerializedUser
+    ): Promise<SerializedUser & { _id: string; iat: number; exp: number }> {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { picture, ...restToken } = token;
+      return { ...restToken, ...user };
     },
   },
 
