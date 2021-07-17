@@ -13,7 +13,7 @@ import MovieReviewSection from '../../components/MovieReviewSection';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { getMovie } from '../../utils/queries';
-
+import Error from 'next/error';
 interface MoviePageProps {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   error?: string;
@@ -28,7 +28,7 @@ export default function MoviePage({
 
   const router = useRouter();
   const { id } = router.query;
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     'movie',
     async () => {
       return await getMovie(id, true);
@@ -41,8 +41,13 @@ export default function MoviePage({
     if (!session && !loading) router.push('/');
   }, [loading, router, session]);
 
-  if (!id) return <div>No movie selected</div>;
-
+  if (!id) return <Error statusCode={404}>No movie selected</Error>;
+  if (!data) {
+    if (isLoading) {
+      return <div>Loading</div>;
+    }
+    return <Error statusCode={404}>No movie found with provided ID.</Error>;
+  }
   if ((typeof window !== 'undefined' && loading) || !session) return null;
   if (!session) {
     router.push('/');

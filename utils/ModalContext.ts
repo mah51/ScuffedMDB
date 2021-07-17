@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { PopulatedUserType } from './../models/user';
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState } from 'react';
 import { ReviewType, SerializedMovieType } from '../models/movie';
 
 export const ReviewModalContext = React.createContext({
@@ -11,13 +11,13 @@ export const ReviewModalContext = React.createContext({
 
 export const useMovie = (): {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]> | null;
-  setMovie:
-    | Dispatch<
-        SetStateAction<SerializedMovieType<ReviewType<PopulatedUserType>[]>>
-      >
-    | Dispatch<SetStateAction<null>>;
+  setMovie: (
+    x: SerializedMovieType<ReviewType<PopulatedUserType>[]> | null
+  ) => void;
 } => {
-  const [movie, setMovie] = useState(null);
+  const [movie, setMovie] = useState<null | SerializedMovieType<
+    ReviewType<PopulatedUserType>[]
+  >>(null);
 
   return {
     movie,

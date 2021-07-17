@@ -31,9 +31,8 @@ import Link from 'next/link';
 import { UserAuthType } from 'next-auth';
 
 interface CardGridProps {
-  movies: { data: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] };
+  movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
   user: UserAuthType;
-  movieID?: string | string[];
 }
 
 export const CardGrid: React.FC<CardGridProps> = ({
@@ -58,9 +57,9 @@ export const CardGrid: React.FC<CardGridProps> = ({
   }, [colorMode, toast]);
 
   const movies = {
-    data: unSortedMovies.data
+    data: unSortedMovies
       ?.filter((mv) => {
-        if (mv.name.toLowerCase().includes(filter)) {
+        if (mv && mv.name.toLowerCase().includes(filter)) {
           return true;
         }
         return false;
@@ -75,6 +74,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
         } else if (sort === 'worst') {
           return a.rating - b.rating;
         }
+        return 0;
       }),
   };
 
@@ -108,7 +108,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
           We have watched{' '}
           {
             <chakra.span color={useColorModeValue('purple.500', 'purple.300')}>
-              {unSortedMovies?.data?.length}
+              {unSortedMovies?.length}
             </chakra.span>
           }{' '}
           movies

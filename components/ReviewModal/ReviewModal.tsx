@@ -66,19 +66,21 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
         description:
           success === `addition`
             ? `Your review was successfully added to ${movie?.name}`
-            : `Your review on ${movie.name} was successfully modified`,
+            : `Your review on ${movie?.name} was successfully modified`,
         status: `success`,
         duration: 5000,
         isClosable: true,
       });
-      setSuccess(null);
+      setSuccess('');
     }
   }, [movie?.name, queryClient, success, toast]);
 
-  const initialRef = React.useRef();
   const { data: movies } = useQuery(`movies`, getMovies);
 
-  const handleSubmit = async (e, onClose) => {
+  const handleSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    onClose: () => void
+  ) => {
     e.preventDefault();
     if (!movie) {
       return setMovieError(`Please select a valid movie.`);
@@ -107,8 +109,12 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
     return setCommentError(`There was an error...`);
   };
 
-  const handleRatingChange = (x) => {
-    setRating(x);
+  const handleRatingChange = (x: number): void => {
+    return setRating(x);
+  };
+
+  const handleNumInputRatingChange = (x: string, y: number): void => {
+    return setRating(y);
   };
 
   return (
@@ -124,12 +130,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
         Add review
       </Button>
 
-      <Modal
-        initialFocusRef={initialRef}
-        isOpen={isOpen}
-        onClose={onClose}
-        id={'review-modal'}
-      >
+      <Modal isOpen={isOpen} onClose={onClose} id={'review-modal'}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -148,7 +149,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
                 placeholder={movie?.name || 'No Movie Selected'}
                 onChange={(e) => {
                   e.preventDefault();
-                  const movieFound = movies.find(
+                  const movieFound = movies?.find(
                     (mv) => mv?.name === e.target.value
                   );
                   if (!movieFound) {
@@ -192,7 +193,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
                     maxW="100px"
                     mr="2rem"
                     value={rating}
-                    onChange={handleRatingChange}
+                    onChange={handleNumInputRatingChange}
                   >
                     <NumberInputField />
                     <NumberInputStepper>

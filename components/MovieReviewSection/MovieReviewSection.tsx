@@ -7,16 +7,16 @@ import {
   chakra,
   Text,
 } from '@chakra-ui/react';
+import { PopulatedUserType } from 'models/user';
 import React, { ReactElement } from 'react';
-import { MovieType, ReviewType } from '../../models/movie';
-import { UserType } from '../../models/user';
+import { ReviewType, SerializedMovieType } from '../../models/movie';
 import Wave from '../Wave';
 
 interface Props {
-  movie: MovieType<ReviewType<UserType>[]>;
+  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
 }
 
-const Review = ({ review }: { review: ReviewType<UserType> }) => {
+const Review = ({ review }: { review: ReviewType<PopulatedUserType> }) => {
   return (
     <VStack mt={8} alignItems="flex-start" spacing={3} px={4}>
       <Flex
@@ -24,13 +24,13 @@ const Review = ({ review }: { review: ReviewType<UserType> }) => {
         width="full"
         alignItems="center"
       >
-        <Avatar size="lg" src={review.user.image} />
+        <Avatar size="lg" src={review?.user?.image} />
         <chakra.div display="flex" alignItems="center">
           <Heading size="2xl" ml={5} maxWidth="full" isTruncated>
-            {review.user.username}
+            {review?.user?.username}
             <chakra.span color={'gray.500'} fontWeight="semibold" fontSize="lg">
               {' '}
-              #{review.user.discriminator}
+              #{review?.user?.discriminator}
             </chakra.span>
           </Heading>
         </chakra.div>
@@ -70,7 +70,7 @@ export default function MovieReviewSection({ movie }: Props): ReactElement {
         />
       </VStack>
       <Flex mt={10} direction="column">
-        {movie.reviews.map((review: ReviewType<UserType>, i) => (
+        {movie.reviews.map((review: ReviewType<PopulatedUserType>, i) => (
           <Review review={review} key={i.toString()} />
         ))}
       </Flex>

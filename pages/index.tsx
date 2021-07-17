@@ -15,18 +15,14 @@ interface HomePageProps {
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
 }
 
-export default function Home({ movies }: HomePageProps): React.ReactChild {
-  const router = useRouter();
+export default function Home({ movies }: HomePageProps): React.ReactNode {
   const [session, loading] = useSession();
-  const data:
-    | SerializedMovieType<ReviewType<PopulatedUserType>[]>[]
-    | unknown = useQuery(`movies`, getMovies, {
+  const { data } = useQuery(`movies`, getMovies, {
     initialData: movies,
   });
 
   if (typeof window !== 'undefined' && loading) return null;
 
-  const { movieID } = router.query;
   if (!session?.user) {
     return <LandingPage />;
   }
@@ -40,14 +36,14 @@ export default function Home({ movies }: HomePageProps): React.ReactChild {
     return <div>There was an error locating movie data :(</div>;
   }
 
-  return <HomePage user={session.user} movies={data} movieID={movieID} />;
+  return <HomePage user={session.user} movies={data} />;
 }
 
 export const getServerSideProps = async (
   ctx: GetServerSidePropsContext
 ): Promise<{
   props: {
-    session: Session;
+    session: Session | null;
     movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
   };
 }> => {

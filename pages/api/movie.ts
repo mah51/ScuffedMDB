@@ -33,9 +33,11 @@ const MovieAPI = async (
         return res.status(400).send({ message: `Movie already exists!` });
       }
 
-      const genres = movieData?.genres?.map((genre) => {
-        return genre.name;
-      });
+      const genres: string[] = movieData?.genres?.map(
+        (genre: { name: string }) => {
+          return genre.name;
+        }
+      );
 
       const newMovie: MovieType = new Movie({
         name: movieData.title || movieData.original_title, //select english title if it exists.

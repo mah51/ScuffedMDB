@@ -9,14 +9,12 @@ import { PopulatedUserType } from '../../models/user';
 
 interface HomePageProps {
   user: UserAuthType;
-  movies: { data: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] };
-  movieID: string | string[];
+  movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
   user,
   movies,
-  movieID,
 }): React.ReactElement => {
   const { colorMode } = useColorMode();
   const toast = useToast();
@@ -52,7 +50,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       <AppLayout user={user} showMovies>
         <div>
-          <CardGrid movies={movies} user={user} movieID={movieID} />
+          <CardGrid movies={movies} user={user} />
         </div>
       </AppLayout>
     </>

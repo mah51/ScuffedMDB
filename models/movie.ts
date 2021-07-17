@@ -1,5 +1,4 @@
-import { Overwrite, PopulatedUserType } from './user';
-import { SerializedMovieType } from './movie';
+import { Overwrite } from './user';
 import mongoose, { Document, Model } from 'mongoose';
 
 const reviewSchema = new mongoose.Schema(

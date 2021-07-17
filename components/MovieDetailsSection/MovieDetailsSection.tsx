@@ -39,7 +39,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import React, { ReactElement, useContext } from 'react';
 import { FaImdb } from 'react-icons/fa';
-import {  ReviewType, SerializedMovieType } from '../../models/movie';
+import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { getTotalCharCode } from '../../utils/utils';
 import { IoChevronDown } from 'react-icons/io5';
@@ -91,7 +91,7 @@ export default function MovieDetailsSection({
         justifyContent="flex-start"
       >
         {/* Scroll down section */}
-        {!['base', 'sm', 'md'].includes(bp) && (
+        {bp && !['base', 'sm', 'md'].includes(bp) && (
           <Flex
             direction="column"
             alignItems="center"
