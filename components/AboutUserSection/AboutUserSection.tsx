@@ -1,10 +1,10 @@
 import React from 'react';
 import { Avatar, Flex, Heading, chakra, VStack, Text } from '@chakra-ui/react';
-import { PopulatedUserType, UserType } from '../../models/user';
+import { PopulatedUserType, SerializedUser } from '../../models/user';
 import { ReviewType } from '../../models/movie';
 
 interface AboutUserSectionProps {
-  user: UserType;
+  user: SerializedUser;
   reviews: (
     | (ReviewType<PopulatedUserType> & {
         movie?: { name: string; image?: string };
@@ -33,7 +33,8 @@ export const AboutUserSection: React.FC<AboutUserSectionProps> = ({
           {reviews.length > 0 &&
             '·  ' +
               (
-                reviews.reduce((a, c) => a + c.rating, 0) / reviews.length
+                reviews.reduce((a, c) => (c?.rating ? a + c?.rating : a), 0) /
+                reviews.length
               ).toFixed(1) +
               '    Average Rating'}
         </Text>

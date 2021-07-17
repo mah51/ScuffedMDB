@@ -5,7 +5,6 @@ import LandingPage from '../components/LandingPage';
 import { getMovies } from '../utils/queries';
 import BannedPage from '../components/BannedPage';
 import { ReviewType, SerializedMovieType } from '../models/movie';
-import { useRouter } from 'next/router';
 import { getSession, useSession } from 'next-auth/client';
 import { PopulatedUserType } from '../models/user';
 import { GetServerSidePropsContext } from 'next';

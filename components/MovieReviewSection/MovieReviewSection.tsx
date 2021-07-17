@@ -7,7 +7,7 @@ import {
   chakra,
   Text,
 } from '@chakra-ui/react';
-import { PopulatedUserType } from 'models/user';
+import { PopulatedUserType } from '../../models/user';
 import React, { ReactElement } from 'react';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import Wave from '../Wave';

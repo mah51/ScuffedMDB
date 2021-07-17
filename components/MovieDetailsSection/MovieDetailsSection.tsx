@@ -407,7 +407,7 @@ const MovieAdminOptions = ({
 
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => setIsOpen(false);
-  const cancelRef = React.useRef();
+  const cancelRef = React.useRef(null);
   const router = useRouter();
   const queryClient = useQueryClient();
   const handleMovieDelete = async () => {

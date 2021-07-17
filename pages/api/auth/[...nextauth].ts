@@ -1,4 +1,3 @@
-import { SerializedUser } from './../../../models/user';
 import NextAuth, { User } from 'next-auth';
 import Providers from 'next-auth/providers';
 import Models from '../../../models';

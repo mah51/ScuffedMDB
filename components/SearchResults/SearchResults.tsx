@@ -12,7 +12,7 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import React from 'react';
-import { OMDBMovie } from 'pages/api/movie-api';
+import { OMDBMovie } from '../../pages/api/movie-api';
 
 function SkeletonImage({ result }: { result: OMDBMovie }) {
   const [imageLoaded, setImageLoaded] = useState(false);

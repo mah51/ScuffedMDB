@@ -101,15 +101,17 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
         </Text>
       </Box>
       <Box mt={-6} mx={-6} mb={6} pos="relative">
-        <Image
-          src={image}
-          layout="responsive"
-          width="400px"
-          // sizes={imageSizesOnWidthAndBreakpoints(400, bpsAsObjectPx)}
-          sizes="(max-width: 2561px) 400px"
-          height="225px"
-          alt={`${movie?.name} poster`}
-        />
+        {image && (
+          <Image
+            src={image}
+            layout="responsive"
+            width="400px"
+            // sizes={imageSizesOnWidthAndBreakpoints(400, bpsAsObjectPx)}
+            sizes="(max-width: 2561px) 400px"
+            height="225px"
+            alt={`${movie?.name} poster`}
+          />
+        )}
       </Box>
 
       <Flex isTruncated direction="column" justifyContent="space-between">

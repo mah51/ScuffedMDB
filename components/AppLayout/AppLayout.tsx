@@ -17,7 +17,11 @@ export const AppLayout = ({
   children,
 }: AppLayoutProps): React.ReactElement => (
   <>
-    <Nav user={user} showMovies={showMovies} showReview={showReview} />
+    <Nav
+      user={user}
+      showMovies={showMovies || false}
+      showReview={showReview || false}
+    />
     {children}
     <Footer />
   </>
