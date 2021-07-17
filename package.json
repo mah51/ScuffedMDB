@@ -10,7 +10,7 @@
     "test": "jest --config ./jest.config.js",
     "prepare": "husky install",
     "pre-commit": "npm run lint",
-    "lint": "next lint"
+    "lint": "npx eslint . --fix"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.6",
