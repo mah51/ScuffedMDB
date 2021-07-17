@@ -31,7 +31,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  useColorModePreference,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
