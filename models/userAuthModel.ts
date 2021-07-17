@@ -1,6 +1,7 @@
 import { Models } from '@next-auth/typeorm-legacy-adapter';
 // Extend the built-in models using class inheritance
 //@ts-ignore
+
 export default class User extends Models.User.model {
   // You can extend the options in a model but you should not remove the base
   // properties or change the order of the built-in options on the constructor
@@ -8,14 +9,13 @@ export default class User extends Models.User.model {
 
   username: string;
   image: string;
-  avatar: string;
   discriminator: string;
   public_flags: number;
   flags: number;
   email: string;
   locale: string;
   mfa_enabled: boolean;
-  premium_type: number;
+  premium_type?: number;
   isAdmin: boolean;
   isReviewer: boolean;
   isBanned: boolean;
@@ -28,7 +28,6 @@ export default class User extends Models.User.model {
     this.discord_id = profile?.id;
     this.image = profile?.image;
     this.username = profile?.username;
-    this.avatar = profile?.avatar;
     this.discriminator = profile?.discriminator;
     this.public_flags = profile?.public_flags;
     this.flags = profile?.flags;

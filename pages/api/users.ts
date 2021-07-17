@@ -17,7 +17,7 @@ const handler = async (
     return res.status(200).send({ users });
   }
 
-  return null;
+  return;
 };
 
 export default handler;

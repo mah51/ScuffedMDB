@@ -37,10 +37,8 @@ import { useQuery, useQueryClient } from 'react-query';
 
 import { AiFillStar } from 'react-icons/ai';
 import { getMovies } from '../../utils/queries';
-import { MovieType, ReviewType } from '../../models/movie';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
 import { ReviewModalContext, useMovie } from '../../utils/ModalContext';
-import { UserType } from '../../models/user';
 
 export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
   isAdmin,
@@ -68,19 +66,21 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
         description:
           success === `addition`
             ? `Your review was successfully added to ${movie?.name}`
-            : `Your review on ${movie.name} was successfully modified`,
+            : `Your review on ${movie?.name} was successfully modified`,
         status: `success`,
         duration: 5000,
         isClosable: true,
       });
-      setSuccess(null);
+      setSuccess('');
     }
   }, [movie?.name, queryClient, success, toast]);
 
-  const initialRef = React.useRef();
   const { data: movies } = useQuery(`movies`, getMovies);
 
-  const handleSubmit = async (e, onClose) => {
+  const handleSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    onClose: () => void
+  ) => {
     e.preventDefault();
     if (!movie) {
       return setMovieError(`Please select a valid movie.`);
@@ -105,11 +105,16 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
       setMovie(null);
       return onClose();
     }
+    if (res.status === 401) return setCommentError('You are not authorized');
     return setCommentError(`There was an error...`);
   };
 
-  const handleRatingChange = (x) => {
-    setRating(x);
+  const handleRatingChange = (x: number): void => {
+    return setRating(x);
+  };
+
+  const handleNumInputRatingChange = (x: string, y: number): void => {
+    return setRating(y);
   };
 
   return (
@@ -125,12 +130,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
         Add review
       </Button>
 
-      <Modal
-        initialFocusRef={initialRef}
-        isOpen={isOpen}
-        onClose={onClose}
-        id={'review-modal'}
-      >
+      <Modal isOpen={isOpen} onClose={onClose} id={'review-modal'}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -149,9 +149,9 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
                 placeholder={movie?.name || 'No Movie Selected'}
                 onChange={(e) => {
                   e.preventDefault();
-                  const movieFound = movies.filter(
+                  const movieFound = movies?.find(
                     (mv) => mv?.name === e.target.value
-                  )[0];
+                  );
                   if (!movieFound) {
                     return setMovieError(`Please select a valid movie!`);
                   }
@@ -160,7 +160,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
                 }}
               >
                 {movies &&
-                  movies?.map((_: MovieType<ReviewType<UserType>[]>) =>
+                  movies?.map((_) =>
                     movie?.name !== _.name ? (
                       <option key={_.name}>{_.name}</option>
                     ) : (
@@ -193,7 +193,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
                     maxW="100px"
                     mr="2rem"
                     value={rating}
-                    onChange={handleRatingChange}
+                    onChange={handleNumInputRatingChange}
                   >
                     <NumberInputField />
                     <NumberInputStepper>

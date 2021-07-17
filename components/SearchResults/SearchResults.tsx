@@ -12,14 +12,15 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import React from 'react';
+import { OMDBMovie } from '../../pages/api/movie-api';
 
-function SkeletonImage({ result }) {
+function SkeletonImage({ result }: { result: OMDBMovie }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   return (
     <Skeleton isLoaded={imageLoaded} width="full" height="full">
       <Image
         onLoad={() => setImageLoaded(true)}
-        alt={`${result?.name} poster`}
+        alt={`${result?.original_title} poster`}
         layout="fill"
         src={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`}
       />
@@ -34,7 +35,7 @@ export const SearchResults: React.FC<{
   setSuccess: any;
   setError: any;
 }> = ({ data, loading, error, setSuccess, setError }): React.ReactElement => {
-  const addMovie = async (movieID) => {
+  const addMovie = async (movieID: string | undefined) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URI}/api/movie/`,
       {
@@ -66,7 +67,7 @@ export const SearchResults: React.FC<{
     <div>{error}</div>
   ) : (
     <VStack mt={10} spacing={4} align="stretch">
-      {data.map((result, index) => (
+      {data.map((result: OMDBMovie, index: number) => (
         <Flex
           key={index.toString()}
           justifyContent="stretch"
@@ -84,7 +85,7 @@ export const SearchResults: React.FC<{
             colorScheme="purple"
             aria-label="Search database"
             icon={<AddIcon />}
-            onClick={async () => await addMovie(result.id)}
+            onClick={async () => await addMovie(result?.id?.toString())}
           />
           {result.backdrop_path && (
             <AspectRatio ratio={16 / 9} width="150px">
@@ -94,7 +95,9 @@ export const SearchResults: React.FC<{
 
           <Center margin="auto">
             <Text mx={8} textAlign="center">
-              {result.title} - {new Date(result.release_date).getFullYear()}
+              {result.title} -{' '}
+              {result?.release_date &&
+                new Date(result?.release_date).getFullYear()}
             </Text>
           </Center>
         </Flex>

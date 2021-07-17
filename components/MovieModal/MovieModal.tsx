@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import {
   useDisclosure,
   Modal,
@@ -23,16 +23,19 @@ import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 
 import { useQueryClient } from 'react-query';
 import SearchResults from '../SearchResults';
+import { OMDBMovie, OMDBResponse } from '../../pages/api/movie-api';
 
 export const MovieModal: React.FC = (): React.ReactElement => {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<OMDBMovie[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(``);
-  const [success, setSuccess] = useState(null);
+  const [success, setSuccess] = useState<{ type: string; data: any } | null>(
+    null
+  );
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const initialRef = React.useRef();
+  const initialRef = React.useRef(null);
   const queryClient = useQueryClient();
   const toast = useToast();
   useEffect(() => {
@@ -61,22 +64,27 @@ export const MovieModal: React.FC = (): React.ReactElement => {
         isClosable: true,
       });
       setSuccess(null);
-      setError(null);
+      setError('');
     }
   }, [success, error, onClose, queryClient, toast]);
 
-  const handleSubmit = async (e) => {
+  interface FormFields {
+    0: HTMLInputElement;
+  }
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (error) setError(``);
     setLoading(true);
+    const target = e.target as typeof e.target & FormFields;
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_APP_URI}/api/movie-api?search=${e.target[0].value}`
+        `${process.env.NEXT_PUBLIC_APP_URI}/api/movie-api?search=${target['0'].value}`
       );
-      const data = await response.json();
-      if (response.status !== 200) {
+      const data: OMDBResponse = await response.json();
+      if (response.status !== 200 || data.status_code !== 200) {
         console.error(data.status_message);
-        return setError(data.status_message);
+        return setError(data.status_message || 'An error occurred');
       }
       setLoading(false);
       if (!data?.results?.length) {
@@ -120,6 +128,7 @@ export const MovieModal: React.FC = (): React.ReactElement => {
                     </InputLeftElement>
                     <Input
                       ref={initialRef}
+                      name="movie"
                       type="text"
                       placeholder="Search OMDB..."
                     />

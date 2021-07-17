@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { Divider, Flex } from '@chakra-ui/react';
-import { UserType } from '../../models/user';
 import AppLayout from '../../components/AppLayout';
 import AboutUserSection from '../../components/AboutUserSection';
-import User from '../../models/user';
+import User, {
+  MongoUser,
+  PopulatedUserType,
+  SerializedUser,
+} from '../../models/user';
 import { getMovies } from '../../utils/queries';
-import { MovieType, ReviewType } from '../../models/movie';
+import { ReviewType, SerializedMovieType } from '../../models/movie';
 import UserReviewSection from '../../components/UserReviewSection';
 import type { GetServerSidePropsContext } from 'next';
 import dbConnect from '../../utils/dbConnect';
@@ -14,14 +17,12 @@ import type { Session } from 'next-auth';
 import { useRouter } from 'next/router';
 
 interface EditUserProps {
-  session?: Session;
-  desiredUser: UserType;
-  movies: MovieType<ReviewType<UserType>[]>[];
+  desiredUser: SerializedUser | null;
+  movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
 }
 
 function EditUser({ desiredUser, movies }: EditUserProps): React.ReactNode {
   const [session, loading] = useSession();
-
   const router = useRouter();
   useEffect(() => {
     if (!session && !loading) router.push('/');
@@ -32,11 +33,25 @@ function EditUser({ desiredUser, movies }: EditUserProps): React.ReactNode {
   }
   const user = session.user;
 
-  const allRatings = movies
-    .map((movie: any) => {
-      const rev = movie?.reviews?.find(
-        (review: any) => review.user.id === desiredUser.id
-      );
+  if (!desiredUser) {
+    return <div>That user could not be found :(</div>;
+  }
+
+  const allRatings: (
+    | (ReviewType<PopulatedUserType> & {
+        movie?: { name: string; image?: string };
+      })
+    | null
+  )[] = movies
+    .map((movie) => {
+      const rev:
+        | (ReviewType<PopulatedUserType> & {
+            movie?: { name: string; image?: string };
+          })
+        | undefined = movie?.reviews?.find((review) => {
+        if (!review.user) return false; // If user is deleted and has made a review the user object is null in the review.
+        return review.user._id === desiredUser._id;
+      });
       if (!rev) {
         return null;
       }
@@ -46,9 +61,10 @@ function EditUser({ desiredUser, movies }: EditUserProps): React.ReactNode {
       };
       return rev;
     })
-    .filter((x) => (x ? true : false))
-    .sort((a, b) => a.rating - b.rating)
+    .filter((x) => x)
+    .sort((a, b) => (a && b ? a.rating - b.rating : 0))
     .reverse();
+
   return (
     <AppLayout user={user}>
       <Flex direction="column" pt={16} maxW="6xl" mx="auto">
@@ -62,7 +78,11 @@ function EditUser({ desiredUser, movies }: EditUserProps): React.ReactNode {
 }
 
 interface returnProps {
-  props: EditUserProps;
+  props: {
+    session: Session | null;
+    desiredUser: SerializedUser | null;
+    movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+  };
 }
 
 export async function getServerSideProps(
@@ -72,11 +92,24 @@ export async function getServerSideProps(
   await dbConnect();
   const session = await getSession(ctx);
 
-  const desiredUser: any = await User.findById(uID).lean();
-  desiredUser._id = desiredUser._id.toString();
-  desiredUser.createdAt = desiredUser.createdAt.getTime();
-  desiredUser.updatedAt = desiredUser.updatedAt.getTime();
+  const desiredUser: SerializedUser | MongoUser = await User.findById(
+    uID
+  ).lean();
 
+  if (!desiredUser)
+    return { props: { desiredUser: null, session, movies: [] } };
+
+  desiredUser._id = desiredUser._id.toString();
+  desiredUser.createdAt =
+    typeof desiredUser.createdAt === 'string'
+      ? desiredUser.createdAt
+      : desiredUser.createdAt.toISOString();
+  desiredUser.updatedAt =
+    typeof desiredUser.updatedAt === 'string'
+      ? desiredUser.updatedAt
+      : desiredUser.updatedAt.toISOString();
+
+  assertsIsSerializedUser(desiredUser);
   const movies = await getMovies();
   return {
     props: {
@@ -88,3 +121,27 @@ export async function getServerSideProps(
 }
 
 export default EditUser;
+
+function assertsIsSerializedUser(
+  user: unknown
+): asserts user is SerializedUser {
+  if (typeof user === 'object') {
+    if (user) {
+      if ('createdAt' in user && 'updatedAt' in user && '_id' in user) {
+        const { createdAt, updatedAt, _id } = user as {
+          createdAt: any;
+          updatedAt: any;
+          _id: any;
+        };
+        if (
+          typeof createdAt === 'string' &&
+          typeof updatedAt === 'string' &&
+          typeof _id === 'string'
+        ) {
+          return;
+        }
+      }
+    }
+  }
+  throw new Error('User is not serialized');
+}

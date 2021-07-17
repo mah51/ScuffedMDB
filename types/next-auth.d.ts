@@ -1,3 +1,4 @@
+import { SerializedUser } from './../models/user';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import NextAuth from 'next-auth';
 
@@ -10,30 +11,16 @@ declare module 'next-auth' {
    * or the second parameter of the `session` callback, when using a database.
    */
 
-  interface User {
-    avatar: string;
-    createdAt: string;
-    discriminator: string;
-    email: string;
-    exp: number;
-    flags: number;
-    iat: number;
-    id: string;
-    image: string;
-    isAdmin: boolean;
-    isBanned: boolean;
-    isReviewer: boolean;
-    locale: string;
-    mfa_enabled: boolean;
+  interface User extends SerializedUser {
     name: string;
-    picture: string;
-    premium_type: number;
-    public_flags: number;
+    email: string;
+    image: string;
     sub: string;
-    updatedAt: string;
-    username: string;
+    iat: number;
+    exp: number;
   }
 
+  type UserAuthType = User;
   interface Session {
     user: User;
   }
@@ -42,5 +29,3 @@ declare module 'next-auth' {
    * and also extends `TokenSet`, which is different tokens returned by OAuth Providers.
    */
 }
-
-export { User as UserAuthType };

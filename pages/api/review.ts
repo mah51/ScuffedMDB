@@ -4,21 +4,19 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Movie, { MovieType } from '../../models/movie';
 import dbConnect from '../../utils/dbConnect';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
-import User from '../../models/user';
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
-  User.schema;
   if (req.method === `POST`) {
     const { comment, rating, movieID }: ReviewEndpointBodyType = JSON.parse(
       req.body
     );
     try {
       const session = await getSession({ req });
-      if (!session?.user?.isReviewer) {
+      if (!session?.user?.isReviewer && !session?.user?.isAdmin) {
         return res
           .status(401)
           .json({ message: `You are not authorized to do that :(` });

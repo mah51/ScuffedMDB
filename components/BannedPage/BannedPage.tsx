@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex, Heading, Link, Text, useColorModeValue } from '@chakra-ui/react';
-import { UserAuthType } from '../../types/next-auth';
+import { UserAuthType } from 'next-auth';
 
 export const BannedPage: React.FC<{ user: UserAuthType }> = ({
   user,

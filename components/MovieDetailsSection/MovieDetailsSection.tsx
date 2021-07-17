@@ -39,8 +39,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import React, { ReactElement, useContext } from 'react';
 import { FaImdb } from 'react-icons/fa';
-import { MovieType, ReviewType } from '../../models/movie';
-import { UserType } from '../../models/user';
+import { ReviewType, SerializedMovieType } from '../../models/movie';
+import { PopulatedUserType } from '../../models/user';
 import { getTotalCharCode } from '../../utils/utils';
 import { IoChevronDown } from 'react-icons/io5';
 
@@ -52,10 +52,10 @@ import { ExternalLinkIcon, EditIcon } from '@chakra-ui/icons';
 import { useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import { SettingsIcon } from '@chakra-ui/icons';
-import { UserAuthType } from '../../types/next-auth';
+import { UserAuthType } from 'next-auth';
 
 interface Props {
-  movie: MovieType<ReviewType<UserType>[]>;
+  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   user: UserAuthType;
 }
 
@@ -68,7 +68,7 @@ export default function MovieDetailsSection({
   const [isLargerThan800] = useMediaQuery('(min-width: 800px)');
 
   const userReview = movie.reviews.find(
-    (rating) => rating.user._id === user.sub
+    (rating) => rating?.user?._id === user.sub
   );
 
   const averageReview =
@@ -91,7 +91,7 @@ export default function MovieDetailsSection({
         justifyContent="flex-start"
       >
         {/* Scroll down section */}
-        {!['base', 'sm', 'md'].includes(bp) && (
+        {bp && !['base', 'sm', 'md'].includes(bp) && (
           <Flex
             direction="column"
             alignItems="center"
@@ -138,7 +138,7 @@ export default function MovieDetailsSection({
               >
                 <Image
                   className={'borderRadius-xl'}
-                  src={movie.image}
+                  src={movie?.image || ''}
                   alt={`${movie.name} poster`}
                   sizes={'50vw'}
                   layout="fill"
@@ -398,7 +398,7 @@ const MovieAdminOptions = ({
   movie,
 }: {
   isAdmin: boolean;
-  movie: MovieType<ReviewType<UserType>[]>;
+  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
 }): JSX.Element => {
   const { colorMode } = useColorMode();
   const { setMovie: setModalMovie } = useBetween(useMovie);
@@ -407,7 +407,7 @@ const MovieAdminOptions = ({
 
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => setIsOpen(false);
-  const cancelRef = React.useRef();
+  const cancelRef = React.useRef(null);
   const router = useRouter();
   const queryClient = useQueryClient();
   const handleMovieDelete = async () => {

@@ -9,9 +9,18 @@ import {
   VisuallyHidden,
 } from '@chakra-ui/react';
 import Link from 'next/link';
+import React from 'react';
 import { FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
-const SocialIcons = ({ children, href, label }) => {
+const SocialIcons = ({
+  children,
+  href,
+  label,
+}: {
+  children: React.ReactNode;
+  href: string;
+  label: string;
+}) => {
   return (
     <Tooltip label={label}>
       <chakra.button

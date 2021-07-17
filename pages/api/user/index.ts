@@ -1,3 +1,4 @@
+import { MongoUser } from './../../../models/user';
 import { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../../models/user';
 import dbConnect from '../../../utils/dbConnect';
@@ -45,7 +46,7 @@ const handler = async (
         .json({ message: `You are not authorized to do that :(` });
     }
     const { user: usrID, reason } = JSON.parse(req.body);
-    const user = await User.findOne({ _id: usrID });
+    const user: MongoUser = await User.findOne({ _id: usrID });
     if (!user) {
       return res.status(404).json({ message: `User not found` });
     }

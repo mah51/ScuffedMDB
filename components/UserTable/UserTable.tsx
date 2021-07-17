@@ -37,12 +37,29 @@ import { FaUserPlus, FaUserShield, FaUserSlash } from 'react-icons/fa';
 import { useQueryClient } from 'react-query';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
-const Form = ({ firstFieldRef, onCancel, user, isBanned, banReason }) => {
+//TODO look into types for react-table. It looks like a hot mess and i don't really know what im doing, so pretty much this whole file is ts-ignored lol
+
+const Form = ({
+  firstFieldRef,
+  onCancel,
+  user,
+  isBanned,
+  banReason,
+}: {
+  firstFieldRef: any;
+  onCancel: any;
+  user: string;
+  isBanned: boolean;
+  banReason?: string;
+}) => {
   const queryClient = useQueryClient();
   const toast = useToast();
   const [reason, setReason] = useState(``);
   const { colorMode } = useColorMode();
-  const handleBan = async (e, usr) => {
+  const handleBan = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    usr: string
+  ) => {
     e.preventDefault();
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URI}/api/user/`,
@@ -131,7 +148,15 @@ const Form = ({ firstFieldRef, onCancel, user, isBanned, banReason }) => {
   );
 };
 
-const PopoverForm = ({ user, isBanned, banReason }) => {
+const PopoverForm = ({
+  user,
+  isBanned,
+  banReason,
+}: {
+  user: string;
+  isBanned: boolean;
+  banReason?: string;
+}) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const firstFieldRef = React.useRef(null);
 
@@ -174,13 +199,31 @@ const PopoverForm = ({ user, isBanned, banReason }) => {
   );
 };
 
-export const UserTable: React.FC<{ data: any }> = ({
-  data,
-}): React.ReactElement => {
+interface TableUser {
+  username: string;
+  discriminator: string;
+  createdAt: string;
+  image: string;
+  id: string;
+  isBanned: boolean;
+  banReason?: string;
+  isAdmin: boolean;
+  isReviewer: boolean;
+  updatedAt: string;
+  flags: string[];
+  _id: string;
+}
+
+export const UserTable: React.FC<{
+  data: TableUser[] | undefined;
+}> = ({ data }): JSX.Element => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
-  const handlePromote = async (promotion: 'admin' | 'reviewer', user) => {
+  const handlePromote = async (
+    promotion: 'admin' | 'reviewer',
+    user: string
+  ) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URI}/api/user/`,
       { method: `put`, body: JSON.stringify({ promotion, user }) }
@@ -212,7 +255,7 @@ export const UserTable: React.FC<{ data: any }> = ({
       {
         Header: `User`,
         accessor: `username`,
-        Cell: ({ row }) => (
+        Cell: ({ row }: any) => (
           <Tooltip
             label={row?.original?.flags.join(` ,`) || `No user flags`}
             placement="top"
@@ -257,7 +300,7 @@ export const UserTable: React.FC<{ data: any }> = ({
       },
       {
         Header: `Actions`,
-        Cell: ({ row }) => (
+        Cell: ({ row }: { row: { original: TableUser } }) => (
           <HStack justifyContent="center">
             <Tooltip
               label={
@@ -317,18 +360,25 @@ export const UserTable: React.FC<{ data: any }> = ({
     headerGroups,
     rows,
     prepareRow,
+    //@ts-ignore
   } = useTable({ columns, data });
 
   return (
     <Table {...getTableProps()}>
       <Thead>
-        {headerGroups.map((headerGroup) => (
-          <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroup}>
-            {headerGroup.headers.map((column) => (
+        {headerGroups.map((headerGroup, i) => (
+          <Tr
+            {...headerGroup.getHeaderGroupProps()}
+            key={i.toString() + 'header-group'}
+          >
+            {headerGroup.headers.map((column, j) => (
               <Th
-                key={column}
+                //@ts-ignore
+                key={j.toString() + 'column'}
                 textAlign="center"
+                //@ts-ignore
                 {...column.getHeaderProps(column)}
+                //@ts-ignore
                 isNumeric={column.isNumeric}
               >
                 {column.render(`Header`)}
@@ -338,14 +388,16 @@ export const UserTable: React.FC<{ data: any }> = ({
         ))}
       </Thead>
       <Tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
+        {rows.map((row, i: number) => {
           prepareRow(row);
           return (
-            <Tr {...row.getRowProps()} key={row}>
-              {row.cells.map((cell) => (
+            <Tr {...row.getRowProps()} key={i.toString() + 'row'}>
+              {row.cells.map((cell, j: number) => (
                 <Td
-                  key={cell}
+                  //@ts-ignore
+                  key={j.toString() + 'cell'}
                   {...cell.getCellProps()}
+                  //@ts-ignore
                   isNumeric={cell.column.isNumeric}
                   textAlign="center"
                 >

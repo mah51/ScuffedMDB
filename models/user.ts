@@ -1,6 +1,6 @@
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose, { Document, Model, ObjectId } from 'mongoose';
 
-const userSchema = new mongoose.Schema<UserType, UserModel>(
+const userSchema = new mongoose.Schema<MongoUser, UserModel>(
   {
     discord_id: { type: String, required: true },
     username: { type: String, required: true },
@@ -18,55 +18,50 @@ const userSchema = new mongoose.Schema<UserType, UserModel>(
     isReviewer: { type: Boolean, default: false },
     isBanned: { type: Boolean, default: false },
     banReason: { type: String },
-    bio: { type: String },
   },
   { timestamps: true }
 );
 
 export default mongoose.models?.User || mongoose.model(`User`, userSchema);
-
-export interface UserType extends Document {
+export interface LeanMongoUser {
+  _id: ObjectId;
   discord_id: string;
   username: string;
   image: string;
-  avatar?: string;
   discriminator: string;
   public_flags: number;
   flags: number;
   locale: string;
   mfa_enabled: boolean;
   premium_type?: number;
-  last_updated?: number;
-  email?: string;
-  isAdmin?: boolean;
-  isReviewer?: boolean;
-  createdAt?: Date | number;
-  isBanned?: boolean;
+  email: string;
+  isAdmin: boolean;
+  isReviewer: boolean;
+  createdAt: Date;
+  isBanned: boolean;
   banReason?: string;
-  updatedAt?: Date | number;
-  bio?: string;
+  updatedAt: Date;
 }
 
-export interface PlainUserType {
+export type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
+
+export type SerializedUser = Overwrite<
+  LeanMongoUser,
+  {
+    createdAt: string;
+    updatedAt: string;
+    _id: string;
+  }
+>;
+
+export interface PopulatedUserType {
+  _id: string;
   discord_id: string;
-  username: string;
-  avatar?: string;
-  discriminator: string;
-  public_flags: number;
   image: string;
-  flags: number;
-  locale: string;
-  mfa_enabled: boolean;
-  premium_type?: number;
-  last_updated?: number;
-  email?: string;
-  isAdmin?: boolean;
-  isReviewer?: boolean;
-  createdAt?: Date | number;
-  isBanned?: boolean;
-  banReason?: string;
-  updatedAt?: Date | number;
-  bio?: string;
+  username: string;
+  discriminator: string;
 }
 
-type UserModel = Model<UserType>;
+export type MongoUser = Document & LeanMongoUser;
+
+type UserModel = Model<MongoUser>;

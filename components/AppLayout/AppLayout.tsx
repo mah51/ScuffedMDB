@@ -1,23 +1,27 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Nav from '../Nav';
 import Footer from '../Footer';
-import { UserAuthType } from '../../types/next-auth';
+import { UserAuthType } from 'next-auth';
 
 interface AppLayoutProps {
   user: UserAuthType;
-  children: any;
+  children: ReactNode;
   showMovies?: boolean;
   showReview?: boolean;
 }
 
-export const AppLayout: React.FC<AppLayoutProps> = ({
+export const AppLayout = ({
   showMovies,
   showReview,
   user,
   children,
-}): React.ReactElement => (
+}: AppLayoutProps): React.ReactElement => (
   <>
-    <Nav user={user} showMovies={showMovies} showReview={showReview} />
+    <Nav
+      user={user}
+      showMovies={showMovies || false}
+      showReview={showReview || false}
+    />
     {children}
     <Footer />
   </>

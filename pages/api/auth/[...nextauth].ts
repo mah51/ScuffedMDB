@@ -1,10 +1,11 @@
-import NextAuth from 'next-auth';
+import NextAuth, { User } from 'next-auth';
 import Providers from 'next-auth/providers';
 import Models from '../../../models';
 //@ts-ignore
 import { TypeORMLegacyAdapter } from '@next-auth/typeorm-legacy-adapter';
 import dbConnect from '../../../utils/dbConnect';
 import user from '../../../models/user';
+import { JWT } from 'next-auth/jwt';
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -108,12 +109,13 @@ export default NextAuth({
   callbacks: {
     // async signIn(user, account, profile) { return true },
     // async redirect(url, baseUrl) { return baseUrl },
-    async session(session, token) {
+    async session(session, token: User) {
+      //TODO fix session func types in next auth. This type isn't done correctly, but I don't know how to do it :/.
       if (session?.user) {
         try {
           await dbConnect();
 
-          const findUser = await user.findById(token.id);
+          const findUser = await user.findById(token.sub || session.user.sub);
 
           if (!findUser) {
             console.error('User not found in session callback');
@@ -131,8 +133,13 @@ export default NextAuth({
 
       return session;
     },
-    async jwt(token, user) {
-      return { ...token, ...user };
+    async jwt(
+      token: { name: string; iat: number; exp: number; picture: string },
+      user: User
+    ): Promise<JWT> {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { picture, ...restToken } = token;
+      return { ...restToken, ...user };
     },
   },
 

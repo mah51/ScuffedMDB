@@ -1,16 +1,20 @@
-import { MovieType, ReviewType } from '../models/movie';
-import { UserType } from '../models/user';
+import { SerializedUser, PopulatedUserType } from './../models/user';
+import { ReviewType, SerializedMovieType } from '../models/movie';
 
 export const getMovies = async (): Promise<
-  MovieType<ReviewType<UserType>[]>[]
+  SerializedMovieType<ReviewType<PopulatedUserType>[]>[]
 > => {
   const res: Response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URI}/api/movie`
   );
   // eslint-disable-next-line no-return-await
-  const unsortedMovies = await res.json();
+  const unsortedMovies: {
+    data: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+  } = await res.json();
 
-  const movies = unsortedMovies.data
+  const movies: SerializedMovieType<
+    ReviewType<PopulatedUserType>[]
+  >[] = unsortedMovies.data
     .sort(
       (a, b) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
@@ -20,9 +24,15 @@ export const getMovies = async (): Promise<
 };
 
 export const getMovie = async (
-  id: string,
+  id: string | string[] | undefined,
   isLean: boolean
-): Promise<MovieType> => {
+): Promise<SerializedMovieType<ReviewType<PopulatedUserType>[]> | null> => {
+  if (!id) {
+    return null;
+  }
+  if (Array.isArray(id)) {
+    id = id.join('');
+  }
   const res: Response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URI}/api/movie/${id}/${
       isLean && '?isLean=true'
@@ -30,15 +40,19 @@ export const getMovie = async (
   );
 
   // eslint-disable-next-line no-return-await
-  const movie = await res.json();
+  const movie: SerializedMovieType<
+    ReviewType<PopulatedUserType>[]
+  > = await res.json();
 
   return movie;
 };
 
-export const getUsers = async (): Promise<UserType[]> => {
+export const getUsers = async (): Promise<SerializedUser[]> => {
   const res: Response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URI}/api/users`
   );
-  const data = await res.json();
-  return data.users;
+
+  const { users }: { users: SerializedUser[] } = await res.json();
+
+  return users;
 };

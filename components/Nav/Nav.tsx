@@ -19,7 +19,7 @@ import {
 import { IoMoon, IoSunny } from 'react-icons/io5';
 import Link from 'next/link';
 import MovieModal from '../MovieModal';
-import { UserAuthType } from '../../types/next-auth';
+import { UserAuthType } from 'next-auth';
 import ReviewModal from '../ReviewModal';
 import { signout } from 'next-auth/client';
 
