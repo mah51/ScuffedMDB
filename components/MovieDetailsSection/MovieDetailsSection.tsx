@@ -31,6 +31,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  useColorModePreference,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import millify from 'millify';
@@ -229,7 +231,7 @@ export default function MovieDetailsSection({
                     <chakra.span
                       fontSize="lg"
                       fontWeight="bold"
-                      color={'white'}
+                      color={useColorModeValue('gray.900', 'white')}
                     >
                       {millify(movie.budget)}
                     </chakra.span>
@@ -244,7 +246,7 @@ export default function MovieDetailsSection({
                     <chakra.span
                       fontSize="lg"
                       fontWeight="bold"
-                      color={'white'}
+                      color={useColorModeValue('gray.900', 'white')}
                     >
                       {millify(movie.revenue)}
                     </chakra.span>
@@ -379,8 +381,7 @@ export default function MovieDetailsSection({
                       target="_blank"
                       icon={<FaImdb size="1em" />}
                       alignSelf="flex-end"
-                      colorScheme="yellow"
-                      variant="ghost"
+                      variant="IMDB"
                     />
                   </Link>
                 </StatNumber>

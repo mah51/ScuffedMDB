@@ -7,7 +7,7 @@ import Document, {
   DocumentContext,
 } from 'next/document';
 
-import theme from '../theme';
+import theme from '../styles/theme';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<any> {
