@@ -17,6 +17,8 @@ import {
   useToast,
   useColorMode,
   Stack,
+  IconButton,
+  Tooltip,
 } from '@chakra-ui/react';
 import 'react-toggle/style.css';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -32,6 +34,7 @@ import Link from 'next/link';
 import { UserAuthType } from 'next-auth';
 
 import MovieGridView from '../MovieGridView';
+import { BsCardImage, BsGrid3X3 } from 'react-icons/bs';
 
 interface CardGridProps {
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
@@ -44,7 +47,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
 }): React.ReactElement => {
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('recent');
-  const [cardView] = useState(false);
+  const [cardView, setCardView] = useState(false);
 
   const toast = useToast();
   const { colorMode } = useColorMode();
@@ -180,6 +183,36 @@ export const CardGrid: React.FC<CardGridProps> = ({
               {/* <Toggle
                 icons={{ checked: <BsGrid3X3 />, unchecked: <BsGrid3X3 /> }}
               /> */}
+              <Tooltip
+                label="Toggle between card and table view"
+                placement="top"
+              >
+                <Stack
+                  isInline
+                  bg={useColorModeValue('gray.100', 'whiteAlpha.200')}
+                  height="full"
+                  alignItems="center"
+                  px={1}
+                  borderRadius="md"
+                >
+                  <IconButton
+                    bg={cardView ? 'purple.300' : 'transparent'}
+                    size="sm"
+                    onClick={() => setCardView(true)}
+                    aria-label="Activate table mode"
+                    colorScheme={cardView ? 'purple' : 'gray'}
+                    icon={<BsCardImage />}
+                  />
+                  <IconButton
+                    size="sm"
+                    bg={!cardView ? 'purple.300' : 'transparent'}
+                    onClick={() => setCardView(false)}
+                    aria-label="Activate table mode"
+                    colorScheme={!cardView ? 'purple' : 'gray'}
+                    icon={<BsGrid3X3 />}
+                  />
+                </Stack>
+              </Tooltip>
             </Stack>
           </Stack>
         </Flex>
@@ -207,7 +240,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
             )}
           </SimpleGrid>
         ) : (
-          <MovieGridView movies={movies.data} />
+          <MovieGridView user={user} movies={movies.data} />
         )}
       </Container>
     </>

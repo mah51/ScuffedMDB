@@ -17,19 +17,41 @@ import {
   Tooltip,
   VStack,
   Text,
+  AvatarGroup,
+  Avatar,
+  useToast,
+  PopoverTrigger,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  Button,
+  PopoverHeader,
 } from '@chakra-ui/react';
+import { UserAuthType } from 'next-auth';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React, { ReactElement, useMemo } from 'react';
 import { CgDetailsMore } from 'react-icons/cg';
 import { FaImdb } from 'react-icons/fa';
+import { IoTrashBinOutline } from 'react-icons/io5';
+import { useQueryClient } from 'react-query';
 import { useTable } from 'react-table';
 import { SerializedMovieType } from '../../models/movie';
 
 interface Props {
   movies: SerializedMovieType[];
+  user: UserAuthType;
 }
 
-const COLUMNS = [
+const COLUMNS = (
+  user: UserAuthType,
+  handleMovieDelete: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    movieID: string
+  ) => void
+) => [
   {
     Header: 'Movie',
     accessor: 'info',
@@ -62,23 +84,33 @@ const COLUMNS = [
     Header: 'Rating',
     accessor: 'rating',
     Cell: ({
-      value: { rating, numReviews },
+      value: { rating, reviews },
     }: {
-      value: { rating: string; numReviews: number };
+      value: { rating: string; reviews: { name: string; image: string }[] };
     }) => {
-      return numReviews > 0 ? (
+      return reviews.length > 0 ? (
         <Stat textAlign="center">
-          <StatNumber fontSize="3xl" fontWeight="bold">
+          <StatNumber
+            alignItems="center"
+            display="flex"
+            fontSize="3xl"
+            fontWeight="bold"
+            justifyContent="center"
+          >
             {rating}
             <chakra.span fontSize="md" fontWeight="normal" color={'gray.500'}>
               {' '}
               /10
-            </chakra.span>{' '}
-            <chakra.span fontSize="md">{numReviews}</chakra.span>
-            <chakra.span fontSize="md" fontWeight="normal" color={'gray.500'}>
-              {' '}
-              vote{numReviews !== 1 && 's'}
             </chakra.span>
+            <AvatarGroup ml={3} max={3} size="md">
+              {reviews.map((review, i) => (
+                <Avatar
+                  src={review.image}
+                  key={i.toString() + 'avatar'}
+                  name={review.name}
+                />
+              ))}
+            </AvatarGroup>
           </StatNumber>
         </Stat>
       ) : (
@@ -92,9 +124,9 @@ const COLUMNS = [
     Header: 'Actions',
     accessor: 'actionInfo',
     Cell: ({
-      value: { imdbID, movieID },
+      value: { imdbID, movieID, name },
     }: {
-      value: { imdbID: string; movieID: string };
+      value: { imdbID: string; movieID: string; name: string };
     }) => {
       return (
         <Stack isInline width="full" justifyContent="center">
@@ -132,23 +164,128 @@ const COLUMNS = [
               variant="IMDB"
             />
           </Tooltip>
+
+          {user.isAdmin && (
+            <Popover closeOnBlur={true}>
+              <Tooltip
+                label="Delete movie"
+                aria-label="Delete movie"
+                hasArrow
+                placement="top"
+              >
+                <span>
+                  <PopoverTrigger>
+                    <IconButton
+                      aria-label="Delete movie"
+                      size="2xl"
+                      p={2}
+                      variant="ghost"
+                      colorScheme="red"
+                      icon={<IoTrashBinOutline size="3em" />}
+                    />
+                  </PopoverTrigger>
+                </span>
+              </Tooltip>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <PopoverHeader fontSize="2xl" p={4} fontWeight="bold">
+                  Delete {name}?
+                </PopoverHeader>
+                <PopoverBody
+                  display="flex"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                  width="full"
+                  height="full"
+                >
+                  <Button
+                    ml={3}
+                    colorScheme="red"
+                    onClick={(e) => handleMovieDelete(e, movieID)}
+                  >
+                    Delete
+                  </Button>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          )}
         </Stack>
       );
     },
   },
 ];
 
-export default function MovieGridView({ movies }: Props): ReactElement {
+export default function MovieGridView({ movies, user }: Props): ReactElement {
+  const toast = useToast();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const handleMovieDelete = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    movieID: string
+  ): Promise<void> => {
+    e.preventDefault();
+    try {
+      close();
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URI}/api/movie`,
+        {
+          method: `delete`,
+          // eslint-disable-next-line no-underscore-dangle
+          body: JSON.stringify({ id: movieID }),
+        }
+      );
+      const data = await response.json();
+
+      if (response.status !== 200) {
+        toast({
+          variant: `subtle`,
+          title: `There was an error`,
+          description: data.message,
+          status: `error`,
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
+      }
+      await queryClient.invalidateQueries(`movies`);
+      router.push('/');
+      toast({
+        variant: `subtle`,
+        title: `Movie Deleted`,
+        description: `${data.name} was deleted successfully :)`,
+        status: `success`,
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (err) {
+      toast({
+        variant: `subtle`,
+        title: `There was an error`,
+        description: err.message,
+        status: `error`,
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   const moviesData = movies.map((movie) => ({
     info: {
       name: movie.name,
       image: movie.image,
       tagLine: movie.tagLine,
     },
-    rating: { rating: movie.rating, numReviews: movie.numReviews },
-    actionInfo: { imdbID: movie.imdbID, movieID: movie._id },
+    rating: {
+      rating: movie.rating,
+      reviews: movie.reviews.map((review) => ({
+        name: review.user?.username,
+        image: review.user?.image,
+      })),
+    },
+    actionInfo: { imdbID: movie.imdbID, movieID: movie._id, name: movie.name },
   }));
-  const columns = useMemo(() => COLUMNS, []);
+  const columns = useMemo(() => COLUMNS(user, handleMovieDelete), []);
   const data = useMemo(() => moviesData, [moviesData]);
   const {
     getTableBodyProps,
@@ -174,7 +311,7 @@ export default function MovieGridView({ movies }: Props): ReactElement {
             {headerGroup.headers.map((header, j) => (
               <Th
                 {...header.getHeaderProps()}
-                key={j.toString + ' header'}
+                key={j.toString() + ' header'}
                 borderColor={colorMode === 'light' ? 'gray.100' : 'gray.900'}
                 py={7}
                 fontSize="md"
