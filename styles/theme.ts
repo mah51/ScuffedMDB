@@ -1,6 +1,7 @@
 // 1. import `extendTheme` function
 import { ColorMode, extendTheme, ThemeConfig } from '@chakra-ui/react';
-import Button from './component_styles/Button';
+import { Button, Switch } from './component_styles';
+
 // 2. Add your color mode config
 interface CustomTheme extends ThemeConfig {
   initialColorMode: ColorMode;
@@ -14,6 +15,7 @@ const config: CustomTheme = {
 
 const components = {
   Button,
+  Switch,
 };
 
 // 3. extend the theme

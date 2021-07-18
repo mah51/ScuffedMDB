@@ -1,4 +1,4 @@
-import { Overwrite } from './user';
+import { Overwrite, PopulatedUserType } from './user';
 import mongoose, { Document, Model } from 'mongoose';
 
 const reviewSchema = new mongoose.Schema(
@@ -42,7 +42,7 @@ const movieSchema = new mongoose.Schema(
 export default mongoose?.models?.Movie ||
   mongoose.model<MovieType>(`Movie`, movieSchema);
 
-export interface ReviewType<T = string> {
+export interface ReviewType<T = PopulatedUserType> {
   user: T extends string ? T : T | null;
   comment?: string;
   rating: number;
@@ -70,7 +70,7 @@ export interface MovieType<T = ReviewType[]> extends Document {
   updatedAt: Date;
 }
 
-export type SerializedMovieType<R> = Overwrite<
+export type SerializedMovieType<R = ReviewType[]> = Overwrite<
   MovieType<R>,
   { createdAt: string; updatedAt: string; _id: string }
 >;
