@@ -296,6 +296,7 @@ export default function MovieGridView({ movies, user }: Props): ReactElement {
     headerGroups,
     rows,
     prepareRow,
+    //@ts-ignore
   } = useTable({ columns, data });
   const { colorMode } = useColorMode();
 
