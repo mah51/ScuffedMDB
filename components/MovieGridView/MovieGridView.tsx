@@ -285,10 +285,8 @@ export default function MovieGridView({ movies, user }: Props): ReactElement {
     },
     actionInfo: { imdbID: movie.imdbID, movieID: movie._id, name: movie.name },
   }));
-  const columns = useMemo(() => COLUMNS(user, handleMovieDelete), [
-    user,
-    handleMovieDelete,
-  ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const columns = useMemo(() => COLUMNS(user, handleMovieDelete), [user]);
   const data = useMemo(() => moviesData, [moviesData]);
   const {
     getTableBodyProps,
