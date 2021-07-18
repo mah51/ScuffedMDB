@@ -310,7 +310,12 @@ export default function MovieGridView({ movies, user }: Props): ReactElement {
       borderColor={useColorModeValue('gray.100', 'gray.900')}
       {...getTableProps()}
     >
-      <Thead>
+      <Thead
+        bg={useColorModeValue('gray.50', 'gray.900')}
+        borderBottom="1px solid"
+        shadow="md"
+        borderColor={useColorModeValue('gray.300', 'gray.700')}
+      >
         {headerGroups.map((headerGroup, i) => (
           <Tr
             {...headerGroup.getHeaderGroupProps()}

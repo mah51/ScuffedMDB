@@ -19,6 +19,7 @@ import {
   Stack,
   IconButton,
   Tooltip,
+  useBreakpoint,
 } from '@chakra-ui/react';
 import 'react-toggle/style.css';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -45,9 +46,10 @@ export const CardGrid: React.FC<CardGridProps> = ({
   movies: unSortedMovies,
   user,
 }): React.ReactElement => {
+  const bp = useBreakpoint();
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('recent');
-  const [cardView, setCardView] = useState(false);
+  const [cardView, setCardView] = useState(true);
 
   const toast = useToast();
   const { colorMode } = useColorMode();
@@ -240,7 +242,18 @@ export const CardGrid: React.FC<CardGridProps> = ({
             )}
           </SimpleGrid>
         ) : (
-          <MovieGridView user={user} movies={movies.data} />
+          <chakra.div
+            overflowX={
+              ['base', 'sm', 'md'].includes(bp || '') ? 'scroll' : 'hidden'
+            }
+            shadow="lg"
+            maxW="full"
+            borderRadius="xl"
+            border="1px solid"
+            borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
+          >
+            <MovieGridView user={user} movies={movies.data} />
+          </chakra.div>
         )}
       </Container>
     </>
