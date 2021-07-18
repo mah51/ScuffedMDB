@@ -13,6 +13,7 @@ import {
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import Rating from '../Rating';
 import { PopulatedUserType } from '../../models/user';
+import { getColorSchemeCharCode } from '../../utils/utils';
 
 interface CardProps {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
@@ -126,7 +127,10 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
             >
               {name}
             </Text>
-            <Tag colorScheme="purple" fontWeight="600">
+            <Tag
+              colorScheme={getColorSchemeCharCode(genres[0])}
+              fontWeight="600"
+            >
               {genres[0]}
             </Tag>
           </Flex>

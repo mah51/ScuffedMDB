@@ -42,7 +42,7 @@ import React, { ReactElement, useContext } from 'react';
 import { FaImdb } from 'react-icons/fa';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
-import { getTotalCharCode } from '../../utils/utils';
+import { getColorSchemeCharCode } from '../../utils/utils';
 import { IoChevronDown } from 'react-icons/io5';
 
 import useScrollPosition from '../../hooks/useScrollPosition.hook';
@@ -158,19 +158,7 @@ export default function MovieDetailsSection({
                     <Tag
                       size={isLargerThan800 ? 'md' : 'sm'}
                       key={i.toString()}
-                      colorScheme={`${
-                        [
-                          'red',
-                          'orange',
-                          'yellow',
-                          'green',
-                          'teal',
-                          'blue',
-                          'cyan',
-                          'pink',
-                          'purple',
-                        ][getTotalCharCode(genre) % 9]
-                      }`}
+                      colorScheme={getColorSchemeCharCode(genre)}
                     >
                       <TagLabel fontWeight={'600'}> {genre}</TagLabel>
                     </Tag>
