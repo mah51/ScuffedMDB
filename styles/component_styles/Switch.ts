@@ -1,6 +1,6 @@
 const Switch = {
   variants: {
-    square: (props: Record<string, any>): Record<string, any> => ({
+    square: (): Record<string, any> => ({
       track: {
         borderRadius: 'md',
         bg: 'whiteAlpha.200',

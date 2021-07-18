@@ -1,4 +1,3 @@
-import { ArrowRightIcon } from '@chakra-ui/icons';
 import {
   AspectRatio,
   Stack,

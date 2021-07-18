@@ -19,7 +19,6 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import 'react-toggle/style.css';
-import Toggle from 'react-toggle';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiChevronDown } from 'react-icons/bi';
 import { useState } from 'react';
@@ -31,8 +30,7 @@ import { NextSeo } from 'next-seo';
 import ReviewModal from '../ReviewModal';
 import Link from 'next/link';
 import { UserAuthType } from 'next-auth';
-import { BsGrid3X3 } from 'react-icons/bs';
-import { css } from '@emotion/css';
+
 import MovieGridView from '../MovieGridView';
 
 interface CardGridProps {
@@ -46,7 +44,8 @@ export const CardGrid: React.FC<CardGridProps> = ({
 }): React.ReactElement => {
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('recent');
-  const [cardView, setCardView] = useState(false);
+  const [cardView] = useState(false);
+
   const toast = useToast();
   const { colorMode } = useColorMode();
   // Fix for https://github.com/chakra-ui/chakra-ui/issues/3076
