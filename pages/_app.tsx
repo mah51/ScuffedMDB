@@ -8,12 +8,16 @@ import { DefaultSeo } from 'next-seo';
 import { ReviewModalContext } from '../utils/ModalContext';
 import React, { useState } from 'react';
 import theme from '../styles/theme';
+import { ReviewType, SerializedMovieType } from '../models/movie';
+import { PopulatedUserType } from '../models/user';
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const [movie, setMovie] = useState(null);
+  const [movie, setMovie] = useState<SerializedMovieType<
+    ReviewType<PopulatedUserType>[]
+  > | null>(null);
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
   const shortSiteName =
     process.env.NEXT_PUBLIC_SHORT_SITE_NAME ||
