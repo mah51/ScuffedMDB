@@ -28,6 +28,7 @@ import {
   PopoverContent,
   Button,
   PopoverHeader,
+  Skeleton,
 } from '@chakra-ui/react';
 import { UserAuthType } from 'next-auth';
 import Image from 'next/image';
@@ -60,15 +61,20 @@ const COLUMNS = (
     }: {
       value: { name: string; image: string; tagLine: string };
     }) => {
+      const [loaded, setLoaded] = React.useState(false);
       return (
         <Stack spacing={6} isInline alignItems="center">
           <AspectRatio ratio={16 / 9} width="150px" borderRadius="xl">
-            <Image
-              src={image}
-              alt={`${name} poster`}
-              layout="fill"
-              className={'borderRadius-md'}
-            />
+            <Skeleton borderRadius="md" isLoaded={loaded}>
+              <Image
+                src={image}
+                alt={`${name} poster`}
+                layout="fill"
+                sizes={'150px'}
+                onLoad={() => setLoaded(true)}
+                className={'borderRadius-md'}
+              />
+            </Skeleton>
           </AspectRatio>
           <VStack alignItems="flex-start">
             <Heading size="lg">{name}</Heading>
