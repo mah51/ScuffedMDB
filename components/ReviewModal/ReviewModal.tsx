@@ -31,22 +31,21 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 
-import { useBetween } from 'use-between';
-
 import { useQuery, useQueryClient } from 'react-query';
 
 import { AiFillStar } from 'react-icons/ai';
 import { getMovies } from '../../utils/queries';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
-import { ReviewModalContext, useMovie } from '../../utils/ModalContext';
+import { ReviewModalContext } from '../../utils/ModalContext';
 
 export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
   isAdmin,
   inNav = false,
 }): React.ReactElement => {
   const { colorMode } = useColorMode();
-  const { movie, setMovie } = useBetween(useMovie);
-  const { isOpen, onOpen, onClose } = useContext(ReviewModalContext);
+  const { isOpen, onOpen, onClose, movie, setMovie } = useContext(
+    ReviewModalContext
+  );
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState(``);
   const [commentError, setCommentError] = useState(``);
@@ -73,10 +72,9 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
       });
       setSuccess('');
     }
-  }, [movie?.name, queryClient, success, toast]);
+  }, [movie, queryClient, success, toast]);
 
   const { data: movies } = useQuery(`movies`, getMovies);
-
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     onClose: () => void
@@ -125,7 +123,10 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
         colorScheme="purple"
         mr={isAdmin ? 0 : 3}
         leftIcon={<AddIcon />}
-        onClick={() => onOpen()}
+        onClick={() => {
+          setMovie(null);
+          onOpen();
+        }}
       >
         Add review
       </Button>

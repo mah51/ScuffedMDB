@@ -47,8 +47,7 @@ import { IoChevronDown } from 'react-icons/io5';
 
 import useScrollPosition from '../../hooks/useScrollPosition.hook';
 import { AddIcon } from '@chakra-ui/icons';
-import { useBetween } from 'use-between';
-import { ReviewModalContext, useMovie } from '../../utils/ModalContext';
+import { ReviewModalContext } from '../../utils/ModalContext';
 import { ExternalLinkIcon, EditIcon } from '@chakra-ui/icons';
 import { useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
@@ -80,8 +79,9 @@ export default function MovieDetailsSection({
       : false;
   const { scrollPosition } = useScrollPosition();
 
-  const { setMovie: setModalMovie } = useBetween(useMovie);
-  const { onOpen: reviewOnOpen } = useContext(ReviewModalContext);
+  const { onOpen: reviewOnOpen, setMovie: setModalMovie } = useContext(
+    ReviewModalContext
+  );
 
   return (
     <Box maxWidth="7xl" mx={'auto'}>
@@ -286,17 +286,23 @@ export default function MovieDetailsSection({
                       </chakra.span>
                     </>
                   ) : (
-                    <Button
-                      variant="solid"
-                      leftIcon={<AddIcon />}
-                      onClick={() => {
-                        setModalMovie(movie);
-                        return reviewOnOpen();
-                      }}
-                      colorScheme="purple"
-                    >
-                      Add one!
-                    </Button>
+                    <>
+                      {user?.isReviewer ? (
+                        <Button
+                          variant="solid"
+                          leftIcon={<AddIcon />}
+                          onClick={() => {
+                            setModalMovie(movie);
+                            return reviewOnOpen();
+                          }}
+                          colorScheme="purple"
+                        >
+                          Add one!
+                        </Button>
+                      ) : (
+                        <Text>N/A</Text>
+                      )}
+                    </>
                   )}
                 </StatNumber>
               </Stat>
@@ -401,8 +407,10 @@ const MovieAdminOptions = ({
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
 }): JSX.Element => {
   const { colorMode } = useColorMode();
-  const { setMovie: setModalMovie } = useBetween(useMovie);
-  const { onOpen: reviewOnOpen } = useContext(ReviewModalContext);
+
+  const { onOpen: reviewOnOpen, setMovie: setModalMovie } = useContext(
+    ReviewModalContext
+  );
   const toast = useToast();
 
   const [isOpen, setIsOpen] = React.useState(false);

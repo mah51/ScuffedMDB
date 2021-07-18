@@ -82,7 +82,7 @@ export const MovieModal: React.FC = (): React.ReactElement => {
         `${process.env.NEXT_PUBLIC_APP_URI}/api/movie-api?search=${target['0'].value}`
       );
       const data: OMDBResponse = await response.json();
-      if (response.status !== 200 || data.status_code !== 200) {
+      if (response.status !== 200) {
         console.error(data.status_message);
         return setError(data.status_message || 'An error occurred');
       }
