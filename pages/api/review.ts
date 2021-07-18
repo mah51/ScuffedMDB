@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import Movie, { MovieType } from '../../models/movie';
+import Movie, { MovieType, ReviewType } from '../../models/movie';
 import dbConnect from '../../utils/dbConnect';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
 
@@ -29,7 +29,9 @@ const handler = async (
         rating,
       };
 
-      const movie: MovieType = await Movie.findOne({ _id: movieID });
+      const movie: MovieType<ReviewType<string>[]> = await Movie.findOne({
+        _id: movieID,
+      });
       if (!movie) {
         return res.status(404);
       }

@@ -23,6 +23,10 @@ a {
   border-radius: var(--chakra-radii-xl);
 }
 
+.borderRadius-md {
+  border-radius: var(--chakra-radii-md);
+}
+
 .bouncing-arrow {
   -webkit-animation: bounce 2s ease-in-out;
   animation: bounce 2s ease-in-out;

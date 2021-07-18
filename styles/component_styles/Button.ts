@@ -1,7 +1,7 @@
 import { mode, transparentize } from '@chakra-ui/theme-tools';
 type Dict = Record<string, any>;
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {
+const Button = {
   variants: {
     IMDB: (props: Dict): Dict => ({
       color: '#F5C518',
@@ -15,3 +15,5 @@ export default {
     }),
   },
 };
+
+export default Button;

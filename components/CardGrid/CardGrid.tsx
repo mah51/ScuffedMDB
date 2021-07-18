@@ -18,6 +18,8 @@ import {
   useColorMode,
   Stack,
 } from '@chakra-ui/react';
+import 'react-toggle/style.css';
+import Toggle from 'react-toggle';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiChevronDown } from 'react-icons/bi';
 import { useState } from 'react';
@@ -29,6 +31,9 @@ import { NextSeo } from 'next-seo';
 import ReviewModal from '../ReviewModal';
 import Link from 'next/link';
 import { UserAuthType } from 'next-auth';
+import { BsGrid3X3 } from 'react-icons/bs';
+import { css } from '@emotion/css';
+import MovieGridView from '../MovieGridView';
 
 interface CardGridProps {
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
@@ -41,7 +46,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
 }): React.ReactElement => {
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('recent');
-
+  const [cardView, setCardView] = useState(false);
   const toast = useToast();
   const { colorMode } = useColorMode();
   // Fix for https://github.com/chakra-ui/chakra-ui/issues/3076
@@ -137,66 +142,74 @@ export const CardGrid: React.FC<CardGridProps> = ({
                 onChange={(e) => setFilter(e.target.value.toLowerCase())}
               />
             </InputGroup>
-
-            <Menu>
-              <MenuButton as={Button} rightIcon={<BiChevronDown />}>
-                Sort by...
-              </MenuButton>
-              <MenuList zIndex={998}>
-                <MenuItem
-                  zIndex={999}
-                  isDisabled={sort === 'recent'}
-                  onClick={() => setSort('recent')}
-                >
-                  Recent
-                </MenuItem>
-                <MenuItem
-                  zIndex={999}
-                  isDisabled={sort === 'old'}
-                  onClick={() => setSort('old')}
-                >
-                  Old
-                </MenuItem>
-                <MenuItem
-                  zIndex={999}
-                  isDisabled={sort === 'best'}
-                  onClick={() => setSort('best')}
-                >
-                  Best
-                </MenuItem>
-                <MenuItem
-                  zIndex={999}
-                  isDisabled={sort === 'worst'}
-                  onClick={() => setSort('worst')}
-                >
-                  Worst
-                </MenuItem>
-              </MenuList>
-            </Menu>
+            <Stack isInline alignItems="center">
+              <Menu>
+                <MenuButton as={Button} rightIcon={<BiChevronDown />}>
+                  Sort by...
+                </MenuButton>
+                <MenuList zIndex={998}>
+                  <MenuItem
+                    zIndex={999}
+                    isDisabled={sort === 'recent'}
+                    onClick={() => setSort('recent')}
+                  >
+                    Recent
+                  </MenuItem>
+                  <MenuItem
+                    zIndex={999}
+                    isDisabled={sort === 'old'}
+                    onClick={() => setSort('old')}
+                  >
+                    Old
+                  </MenuItem>
+                  <MenuItem
+                    zIndex={999}
+                    isDisabled={sort === 'best'}
+                    onClick={() => setSort('best')}
+                  >
+                    Best
+                  </MenuItem>
+                  <MenuItem
+                    zIndex={999}
+                    isDisabled={sort === 'worst'}
+                    onClick={() => setSort('worst')}
+                  >
+                    Worst
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+              {/* <Toggle
+                icons={{ checked: <BsGrid3X3 />, unchecked: <BsGrid3X3 /> }}
+              /> */}
+            </Stack>
           </Stack>
         </Flex>
-        <SimpleGrid
-          columns={{ base: 1, md: 2, lg: 3 }}
-          spacing={10}
-          alignItems="stretch"
-        >
-          {movies?.data?.map(
-            (
-              movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
-              i
-            ) => (
-              <Link
-                key={`${i.toString()}cardBox`}
-                href={`/movie/${movie._id}`}
-                passHref
-              >
-                <Box as={'a'} height="full">
-                  <Card movie={movie} key={`${i.toString()}card`} />
-                </Box>
-              </Link>
-            )
-          )}
-        </SimpleGrid>
+        {cardView ? (
+          <SimpleGrid
+            columns={{ base: 1, md: 2, lg: 3 }}
+            spacing={10}
+            alignItems="stretch"
+          >
+            {movies?.data?.map(
+              (
+                movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
+                i
+              ) => (
+                <Link
+                  key={`${i.toString()}cardBox`}
+                  href={`/movie/${movie._id}`}
+                  passHref
+                >
+                  <Box as={'a'} height="full">
+                    <Card movie={movie} key={`${i.toString()}card`} />
+                  </Box>
+                </Link>
+              )
+            )}
+          </SimpleGrid>
+        ) : (
+          <MovieGridView movies={movies.data} />
+        )}
       </Container>
     </>
   );
