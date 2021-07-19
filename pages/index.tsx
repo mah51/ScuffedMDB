@@ -16,6 +16,7 @@ interface HomePageProps {
 
 export default function Home({ movies }: HomePageProps): React.ReactNode {
   const [session, loading] = useSession();
+
   const { data } = useQuery(`movies`, getMovies, {
     initialData: movies,
   });

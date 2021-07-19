@@ -7,6 +7,7 @@ import {
   chakra,
   HStack,
   Tag,
+  Stack,
   // useTheme,
 } from '@chakra-ui/react';
 
@@ -115,14 +116,20 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
         )}
       </Box>
 
-      <Flex isTruncated direction="column" justifyContent="space-between">
-        <Flex direction={'column'} isTruncated>
-          <Flex justifyContent="space-between" alignItems="center">
+      <Flex direction="column" justifyContent="space-between">
+        <Flex direction={'column'}>
+          <Stack
+            isInline
+            justifyContent="space-between"
+            alignItems="center"
+            maxW="full"
+          >
             <Text
               as="h3"
               color={useColorModeValue(`gray.700`, `white`)}
               fontSize="2xl"
               fontWeight="bold"
+              maxW="full"
               isTruncated
             >
               {name}
@@ -130,10 +137,11 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
             <Tag
               colorScheme={getColorSchemeCharCode(genres[0])}
               fontWeight="600"
+              minW="auto"
             >
               {genres[0]}
             </Tag>
-          </Flex>
+          </Stack>
           <HStack justifyContent="space-between" alignItems="flex-start" mt={3}>
             <Text color="gray.500" isTruncated>
               {tagLine || 'No tag line :(...'}
