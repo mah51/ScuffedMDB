@@ -38,10 +38,6 @@ export default function MoviePage({
   );
 
   useEffect(() => {
-    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-  }, []);
-
-  useEffect(() => {
     if (!session && !loading) router.push('/');
   }, [loading, router, session]);
 
