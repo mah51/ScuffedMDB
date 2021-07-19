@@ -9,7 +9,6 @@ import {
   Tr,
   Heading,
   useColorModeValue,
-  useColorMode,
   Stat,
   StatNumber,
   chakra,
@@ -302,14 +301,9 @@ export default function MovieGridView({ movies, user }: Props): ReactElement {
     prepareRow,
     //@ts-ignore
   } = useTable({ columns, data });
-  const { colorMode } = useColorMode();
 
   return (
-    <Table
-      border={'1px solid'}
-      borderColor={useColorModeValue('gray.100', 'gray.900')}
-      {...getTableProps()}
-    >
+    <Table {...getTableProps()}>
       <Thead
         bg={useColorModeValue('gray.50', 'gray.900')}
         borderBottom="1px solid"
@@ -325,7 +319,6 @@ export default function MovieGridView({ movies, user }: Props): ReactElement {
               <Th
                 {...header.getHeaderProps()}
                 key={j.toString() + ' header'}
-                borderColor={colorMode === 'light' ? 'gray.100' : 'gray.900'}
                 py={7}
                 fontSize="md"
                 textAlign="center"
@@ -344,13 +337,7 @@ export default function MovieGridView({ movies, user }: Props): ReactElement {
             <Tr {...row.getRowProps()} key={j.toString() + 'Row'}>
               {row.cells.map((cell, i) => {
                 return (
-                  <Td
-                    {...cell.getCellProps()}
-                    key={i.toString() + 'Cell'}
-                    borderColor={
-                      colorMode === 'light' ? 'gray.100' : 'gray.900'
-                    }
-                  >
+                  <Td {...cell.getCellProps()} key={i.toString() + 'Cell'}>
                     {cell.render('Cell')}
                   </Td>
                 );

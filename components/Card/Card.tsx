@@ -135,7 +135,14 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
               {name}
             </Text>
             <Tag
-              colorScheme={getColorSchemeCharCode(genres[0])}
+              colorScheme={getColorSchemeCharCode(genres[0], [
+                'pink',
+                'purple',
+                'blue',
+                'cyan',
+                'teal',
+                'red',
+              ])}
               fontWeight="600"
               minW="auto"
             >
