@@ -118,12 +118,7 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
 
       <Flex direction="column" justifyContent="space-between">
         <Flex direction={'column'}>
-          <Stack
-            isInline
-            justifyContent="space-between"
-            alignItems="center"
-            maxW="full"
-          >
+          <Flex justifyContent="space-between" alignItems="center" maxW="full">
             <Text
               as="h3"
               color={useColorModeValue(`gray.700`, `white`)}
@@ -148,7 +143,7 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
             >
               {genres[0]}
             </Tag>
-          </Stack>
+          </Flex>
           <HStack justifyContent="space-between" alignItems="flex-start" mt={3}>
             <Text color="gray.500" isTruncated>
               {tagLine || 'No tag line :(...'}
