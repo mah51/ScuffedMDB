@@ -7,8 +7,6 @@ import {
   chakra,
   HStack,
   Tag,
-  Stack,
-  // useTheme,
 } from '@chakra-ui/react';
 
 import { ReviewType, SerializedMovieType } from '../../models/movie';
