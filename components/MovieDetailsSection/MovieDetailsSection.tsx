@@ -54,6 +54,7 @@ import { useRouter } from 'next/router';
 import { SettingsIcon } from '@chakra-ui/icons';
 import { UserAuthType } from 'next-auth';
 import { ArrowBackIcon } from '@chakra-ui/icons';
+import { useEffect } from 'react';
 
 interface Props {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
@@ -71,6 +72,29 @@ export default function MovieDetailsSection({
   const userReview = movie.reviews.find(
     (rating) => rating?.user?._id === user.sub
   );
+  const toast = useToast();
+  const router = useRouter();
+  const { review } = router.query;
+  useEffect(() => {
+    if (user && user.isReviewer) {
+      if (review) {
+        window.history.pushState({}, document.title, '/movie/' + movie._id); // removes ?review=true param from url so refresh does not open review modal.
+        setModalMovie(movie);
+        return reviewOnOpen();
+      }
+    } else {
+      toast({
+        title: 'Not authorized',
+        description: 'Review cannot be added as you are not a reviewer',
+        duration: 5000,
+        status: 'error',
+        isClosable: true,
+        variant: 'subtle',
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [review, movie]);
 
   const averageReview =
     movie.reviews.length > 0
@@ -407,6 +431,7 @@ const MovieAdminOptions = ({
   const cancelRef = React.useRef(null);
   const router = useRouter();
   const queryClient = useQueryClient();
+
   const handleMovieDelete = async () => {
     try {
       close();
