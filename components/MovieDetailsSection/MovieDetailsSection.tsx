@@ -53,6 +53,7 @@ import { useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import { SettingsIcon } from '@chakra-ui/icons';
 import { UserAuthType } from 'next-auth';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 
 interface Props {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
@@ -451,7 +452,21 @@ const MovieAdminOptions = ({
     }
   };
   return (
-    <Flex mb={3} maxWidth={{ base: '90%', lg: 'full' }} mx="auto">
+    <Stack
+      isInline
+      justifyContent="space-between"
+      mb={3}
+      maxWidth={{ base: '90%', lg: 'full' }}
+      mx="auto"
+    >
+      <Button
+        leftIcon={<ArrowBackIcon />}
+        variant="ghost"
+        colorScheme={'purple'}
+        onClick={() => router.push('/')}
+      >
+        Back to home
+      </Button>
       <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
@@ -537,6 +552,6 @@ const MovieAdminOptions = ({
           )}
         </MenuList>
       </Menu>
-    </Flex>
+    </Stack>
   );
 };
