@@ -43,6 +43,7 @@ const handler = async (
         const index = movie.reviews.indexOf(existingReview);
         movie.reviews.splice(index, 1);
       }
+      //@ts-ignore
       movie.reviews.push(review);
       movie.numReviews = movie.reviews.length;
       movie.rating =
@@ -61,8 +62,45 @@ const handler = async (
       return res.status(500);
     }
   } else if (req.method === `DELETE`) {
-    // TODO Delete reviews...
-    return res.status(405);
+    const { movieID, reviewID } = JSON.parse(req.body);
+    const session = await getSession({ req });
+    if (!session?.user?.isAdmin && !session?.user?.isReviewer) {
+      return res
+        .status(401)
+        .json({ message: `You are not authorized to do that :(` });
+    }
+    const movie: MovieType<ReviewType<string>[]> = await Movie.findOne({
+      _id: movieID,
+    });
+    if (!movie) {
+      return res.status(404).json({ message: 'movie not found' });
+    }
+
+    const review = movie.reviews.find(
+      (rvw) => rvw.user.toString() === reviewID || session?.user?.id
+    );
+    if (!review) {
+      return res
+        .status(404)
+        .json({ message: 'You have not posted a review on that movie' });
+    }
+    if (!session.user.isAdmin && review.user.toString() !== session.user.id) {
+      return res
+        .status(401)
+        .json({ message: 'You do not have permissions to delete that review' });
+    }
+    movie.reviews.splice(movie.reviews.indexOf(review), 1);
+    movie.numReviews = movie.reviews.length;
+    movie.rating = movie.reviews.length
+      ? Math.round(
+          (movie.reviews.reduce<number>((a, b) => a + b.rating, 0) /
+            movie.reviews.length) *
+            10
+        ) / 10
+      : 0;
+    movie.markModified(`reviews`);
+    await movie.save();
+    return res.status(200).json({ message: `Review deleted` });
   } else {
     return res.status(405).send({ message: `method not allowed :(` });
   }

@@ -48,7 +48,7 @@ export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
     ReviewModalContext
   );
   const [isEditingReview, setIsEditingReview] = useState(false);
-  const { isAdmin } = user;
+
   const [isOpenedFromMovie, setIsOpenedFromMovie] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState(``);
@@ -80,6 +80,12 @@ export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
   const { data: movies } = useQuery(`movies`, getMovies);
 
   useEffect(() => {
+    if (!isOpen) {
+      setIsEditingReview(false);
+      setRating(0);
+      setComment(``);
+      return;
+    }
     if (movie) {
       const rvw = movie?.reviews.find((review) => {
         return review?.user?._id === user.sub;
@@ -94,13 +100,10 @@ export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
     setRating(0);
     setComment(``);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [movie]);
+  }, [movie, isOpen]);
 
   useEffect(() => {
     if (!isOpen) {
-      setIsEditingReview(false);
-      setRating(0);
-      setComment(``);
       return setIsOpenedFromMovie(false);
     }
     if (movie) {
@@ -155,7 +158,7 @@ export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
         variant="ghost"
         width={inNav ? '' : 'full'}
         colorScheme="purple"
-        mr={isAdmin ? 0 : 3}
+        mr={user?.isAdmin ? 0 : 3}
         leftIcon={<AddIcon />}
         onClick={() => {
           setMovie(null);
@@ -175,10 +178,10 @@ export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
               maxWidth="85%"
               mr="auto"
             >
-              {isOpenedFromMovie && movie
-                ? `Add a review to ${movie?.name}`
-                : isEditingReview && movie
+              {isEditingReview && movie
                 ? `Editing review for ${movie?.name}`
+                : isOpenedFromMovie && movie
+                ? `Add a review to ${movie?.name}`
                 : 'Add a review'}
             </Heading>
           </ModalHeader>
