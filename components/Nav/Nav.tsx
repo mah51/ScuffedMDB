@@ -84,7 +84,7 @@ export const Nav: React.FC<NavProps> = ({
 
             <Stack isInline>
               {user.isReviewer && showReview && (
-                <ReviewModal isAdmin={user.isAdmin} inNav />
+                <ReviewModal user={user} inNav />
               )}
               {user.isAdmin && showMovies && <MovieModal />}
             </Stack>
