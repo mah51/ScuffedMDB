@@ -6,17 +6,78 @@ import {
   Avatar,
   chakra,
   Text,
+  IconButton,
+  Stack,
+  Tooltip,
+  useToast,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  Button,
 } from '@chakra-ui/react';
 import { PopulatedUserType } from '../../models/user';
 import React, { ReactElement } from 'react';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import Wave from '../Wave';
+import { UserAuthType } from 'next-auth';
+import { EditIcon } from '@chakra-ui/icons';
+import { DeleteIcon } from '@chakra-ui/icons';
+import { useContext } from 'react';
+import { ReviewModalContext } from '../../utils/ModalContext';
+import { useQueryClient } from 'react-query';
 
 interface Props {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
+  user: UserAuthType;
 }
 
-const Review = ({ review }: { review: ReviewType<PopulatedUserType> }) => {
+const Review = ({
+  review,
+  user,
+  movie,
+}: {
+  user: UserAuthType;
+  review: ReviewType<PopulatedUserType>;
+  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
+}) => {
+  const toast = useToast();
+  const { setMovie, onOpen } = useContext(ReviewModalContext);
+  const queryClient = useQueryClient();
+  const handleReviewDelete = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    const response = await fetch(`/api/review`, {
+      method: 'DELETE',
+
+      body: JSON.stringify({
+        movieID: movie._id,
+        reviewID: review._id,
+      }),
+    });
+    const data = await response.json();
+    if (response.status !== 200) {
+      return toast({
+        title: 'There was an error deleting that review...',
+        description: data.message,
+        status: 'error',
+        variant: 'subtle',
+      });
+    } else {
+      toast({
+        title: 'Review deleted',
+        description: 'Your review has been deleted',
+        status: 'success',
+        variant: 'subtle',
+      });
+      await queryClient.invalidateQueries(`movie`);
+    }
+  };
+
   return (
     <VStack mt={8} alignItems="flex-start" spacing={3} px={4}>
       <Flex
@@ -33,6 +94,60 @@ const Review = ({ review }: { review: ReviewType<PopulatedUserType> }) => {
               #{review?.user?.discriminator}
             </chakra.span>
           </Heading>
+          {(review?.user?._id === user.sub || user?.isAdmin) && (
+            <Stack isInline ml={3}>
+              <Tooltip placement="top" label="Edit your review">
+                <IconButton
+                  icon={<EditIcon />}
+                  aria-label="Edit review"
+                  colorScheme="purple"
+                  variant="ghost"
+                  onClick={() => {
+                    setMovie(movie);
+                    onOpen();
+                  }}
+                />
+              </Tooltip>
+              <Tooltip
+                placement="top"
+                label={`Delete ${
+                  review.user?._id === user.id
+                    ? 'your'
+                    : review.user?.username + "'s"
+                } review`}
+              >
+                <Popover>
+                  <PopoverTrigger>
+                    <IconButton
+                      icon={<DeleteIcon />}
+                      aria-label="Delete review"
+                      colorScheme="red"
+                      variant="ghost"
+                    />
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverHeader>Are you sure?</PopoverHeader>
+                    <PopoverBody>
+                      Deleting this review is irreversible!
+                      <Stack isInline ml="auto">
+                        <Button
+                          size="sm"
+                          ml="auto"
+                          mt="2"
+                          colorScheme="red"
+                          onClick={handleReviewDelete}
+                        >
+                          Delete
+                        </Button>
+                      </Stack>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+              </Tooltip>
+            </Stack>
+          )}
         </chakra.div>
         <chakra.div
           display="flex"
@@ -55,7 +170,10 @@ const Review = ({ review }: { review: ReviewType<PopulatedUserType> }) => {
   );
 };
 
-export default function MovieReviewSection({ movie }: Props): ReactElement {
+export default function MovieReviewSection({
+  movie,
+  user,
+}: Props): ReactElement {
   return (
     <Box maxWidth="7xl" mx={'auto'} mb={40}>
       <VStack alignItems="center" spacing={3} mt={{ base: 28, lg: 0 }}>
@@ -71,7 +189,12 @@ export default function MovieReviewSection({ movie }: Props): ReactElement {
       </VStack>
       <Flex mt={10} direction="column">
         {movie.reviews.map((review: ReviewType<PopulatedUserType>, i) => (
-          <Review review={review} key={i.toString()} />
+          <Review
+            movie={movie}
+            review={review}
+            user={user}
+            key={i.toString()}
+          />
         ))}
       </Flex>
     </Box>
