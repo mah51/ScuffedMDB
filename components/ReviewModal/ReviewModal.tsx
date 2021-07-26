@@ -46,6 +46,7 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
   const { isOpen, onOpen, onClose, movie, setMovie } = useContext(
     ReviewModalContext
   );
+  const [isOpenedFromMovie, setIsOpenedFromMovie] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState(``);
   const [commentError, setCommentError] = useState(``);
@@ -73,6 +74,14 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
       setSuccess('');
     }
   }, [movie, queryClient, success, toast]);
+
+  useEffect(() => {
+    if (!isOpen) return setIsOpenedFromMovie(false);
+    if (movie) {
+      setIsOpenedFromMovie(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   const { data: movies } = useQuery(`movies`, getMovies);
   const handleSubmit = async (
@@ -135,40 +144,52 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <Heading fontSize="2xl" fontWeight="semibold">
-              Add a review
+            <Heading
+              fontSize="2xl"
+              fontWeight="semibold"
+              maxWidth="95%"
+              mr="auto"
+            >
+              {isOpenedFromMovie && movie
+                ? `Add a review to ${movie?.name}`
+                : 'Add a review'}
             </Heading>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel mb={3} fontSize="1.1em" fontWeight="semibold">
-                Select Movie
-              </FormLabel>
-              <Select
-                bg={useColorModeValue('white', 'gray.700')}
-                placeholder={movie?.name || 'No Movie Selected'}
-                onChange={(e) => {
-                  e.preventDefault();
-                  const movieFound = movies?.find(
-                    (mv) => mv?.name === e.target.value
-                  );
-                  if (!movieFound) {
-                    return setMovieError(`Please select a valid movie!`);
-                  }
-                  setMovieError(``);
-                  return setMovie(movieFound);
-                }}
-              >
-                {movies &&
-                  movies?.map((_) =>
-                    movie?.name !== _.name ? (
-                      <option key={_.name}>{_.name}</option>
-                    ) : (
-                      ''
-                    )
-                  )}
-              </Select>
+              {!isOpenedFromMovie && (
+                <>
+                  <FormLabel mb={3} fontSize="1.1em" fontWeight="semibold">
+                    Select Movie
+                  </FormLabel>
+
+                  <Select
+                    bg={colorMode === 'light' ? 'white' : 'gray.700'}
+                    placeholder={movie?.name || 'No Movie Selected'}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      const movieFound = movies?.find(
+                        (mv) => mv?.name === e.target.value
+                      );
+                      if (!movieFound) {
+                        return setMovieError(`Please select a valid movie!`);
+                      }
+                      setMovieError(``);
+                      return setMovie(movieFound);
+                    }}
+                  >
+                    {movies &&
+                      movies?.map((_) =>
+                        movie?.name !== _.name ? (
+                          <option key={_.name}>{_.name}</option>
+                        ) : (
+                          ''
+                        )
+                      )}
+                  </Select>
+                </>
+              )}
               {movieError && (
                 <Text color={colorMode === 'light' ? `red.600` : `red.300`}>
                   {movieError}
@@ -268,7 +289,15 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
             >
               Add Review
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button
+              onClick={() => {
+                onClose();
+                setMovie(null);
+                setIsOpenedFromMovie(false);
+              }}
+            >
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
