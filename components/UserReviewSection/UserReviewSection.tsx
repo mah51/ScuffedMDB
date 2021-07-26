@@ -19,7 +19,6 @@ export const UserReviewSection: React.FC<{
     | null
   )[];
 }> = ({ reviews }): React.ReactElement => {
-  console.log(reviews);
   return (
     <Flex mt={5} maxW="6xl" width="full" direction="column">
       {reviews.map((review, i) => (
