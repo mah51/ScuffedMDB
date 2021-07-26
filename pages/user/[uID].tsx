@@ -39,14 +39,14 @@ function EditUser({ desiredUser, movies }: EditUserProps): React.ReactNode {
 
   const allRatings: (
     | (ReviewType<PopulatedUserType> & {
-        movie?: { name: string; image?: string };
+        movie?: { name: string; image?: string; _id: string };
       })
     | null
   )[] = movies
     .map((movie) => {
       const rev:
         | (ReviewType<PopulatedUserType> & {
-            movie?: { name: string; image?: string };
+            movie?: { name: string; image?: string; _id: string };
           })
         | undefined = movie?.reviews?.find((review) => {
         if (!review.user) return false; // If user is deleted and has made a review the user object is null in the review.
@@ -56,6 +56,7 @@ function EditUser({ desiredUser, movies }: EditUserProps): React.ReactNode {
         return null;
       }
       rev.movie = {
+        _id: movie._id,
         name: movie.name,
         image: movie.image,
       };
