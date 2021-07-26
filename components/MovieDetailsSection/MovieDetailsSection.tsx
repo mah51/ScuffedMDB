@@ -76,21 +76,21 @@ export default function MovieDetailsSection({
   const router = useRouter();
   const { review } = router.query;
   useEffect(() => {
-    if (user && user.isReviewer) {
-      if (review) {
+    if (review) {
+      if (user && user.isReviewer) {
         window.history.pushState({}, document.title, '/movie/' + movie._id); // removes ?review=true param from url so refresh does not open review modal.
         setModalMovie(movie);
         return reviewOnOpen();
+      } else {
+        toast({
+          title: 'Not authorized',
+          description: 'Review cannot be added as you are not a reviewer',
+          duration: 5000,
+          status: 'error',
+          isClosable: true,
+          variant: 'subtle',
+        });
       }
-    } else {
-      toast({
-        title: 'Not authorized',
-        description: 'Review cannot be added as you are not a reviewer',
-        duration: 5000,
-        status: 'error',
-        isClosable: true,
-        variant: 'subtle',
-      });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
