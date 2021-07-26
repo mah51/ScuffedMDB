@@ -129,9 +129,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
           justifyContent="space-between"
         >
           <Flex mb={{ base: 4, md: 0 }}>
-            {(user.isReviewer || user.isAdmin) && (
-              <ReviewModal isAdmin={user.isAdmin} />
-            )}
+            {(user.isReviewer || user.isAdmin) && <ReviewModal user={user} />}
           </Flex>
 
           <Stack direction={{ base: 'column', md: 'row' }}>

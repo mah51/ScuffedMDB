@@ -37,15 +37,18 @@ import { AiFillStar } from 'react-icons/ai';
 import { getMovies } from '../../utils/queries';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
 import { ReviewModalContext } from '../../utils/ModalContext';
+import { User } from 'next-auth';
 
-export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
-  isAdmin,
+export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
+  user,
   inNav = false,
 }): React.ReactElement => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose, movie, setMovie } = useContext(
     ReviewModalContext
   );
+  const [isEditingReview, setIsEditingReview] = useState(false);
+  const { isAdmin } = user;
   const [isOpenedFromMovie, setIsOpenedFromMovie] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState(``);
@@ -74,16 +77,38 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
       setSuccess('');
     }
   }, [movie, queryClient, success, toast]);
+  const { data: movies } = useQuery(`movies`, getMovies);
 
   useEffect(() => {
-    if (!isOpen) return setIsOpenedFromMovie(false);
+    if (movie) {
+      const rvw = movie?.reviews.find((review) => {
+        return review?.user?._id === user.sub;
+      });
+      if (rvw) {
+        setIsEditingReview(true);
+        setRating(rvw.rating);
+        return setComment(rvw?.comment || '');
+      }
+    }
+    setIsEditingReview(false);
+    setRating(0);
+    setComment(``);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movie]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsEditingReview(false);
+      setRating(0);
+      setComment(``);
+      return setIsOpenedFromMovie(false);
+    }
     if (movie) {
       setIsOpenedFromMovie(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
-  const { data: movies } = useQuery(`movies`, getMovies);
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     onClose: () => void
@@ -147,11 +172,13 @@ export const ReviewModal: React.FC<{ isAdmin: boolean; inNav?: boolean }> = ({
             <Heading
               fontSize="2xl"
               fontWeight="semibold"
-              maxWidth="95%"
+              maxWidth="85%"
               mr="auto"
             >
               {isOpenedFromMovie && movie
                 ? `Add a review to ${movie?.name}`
+                : isEditingReview && movie
+                ? `Editing review for ${movie?.name}`
                 : 'Add a review'}
             </Heading>
           </ModalHeader>
