@@ -35,15 +35,16 @@ interface Props {
   user: UserAuthType;
 }
 
-const Review = ({
+interface ReviewActionsProps extends ReviewProps {
+  toInvalidate?: string;
+}
+
+export const ReviewActions = ({
   review,
   user,
+  toInvalidate,
   movie,
-}: {
-  user: UserAuthType;
-  review: ReviewType<PopulatedUserType>;
-  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
-}) => {
+}: ReviewActionsProps): JSX.Element | null => {
   const toast = useToast();
   const { setMovie, onOpen } = useContext(ReviewModalContext);
   const queryClient = useQueryClient();
@@ -74,10 +75,77 @@ const Review = ({
         status: 'success',
         variant: 'subtle',
       });
-      await queryClient.invalidateQueries(`movie`);
+      await queryClient.invalidateQueries(toInvalidate || `movie`);
     }
   };
+  if (review?.user?._id === user.sub || user?.isAdmin) {
+    return (
+      <Stack isInline ml={3}>
+        <Tooltip placement="top" label="Edit your review">
+          <IconButton
+            icon={<EditIcon />}
+            aria-label="Edit review"
+            colorScheme="purple"
+            variant="ghost"
+            onClick={() => {
+              setMovie(movie);
+              onOpen();
+            }}
+          />
+        </Tooltip>
 
+        <Popover>
+          <Tooltip
+            placement="top"
+            label={`Delete ${
+              review.user?._id === user.id
+                ? 'your'
+                : review.user?.username + "'s"
+            } review`}
+          >
+            <span>
+              <PopoverTrigger>
+                <IconButton
+                  icon={<DeleteIcon />}
+                  aria-label="Delete review"
+                  colorScheme="red"
+                  variant="ghost"
+                />
+              </PopoverTrigger>
+            </span>
+          </Tooltip>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>Are you sure?</PopoverHeader>
+            <PopoverBody>
+              Deleting this review is irreversible!
+              <Stack isInline ml="auto">
+                <Button
+                  size="sm"
+                  ml="auto"
+                  mt="2"
+                  colorScheme="red"
+                  onClick={handleReviewDelete}
+                >
+                  Delete
+                </Button>
+              </Stack>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      </Stack>
+    );
+  }
+  return null;
+};
+
+interface ReviewProps {
+  user: UserAuthType;
+  review: ReviewType<PopulatedUserType>;
+  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
+}
+const Review = ({ review, user, movie }: ReviewProps) => {
   return (
     <VStack mt={8} alignItems="flex-start" spacing={3} px={4}>
       <Flex
@@ -94,60 +162,7 @@ const Review = ({
               #{review?.user?.discriminator}
             </chakra.span>
           </Heading>
-          {(review?.user?._id === user.sub || user?.isAdmin) && (
-            <Stack isInline ml={3}>
-              <Tooltip placement="top" label="Edit your review">
-                <IconButton
-                  icon={<EditIcon />}
-                  aria-label="Edit review"
-                  colorScheme="purple"
-                  variant="ghost"
-                  onClick={() => {
-                    setMovie(movie);
-                    onOpen();
-                  }}
-                />
-              </Tooltip>
-              <Tooltip
-                placement="top"
-                label={`Delete ${
-                  review.user?._id === user.id
-                    ? 'your'
-                    : review.user?.username + "'s"
-                } review`}
-              >
-                <Popover>
-                  <PopoverTrigger>
-                    <IconButton
-                      icon={<DeleteIcon />}
-                      aria-label="Delete review"
-                      colorScheme="red"
-                      variant="ghost"
-                    />
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <PopoverArrow />
-                    <PopoverCloseButton />
-                    <PopoverHeader>Are you sure?</PopoverHeader>
-                    <PopoverBody>
-                      Deleting this review is irreversible!
-                      <Stack isInline ml="auto">
-                        <Button
-                          size="sm"
-                          ml="auto"
-                          mt="2"
-                          colorScheme="red"
-                          onClick={handleReviewDelete}
-                        >
-                          Delete
-                        </Button>
-                      </Stack>
-                    </PopoverBody>
-                  </PopoverContent>
-                </Popover>
-              </Tooltip>
-            </Stack>
-          )}
+          <ReviewActions review={review} movie={movie} user={user} />
         </chakra.div>
         <chakra.div
           display="flex"
