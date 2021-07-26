@@ -93,6 +93,7 @@ export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
     setIsEditingReview(false);
     setRating(0);
     setComment(``);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movie]);
 
   useEffect(() => {
