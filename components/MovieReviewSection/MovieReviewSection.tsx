@@ -18,6 +18,7 @@ import {
   PopoverHeader,
   PopoverBody,
   Button,
+  Link as ChakraLink,
 } from '@chakra-ui/react';
 import { PopulatedUserType } from '../../models/user';
 import React, { ReactElement } from 'react';
@@ -27,6 +28,7 @@ import { UserAuthType } from 'next-auth';
 import { EditIcon } from '@chakra-ui/icons';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { useContext } from 'react';
+import Link from 'next/link';
 import { ReviewModalContext } from '../../utils/ModalContext';
 import { useQueryClient } from 'react-query';
 
@@ -155,13 +157,19 @@ const Review = ({ review, user, movie }: ReviewProps) => {
       >
         <Avatar size="lg" src={review?.user?.image} />
         <chakra.div display="flex" alignItems="center">
-          <Heading size="2xl" ml={5} maxWidth="full">
-            {review?.user?.username}
-            <chakra.span color={'gray.500'} fontWeight="semibold" fontSize="lg">
-              {' '}
-              #{review?.user?.discriminator}
-            </chakra.span>
-          </Heading>
+          <Link href={`/user/${review?.user?._id}`} passHref>
+            <Heading as={ChakraLink} size="2xl" ml={5} maxWidth="full">
+              {review?.user?.username}
+              <chakra.span
+                color={'gray.500'}
+                fontWeight="semibold"
+                fontSize="lg"
+              >
+                {' '}
+                #{review?.user?.discriminator}
+              </chakra.span>
+            </Heading>
+          </Link>
           <ReviewActions review={review} movie={movie} user={user} />
         </chakra.div>
         <chakra.div
