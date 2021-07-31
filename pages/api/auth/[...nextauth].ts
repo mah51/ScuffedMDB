@@ -120,6 +120,7 @@ export default NextAuth({
           if (!findUser) {
             console.error('User not found in session callback');
           }
+
           if (findUser) {
             token.isBanned = findUser.isBanned;
             token.isReviewer = findUser.isReviewer;
@@ -135,11 +136,18 @@ export default NextAuth({
     },
     async jwt(
       token: { name: string; iat: number; exp: number; picture: string },
-      user: User
+      user: User,
+      acount: any,
+      profile: any
     ): Promise<JWT> {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { picture, ...restToken } = token;
-      return { ...restToken, ...user };
+      if (profile && profile.image_url) {
+        profile.image = profile?.image_url;
+        delete profile.image_url;
+      }
+
+      return { ...restToken, ...user, ...profile };
     },
   },
 
