@@ -82,9 +82,29 @@ export default function MoviePage({
       </Flex>
     );
   }
+
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
   return (
     <AppLayout user={user} showMovies showReview>
-      <NextSeo title={data.name} />
+      <NextSeo
+        title={data.name}
+        openGraph={{
+          title: `${data.name} on ${siteName}`,
+          type: `website`,
+          site_name: siteName,
+          images: [
+            {
+              width: 3840,
+              height: 2160,
+              url:
+                data.image ||
+                `https://www.movie.michael-hall.me/sitePicture.png`,
+              alt: siteName + ' webpage',
+            },
+          ],
+        }}
+        description={'A private movie rating website'}
+      />
       <MovieDetailsSection movie={data} user={user} />
       <MovieReviewSection movie={data} user={user} />
     </AppLayout>
