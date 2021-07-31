@@ -40,8 +40,8 @@ export default function MoviePage({
   );
 
   useEffect(() => {
-    if (!session && !loading) router.push('/');
-  }, [loading, router, session]);
+    if (!session && !loading) router.push(`/?movie=${data?._id}`);
+  }, [loading, router, session, data]);
 
   if (!id) return <Error statusCode={404}>No movie selected</Error>;
   if (!data) {
@@ -52,28 +52,7 @@ export default function MoviePage({
   }
   if ((typeof window !== 'undefined' && loading) || !session) return null;
   if (!session) {
-    const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
-    return (
-      <NextSeo
-        title={data.name}
-        openGraph={{
-          title: `${data.name} on ${siteName}`,
-          type: `website`,
-          site_name: siteName,
-          images: [
-            {
-              width: 3840,
-              height: 2160,
-              url:
-                data.image ||
-                `https://www.movie.michael-hall.me/sitePicture.png`,
-              alt: siteName + ' webpage',
-            },
-          ],
-        }}
-        description={'A private movie rating website'}
-      />
-    );
+    router.push(`/?movie=${data._id}`);
   }
   const user = session.user;
   if (error) {
@@ -83,8 +62,29 @@ export default function MoviePage({
     return <BannedPage user={user} />;
   }
   if (!user) {
+    const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
+
     return (
       <>
+        <NextSeo
+          title={data.name}
+          openGraph={{
+            title: `${data.name} on ${siteName}`,
+            type: `website`,
+            site_name: siteName,
+            images: [
+              {
+                width: 3840,
+                height: 2160,
+                url:
+                  data.image ||
+                  `https://www.movie.michael-hall.me/sitePicture.png`,
+                alt: siteName + ' webpage',
+              },
+            ],
+          }}
+          description={'A private movie rating website'}
+        />
         <Flex
           height="full"
           width="full"
