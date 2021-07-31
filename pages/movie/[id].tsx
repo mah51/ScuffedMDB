@@ -52,7 +52,28 @@ export default function MoviePage({
   }
   if ((typeof window !== 'undefined' && loading) || !session) return null;
   if (!session) {
-    router.push('/');
+    const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
+    return (
+      <NextSeo
+        title={data.name}
+        openGraph={{
+          title: `${data.name} on ${siteName}`,
+          type: `website`,
+          site_name: siteName,
+          images: [
+            {
+              width: 3840,
+              height: 2160,
+              url:
+                data.image ||
+                `https://www.movie.michael-hall.me/sitePicture.png`,
+              alt: siteName + ' webpage',
+            },
+          ],
+        }}
+        description={'A private movie rating website'}
+      />
+    );
   }
   const user = session.user;
   if (error) {
@@ -62,29 +83,8 @@ export default function MoviePage({
     return <BannedPage user={user} />;
   }
   if (!user) {
-    const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
-
     return (
       <>
-        <NextSeo
-          title={data.name}
-          openGraph={{
-            title: `${data.name} on ${siteName}`,
-            type: `website`,
-            site_name: siteName,
-            images: [
-              {
-                width: 3840,
-                height: 2160,
-                url:
-                  data.image ||
-                  `https://www.movie.michael-hall.me/sitePicture.png`,
-                alt: siteName + ' webpage',
-              },
-            ],
-          }}
-          description={'A private movie rating website'}
-        />
         <Flex
           height="full"
           width="full"
