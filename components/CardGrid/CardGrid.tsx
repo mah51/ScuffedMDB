@@ -194,13 +194,21 @@ export const CardGrid: React.FC<CardGridProps> = ({
                               cursor="pointer"
                               onClick={() => {
                                 setGenres((gnr) => {
+                                  setIsGenreFilterActive(true);
                                   if (gnr.includes(genre)) {
                                     //remove genre
-                                    return gnr.filter((g) => g !== genre);
+                                    const removedGenre = gnr.filter(
+                                      (g) => g !== genre
+                                    );
+
+                                    if (removedGenre.length === 0) {
+                                      setIsGenreFilterActive(false);
+                                    }
+                                    return removedGenre;
                                   }
+
                                   return [...gnr, genre];
                                 });
-                                setIsGenreFilterActive(true);
                               }}
                             >
                               <Checkbox
