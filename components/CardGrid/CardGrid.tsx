@@ -20,6 +20,17 @@ import {
   IconButton,
   Tooltip,
   useBreakpoint,
+  Popover,
+  PopoverTrigger,
+  PopoverCloseButton,
+  PopoverArrow,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  Tag,
+  Checkbox,
+  Portal,
+  PopoverFooter,
 } from '@chakra-ui/react';
 import 'react-toggle/style.css';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -36,6 +47,8 @@ import { UserAuthType } from 'next-auth';
 
 import MovieGridView from '../MovieGridView';
 import { BsCardImage, BsGrid3X3 } from 'react-icons/bs';
+import { getColorSchemeCharCode, getMovieGenres } from '../../utils/utils';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 
 interface CardGridProps {
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
@@ -50,6 +63,8 @@ export const CardGrid: React.FC<CardGridProps> = ({
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('recent');
   const [cardView, setCardView] = useState(true);
+  const [genres, setGenres] = useState<string[]>([]);
+  const [isGenreFilterActive, setIsGenreFilterActive] = useState(false);
 
   const toast = useToast();
   const { colorMode } = useColorMode();
@@ -71,7 +86,14 @@ export const CardGrid: React.FC<CardGridProps> = ({
         if (mv && mv.name.toLowerCase().includes(filter)) {
           return true;
         }
+
         return false;
+      })
+      .filter((mv) => {
+        if (isGenreFilterActive) {
+          return mv.genres.some((g) => genres.includes(g));
+        }
+        return true;
       })
       .sort((a, b) => {
         if (sort === 'recent' || sort === 'old') {
@@ -145,6 +167,68 @@ export const CardGrid: React.FC<CardGridProps> = ({
               />
             </InputGroup>
             <Stack isInline alignItems="center">
+              <Popover>
+                <PopoverTrigger>
+                  <Button rightIcon={<ChevronDownIcon />}>
+                    Filter by genre
+                  </Button>
+                </PopoverTrigger>
+                <Portal>
+                  {/* render into a portal to prevent the card underneath interfering with the popover */}
+                  <PopoverContent zIndex={10000}>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverHeader ml="5px" fontWeight="bold">
+                      Filter search by genre
+                    </PopoverHeader>
+                    <PopoverBody>
+                      <Flex wrap="wrap">
+                        {getMovieGenres(unSortedMovies).map(
+                          (genre: string, i) => (
+                            <Tag
+                              mx="5px"
+                              my="3px"
+                              key={i.toString() + 'genreTag'}
+                              fontWeight="semibold"
+                              colorScheme={getColorSchemeCharCode(genre)}
+                              cursor="pointer"
+                              onClick={() => {
+                                setGenres((gnr) => {
+                                  if (gnr.includes(genre)) {
+                                    //remove genre
+                                    return gnr.filter((g) => g !== genre);
+                                  }
+                                  return [...gnr, genre];
+                                });
+                                setIsGenreFilterActive(true);
+                              }}
+                            >
+                              <Checkbox
+                                isChecked={genres.includes(genre)}
+                                colorScheme={getColorSchemeCharCode(genre)}
+                                mr="4px"
+                                zIndex="-1"
+                                size="sm"
+                              />
+                              {genre}
+                            </Tag>
+                          )
+                        )}
+                      </Flex>
+                    </PopoverBody>
+                    <PopoverFooter display="flex" justifyContent="flex-end">
+                      <Button
+                        onClick={() => {
+                          setGenres([]);
+                          setIsGenreFilterActive(false);
+                        }}
+                      >
+                        Clear All
+                      </Button>
+                    </PopoverFooter>
+                  </PopoverContent>
+                </Portal>
+              </Popover>
               <Menu>
                 <MenuButton as={Button} rightIcon={<BiChevronDown />}>
                   Sort by...
