@@ -206,6 +206,9 @@ export const CardGrid: React.FC<CardGridProps> = ({
                               <Checkbox
                                 isChecked={genres.includes(genre)}
                                 colorScheme={getColorSchemeCharCode(genre)}
+                                borderColor={`${getColorSchemeCharCode(
+                                  genre
+                                )}.300`}
                                 mr="4px"
                                 zIndex="-1"
                                 size="sm"
