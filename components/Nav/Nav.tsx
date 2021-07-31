@@ -4,7 +4,6 @@ import {
   Avatar,
   HStack,
   IconButton,
-  Button,
   Menu,
   MenuButton,
   MenuList,
@@ -92,8 +91,8 @@ export const Nav: React.FC<NavProps> = ({
             <Menu>
               <MenuButton
                 mr={5}
-                as={Button}
-                rounded="full"
+                display="inline-block"
+                borderRadius="full"
                 variant="link"
                 cursor="pointer"
               >
