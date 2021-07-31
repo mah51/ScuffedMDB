@@ -1,3 +1,4 @@
+import { MongoUser } from './../../../models/user';
 import NextAuth, { User } from 'next-auth';
 import Providers from 'next-auth/providers';
 import Models from '../../../models';
@@ -115,13 +116,32 @@ export default NextAuth({
         try {
           await dbConnect();
 
-          const findUser = await user.findById(token.sub || session.user.sub);
+          const findUser: MongoUser = await user.findById(
+            token.sub || session.user.sub
+          );
 
           if (!findUser) {
             console.error('User not found in session callback');
           }
 
           if (findUser) {
+            if (token.image && token.image !== findUser.image) {
+              findUser.image = token.image;
+              await findUser.save();
+            }
+            if (token?.name && token.name !== findUser.name) {
+              findUser.username = token.name;
+              findUser.name = token.name;
+              await findUser.save();
+            }
+
+            if (
+              token?.discriminator &&
+              token.discriminator !== findUser.discriminator
+            ) {
+              findUser.discriminator = token.discriminator;
+              await findUser.save();
+            }
             token.isBanned = findUser.isBanned;
             token.isReviewer = findUser.isReviewer;
             token.isAdmin = findUser.isAdmin;

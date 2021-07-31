@@ -3,8 +3,9 @@ import mongoose, { Document, Model, ObjectId } from 'mongoose';
 const userSchema = new mongoose.Schema<MongoUser, UserModel>(
   {
     discord_id: { type: String, required: true },
+    name: { type: String, required: true },
     username: { type: String, required: true },
-    avatar: { type: String },
+    image: { type: String },
     emailVerified: { type: String, default: null },
     discriminator: { type: String, required: true },
     public_flags: { type: Number, required: true },
@@ -25,6 +26,7 @@ const userSchema = new mongoose.Schema<MongoUser, UserModel>(
 export default mongoose.models?.User || mongoose.model(`User`, userSchema);
 export interface LeanMongoUser {
   _id: ObjectId;
+  name: string;
   discord_id: string;
   username: string;
   image: string;
