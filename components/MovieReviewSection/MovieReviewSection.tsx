@@ -78,7 +78,7 @@ export const ReviewActions = ({
       await queryClient.invalidateQueries(toInvalidate || `movie`);
     }
   };
-  if (review?.user?._id === user.sub || user?.isAdmin) {
+  if (review?.user?._id === user.sub) {
     return (
       <Stack isInline ml={3}>
         <Tooltip placement="top" label="Edit your review">
@@ -98,7 +98,7 @@ export const ReviewActions = ({
           <Tooltip
             placement="top"
             label={`Delete ${
-              review.user?._id === user.id
+              review.user?._id === user.sub
                 ? 'your'
                 : review.user?.username + "'s"
             } review`}
