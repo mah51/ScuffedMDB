@@ -16,6 +16,7 @@ import { getSession, useSession } from 'next-auth/client';
 import type { Session } from 'next-auth';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
+import { NextSeo } from 'next-seo';
 
 interface EditUserProps {
   desiredUser: SerializedUser | null;
@@ -82,6 +83,7 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
 
   return (
     <AppLayout user={user} showReview>
+      <NextSeo title={desiredUser.name + '#' + desiredUser.discriminator} />
       <Flex direction="column" pt={16} maxW="6xl" mx="auto">
         <AboutUserSection user={desiredUser} reviews={allRatings} />
         <Divider mt={10} />

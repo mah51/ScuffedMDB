@@ -14,6 +14,7 @@ import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { getMovie } from '../../utils/queries';
 import Error from 'next/error';
+import { NextSeo } from 'next-seo';
 interface MoviePageProps {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   error?: string;
@@ -21,6 +22,7 @@ interface MoviePageProps {
 
 export default function MoviePage({
   error,
+
   ...props
 }: MoviePageProps): JSX.Element | null {
   const { colorMode } = useColorMode();
@@ -82,6 +84,7 @@ export default function MoviePage({
   }
   return (
     <AppLayout user={user} showMovies showReview>
+      <NextSeo title={data.name} />
       <MovieDetailsSection movie={data} user={user} />
       <MovieReviewSection movie={data} user={user} />
     </AppLayout>
