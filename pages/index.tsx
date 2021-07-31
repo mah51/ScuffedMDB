@@ -50,6 +50,5 @@ export const getServerSideProps = async (
   //Scuffed, but makes sure that Schema gets registered before next-auth tries to access it.
   const movies = await getMovies();
   const session = await getSession(ctx);
-
   return { props: { session, movies } };
 };

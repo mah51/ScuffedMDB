@@ -120,7 +120,6 @@ export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
     if (!movie) {
       return setMovieError(`Please select a valid movie.`);
     }
-
     const data: ReviewEndpointBodyType = {
       // eslint-disable-next-line no-underscore-dangle
       movieID: movie._id,
@@ -317,7 +316,7 @@ export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
               onClick={(e) => handleSubmit(e, onClose)}
               isDisabled={!!(commentError || movieError)}
             >
-              Add Review
+              {isEditingReview && movie ? 'Edit Review' : 'Add Review'}
             </Button>
             <Button
               onClick={() => {

@@ -162,9 +162,11 @@ export default NextAuth({
     ): Promise<JWT> {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { picture, ...restToken } = token;
-      if (profile && profile.image_url) {
+      if (profile) {
         profile.image = profile?.image_url;
+        profile.discord_id = profile?.id;
         delete profile.image_url;
+        delete profile.id;
       }
 
       return { ...restToken, ...user, ...profile };
