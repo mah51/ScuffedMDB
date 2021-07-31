@@ -31,7 +31,9 @@ import {
   Checkbox,
   Portal,
   PopoverFooter,
+  useTheme,
 } from '@chakra-ui/react';
+import { transparentize } from '@chakra-ui/theme-tools';
 import 'react-toggle/style.css';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiChevronDown } from 'react-icons/bi';
@@ -46,7 +48,8 @@ import Link from 'next/link';
 import { UserAuthType } from 'next-auth';
 
 import MovieGridView from '../MovieGridView';
-import { BsCardImage, BsGrid3X3 } from 'react-icons/bs';
+import { BsGrid3X3Gap } from 'react-icons/bs';
+import { HiViewList } from 'react-icons/hi';
 import { getColorSchemeCharCode, getMovieGenres } from '../../utils/utils';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
@@ -114,7 +117,23 @@ export const CardGrid: React.FC<CardGridProps> = ({
   }
 
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
+  const handleGenreClick = (genre: string) => {
+    setGenres((gnr) => {
+      setIsGenreFilterActive(true);
+      if (gnr.includes(genre)) {
+        //remove genre
+        const removedGenre = gnr.filter((g) => g !== genre);
 
+        if (removedGenre.length === 0) {
+          setIsGenreFilterActive(false);
+        }
+        return removedGenre;
+      }
+
+      return [...gnr, genre];
+    });
+  };
+  const theme = useTheme();
   return (
     <>
       <NextSeo
@@ -184,46 +203,40 @@ export const CardGrid: React.FC<CardGridProps> = ({
                     <PopoverBody>
                       <Flex wrap="wrap">
                         {getMovieGenres(unSortedMovies).map(
-                          (genre: string, i) => (
-                            <Tag
-                              mx="5px"
-                              my="3px"
-                              key={i.toString() + 'genreTag'}
-                              fontWeight="semibold"
-                              colorScheme={getColorSchemeCharCode(genre)}
-                              cursor="pointer"
-                              onClick={() => {
-                                setGenres((gnr) => {
-                                  setIsGenreFilterActive(true);
-                                  if (gnr.includes(genre)) {
-                                    //remove genre
-                                    const removedGenre = gnr.filter(
-                                      (g) => g !== genre
-                                    );
-
-                                    if (removedGenre.length === 0) {
-                                      setIsGenreFilterActive(false);
-                                    }
-                                    return removedGenre;
-                                  }
-
-                                  return [...gnr, genre];
-                                });
-                              }}
-                            >
-                              <Checkbox
-                                isChecked={genres.includes(genre)}
-                                colorScheme={getColorSchemeCharCode(genre)}
-                                borderColor={`${getColorSchemeCharCode(
-                                  genre
-                                )}.300`}
-                                mr="4px"
-                                zIndex="-1"
-                                size="sm"
-                              />
-                              {genre}
-                            </Tag>
-                          )
+                          (genre: string, i) => {
+                            const genreColor = getColorSchemeCharCode(genre);
+                            const dark = transparentize(
+                              `${genreColor}.200`,
+                              0.16
+                            )(theme);
+                            const light = transparentize(
+                              `${genreColor}.500`,
+                              0.2
+                            )(theme);
+                            return (
+                              <Tag
+                                mx="5px"
+                                my="3px"
+                                key={i.toString() + 'genreTag'}
+                                fontWeight="semibold"
+                                colorScheme={genreColor}
+                                bg={colorMode === 'light' ? light : dark}
+                                cursor="pointer"
+                                userSelect="none"
+                                onClick={() => handleGenreClick(genre)}
+                              >
+                                <Checkbox
+                                  isChecked={genres.includes(genre)}
+                                  colorScheme={genreColor}
+                                  borderColor={`${genreColor}.300`}
+                                  mr="4px"
+                                  zIndex="-1"
+                                  size="sm"
+                                />
+                                {genre}
+                              </Tag>
+                            );
+                          }
                         )}
                       </Flex>
                     </PopoverBody>
@@ -296,7 +309,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
                     onClick={() => setCardView(true)}
                     aria-label="Activate table mode"
                     colorScheme={cardView ? 'purple' : 'gray'}
-                    icon={<BsCardImage />}
+                    icon={<BsGrid3X3Gap size="1.1rem" />}
                   />
                   <IconButton
                     size="sm"
@@ -304,7 +317,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
                     onClick={() => setCardView(false)}
                     aria-label="Activate table mode"
                     colorScheme={!cardView ? 'purple' : 'gray'}
-                    icon={<BsGrid3X3 />}
+                    icon={<HiViewList size="1.1rem" />}
                   />
                 </Stack>
               </Tooltip>
