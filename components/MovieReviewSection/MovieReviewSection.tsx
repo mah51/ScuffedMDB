@@ -48,6 +48,7 @@ export const ReviewActions = ({
   toInvalidate,
   movie,
 }: ReviewActionsProps): JSX.Element | null => {
+  const userId = user.sub || user._id; // accomodate incase theya re UserAuthtype or MongoUserType
   const toast = useToast();
   const { setMovie, onOpen } = useContext(ReviewModalContext);
   const queryClient = useQueryClient();
@@ -81,7 +82,7 @@ export const ReviewActions = ({
       await queryClient.invalidateQueries(toInvalidate || `movie`);
     }
   };
-  if (review?.user?._id === user.sub) {
+  if (review?.user?._id === userId) {
     return (
       <Stack isInline ml={3}>
         <Tooltip placement="top" label="Edit your review">
@@ -101,7 +102,7 @@ export const ReviewActions = ({
           <Tooltip
             placement="top"
             label={`Delete ${
-              review.user?._id === user.sub
+              review.user?._id === userId
                 ? 'your'
                 : review.user?.username + "'s"
             } review`}
