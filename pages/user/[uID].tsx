@@ -13,13 +13,13 @@ import UserReviewSection from '../../components/UserReviewSection';
 import type { GetServerSidePropsContext } from 'next';
 import dbConnect from '../../utils/dbConnect';
 import { getSession, useSession } from 'next-auth/client';
-import type { Session } from 'next-auth';
+import type { Session, UserAuthType } from 'next-auth';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { NextSeo } from 'next-seo';
 
 interface EditUserProps {
-  desiredUser: SerializedUser | null;
+  desiredUser: UserAuthType | null;
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
 }
 
@@ -87,7 +87,7 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
       <Flex direction="column" pt={16} maxW="6xl" mx="auto">
         <AboutUserSection user={desiredUser} reviews={allRatings} />
         <Divider mt={10} />
-        <UserReviewSection movies={movies} user={user} />
+        <UserReviewSection movies={movies} user={desiredUser} />
         {/* <UserStatsSection /> */}
       </Flex>
     </AppLayout>

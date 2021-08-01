@@ -21,7 +21,7 @@ export const UserReviewSection: React.FC<{
     <Flex mt={5} maxW="6xl" width="full" direction="column">
       {movies.map((movie, i) => {
         const review = movie?.reviews?.find(
-          (review) => review?.user?._id === user.sub
+          (review) => review?.user?._id === user._id
         );
         if (!review) return null;
         return (

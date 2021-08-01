@@ -1,10 +1,11 @@
 import React from 'react';
 import { Avatar, Flex, Heading, chakra, VStack, Text } from '@chakra-ui/react';
-import { PopulatedUserType, SerializedUser } from '../../models/user';
+import { PopulatedUserType } from '../../models/user';
 import { ReviewType } from '../../models/movie';
+import { UserAuthType } from 'next-auth';
 
 interface AboutUserSectionProps {
-  user: SerializedUser;
+  user: UserAuthType;
   reviews: (
     | (ReviewType<PopulatedUserType> & {
         movie?: { name: string; image?: string };

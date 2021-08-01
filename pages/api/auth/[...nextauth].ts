@@ -115,9 +115,8 @@ export default NextAuth({
       if (session?.user) {
         try {
           await dbConnect();
-
           const findUser: MongoUser = await user.findById(
-            token.sub || session.user.sub
+            token.sub || session.user.id
           );
 
           if (!findUser) {
