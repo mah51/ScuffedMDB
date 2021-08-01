@@ -11,7 +11,8 @@ declare module 'next-auth' {
    * or the second parameter of the `session` callback, when using a database.
    */
 
-  interface User extends Omit<SerializedUser, '_id'> {
+  interface User extends SerializedUser {
+    id: string;
     name: string;
     email: string;
     image: string;

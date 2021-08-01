@@ -167,7 +167,11 @@ export default NextAuth({
         delete profile.image_url;
         delete profile.id;
       }
+      if (user) {
+        user._id = user.id;
+      }
 
+      //@ts-ignore
       return { ...restToken, ...user, ...profile };
     },
   },
