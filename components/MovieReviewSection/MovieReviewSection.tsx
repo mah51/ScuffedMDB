@@ -81,7 +81,7 @@ export const ReviewActions = ({
       await queryClient.invalidateQueries(toInvalidate || `movie`);
     }
   };
-  if (review?.user?._id === user._id) {
+  if (review?.user?._id === user.sub) {
     return (
       <Stack isInline ml={3}>
         <Tooltip placement="top" label="Edit your review">

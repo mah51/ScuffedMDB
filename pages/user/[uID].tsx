@@ -47,6 +47,7 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
   if (!desiredUser) {
     return <div>That user could not be found :(</div>;
   }
+  desiredUser.sub = desiredUser._id as string;
 
   if (!movies) {
     return <div>Loading movies :(</div>;
@@ -117,6 +118,7 @@ export async function getServerSideProps(
     return { props: { desiredUser: null, session, movies: [] } };
 
   desiredUser._id = desiredUser._id.toString();
+
   desiredUser.createdAt =
     typeof desiredUser.createdAt === 'string'
       ? desiredUser.createdAt
