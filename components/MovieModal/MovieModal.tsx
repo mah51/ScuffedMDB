@@ -25,7 +25,9 @@ import { useQueryClient } from 'react-query';
 import SearchResults from '../SearchResults';
 import { OMDBMovie, OMDBResponse } from '../../pages/api/movie-api';
 
-export const MovieModal: React.FC = (): React.ReactElement => {
+export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
+  inMobileNav = false,
+}): React.ReactElement => {
   const [results, setResults] = useState<OMDBMovie[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(``);
@@ -102,15 +104,28 @@ export const MovieModal: React.FC = (): React.ReactElement => {
 
   return (
     <>
-      <Button
-        variant="solid"
-        colorScheme="purple"
-        mr={3}
-        leftIcon={<AddIcon />}
-        onClick={onOpen}
-      >
-        Add movie
-      </Button>
+      {inMobileNav ? (
+        <Button
+          variant="ghost"
+          width="95%"
+          mx="auto"
+          mt={2}
+          leftIcon={<AddIcon />}
+          onClick={onOpen}
+        >
+          Add movie
+        </Button>
+      ) : (
+        <Button
+          variant="solid"
+          colorScheme="purple"
+          mr={3}
+          leftIcon={<AddIcon />}
+          onClick={onOpen}
+        >
+          Add movie
+        </Button>
+      )}
 
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
