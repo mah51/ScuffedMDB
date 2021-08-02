@@ -84,7 +84,7 @@ export const ReviewActions = ({
   };
   if (review?.user?._id === userId) {
     return (
-      <Stack isInline ml={3}>
+      <Stack isInline ml={{ base: 0, md: 3 }}>
         <Tooltip placement="top" label="Edit your review">
           <IconButton
             icon={<EditIcon />}

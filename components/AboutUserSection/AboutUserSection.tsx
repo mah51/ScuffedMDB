@@ -1,5 +1,13 @@
 import React from 'react';
-import { Avatar, Flex, Heading, chakra, VStack, Text } from '@chakra-ui/react';
+import {
+  Avatar,
+  Flex,
+  Heading,
+  chakra,
+  VStack,
+  Text,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 import { PopulatedUserType } from '../../models/user';
 import { ReviewType } from '../../models/movie';
 import { UserAuthType } from 'next-auth';
@@ -19,16 +27,31 @@ export const AboutUserSection: React.FC<AboutUserSectionProps> = ({
   reviews,
 }): React.ReactElement => {
   return (
-    <Flex justifyContent="center">
-      <Avatar mr={10} size="2xl" src={user.image} />
-      <VStack textAlign="left" alignItems="flex-start">
-        <Heading size="3xl">
+    <Flex
+      justifyContent="center"
+      alignItems={{ base: 'center', md: 'flex-start' }}
+      direction={{ base: 'column', md: 'row' }}
+    >
+      <Avatar
+        mr={{ base: 0, md: 10 }}
+        size={useBreakpointValue({ base: 'xl', md: '2xl' })}
+        src={user.image}
+      />
+      <VStack
+        textAlign={{ base: 'center', md: 'left' }}
+        alignItems={{ base: 'center', md: 'flex-start' }}
+      >
+        <Heading fontSize={{ base: '2xl', md: '5xl' }}>
           {user.username}
-          <chakra.span color="gray.500" fontSize="2xl">
+          <chakra.span color="gray.500" fontSize={{ base: 'lg', md: '2xl' }}>
             #{user.discriminator}
           </chakra.span>
         </Heading>
-        <Text fontSize="2xl" color="gray.500" alignSelf="flex-start">
+        <Text
+          fontSize={{ base: 'lg', md: '2xl' }}
+          color="gray.500"
+          alignSelf={{ base: 'center', md: 'flex-start' }}
+        >
           {reviews.length === 0 ? 'No reviews' : reviews.length + ' Rating'}
           {reviews.length > 1 ? 's' : ''}{' '}
           {reviews.length > 0 &&
