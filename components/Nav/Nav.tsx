@@ -195,8 +195,8 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
           backdropFilter: `saturate(180%) blur(5px)`,
           backgroundColor:
             colorMode === 'light'
-              ? `rgba(255, 255, 255, 0.9)`
-              : `rgba(26, 32, 44, 0.9)`,
+              ? `rgba(255, 255, 255, 0.97)`
+              : `rgba(26, 32, 44, 0.97)`,
         }}
         display={mobileNav.isOpen ? `flex` : `none`}
         flexDirection="column"
@@ -230,7 +230,7 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
           width="95%"
           my={4}
           mx="auto"
-          bg={colorMode === 'light' ? 'purple.500' : 'purple.300'}
+          borderColor={colorMode === 'light' ? 'purple.500' : 'purple.300'}
         />
         <Button
           mt={2}
