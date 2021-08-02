@@ -191,6 +191,7 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
         width="100vw"
         height="100vh"
         zIndex={20}
+        ml={'0!important'}
         css={{
           backdropFilter: `saturate(180%) blur(5px)`,
           backgroundColor:
@@ -199,10 +200,6 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
               : `rgba(26, 32, 44, 0.97)`,
         }}
         display={mobileNav.isOpen ? `flex` : `none`}
-        flexDirection="column"
-        spacing={3}
-        rounded="sm"
-        shadow="sm"
         pt={16}
       >
         {links.map((link, index) => {
