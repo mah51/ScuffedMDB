@@ -1,3 +1,4 @@
+import { postDataToWebhook } from './../../utils/utils';
 import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -54,6 +55,13 @@ const handler = async (
         ) / 10;
       movie.markModified(`reviews`);
       await movie.save();
+      await postDataToWebhook({
+        review: review,
+        movie: movie,
+        user: session.user,
+        type: 'review',
+        action: 'added',
+      });
       return res
         .status(200)
         .json({ movie, type: existingReview ? `modification` : `addition` });
@@ -101,7 +109,15 @@ const handler = async (
         ) / 10
       : 0;
     movie.markModified(`reviews`);
+
     await movie.save();
+    await postDataToWebhook({
+      review: review,
+      movie: movie,
+      user: session.user,
+      type: 'review',
+      action: 'deleted',
+    });
     return res.status(200).json({ message: `Review deleted` });
   } else {
     return res.status(405).send({ message: `method not allowed :(` });

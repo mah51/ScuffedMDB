@@ -1,3 +1,4 @@
+import { postDataToWebhook } from './../../../utils/utils';
 import { MongoUser } from './../../../models/user';
 import { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../../models/user';
@@ -58,6 +59,11 @@ const handler = async (
     user.isBanned = !user.isBanned;
 
     const updatedUser = await user.save();
+    await postDataToWebhook({
+      user: updatedUser,
+      type: 'user',
+      action: 'banned',
+    });
     return res.status(200).json({
       message: `user banned successfully`,
       user: updatedUser,

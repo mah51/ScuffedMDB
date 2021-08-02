@@ -51,3 +51,22 @@ export const getMovieGenres = (movies: SerializedMovieType[]): string[] => {
     return [...new Set([...a, ...genres])];
   }, []);
 };
+
+export const postDataToWebhook = async (data: unknown): Promise<void> => {
+  if (!process.env.WEBHOOK_URL) return;
+  if (!process.env.WEBHOOK_TOKEN) {
+    return console.error('Must provide a webhook token to send webhooks');
+  }
+
+  const response = await fetch(process.env.WEBHOOK_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.WEBHOOK_TOKEN}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (response.status > 300) {
+    return console.error(`Webhook failed with status ${response.status}`);
+  }
+};

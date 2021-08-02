@@ -1,3 +1,4 @@
+import { postDataToWebhook } from './../../utils/utils';
 import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
@@ -60,6 +61,12 @@ const MovieAPI = async (
       });
       await newMovie.save();
 
+      await postDataToWebhook({
+        movie: newMovie,
+        type: 'movie',
+        action: 'added',
+      });
+
       return res.status(200).send({ data: newMovie, type: `addition` });
     } catch (err) {
       console.error(err);
@@ -93,6 +100,11 @@ const MovieAPI = async (
     }
     const deletedMovie = await Movie.deleteOne({ _id: id });
     if (deletedMovie.ok === 1) {
+      await postDataToWebhook({
+        movie: deletedMovie,
+        type: 'movie',
+        action: 'deleted',
+      });
       return res.status(200).json(movie);
     }
 
