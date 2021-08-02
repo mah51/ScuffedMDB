@@ -39,10 +39,11 @@ import { ReviewEndpointBodyType } from '../../types/APITypes';
 import { ReviewModalContext } from '../../utils/ModalContext';
 import { User } from 'next-auth';
 
-export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
-  user,
-  inNav = false,
-}): React.ReactElement => {
+export const ReviewModal: React.FC<{
+  user: User;
+  inNav?: boolean;
+  inMobileNav?: boolean;
+}> = ({ user, inNav = false, inMobileNav = false }): React.ReactElement => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose, movie, setMovie } = useContext(
     ReviewModalContext
@@ -153,19 +154,36 @@ export const ReviewModal: React.FC<{ user: User; inNav?: boolean }> = ({
 
   return (
     <>
-      <Button
-        variant="ghost"
-        width={inNav ? '' : 'full'}
-        colorScheme="purple"
-        mr={user?.isAdmin ? 0 : 3}
-        leftIcon={<AddIcon />}
-        onClick={() => {
-          setMovie(null);
-          onOpen();
-        }}
-      >
-        Add review
-      </Button>
+      {inMobileNav ? (
+        <Button
+          mt={2}
+          leftIcon={<AddIcon />}
+          w="95%"
+          mx={'auto'}
+          variant="ghost"
+          onClick={() => {
+            setMovie(null);
+            onOpen();
+          }}
+        >
+          Add review
+        </Button>
+      ) : (
+        <Button
+          variant="ghost"
+          width={inNav ? '' : 'full'}
+          colorScheme="purple"
+          mr={user?.isAdmin ? 0 : 3}
+          leftIcon={<AddIcon />}
+          onClick={() => {
+            setMovie(null);
+            onOpen();
+          }}
+        >
+          {' '}
+          Add review
+        </Button>
+      )}
 
       <Modal isOpen={isOpen} onClose={onClose} id={'review-modal'}>
         <ModalOverlay />
