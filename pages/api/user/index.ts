@@ -60,8 +60,11 @@ const handler = async (
 
     const updatedUser = await user.save();
     await postDataToWebhook({
+      //@ts-ignore
       user: updatedUser,
+      //@ts-ignore
       type: 'user',
+      //@ts-ignore
       action: 'banned',
     });
     return res.status(200).json({
