@@ -101,7 +101,7 @@ const MovieAPI = async (
     const deletedMovie = await Movie.deleteOne({ _id: id });
     if (deletedMovie.ok === 1) {
       await postDataToWebhook({
-        movie: deletedMovie,
+        movie: movie,
         type: 'movie',
         action: 'deleted',
       });

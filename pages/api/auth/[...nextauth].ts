@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { MongoUser } from './../../../models/user';
 import NextAuth, { User } from 'next-auth';
 import Providers from 'next-auth/providers';
@@ -120,6 +121,7 @@ export default NextAuth({
           );
 
           if (!findUser) {
+            console.log(token.sub || session.user.id);
             console.error('User not found in session callback');
           }
 

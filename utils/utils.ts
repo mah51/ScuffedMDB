@@ -1,6 +1,7 @@
-import { SerializedMovieType } from './../models/movie';
+import { UserAuthType } from 'next-auth';
+import { SerializedMovieType, MovieType, ReviewType } from './../models/movie';
 export const getTotalCharCode = (phrase: string): number => {
-  return phrase.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+  return phrase?.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
 };
 
 /**
@@ -52,13 +53,21 @@ export const getMovieGenres = (movies: SerializedMovieType[]): string[] => {
   }, []);
 };
 
-export const postDataToWebhook = async (data: unknown): Promise<void> => {
+interface WebhookData {
+  type: 'movie' | 'review';
+  action: 'added' | 'modified' | 'deleted';
+  user?: UserAuthType;
+  movie: MovieType<ReviewType<string>[]> | MovieType;
+  review?: ReviewType<string>;
+}
+
+export const postDataToWebhook = async (data: WebhookData): Promise<void> => {
   if (!process.env.WEBHOOK_URL) return;
   if (!process.env.WEBHOOK_TOKEN) {
     return console.error('Must provide a webhook token to send webhooks');
   }
 
-  const response = await fetch(process.env.WEBHOOK_URL, {
+  const response = await fetch(process.env.WEBHOOK_URL + `/${data?.type}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
