@@ -67,7 +67,7 @@ export const postDataToWebhook = async (data: WebhookData): Promise<void> => {
     return console.error('Must provide a webhook token to send webhooks');
   }
 
-  const response = await fetch(process.env.WEBHOOK_URL + `/${data?.type}`, {
+  const response = await fetch(process.env.WEBHOOK_URL + `/api/event/${data?.type}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

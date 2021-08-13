@@ -57,8 +57,10 @@ const handler = async (
       const mrv = await movie.save();
       const updatedMovie = mrv.toJSON();
       const updatedReview =
-        updatedMovie.reviews.find(
-          (rvw) => rvw.user.toString() === session.user._id
+        updatedMovie.reviews.find((rvw) =>
+          [session.user._id, session.user.sub, session.user.id].includes(
+            rvw.user.toString()
+          )
         ) || review;
       await postDataToWebhook({
         //@ts-ignore
