@@ -49,18 +49,24 @@ export const getServerSideProps = async (
     movies?: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
   };
 }> => {
-  //Scuffed, but makes sure that Schema gets registered before next-auth tries to access it.
-  const movies = await getMovies();
   const session = await getSession(ctx);
-  if (session?.user) {
-    if (ctx.query.movie) {
-      return {
-        redirect: {
-          destination: `/movie/${ctx.query.movie}`,
-          permanent: false,
-        },
-      };
-    }
+  if (!session?.user) {
+    return {
+      props: {
+        session,
+        movies: [],
+      },
+    };
   }
+  if (ctx.query.movie) {
+    return {
+      redirect: {
+        destination: `/movie/${ctx.query.movie}`,
+        permanent: false,
+      },
+    };
+  }
+  const movies = await getMovies();
+
   return { props: { session, movies } };
 };
