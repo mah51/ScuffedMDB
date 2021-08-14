@@ -44,6 +44,9 @@ export default function MoviePage({
   }, [loading, router, session, data]);
 
   if (!id) return <Error statusCode={404}>No movie selected</Error>;
+  if (!session) {
+    router.push(`/`);
+  }
   if (!data) {
     if (isLoading) {
       return <div>Loading</div>;
@@ -51,9 +54,7 @@ export default function MoviePage({
     return <Error statusCode={404}>No movie found with provided ID.</Error>;
   }
   if ((typeof window !== 'undefined' && loading) || !session) return null;
-  if (!session) {
-    router.push(`/`);
-  }
+
   const user = session.user;
   if (error) {
     return <p>There was an error</p>;
