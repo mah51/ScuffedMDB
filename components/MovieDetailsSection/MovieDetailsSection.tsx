@@ -32,13 +32,14 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   useColorModeValue,
+  Skeleton,
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import millify from 'millify';
 import Link from 'next/link';
 
 import Image from 'next/image';
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement, useContext, useState } from 'react';
 import { FaImdb } from 'react-icons/fa';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
@@ -68,6 +69,7 @@ export default function MovieDetailsSection({
 }: Props): ReactElement {
   const bp = useBreakpoint();
   const [isLargerThan800] = useMediaQuery('(min-width: 800px)');
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const userReview = movie.reviews.find(
     (rating) => rating?.user?._id === user.sub
@@ -162,13 +164,16 @@ export default function MovieDetailsSection({
                 width="full"
                 height="full"
               >
-                <Image
-                  className={'borderRadius-xl'}
-                  src={movie?.image || ''}
-                  alt={`${movie.name} poster`}
-                  sizes={'50vw'}
-                  layout="fill"
-                ></Image>
+                <Skeleton borderRadius="xl" isLoaded={isImageLoaded}>
+                  <Image
+                    className={'borderRadius-xl'}
+                    src={movie?.image || ''}
+                    alt={`${movie.name} poster`}
+                    sizes={'50vw'}
+                    layout="fill"
+                    onLoad={() => setIsImageLoaded(true)}
+                  />
+                </Skeleton>
               </AspectRatio>
             </Flex>
             <VStack
