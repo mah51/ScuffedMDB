@@ -111,12 +111,13 @@ export default function MovieDetailsSection({
   );
 
   return (
-    <Box maxWidth="7xl" mx={'auto'}>
+    <Flex maxWidth="7xl" mx={'auto'} mt="10px">
       <Flex
         direction="column"
         minHeight="calc(100vh - 80px)"
         width="full"
-        justifyContent="flex-start"
+        justifyContent="center"
+        mt={{ base: 'max(-80px,-1vh)', xl: '0' }}
       >
         {/* Scroll down section */}
         {bp && !['base', 'sm', 'md'].includes(bp) && (
@@ -142,13 +143,7 @@ export default function MovieDetailsSection({
             />
           </Flex>
         )}
-        <Box
-          mt={{
-            base: '5',
-            md: 'calc(100vh / 15)',
-            xl: 'calc(calc(100vh / 3) - 270px)',
-          }}
-        >
+        <Box>
           <MovieAdminOptions user={user} movie={movie} />
           <Flex direction={{ base: 'column', lg: 'row' }}>
             <Flex
@@ -413,7 +408,7 @@ export default function MovieDetailsSection({
           </Flex>
         </Box>
       </Flex>
-    </Box>
+    </Flex>
   );
 }
 

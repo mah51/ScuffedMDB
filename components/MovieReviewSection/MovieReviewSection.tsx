@@ -210,7 +210,7 @@ export default function MovieReviewSection({
   user,
 }: Props): ReactElement {
   return (
-    <Box maxWidth="7xl" mx={'auto'} mb={40}>
+    <Box maxWidth="7xl" mt="9rem" mx={'auto'} mb={40}>
       <VStack alignItems="center" spacing={3} mt={{ base: 28, lg: 0 }}>
         <Wave mx="auto" width={{ base: '70%', md: '30%' }} />
         <Heading fontSize="6xl">
