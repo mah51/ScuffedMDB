@@ -13,8 +13,8 @@ import MovieReviewSection from '../../components/MovieReviewSection';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { getMovie } from '../../utils/queries';
-import Error from 'next/error';
 import { NextSeo } from 'next-seo';
+import ErrorPage from '@components/ErrorPage';
 interface MoviePageProps {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   error?: string;
@@ -45,12 +45,14 @@ export default function MoviePage({
   }, [loading, router, session, id]);
 
   if ((typeof window !== 'undefined' && loading) || !session) return null;
-  if (!id) return <Error statusCode={404} title="No movie selected" />;
+  if (!id) return <ErrorPage statusCode={404} message="No movie selected" />;
   if (!data) {
     if (isLoading) {
       return <div>Loading</div>;
     }
-    return <Error statusCode={404} title="No movie found with provided ID" />;
+    return (
+      <ErrorPage statusCode={404} message="No movie found with provided ID" />
+    );
   }
 
   const user = session.user;

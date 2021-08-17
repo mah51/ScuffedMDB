@@ -13,7 +13,7 @@ import type { Session, UserAuthType } from 'next-auth';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { NextSeo } from 'next-seo';
-import ErrorPage from 'next/error';
+import ErrorPage from '@components/ErrorPage';
 
 interface EditUserProps {
   desiredUser: UserAuthType | null;
@@ -41,7 +41,10 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
 
   if (!desiredUser) {
     return (
-      <ErrorPage statusCode={404} title={'That user could not be located :('} />
+      <ErrorPage
+        statusCode={404}
+        message={'That user could not be located :('}
+      />
     );
   }
   desiredUser.sub = desiredUser._id as string;
