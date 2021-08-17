@@ -4,7 +4,7 @@ import HomePage from '../components/HomePage';
 import LandingPage from '../components/LandingPage';
 import { getMovie, getMovies } from '../utils/queries';
 import BannedPage from '../components/BannedPage';
-import { MovieType, ReviewType, SerializedMovieType } from '../models/movie';
+import { ReviewType, SerializedMovieType } from '../models/movie';
 import { getSession, useSession } from 'next-auth/client';
 import { PopulatedUserType } from '../models/user';
 import { GetServerSidePropsContext } from 'next';
