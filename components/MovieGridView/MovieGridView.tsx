@@ -28,6 +28,7 @@ import {
   Button,
   PopoverHeader,
   Skeleton,
+  Link as ChakraLink,
 } from '@chakra-ui/react';
 import { UserAuthType } from 'next-auth';
 import Image from 'next/image';
@@ -78,7 +79,7 @@ const COLUMNS = (
           </AspectRatio>
           <VStack alignItems="flex-start">
             <Link href={`/movie/${_id}`} passHref>
-              <Heading as="a" size="lg">
+              <Heading as={ChakraLink} size="lg">
                 {name}
               </Heading>
             </Link>
