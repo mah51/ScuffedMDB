@@ -94,7 +94,7 @@ function Users({ users }: UsersProps): React.ReactNode {
           <Heading mb={10} mx="auto" size="2xl">
             All Users
           </Heading>
-          <Wave mb={10} width="30%" />
+          <Wave mb={10} width="max(20%, 150px)" />
           <chakra.div>
             <Menu>
               <MenuButton mb={5} as={Button} rightIcon={<BiChevronDown />}>

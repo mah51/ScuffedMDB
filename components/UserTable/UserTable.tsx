@@ -409,6 +409,7 @@ export const UserTable: React.FC<{
 
   return (
     <chakra.div
+      ml={'10px!important'}
       overflowX={['base', 'sm', 'md'].includes(bp || '') ? 'scroll' : 'hidden'}
       shadow="lg"
       maxW="full"
