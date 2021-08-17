@@ -41,12 +41,11 @@ export default function MoviePage({
   );
 
   useEffect(() => {
-    if (!session && !loading) router.push(`/`);
-  }, [loading, router, session, data]);
+    if (!session && !loading) router.push(`/?movie=${id}`);
+  }, [loading, router, session, id]);
 
   if ((typeof window !== 'undefined' && loading) || !session) return null;
   if (!id) return <Error statusCode={404} title="No movie selected" />;
-
   if (!data) {
     if (isLoading) {
       return <div>Loading</div>;

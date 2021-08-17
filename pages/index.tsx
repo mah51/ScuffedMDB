@@ -50,9 +50,6 @@ export default function Home({ movies }: HomePageProps): React.ReactNode {
     return <div>There was an error locating movie data :(</div>;
   }
 
-  //idk typescript well enough to know whats goin wrong here but | any ignores it :/ :(
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-
   return <HomePage user={session.user} movies={data} />;
 }
 
@@ -79,6 +76,14 @@ export const getServerSideProps = async (
     return {
       redirect: {
         destination: `/movie/${ctx.query.movie}`,
+        permanent: false,
+      },
+    };
+  }
+  if (ctx.query.user) {
+    return {
+      redirect: {
+        destination: `/user/${ctx.query.user}`,
         permanent: false,
       },
     };
