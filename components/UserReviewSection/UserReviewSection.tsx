@@ -8,6 +8,7 @@ import {
   Text,
   useBreakpoint,
 } from '@chakra-ui/react';
+import ReactMarkdown from 'react-markdown';
 import { UserAuthType } from 'next-auth';
 import Link from 'next/link';
 import React from 'react';
@@ -80,7 +81,9 @@ export const UserReviewSection: React.FC<{
               </Flex>
 
               <Text fontSize={{ base: 'lg', md: '2xl' }}>
-                {review?.comment}
+                <ReactMarkdown skipHtml disallowedElements={['img', 'a']}>
+                  {review?.comment || ''}
+                </ReactMarkdown>
               </Text>
             </Flex>
           </Flex>
