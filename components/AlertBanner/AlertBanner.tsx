@@ -48,16 +48,23 @@ export default function AlertBanner({
     <Flex
       height={isOpen ? '' : '0%'}
       justifyContent="center"
-      alignItems="center"
+      alignItems={{ base: 'flex-start', md: 'center' }}
+      direction={{ base: 'column', md: 'row' }}
       bg={bg}
+      px="3"
+      py={{ base: isOpen ? 4 : 0, md: '0' }}
       color={color}
     >
-      <Text visibility={isOpen ? 'visible' : 'hidden'} fontWeight="extrabold">
+      <Text
+        visibility={isOpen ? 'visible' : 'hidden'}
+        width={{ base: '92%', md: 'auto' }}
+        fontWeight="extrabold"
+      >
         {title}
       </Text>
 
       <Text
-        ml={3}
+        ml={{ base: 0, md: 3 }}
         visibility={isOpen ? 'visible' : 'hidden'}
         fontWeight="semibold"
       >
@@ -66,7 +73,10 @@ export default function AlertBanner({
       <CloseButton
         mb={'0.3rem'}
         mt={'0.2rem'}
+        alignSelf="flex-end"
         display={isOpen ? 'inline-block' : 'none'}
+        position={{ base: 'absolute', md: 'static' }}
+        top={2}
         onClick={handleDismiss}
         ml={5}
       />
