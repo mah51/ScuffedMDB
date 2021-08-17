@@ -150,6 +150,7 @@ export default function MovieDetailsSection({
               width={{ base: '90%', lg: '50%' }}
               mx="auto"
               maxWidth="full"
+              alignItems="center"
               pr={{ base: 0, lg: '20px' }}
             >
               <AspectRatio
@@ -157,7 +158,6 @@ export default function MovieDetailsSection({
                 shadow={'6px 8px 19px 4px rgba(0, 0, 0, 0.25)'}
                 ratio={16 / 9}
                 width="full"
-                height="full"
               >
                 <Skeleton borderRadius="xl" isLoaded={isImageLoaded}>
                   <Image

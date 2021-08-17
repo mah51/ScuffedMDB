@@ -3,15 +3,16 @@ import {
   chakra,
   Flex,
   Heading,
-  Image,
   Stack,
   Text,
+  Link as ChakraLink,
   useBreakpoint,
 } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
 import { UserAuthType } from 'next-auth';
 import Link from 'next/link';
 import React from 'react';
+import Image from 'next/image';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { ReviewActions } from '../MovieReviewSection/MovieReviewSection';
@@ -42,33 +43,34 @@ export const UserReviewSection: React.FC<{
               mr={{ base: 0, md: 7 }}
             >
               <Image
-                src={movie?.image}
+                src={movie?.image || ''}
                 alt={review?.user?.username + "'s profile"}
-                objectFit="fill"
-                borderRadius="2xl"
+                layout="fill"
+                className={'borderRadius-xl'}
               />
             </AspectRatio>
             <Flex direction="column" maxWidth="full">
               <Flex direction={{ base: 'column', md: 'row' }}>
-                <Link href={`/movie/${movie?._id}`} passHref>
-                  <Stack as="a" isInline>
+                <Stack isInline>
+                  <Link href={`/movie/${movie?._id}`} passHref>
                     <Heading
+                      as={ChakraLink}
                       isTruncated
                       maxWidth={{ base: 'full', md: 'calc(100vw - 430px)' }}
                       size={['base', 'sm'].includes(bp || '') ? 'lg' : 'xl'}
                     >
                       {movie?.name}
                     </Heading>
-                    <Heading
-                      size={['base', 'sm'].includes(bp || '') ? 'lg' : 'xl'}
-                    >
-                      {' '}
-                      <chakra.span color="gray.500">
-                        • {review?.rating.toFixed(1)}
-                      </chakra.span>
-                    </Heading>
-                  </Stack>
-                </Link>
+                  </Link>
+                  <Heading
+                    size={['base', 'sm'].includes(bp || '') ? 'lg' : 'xl'}
+                  >
+                    {' '}
+                    <chakra.span color="gray.500">
+                      • {review?.rating.toFixed(1)}
+                    </chakra.span>
+                  </Heading>
+                </Stack>
 
                 {review && (
                   <ReviewActions
