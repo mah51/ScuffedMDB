@@ -76,7 +76,7 @@ function Users({ users }: UsersProps): React.ReactNode {
     (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
   );
 
-  if (sort === 'old') {
+  if (sort === 'recent') {
     sortedUsers = sortedUsers?.reverse();
   }
 
