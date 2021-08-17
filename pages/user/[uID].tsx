@@ -2,11 +2,7 @@ import React, { useEffect } from 'react';
 import { Divider, Flex } from '@chakra-ui/react';
 import AppLayout from '../../components/AppLayout';
 import AboutUserSection from '../../components/AboutUserSection';
-import User, {
-  MongoUser,
-  PopulatedUserType,
-  SerializedUser,
-} from '../../models/user';
+import User, { PopulatedUserType, SerializedUser } from '../../models/user';
 import { getMovies } from '../../utils/queries';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import UserReviewSection from '../../components/UserReviewSection';
@@ -17,6 +13,7 @@ import type { Session, UserAuthType } from 'next-auth';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { NextSeo } from 'next-seo';
+import ErrorPage from 'next/error';
 
 interface EditUserProps {
   desiredUser: UserAuthType | null;
@@ -24,6 +21,8 @@ interface EditUserProps {
 }
 
 function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
+  const router = useRouter();
+  const { uID } = router.query;
   const { data } = useQuery(
     'movies',
     async () => {
@@ -34,18 +33,16 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
   );
   const movies = data;
   const [session, loading] = useSession();
-  const router = useRouter();
   useEffect(() => {
-    if (!session && !loading) router.push('/');
-  }, [loading, router, session]);
+    if (!session && !loading) router.push(`/?user=${uID}`);
+  }, [loading, router, session, uID]);
   if ((typeof window !== 'undefined' && loading) || !session) return null;
-  if (!session) {
-    router.push('/');
-  }
   const user = session.user;
 
   if (!desiredUser) {
-    return <div>That user could not be found :(</div>;
+    return (
+      <ErrorPage statusCode={404} title={'That user could not be located :('} />
+    );
   }
   desiredUser.sub = desiredUser._id as string;
 
@@ -109,11 +106,12 @@ export async function getServerSideProps(
   const { uID } = ctx.query;
   await dbConnect();
   const session = await getSession(ctx);
-
-  const desiredUser: SerializedUser | MongoUser = await User.findById(
-    uID
-  ).lean();
-
+  let desiredUser;
+  try {
+    desiredUser = await User.findById(uID).lean();
+  } catch (e) {
+    return { props: { desiredUser: null, session, movies: [] } };
+  }
   if (!desiredUser)
     return { props: { desiredUser: null, session, movies: [] } };
 

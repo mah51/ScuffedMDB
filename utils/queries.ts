@@ -44,6 +44,10 @@ export const getMovie = async (
     ReviewType<PopulatedUserType>[]
   > = await res.json();
 
+  if (((movie as unknown) as { error: string })?.error) {
+    return null;
+  }
+
   return movie;
 };
 

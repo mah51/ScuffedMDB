@@ -21,7 +21,7 @@ const handler = async (
 
     return res.status(200).json(movie);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).json({ error: 'Could not find movie' });
   }
 };
 
