@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetServerSidePropsContext } from 'next';
-import { Flex, Heading, Text, useColorMode } from '@chakra-ui/react';
-import { format } from 'date-fns';
+import {
+  Button,
+  chakra,
+  Flex,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  useColorMode,
+} from '@chakra-ui/react';
 import UserTable from '../components/UserTable';
 import AppLayout from '../components/AppLayout';
-import { getFlags } from '../utils/userFlags';
 import { SerializedUser } from '../models/user';
 import BannedPage from '../components/BannedPage';
 import { NextSeo } from 'next-seo';
@@ -14,6 +23,8 @@ import dbConnect from '../utils/dbConnect';
 import { getUsers } from '../utils/queries';
 import { useQuery } from 'react-query';
 import { Session } from 'next-auth';
+import Wave from '../components/Wave';
+import { BiChevronDown } from 'react-icons/bi';
 
 interface UsersProps {
   users: SerializedUser[];
@@ -22,13 +33,19 @@ interface UsersProps {
 function Users({ users }: UsersProps): React.ReactNode {
   const { colorMode } = useColorMode();
   const [session, loading] = useSession();
+  const [sort, setSort] = useState('recent');
   const router = useRouter();
   const { data } = useQuery(`users`, getUsers, { initialData: users });
+
+  useEffect(() => {
+    if (!session) {
+      router.push('/');
+    }
+  }, [session, router]);
+
   if (typeof window !== 'undefined' && loading) return null;
 
-  if (!session) return router.push('/');
-
-  const user = session.user;
+  const user = session?.user;
 
   if (user?.isBanned) {
     return <BannedPage user={user} />;
@@ -55,30 +72,53 @@ function Users({ users }: UsersProps): React.ReactNode {
     );
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const usrs = data?.map((usr: SerializedUser) => ({
-    username: usr.username,
-    discriminator: usr.discriminator,
-    createdAt: format(new Date(usr.createdAt), `dd/MM/yy-HH:mm:ss`),
-    image: usr.image,
-    id: usr.discord_id,
-    isBanned: usr.isBanned,
-    banReason: usr.banReason,
-    isAdmin: usr.isAdmin,
-    isReviewer: usr.isReviewer,
-    updatedAt: format(new Date(usr.updatedAt), `dd/MM/yy-HH:mm:ss`),
-    flags: getFlags(usr.public_flags),
-    // eslint-disable-next-line no-underscore-dangle
-    _id: usr._id,
-  }));
+  let sortedUsers = data?.sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
+
+  if (sort === 'old') {
+    sortedUsers = sortedUsers?.reverse();
+  }
 
   return (
     <>
       <NextSeo title="Users" />
       <AppLayout user={user}>
-        <Flex maxWidth="7xl" mx="auto" direction="column" alignItems="center">
-          <Heading mb={10}>All Users</Heading>
-          <UserTable data={usrs} />
+        <Flex
+          maxWidth="7xl"
+          mx="auto"
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Heading mb={10} mx="auto" size="2xl">
+            All Users
+          </Heading>
+          <Wave mb={10} width="30%" />
+          <chakra.div>
+            <Menu>
+              <MenuButton mb={5} as={Button} rightIcon={<BiChevronDown />}>
+                Sort by...
+              </MenuButton>
+              <MenuList zIndex={998}>
+                <MenuItem
+                  zIndex={999}
+                  isDisabled={sort === 'recent'}
+                  onClick={() => setSort('recent')}
+                >
+                  Recent
+                </MenuItem>
+                <MenuItem
+                  zIndex={999}
+                  isDisabled={sort === 'old'}
+                  onClick={() => setSort('old')}
+                >
+                  Old
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </chakra.div>
+          <UserTable users={sortedUsers} />
         </Flex>
       </AppLayout>
     </>
