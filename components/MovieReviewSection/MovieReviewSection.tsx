@@ -201,7 +201,10 @@ const Review = ({ review, user, movie }: ReviewProps) => {
             : 'gray.500'
         }
       >
-        <ReactMarkdown skipHtml disallowedElements={['img', 'a']}>
+        <ReactMarkdown
+          skipHtml
+          disallowedElements={['img', 'a', 'code', 'pre']}
+        >
           {review.comment || 'No comment'}
         </ReactMarkdown>
       </Text>
