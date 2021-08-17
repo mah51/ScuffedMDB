@@ -203,21 +203,6 @@ const PopoverForm = ({
   );
 };
 
-interface TableUser {
-  username: string;
-  discriminator: string;
-  createdAt: string;
-  image: string;
-  id: string;
-  isBanned: boolean;
-  banReason?: string;
-  isAdmin: boolean;
-  isReviewer: boolean;
-  updatedAt: string;
-  flags: string[];
-  _id: string;
-}
-
 export const UserTable: React.FC<{
   users: SerializedUser[] | undefined;
 }> = ({ users }): JSX.Element => {
