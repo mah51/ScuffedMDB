@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/mah51/scuffedmdb/compare/v0.1.9...v0.2.0) (2021-08-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **User:** Affects user table actions, and next auth.
+
+### Features
+
+* **User:** :sparkles: Allow admins to hide users profile pictures ([44e03c4](https://github.com/mah51/scuffedmdb/commit/44e03c40dc3987405ed3f9ba6178285dabf4e637))
+
+
+### Bug Fixes
+
+* **HomePage:** :bug: Fix server side non serializable data ([0316cd2](https://github.com/mah51/scuffedmdb/commit/0316cd22afbc97f7497d92362510f6af41c20a25))
+
 ### [0.1.9](https://github.com/mah51/scuffedmdb/compare/v0.1.8...v0.1.9) (2021-08-18)
 
 
