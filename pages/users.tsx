@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { GetServerSidePropsContext } from 'next';
 import {
   Button,
@@ -9,16 +9,12 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Text,
-  useColorMode,
 } from '@chakra-ui/react';
 import UserTable from '../components/UserTable';
 import AppLayout from '../components/AppLayout';
 import { SerializedUser } from '../models/user';
-import BannedPage from '../components/BannedPage';
 import { NextSeo } from 'next-seo';
 import { getSession, useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
 import dbConnect from '../utils/dbConnect';
 import { getUsers } from '../utils/queries';
 import { useQuery } from 'react-query';
@@ -31,46 +27,11 @@ interface UsersProps {
 }
 
 function Users({ users }: UsersProps): React.ReactNode {
-  const { colorMode } = useColorMode();
   const [session, loading] = useSession();
   const [sort, setSort] = useState('recent');
-  const router = useRouter();
   const { data } = useQuery(`users`, getUsers, { initialData: users });
 
-  useEffect(() => {
-    if (!session) {
-      router.push('/');
-    }
-  }, [session, router]);
-
-  if (typeof window !== 'undefined' && loading) return null;
-
-  const user = session?.user;
-
-  if (user?.isBanned) {
-    return <BannedPage user={user} />;
-  }
-  if (!user || !user.isAdmin) {
-    return (
-      <Flex
-        height="full"
-        width="full"
-        justifyContent="center"
-        alignItems="center"
-        direction="column"
-      >
-        <Heading>You are not authorized to view this page 😢</Heading>
-
-        <Text
-          color={colorMode === 'light' ? `gray.400` : `gray.600`}
-          as="a"
-          href="/"
-        >
-          Click to go to the homepage!
-        </Text>
-      </Flex>
-    );
-  }
+  if ((typeof window !== 'undefined' && loading) || !session) return null;
 
   let sortedUsers = data?.sort(
     (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
@@ -83,7 +44,7 @@ function Users({ users }: UsersProps): React.ReactNode {
   return (
     <>
       <NextSeo title="Users" />
-      <AppLayout user={user}>
+      <AppLayout user={session?.user}>
         <Flex
           maxWidth="7xl"
           mx="auto"
@@ -127,17 +88,24 @@ function Users({ users }: UsersProps): React.ReactNode {
 
 export const getServerSideProps = async (
   ctx: GetServerSidePropsContext
-): Promise<{
-  props: {
-    session: Session | null;
-    users: SerializedUser[];
-  };
-}> => {
+): Promise<
+  | {
+      props: {
+        session: Session | null;
+        users: SerializedUser[];
+      };
+    }
+  | {
+      redirect: {
+        destination: '/';
+        permanent: false;
+      };
+    }
+> => {
   await dbConnect();
-
   const session = await getSession(ctx);
-  if (!session || !session.user.isAdmin)
-    return { props: { session, users: [] } };
+  if (!session || !session.user.isAdmin || session.user.isBanned)
+    return { redirect: { destination: '/', permanent: false } };
   const users = await getUsers();
 
   return { props: { session, users } };
