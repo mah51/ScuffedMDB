@@ -85,7 +85,9 @@ _and again_
   
 11. Stonks! ... if you are having trouble feel free to [submit an issue](https://github.com/mah51/ScuffedMDB/issues/new)
   </details>
+  
 ### Setting up the production environment
+  
 <details>
   <summary>Click to expand</summary>
 1. Login to https://vercel.com/ with your github.
