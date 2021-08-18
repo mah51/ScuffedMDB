@@ -12,6 +12,8 @@
   
   - [Setting up the production environment](#setting-up-the-production-environment)
   
+- [Discord bot integration](#using-the-discord-bot-with-the-website)
+  
 - [TODO](#todo)
   
 </details>
