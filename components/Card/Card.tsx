@@ -7,12 +7,14 @@ import {
   chakra,
   HStack,
   Tag,
+  Skeleton,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import Rating from '../Rating';
 import { PopulatedUserType } from '../../models/user';
 import { getColorSchemeCharCode } from '../../utils/utils';
+import { useState } from 'react';
 
 interface CardProps {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
@@ -20,6 +22,7 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
   const { image, name, genres, rating, numReviews, tagLine } = movie;
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   return (
     <Link href={`/movie/${movie._id}`} passHref>
       <Box as={'a'} height="full">
@@ -71,15 +74,17 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
           </Box>
           <Box mt={-6} mx={-6} mb={6} pos="relative">
             {image && (
-              <Image
-                src={image}
-                layout="responsive"
-                width="400px"
-                // sizes={imageSizesOnWidthAndBreakpoints(400, bpsAsObjectPx)}
-                sizes="(max-width: 2561px) 400px"
-                height="225px"
-                alt={`${movie?.name} poster`}
-              />
+              <Skeleton isLoaded={isImageLoaded}>
+                <Image
+                  src={image}
+                  layout="responsive"
+                  width="400px"
+                  onLoad={() => setIsImageLoaded(true)}
+                  sizes="(max-width: 2561px) 400px"
+                  height="225px"
+                  alt={`${movie?.name} poster`}
+                />
+              </Skeleton>
             )}
           </Box>
 
