@@ -18,8 +18,10 @@
   
 </details>
 
+
 ## Introduction
 
+  
 This is the movie rating website v2.0 (now with dark mode&trade;)
 
 Designed to be used by friends to rate movies watched together :).
@@ -39,7 +41,8 @@ Thank you to [@oli89](https://github.com/oli89) for all of the ideas and user te
 ## How to host this yourself:
 
 ### Setting up the local environment
-
+<details>
+  <summary>Click to expand</summary>
 It is beneficial to set up a local environment to make quick changes without having to wait for the website to rebuild on vercel.
 
 1. Fork this repository at the top right of this page.
@@ -81,9 +84,10 @@ _and again_
 10. Run `npm run dev` in your terminal in the project directory.
   
 11. Stonks! ... if you are having trouble feel free to [submit an issue](https://github.com/mah51/ScuffedMDB/issues/new)
-  
+  </details>
 ### Setting up the production environment
-
+<details>
+  <summary>Click to expand</summary>
 1. Login to https://vercel.com/ with your github.
 
 2. Go to the homepage and create new project, select 'ScuffedMDB' and click import. 
@@ -107,7 +111,7 @@ _and again_
  9. Go back to the overview tab and click redeploy.
   
  10. Thats it! your very own live movie rating website. The world is yours ... and everytime you push a change to your repo, it automatically redeploys (<3 vercel).
-
+</details>
 ## Using the discord bot with the website:
 
 Visit [the repo - ScuffedMDB-Bot](https://github.com/mah51/scuffedmdb-bot) containing the bots code and use the readme to integrate with the website. (Make sure the website is setup and working before trying this out).
