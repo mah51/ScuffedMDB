@@ -6,38 +6,32 @@ import { getMovie, getMovies } from '../utils/queries';
 import BannedPage from '../components/BannedPage';
 import { ReviewType, SerializedMovieType } from '../models/movie';
 import { getSession, useSession } from 'next-auth/client';
-import { PopulatedUserType } from '../models/user';
+import user, { PopulatedUserType } from '../models/user';
 import { GetServerSidePropsContext } from 'next';
 import { Session } from 'next-auth';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 interface HomePageProps {
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+  singleMovieData: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
+  desiredUser?: { username: string; _id: string; image: string };
 }
 
-export default function Home({ movies }: HomePageProps): React.ReactNode {
+export default function Home({
+  movies,
+  singleMovieData,
+  desiredUser,
+}: HomePageProps): React.ReactNode {
   const [session, loading] = useSession();
-  const router = useRouter();
-  const { movie: movieId } = router.query;
-  const [
-    singleMovieData,
-    setSingleMovieData,
-  ] = useState<SerializedMovieType | null>(null);
-
-  useEffect(() => {
-    if (movieId) {
-      getMovie(movieId, true)
-        .then((x) => setSingleMovieData(x))
-        .catch(console.error);
-    }
-  });
 
   if (typeof window !== 'undefined' && loading) return null;
 
   if (!session?.user) {
-    return <LandingPage movie={singleMovieData || undefined} />;
+    return (
+      <LandingPage
+        desiredUser={desiredUser || undefined}
+        movie={singleMovieData || undefined}
+      />
+    );
   }
   if (session?.user?.isBanned) {
     return <BannedPage user={session.user} />;
@@ -46,6 +40,7 @@ export default function Home({ movies }: HomePageProps): React.ReactNode {
   const { data } = useQuery(`movies`, getMovies, {
     initialData: movies,
   });
+
   if (!data) {
     return <div>There was an error locating movie data :(</div>;
   }
@@ -61,14 +56,39 @@ export const getServerSideProps = async (
   props?: {
     session?: Session | null;
     movies?: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+    singleMovieData?: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
+    desiredUser?: { username: string; sub: string; image: string };
   };
 }> => {
   const session = await getSession(ctx);
+
   if (!session?.user) {
+    let singleMovieData: SerializedMovieType<
+      ReviewType<PopulatedUserType>[]
+    > | null = null;
+    let desiredUser = null;
+    if (ctx.query.movie) {
+      singleMovieData = await getMovie(ctx.query.movie, true);
+    }
+    if (ctx.query.user) {
+      try {
+        desiredUser = await user.findById(ctx.query.user).lean();
+      } catch (e) {
+        return { props: { session, movies: [] } };
+      }
+    }
     return {
       props: {
         session,
         movies: [],
+        singleMovieData: singleMovieData ? singleMovieData : undefined,
+        desiredUser: desiredUser
+          ? {
+              username: desiredUser.username,
+              sub: desiredUser._id.toString(),
+              image: desiredUser.image,
+            }
+          : undefined,
       },
     };
   }
