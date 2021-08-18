@@ -40,6 +40,7 @@ import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { SerializedUser } from '../../models/user';
 import { getFlags } from '../../utils/userFlags';
 import { format } from 'date-fns';
+import { BsEyeSlashFill } from 'react-icons/bs';
 
 //TODO look into types for react-table. It looks like a hot mess and i don't really know what im doing, so pretty much this whole file is ts-ignored lol
 
@@ -209,6 +210,33 @@ export const UserTable: React.FC<{
   const queryClient = useQueryClient();
   const toast = useToast();
 
+  const handleReveal = async (user: string, isImageHidden: boolean) => {
+    const response = await fetch(`/api/user/${user}`, {
+      method: `PUT`,
+      body: JSON.stringify({ isImageHidden: !isImageHidden }),
+    });
+    if (response.status >= 300) {
+      return toast({
+        variant: `top-accent`,
+        title: `There was an error`,
+        description: `${user} could not be revealed`,
+        status: `error`,
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      await queryClient.invalidateQueries(`users`);
+      return toast({
+        variant: `top-accent`,
+        title: `Image visible`,
+        description: `${user} image is now visible.`,
+        status: `success`,
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   const handlePromote = async (
     promotion: 'admin' | 'reviewer',
     user: string
@@ -322,9 +350,26 @@ export const UserTable: React.FC<{
           isReviewer: boolean;
           isBanned: boolean;
           banReason: string;
+          isImageHidden: boolean;
         };
       }) => (
         <HStack justifyContent="center">
+          <Tooltip
+            label={
+              value?.isImageHidden ? `Reveal user image` : `Hide user image`
+            }
+            placement="top"
+          >
+            <IconButton
+              onClick={() => handleReveal(value?._id, value?.isImageHidden)}
+              aria-label={
+                value?.isImageHidden ? `Reveal user image` : `Hide user image`
+              }
+              colorScheme={value?.isImageHidden ? `red` : `green`}
+              variant="ghost"
+              icon={<BsEyeSlashFill />}
+            />
+          </Tooltip>
           <Tooltip
             label={value?.isAdmin ? `Demote from admin` : `Promote to admin`}
             placement="top"
@@ -392,6 +437,7 @@ export const UserTable: React.FC<{
       isReviewer: user?.isReviewer,
       isBanned: user?.isBanned,
       banReason: user?.banReason || '',
+      isImageHidden: user?.isImageHidden,
     },
   }));
   // eslint-disable-next-line react-hooks/exhaustive-deps

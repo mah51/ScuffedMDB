@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema<MongoUser, UserModel>(
     isAdmin: { type: Boolean, default: false },
     isReviewer: { type: Boolean, default: false },
     isBanned: { type: Boolean, default: false },
+    isImageHidden: { type: Boolean, default: false },
     banReason: { type: String },
   },
   { timestamps: true }
@@ -42,6 +43,7 @@ export interface LeanMongoUser {
   createdAt: Date;
   isBanned: boolean;
   banReason?: string;
+  isImageHidden?: boolean;
   updatedAt: Date;
 }
 

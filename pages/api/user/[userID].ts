@@ -8,23 +8,56 @@ const handler = async (
   res: NextApiResponse
 ): Promise<void> => {
   await dbConnect();
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  switch (req.method) {
+    case 'GET':
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const session = await getSession({ req });
+      if (!session?.user) {
+        return res
+          .status(401)
+          .json({ message: `You are not authorized to do that :(` });
+      }
+      const { userID } = req.query;
+      const foundUser: any = await User.findById(userID).lean();
+
+      if (!foundUser) {
+        return res.status(404).json({ message: `User not found` });
+      }
+      foundUser._id = foundUser.toString();
+      foundUser.createdAt = foundUser.createdAt.getTime();
+      foundUser.updatedAt = foundUser.updatedAt.getTime();
+      return res.status(200).json(foundUser);
+    case 'PUT':
+      await updateUser(req, res);
+
+      break;
+    default:
+      return res.status(405).json({ message: `Method not allowed` });
+  }
+};
+
+export default handler;
+
+const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { userID } = req.query;
   const session = await getSession({ req });
-  if (!session?.user) {
+  if (!session?.user || !session?.user?.isAdmin) {
     return res
       .status(401)
       .json({ message: `You are not authorized to do that :(` });
   }
-  const { uID } = req.query;
-  const foundUser: any = User.findById(uID).lean();
+  try {
+    const foundUser: any = await User.findById(userID);
+    if (!foundUser) {
+      return res.status(404).json({ message: `User not found` });
+    }
+    const data = JSON.parse(req.body);
+    for (const k in data) foundUser[k] = data[k];
 
-  if (!foundUser) {
-    return res.status(400).json({ message: `User not found` });
+    await foundUser.save();
+
+    return res.status(200).json(foundUser);
+  } catch (err) {
+    return res.status(400).json({ message: err?.message });
   }
-  foundUser._id = foundUser.toString();
-  foundUser.createdAt = foundUser.createdAt.getTime();
-  foundUser.updatedAt = foundUser.updatedAt.getTime();
-  return res.status(200).json(foundUser);
 };
-
-export default handler;

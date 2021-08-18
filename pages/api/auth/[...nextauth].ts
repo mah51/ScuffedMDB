@@ -126,14 +126,15 @@ export default NextAuth({
           }
 
           if (findUser) {
+            let changesMade = false;
             if (token.image && token.image !== findUser.image) {
               findUser.image = token.image;
-              await findUser.save();
+              changesMade = true;
             }
             if (token?.name && token.name !== findUser.name) {
               findUser.username = token.name;
               findUser.name = token.name;
-              await findUser.save();
+              changesMade = true;
             }
 
             if (
@@ -141,11 +142,21 @@ export default NextAuth({
               token.discriminator !== findUser.discriminator
             ) {
               findUser.discriminator = token.discriminator;
+              changesMade = true;
+            }
+            if (findUser.isImageHidden) {
+              findUser.image = `https://cdn.discordapp.com/embed/avatars/${
+                parseInt(findUser.discriminator) % 5
+              }.png`;
+              changesMade = true;
+            }
+            if (changesMade) {
               await findUser.save();
             }
             token.isBanned = findUser.isBanned;
             token.isReviewer = findUser.isReviewer;
             token.isAdmin = findUser.isAdmin;
+            token.image = findUser.image;
           }
         } catch (e) {
           console.error(e);
