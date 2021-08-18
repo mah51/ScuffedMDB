@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Thanks for creating an issue 😄!
-  - type: "input"
+  - type: "textarea"
     id: "description"
     attributes:
       label: "Description"
@@ -50,6 +50,7 @@ body:
         - label: "macOS"
         - label: "Windows"
         - label: "Linux"
+        - label: "IOS / Android"
   - type: "textarea"
     id: "additional-information"
     attributes:
