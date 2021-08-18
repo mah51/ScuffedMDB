@@ -89,13 +89,16 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
   );
 }
 
-interface returnProps {
-  props?: {
+interface SSRProps {
+  props: {
     session: Session | null;
     desiredUser: SerializedUser | null;
     movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
   };
-  redirect?: {
+}
+
+interface returnProps {
+  redirect: {
     destination: string;
     permanent: boolean;
   };
@@ -103,11 +106,11 @@ interface returnProps {
 
 export async function getServerSideProps(
   ctx: GetServerSidePropsContext
-): Promise<returnProps> {
+): Promise<returnProps | SSRProps> {
   const { uID } = ctx.query;
   await dbConnect();
   const session = await getSession(ctx);
-  if (!session) {
+  if (!session || session.user.isBanned) {
     return { redirect: { destination: `/?user=${uID}`, permanent: false } };
   }
   let desiredUser;
