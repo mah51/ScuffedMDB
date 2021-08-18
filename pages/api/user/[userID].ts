@@ -53,7 +53,11 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     const data = JSON.parse(req.body);
     for (const k in data) foundUser[k] = data[k];
-
+    if (foundUser.isImageHidden) {
+      foundUser.image = `https://cdn.discordapp.com/embed/avatars/${
+        parseInt(foundUser.discriminator) % 5
+      }.png`;
+    }
     await foundUser.save();
 
     return res.status(200).json(foundUser);
