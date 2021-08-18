@@ -1,10 +1,27 @@
 # Movie-Rating website 2.0 aka ScuffedMDB
 
+## Table of Contents
+<details>
+<summary>Click to expand</summary>
+- [Introduction](#introduction)
+- [Host this yourself] (#how-to-host-this-yourself)
+  - [Setting up the local environment] (#settting-up-the-local-environment)
+  - [Setting up the production environment] (#setting-up-the-production-environment)
+- [TODO] (#todo)
+  
+</details>
+
+## Introduction
+
 This is the movie rating website v2.0 (now with dark mode&trade;)
 
 Designed to be used by friends to rate movies watched together :).
 
+To follow any updates there is a [Changelog](/CHANGELOG.md)
+
 This repo is licensed under an [MIT license](https://github.com/mah51/ScuffedMDB/blob/main/LICENSE), and can therefore be modified and distributed as stated. However, if you do host this yourself, please include some creditation to my github somewhere on the page as a link to this repo / or my homepage. Not only will this help me out, but it allows others to host their own versions if they wish!
+
+Thank you to [@oli89](https://github.com/oli89) for all of the ideas and user testing!
 
 ![Screen Shot 2021-07-09 at 06 08 38](https://user-images.githubusercontent.com/47287285/125026289-25392280-e07c-11eb-979a-67769c36c4ea.png)
 ![Screen Shot 2021-07-09 at 06 09 20](https://user-images.githubusercontent.com/47287285/125026321-371ac580-e07c-11eb-9881-1ec8a70c0f23.png)
@@ -14,7 +31,7 @@ This repo is licensed under an [MIT license](https://github.com/mah51/ScuffedMDB
 
 ## How to host this yourself:
 
-### Setting up a local environment
+### Setting up the local environment
 
 It is beneficial to set up a local environment to make quick changes without having to wait for the website to rebuild on vercel.
 
@@ -90,7 +107,7 @@ Visit [the repo - ScuffedMDB-Bot](https://github.com/mah51/scuffedmdb-bot) conta
   
 N.B _The bot does not run on vercel, you have to find your own host, self-hosting is a good option if you have a computer running 24/7, if not I would recommend a cheap VPS._
 
-TODO:
+## TODO:
 
 
 - Fix bunch of errors to do with incorrect hook usage & react-table. ;(
