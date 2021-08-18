@@ -56,8 +56,10 @@ export const getServerSideProps = async (
   props?: {
     session?: Session | null;
     movies?: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
-    singleMovieData?: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
-    desiredUser?: { username: string; sub: string; image: string };
+    singleMovieData?: SerializedMovieType<
+      ReviewType<PopulatedUserType>[]
+    > | null;
+    desiredUser?: { username: string; sub: string; image: string } | null;
   };
 }> => {
   const session = await getSession(ctx);
@@ -81,14 +83,14 @@ export const getServerSideProps = async (
       props: {
         session,
         movies: [],
-        singleMovieData: singleMovieData ? singleMovieData : undefined,
+        singleMovieData: singleMovieData ? singleMovieData : null,
         desiredUser: desiredUser
           ? {
               username: desiredUser.username,
               sub: desiredUser._id.toString(),
               image: desiredUser.image,
             }
-          : undefined,
+          : null,
       },
     };
   }
