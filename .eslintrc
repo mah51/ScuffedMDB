@@ -28,6 +28,7 @@
   },
 
   "rules": {
+    "no-case-declarations": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "react/react-in-jsx-scope": 0,
     "react/display-name": 0,
