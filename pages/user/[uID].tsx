@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Divider, Flex } from '@chakra-ui/react';
 import AppLayout from '../../components/AppLayout';
 import AboutUserSection from '../../components/AboutUserSection';
@@ -10,7 +10,6 @@ import type { GetServerSidePropsContext } from 'next';
 import dbConnect from '../../utils/dbConnect';
 import { getSession, useSession } from 'next-auth/client';
 import type { Session, UserAuthType } from 'next-auth';
-import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { NextSeo } from 'next-seo';
 import ErrorPage from '@components/ErrorPage';
@@ -21,8 +20,6 @@ interface EditUserProps {
 }
 
 function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
-  const router = useRouter();
-  const { uID } = router.query;
   const { data } = useQuery(
     'movies',
     async () => {
@@ -33,9 +30,6 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
   );
   const movies = data;
   const [session, loading] = useSession();
-  useEffect(() => {
-    if (!session && !loading) router.push(`/?user=${uID}`);
-  }, [loading, router, session, uID]);
   if ((typeof window !== 'undefined' && loading) || !session) return null;
   const user = session.user;
 
@@ -96,10 +90,14 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
 }
 
 interface returnProps {
-  props: {
+  props?: {
     session: Session | null;
     desiredUser: SerializedUser | null;
     movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+  };
+  redirect?: {
+    destination: string;
+    permanent: boolean;
   };
 }
 
@@ -109,6 +107,9 @@ export async function getServerSideProps(
   const { uID } = ctx.query;
   await dbConnect();
   const session = await getSession(ctx);
+  if (!session) {
+    return { redirect: { destination: `/?user=${uID}`, permanent: false } };
+  }
   let desiredUser;
   try {
     desiredUser = await User.findById(uID).lean();

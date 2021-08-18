@@ -4,7 +4,6 @@ import { Session } from 'next-auth';
 import { getSession, useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import AppLayout from '../../components/AppLayout';
 import BannedPage from '../../components/BannedPage';
@@ -31,17 +30,13 @@ export default function MoviePage({
   const { id } = router.query;
 
   const { data, isLoading } = useQuery(
-    `movie-${props.movie.name}`,
+    `movie-${props?.movie?.name}`,
     async () => {
       return await getMovie(id, true);
     },
 
-    { initialData: props.movie }
+    { initialData: props?.movie }
   );
-
-  useEffect(() => {
-    if (!session && !loading) router.push(`/?movie=${id}`);
-  }, [loading, router, session, id]);
 
   if ((typeof window !== 'undefined' && loading) || !session) return null;
   if (!id) return <ErrorPage statusCode={404} message="No movie selected" />;
@@ -115,9 +110,13 @@ export default function MoviePage({
 }
 
 interface SSRProps {
-  props: {
+  props?: {
     session: Session | null;
     movie: SerializedMovieType<ReviewType<PopulatedUserType>[]> | null;
+  };
+  redirect?: {
+    destination: string;
+    permanent: boolean;
   };
 }
 
@@ -125,9 +124,18 @@ export async function getServerSideProps(
   ctx: GetServerSidePropsContext
 ): Promise<SSRProps> {
   const { id } = ctx.query;
-  if (!id) return { props: { session: null, movie: null } };
+  if (!id)
+    return {
+      props: { session: null, movie: null },
+    };
   const session = await getSession({ req: ctx.req });
-  if (!session) return { props: { session: null, movie: null } };
+  if (!session)
+    return {
+      redirect: {
+        destination: `/?movie=${id}`,
+        permanent: false,
+      },
+    };
 
   const movie = await getMovie(id, true);
 
