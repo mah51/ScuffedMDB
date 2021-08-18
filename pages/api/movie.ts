@@ -1,7 +1,6 @@
 import { postDataToWebhook } from './../../utils/utils';
 import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
-import axios from 'axios';
 import Movie, { MovieType } from '../../models/movie';
 import dbConnect from '../../utils/dbConnect';
 import { MovieEndpointBodyType } from '../../types/APITypes';
@@ -21,12 +20,14 @@ const MovieAPI = async (
           .json({ message: `You are not authorized to do that :(` });
       }
 
-      const { data: movieData, status: movieStatus } = await axios.get(
+      const movieResponse = await fetch(
         `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.MOVIE_API_KEY}&language=en-US`
       );
 
-      if (movieStatus !== 200 || movieData.status_code) {
-        return res.status(movieStatus);
+      const  movieData  = await movieResponse.json()
+
+      if (movieResponse.status !== 200 || movieData.status_code) {
+        return res.status(movieResponse.status);
       }
 
       const existingMovie = await Movie.findOne({ movieID });

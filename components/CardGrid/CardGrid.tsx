@@ -33,7 +33,6 @@ import {
   useTheme,
 } from '@chakra-ui/react';
 import { transparentize } from '@chakra-ui/theme-tools';
-import 'react-toggle/style.css';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiChevronDown } from 'react-icons/bi';
 import { useState } from 'react';
