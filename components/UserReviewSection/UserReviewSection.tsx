@@ -82,7 +82,6 @@ export const UserReviewSection: React.FC<{
                   />
                 )}
               </Flex>
-
               <Text
                 fontSize={{ base: 'lg', md: '2xl' }}
                 listStylePosition="inside"
