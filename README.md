@@ -23,6 +23,8 @@ It is beneficial to set up a local environment to make quick changes without hav
 
 `git clone https://github.com/<YOUR GITHUB USERNAME>/scuffedmdb`
 
+`cd scuffedmdb`
+
 3. Rename .env.example, to .env.local and enter the local address: http://localhost:3000  n.b Do not include a / at the end of your domain
 
 .env.local
