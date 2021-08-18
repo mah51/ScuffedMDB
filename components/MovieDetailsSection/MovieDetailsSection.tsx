@@ -98,6 +98,10 @@ export default function MovieDetailsSection({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [review, movie]);
 
+  useEffect(() => {
+    setIsImageLoaded(false);
+  }, []);
+
   const averageReview =
     movie.reviews.length > 0
       ? (

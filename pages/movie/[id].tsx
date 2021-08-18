@@ -22,7 +22,6 @@ interface MoviePageProps {
 
 export default function MoviePage({
   error,
-
   ...props
 }: MoviePageProps): JSX.Element | null {
   const { colorMode } = useColorMode();
@@ -32,7 +31,7 @@ export default function MoviePage({
   const { id } = router.query;
 
   const { data, isLoading } = useQuery(
-    'movie',
+    `movie-${props.movie.name}`,
     async () => {
       return await getMovie(id, true);
     },
@@ -118,7 +117,6 @@ export default function MoviePage({
 interface SSRProps {
   props: {
     session: Session | null;
-    revalidate: number;
     movie: SerializedMovieType<ReviewType<PopulatedUserType>[]> | null;
   };
 }
@@ -127,16 +125,14 @@ export async function getServerSideProps(
   ctx: GetServerSidePropsContext
 ): Promise<SSRProps> {
   const { id } = ctx.query;
-  if (!id) return { props: { session: null, revalidate: 60, movie: null } };
+  if (!id) return { props: { session: null, movie: null } };
   const session = await getSession({ req: ctx.req });
-  if (!session)
-    return { props: { session: null, revalidate: 60, movie: null } };
+  if (!session) return { props: { session: null, movie: null } };
 
   const movie = await getMovie(id, true);
 
   return {
     props: {
-      revalidate: 60,
       movie,
       session,
     },

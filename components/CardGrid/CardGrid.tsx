@@ -1,7 +1,6 @@
 import {
   Container,
   SimpleGrid,
-  Box,
   Flex,
   InputGroup,
   InputLeftElement,
@@ -44,7 +43,6 @@ import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { NextSeo } from 'next-seo';
 import ReviewModal from '../ReviewModal';
-import Link from 'next/link';
 import { UserAuthType } from 'next-auth';
 
 import MovieGridView from '../MovieGridView';
@@ -333,15 +331,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
                 movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
                 i
               ) => (
-                <Link
-                  key={`${i.toString()}cardBox`}
-                  href={`/movie/${movie._id}`}
-                  passHref
-                >
-                  <Box as={'a'} height="full">
-                    <Card movie={movie} key={`${i.toString()}card`} />
-                  </Box>
-                </Link>
+                <Card movie={movie} key={`${i.toString()}card`} />
               )
             )}
           </SimpleGrid>
