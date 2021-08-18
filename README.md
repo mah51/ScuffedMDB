@@ -1,17 +1,18 @@
 # Movie-Rating website 2.0 aka ScuffedMDB
 
-## Table of Contents
+# Table of Contents
 <details>
 <summary>Click to expand</summary>
+  
 - [Introduction](#introduction)
   
-- [Host this yourself] (#how-to-host-this-yourself)
+- [Host this yourself](#how-to-host-this-yourself)
   
-  - [Setting up the local environment] (#settting-up-the-local-environment)
+  - [Setting up the local environment](#settting-up-the-local-environment)
   
-  - [Setting up the production environment] (#setting-up-the-production-environment)
+  - [Setting up the production environment](#setting-up-the-production-environment)
   
-- [TODO] (#todo)
+- [TODO](#todo)
   
 </details>
 
