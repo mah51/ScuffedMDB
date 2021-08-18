@@ -119,7 +119,7 @@
         {
           "emoji": "🎨",
           "code": ":art:",
-          "description": "Improving structure / format of the code.",
+          "description": "Styling changes on the website.",
           "name": "style"
         },
         {
@@ -139,6 +139,12 @@
           "code": ":rocket:",
           "description": "Deploying stuff.",
           "name": "deploy"
+        },
+        {
+          "emoji": "📈",
+          "code": ":chart-with-upwards-trend:",
+          "description": "A general improvement.",
+          "name": "improvement"
         },
         {
           "emoji": "💄",
