@@ -86,34 +86,16 @@
       "conventional": true,
       "types": [
         {
-          "emoji": "🎨",
-          "code": ":art:",
-          "description": "Improving structure / format of the code.",
-          "name": "style"
+          "emoji": "🔨",
+          "code": "hammer",
+          "description": "Affects the build system or external dependencies",
+          "name": "build"
         },
         {
-          "emoji": "⚡️",
-          "code": ":zap:",
-          "description": "Improving performance.",
-          "name": "perf"
-        },
-        {
-          "emoji": "🔥",
-          "code": ":fire:",
-          "description": "Removing code or files.",
-          "name": "prune"
-        },
-        {
-          "emoji": "🐛",
-          "code": ":bug:",
-          "description": "Fixing a bug.",
-          "name": "fix"
-        },
-        {
-          "emoji": "🚑",
-          "code": ":ambulance:",
-          "description": "Critical hotfix.",
-          "name": "quickfix"
+          "emoji": "📝",
+          "code": ":pencil:",
+          "description": "Writing docs.",
+          "name": "docs"
         },
         {
           "emoji": "✨",
@@ -122,10 +104,40 @@
           "name": "feat"
         },
         {
-          "emoji": "📝",
-          "code": ":pencil:",
-          "description": "Writing docs.",
-          "name": "docs"
+          "emoji": "🐛",
+          "code": ":bug:",
+          "description": "Fixing a bug.",
+          "name": "fix"
+        },
+        {
+          "emoji": "⚡️",
+          "code": ":zap:",
+          "description": "Improving performance.",
+          "name": "perf"
+        },
+        {
+          "emoji": "♻️",
+          "code": ":recycle:",
+          "description": "Refactoring code.",
+          "name": "refactoring"
+        },
+        {
+          "emoji": "🎨",
+          "code": ":art:",
+          "description": "Improving structure / format of the code.",
+          "name": "style"
+        },
+        {
+          "emoji": "🔥",
+          "code": ":fire:",
+          "description": "Removing code or files.",
+          "name": "prune"
+        },
+        {
+          "emoji": "🚑",
+          "code": ":ambulance:",
+          "description": "Critical hotfix.",
+          "name": "quickfix"
         },
         {
           "emoji": "🚀",
@@ -168,12 +180,6 @@
           "code": ":construction:",
           "description": "Work in progress.",
           "name": "wip"
-        },
-        {
-          "emoji": "♻️",
-          "code": ":recycle:",
-          "description": "Refactoring code.",
-          "name": "refactoring"
         },
         {
           "emoji": "🐳",
