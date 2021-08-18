@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/mah51/scuffedmdb/compare/v0.2.0...v0.2.1) (2021-08-18)
+
+
+### Code Refactoring
+
+* **MoviePage:** :recycle: Move check for user ban ([b26603f](https://github.com/mah51/scuffedmdb/commit/b26603fe48e1c8492528acf71e472e789e7caac2))
+* **UserPage:** :recycle: user checks server side ([adeff79](https://github.com/mah51/scuffedmdb/commit/adeff79cf99554a961578b08c684bc4fca77d6e8))
+* **UsersPage:** :recycle: refactoring user checking to serverside ([35b9a37](https://github.com/mah51/scuffedmdb/commit/35b9a372a111a5f30faffed6a8fc2bf5ca6e4c9c))
+* **UsersPage:** :recycle: refactoring user checking to serverside ([e3cfa8e](https://github.com/mah51/scuffedmdb/commit/e3cfa8e26a84d50afc9dab1c262e324faa230b8c))
+
 ## [0.2.0](https://github.com/mah51/scuffedmdb/compare/v0.1.9...v0.2.0) (2021-08-18)
 
 
