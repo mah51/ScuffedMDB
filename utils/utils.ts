@@ -67,14 +67,17 @@ export const postDataToWebhook = async (data: WebhookData): Promise<void> => {
     return console.error('Must provide a webhook token to send webhooks');
   }
 
-  const response = await fetch(process.env.WEBHOOK_URL + `/api/event/${data?.type}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.WEBHOOK_TOKEN}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const response = await fetch(
+    process.env.WEBHOOK_URL + `/api/event/${data?.type}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.WEBHOOK_TOKEN}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
   if (response.status > 300) {
     return console.error(`Webhook failed with status ${response.status}`);
   }

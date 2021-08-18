@@ -117,6 +117,14 @@ export async function getServerSideProps(
       },
     };
 
+  if (session?.user?.isBanned)
+    return {
+      redirect: {
+        destination: `/`,
+        permanent: false,
+      },
+    };
+
   const movie = await getMovie(id, true);
 
   return {
