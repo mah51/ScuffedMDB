@@ -25,7 +25,7 @@ export default function AlertBanner({
   type,
   storageName,
 }: Props): ReactElement {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
   const color = useColorModeValue('white', 'gray.800');
   const bg = useColorModeValue(
     `${colors[type].bg.light}`,
@@ -34,8 +34,8 @@ export default function AlertBanner({
   useEffect(() => {
     const cookie = window.localStorage.getItem(storageName);
 
-    if (cookie) {
-      setIsOpen(false);
+    if (!cookie) {
+      setIsOpen(true);
     }
   }, [storageName]);
 
