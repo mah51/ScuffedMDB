@@ -83,7 +83,10 @@ export const UserReviewSection: React.FC<{
                 )}
               </Flex>
 
-              <Text fontSize={{ base: 'lg', md: '2xl' }}>
+              <Text
+                fontSize={{ base: 'lg', md: '2xl' }}
+                listStylePosition="inside"
+              >
                 <ReactMarkdown
                   skipHtml
                   disallowedElements={['img', 'a', 'code', 'pre']}
