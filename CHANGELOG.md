@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/mah51/scuffedmdb/compare/v0.1.8...v0.1.9) (2021-08-18)
+
+
+### Bug Fixes
+
+* **AlertBanner:** :bug: prevent banner flash on page load if dismissed ([6de82e0](https://github.com/mah51/scuffedmdb/commit/6de82e09296b6a9f3781babed41faaa8ceeb3dd3))
+* **Card:** :bug: load images with skeleton, to prevent flash of old image ([0661d6b](https://github.com/mah51/scuffedmdb/commit/0661d6bff20c8601727b8813583429e633bf6747))
+* **Reviews:** :bug: prevent spilling of lists into left of document ([8f01f96](https://github.com/mah51/scuffedmdb/commit/8f01f96b6ae9194c8cd06055c0421b8bef48eea9)), closes [#56](https://github.com/mah51/scuffedmdb/issues/56)
+
+
+### Docs
+
+* **CONTRIBUTING:** :pencil: update ([5e3e083](https://github.com/mah51/scuffedmdb/commit/5e3e083e13c331a557ef7a89007299aef448cc84))
+
+
+### Styling
+
+* **commitzen:** :art: Modifying types ([64de518](https://github.com/mah51/scuffedmdb/commit/64de518b7109efa2838f15173097c13d66239454))
+* **Release:** :art: Back to standard release, this seems easier ([98d6bbc](https://github.com/mah51/scuffedmdb/commit/98d6bbcb9bb593262ca2042360f838ac42c27890))
+
 ### [0.1.8](https://github.com/mah51/scuffedmdb/compare/v0.1.7...v0.1.8) (2021-08-18)
 
 ### [0.1.7](https://github.com/mah51/scuffedmdb/compare/v0.1.6...v0.1.7) (2021-08-18)
