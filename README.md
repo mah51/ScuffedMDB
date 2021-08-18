@@ -29,13 +29,20 @@ This repo is licensed under an [MIT license](https://github.com/mah51/ScuffedMDB
 
 Thank you to [@oli89](https://github.com/oli89) for all of the ideas and user testing!
 
+<table>
+  <tr>
+    <td align="left">
+<img src="https://user-images.githubusercontent.com/47287285/125026289-25392280-e07c-11eb-979a-67769c36c4ea.png" width="40%" align="left" /></td>
+    <td align="right"><img src="https://user-images.githubusercontent.com/47287285/125026321-371ac580-e07c-11eb-9881-1ec8a70c0f23.png" width="40%" align="right" /></td>
+  </tr>
+  <tr>
+    <td align="left" >
+<img src="https://user-images.githubusercontent.com/47287285/125026308-2f5b2100-e07c-11eb-873e-2eabcf0906fb.png" width="40%" align="left" /></td>
+  </tr>
+  <tr><img src="https://user-images.githubusercontent.com/47287285/125026394-616c8300-e07c-11eb-9678-a6e497119b7d.png" width="40%" align="right" /></tr>
+</table>
 
-<img src="https://user-images.githubusercontent.com/47287285/125026289-25392280-e07c-11eb-979a-67769c36c4ea.png" width="40%" align="left" />
-<img src="https://user-images.githubusercontent.com/47287285/125026321-371ac580-e07c-11eb-9881-1ec8a70c0f23.png" width="40%" align="right" />
 
-
-<img src="https://user-images.githubusercontent.com/47287285/125026308-2f5b2100-e07c-11eb-873e-2eabcf0906fb.png" width="40%" align="left" />
-<img src="https://user-images.githubusercontent.com/47287285/125026394-616c8300-e07c-11eb-9678-a6e497119b7d.png" width="40%" align="right" />
 
 ## How to host this yourself:
 
