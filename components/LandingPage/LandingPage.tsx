@@ -43,10 +43,7 @@ export const LandingPage: React.FC<{
             {
               width: 1920,
               height: 1080,
-              url:
-                movie?.image ||
-                desiredUser?.image ||
-                `https://www.movie.michael-hall.me/sitePicture.png`,
+              url: movie?.image || desiredUser?.image || `/sitePicture.jpg`,
               alt: siteName + ' webpage',
             },
           ],
