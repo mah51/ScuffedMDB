@@ -352,7 +352,7 @@ const AdditionalMovieDetails = ({
                     setModalMovie(movie);
                     return reviewOnOpen();
                   }}
-                  colorScheme="purple"
+                  colorScheme={process.env.COLOR_THEME}
                 >
                   Add one!
                 </Button>
@@ -506,7 +506,7 @@ const MovieAdminOptions = ({
       <Button
         leftIcon={<ArrowBackIcon />}
         variant="ghost"
-        colorScheme={'purple'}
+        colorScheme={process.env.COLOR_THEME}
         onClick={() => router.push('/')}
       >
         Back to home

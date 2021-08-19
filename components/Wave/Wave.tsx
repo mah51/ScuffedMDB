@@ -1,7 +1,10 @@
 import { ChakraProps, chakra, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
-function Wave({ color = 'purple', ...props }: ChakraProps): JSX.Element {
+function Wave({
+  color = process.env.COLOR_THEME,
+  ...props
+}: ChakraProps): JSX.Element {
   return (
     <chakra.svg
       xmlns="http://www.w3.org/2000/svg"

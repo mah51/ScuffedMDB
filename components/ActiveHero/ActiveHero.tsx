@@ -34,7 +34,7 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
     <Flex
       position="relative"
       direction="column"
-      mb="5"
+      mb="8"
       mx="auto"
       border="1px solid"
       borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
@@ -49,7 +49,11 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
         fontWeight="bold"
         fontSize="2xl"
         justifyContent="center"
-        color={colorMode === 'light' ? 'purple.300' : 'purple.500'}
+        color={
+          colorMode === 'light'
+            ? `${process.env.COLOR_THEME}.300`
+            : `${process.env.COLOR_THEME}.500`
+        }
         bg={colorMode === 'light' ? 'gray.800' : 'white'}
       >
         Active Movie

@@ -5,13 +5,13 @@ Array [
   <style
     dangerouslySetInnerHTML={
       Object {
-        "__html": ".css-benynn{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;}.css-benynn>*:not(style)~*:not(style){-webkit-margin-start:0.5rem;margin-inline-start:0.5rem;margin-top:0px;}",
+        "__html": ".css-84zodg{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;}.css-84zodg>*:not(style)~*:not(style){margin-top:0px;-webkit-margin-end:0px;margin-inline-end:0px;margin-bottom:0px;-webkit-margin-start:0.5rem;margin-inline-start:0.5rem;}",
       }
     }
-    data-emotion="css benynn"
+    data-emotion="css 84zodg"
   />,
   <div
-    className="chakra-stack css-benynn"
+    className="chakra-stack css-84zodg"
   >
     <svg
       fill="currentColor"
@@ -114,13 +114,13 @@ Array [
   <style
     dangerouslySetInnerHTML={
       Object {
-        "__html": ".css-benynn{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;}.css-benynn>*:not(style)~*:not(style){-webkit-margin-start:0.5rem;margin-inline-start:0.5rem;margin-top:0px;}",
+        "__html": ".css-84zodg{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;}.css-84zodg>*:not(style)~*:not(style){margin-top:0px;-webkit-margin-end:0px;margin-inline-end:0px;margin-bottom:0px;-webkit-margin-start:0.5rem;margin-inline-start:0.5rem;}",
       }
     }
-    data-emotion="css benynn"
+    data-emotion="css 84zodg"
   />,
   <div
-    className="chakra-stack css-benynn"
+    className="chakra-stack css-84zodg"
   >
     <svg
       fill="currentColor"
@@ -224,7 +224,7 @@ Array [
 
 exports[`<Rating /> tests no reviews 1`] = `
 <p
-  className="chakra-text css-1u8qly9"
+  className="chakra-text css-0"
 >
   No reviews
 </p>
@@ -235,13 +235,13 @@ Array [
   <style
     dangerouslySetInnerHTML={
       Object {
-        "__html": ".css-benynn{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;}.css-benynn>*:not(style)~*:not(style){-webkit-margin-start:0.5rem;margin-inline-start:0.5rem;margin-top:0px;}",
+        "__html": ".css-84zodg{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;}.css-84zodg>*:not(style)~*:not(style){margin-top:0px;-webkit-margin-end:0px;margin-inline-end:0px;margin-bottom:0px;-webkit-margin-start:0.5rem;margin-inline-start:0.5rem;}",
       }
     }
-    data-emotion="css benynn"
+    data-emotion="css 84zodg"
   />,
   <div
-    className="chakra-stack css-benynn"
+    className="chakra-stack css-84zodg"
   >
     <svg
       fill="currentColor"

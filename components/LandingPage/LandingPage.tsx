@@ -95,7 +95,11 @@ export const LandingPage: React.FC<{
                 Sign in to see details about{' '}
                 <chakra.span
                   fontWeight="semibold"
-                  color={colorMode === 'light' ? 'purple.500' : 'purple.300'}
+                  color={
+                    colorMode === 'light'
+                      ? `${process.env.COLOR_THEME}.500`
+                      : `${process.env.COLOR_THEME}.300`
+                  }
                 >
                   {movie.name}
                 </chakra.span>
@@ -104,7 +108,10 @@ export const LandingPage: React.FC<{
           </chakra.p>
           <Button
             variant="solid"
-            color={useColorModeValue(`purple.700`, `purple.300`)}
+            color={useColorModeValue(
+              `${process.env.COLOR_THEME}.700`,
+              `${process.env.COLOR_THEME}.300`
+            )}
             display="inline-flex"
             alignItems="center"
             justifyContent="center"

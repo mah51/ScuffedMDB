@@ -154,7 +154,7 @@ const COLUMNS = (
               p={2}
               as={'a'}
               icon={<CgDetailsMore size="3em" />}
-              colorScheme="purple"
+              colorScheme={process.env.COLOR_THEME}
               variant="ghost"
             />
           </Tooltip>

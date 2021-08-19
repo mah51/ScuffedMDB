@@ -118,7 +118,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
       ) : (
         <Button
           variant="solid"
-          colorScheme="purple"
+          colorScheme={process.env.COLOR_THEME}
           mr={3}
           leftIcon={<AddIcon />}
           onClick={onOpen}
@@ -148,7 +148,11 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
                       placeholder="Search OMDB..."
                     />
                   </InputGroup>
-                  <Button type="submit" ml={5} colorScheme="purple">
+                  <Button
+                    type="submit"
+                    ml={5}
+                    colorScheme={process.env.COLOR_THEME}
+                  >
                     Search
                   </Button>
                 </Flex>
@@ -172,7 +176,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
             bg={useColorModeValue(`gray.50`, `gray.800`)}
             roundedBottom="md"
           >
-            <Button colorScheme={'purple'} onClick={onClose}>
+            <Button colorScheme={process.env.COLOR_THEME} onClick={onClose}>
               Cancel
             </Button>
           </ModalFooter>

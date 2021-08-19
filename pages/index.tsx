@@ -63,7 +63,6 @@ export const getServerSideProps = async (
   };
 }> => {
   const session = await getSession(ctx);
-
   if (!session?.user) {
     let singleMovieData: SerializedMovieType<
       ReviewType<PopulatedUserType>[]

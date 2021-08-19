@@ -59,7 +59,7 @@ export const SearchResults: React.FC<{
         thickness="4px"
         speed="0.65s"
         emptyColor="gray.200"
-        color="purple.200"
+        color={`${process.env.COLOR_THEME}.200`}
         size="xl"
       />
     </Center>
@@ -82,7 +82,7 @@ export const SearchResults: React.FC<{
             position="absolute"
             top={2}
             right={2}
-            colorScheme="purple"
+            colorScheme={process.env.COLOR_THEME}
             aria-label="Search database"
             icon={<AddIcon />}
             onClick={async () => await addMovie(result?.id?.toString())}

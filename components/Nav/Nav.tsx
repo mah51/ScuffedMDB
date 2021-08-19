@@ -53,7 +53,10 @@ export const Nav: React.FC<NavProps> = ({
       <Box
         width="100vw"
         borderTop={'5px solid'}
-        borderColor={useColorModeValue('purple.500', 'purple.300')}
+        borderColor={useColorModeValue(
+          `${process.env.COLOR_THEME}.500`,
+          `${process.env.COLOR_THEME}.300`
+        )}
       >
         <Flex
           h={20}
@@ -159,8 +162,8 @@ interface MobileNavProps {
 const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
   const mobileNav = useDisclosure();
   const { colorMode } = useColorMode();
-  const darkBg = transparentize('purple.200', 0.16);
-  const lightBg = transparentize('purple.600', 0.2);
+  const darkBg = transparentize(`${process.env.COLOR_THEME}.200`, 0.16);
+  const lightBg = transparentize(`${process.env.COLOR_THEME}.600`, 0.2);
   const bp = useBreakpointValue({ base: 'mobile', md: 'big' });
   return bp === 'mobile' ? (
     <>
@@ -227,7 +230,11 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
           width="95%"
           my={4}
           mx="auto"
-          borderColor={colorMode === 'light' ? 'purple.500' : 'purple.300'}
+          borderColor={
+            colorMode === 'light'
+              ? `${process.env.COLOR_THEME}.500`
+              : `${process.env.COLOR_THEME}.300`
+          }
         />
         <Button
           mt={2}
@@ -236,7 +243,7 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
           //@ts-ignore
           bg={colorMode === 'light' ? lightBg : darkBg}
           variant="ghost"
-          colorScheme="purple"
+          colorScheme={process.env.COLOR_THEME}
           onClick={() => signout()}
         >
           Sign Out

@@ -172,7 +172,7 @@ export const ReviewModal: React.FC<{
         <Button
           variant="ghost"
           width={inNav ? '' : 'full'}
-          colorScheme="purple"
+          colorScheme={process.env.COLOR_THEME}
           mr={user?.isAdmin ? 0 : 3}
           leftIcon={<AddIcon />}
           onClick={() => {
@@ -281,12 +281,18 @@ export const ReviewModal: React.FC<{
                   >
                     <SliderTrack>
                       <SliderFilledTrack
-                        bg={useColorModeValue(`purple.500`, `purple.300`)}
+                        bg={useColorModeValue(
+                          `${process.env.COLOR_THEME}.500`,
+                          `${process.env.COLOR_THEME}.300`
+                        )}
                       />
                     </SliderTrack>
                     <SliderThumb fontSize="sm" boxSize={6}>
                       <Box
-                        color={useColorModeValue(`purple.500`, `purple.300`)}
+                        color={useColorModeValue(
+                          `${process.env.COLOR_THEME}.500`,
+                          `${process.env.COLOR_THEME}.300`
+                        )}
                         as={AiFillStar}
                       />
                     </SliderThumb>
@@ -329,7 +335,7 @@ export const ReviewModal: React.FC<{
             borderBottomRadius="md"
           >
             <Button
-              colorScheme="purple"
+              colorScheme={process.env.COLOR_THEME}
               mr={3}
               onClick={(e) => handleSubmit(e, onClose)}
               isDisabled={!!(commentError || movieError)}
