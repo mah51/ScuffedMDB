@@ -213,7 +213,7 @@ export const UserTable: React.FC<{
   const handleReveal = async (user: string, isImageHidden: boolean) => {
     const response = await fetch(`/api/user/${user}`, {
       method: `PUT`,
-      body: JSON.stringify({ isImageHidden: !isImageHidden }),
+      body: JSON.stringify({ isImageHidden: isImageHidden }),
     });
     if (response.status >= 300) {
       return toast({
@@ -228,8 +228,10 @@ export const UserTable: React.FC<{
       await queryClient.invalidateQueries(`users`);
       return toast({
         variant: `top-accent`,
-        title: `Image visible`,
-        description: `${user} image is now visible.`,
+        title: `Image ${isImageHidden ? 'hidden' : 'visible'}`,
+        description: `${user} image is now ${
+          isImageHidden ? 'hidden' : 'visible'
+        }.`,
         status: `success`,
         duration: 5000,
         isClosable: true,
@@ -361,7 +363,7 @@ export const UserTable: React.FC<{
             placement="top"
           >
             <IconButton
-              onClick={() => handleReveal(value?._id, value?.isImageHidden)}
+              onClick={() => handleReveal(value?._id, !value?.isImageHidden)}
               aria-label={
                 value?.isImageHidden ? `Reveal user image` : `Hide user image`
               }
