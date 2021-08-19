@@ -1,4 +1,7 @@
 # ScuffedMDB
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <p align="center">
    <img alt="Version" src="https://img.shields.io/github/v/tag/mah51/scuffedmdb?label=Version&style=for-the-badge&color=%23E53E3E" />
@@ -170,3 +173,23 @@ N.B _The bot does not run on vercel, you have to find your own host, self-hostin
 - Fix bunch of errors to do with incorrect hook usage & react-table. ;(
 - Add pagination to the API & FrontEnd cards
 - Add tests if you wanna learn how to do em.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://www.michael-hall.me/"><img src="https://avatars.githubusercontent.com/u/47287285?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Michael Hall</b></sub></a><br /><a href="https://github.com/mah51/ScuffedMDB/commits?author=mah51" title="Code">💻</a> <a href="#content-mah51" title="Content">🖋</a> <a href="https://github.com/mah51/ScuffedMDB/commits?author=mah51" title="Documentation">📖</a> <a href="#design-mah51" title="Design">🎨</a> <a href="#maintenance-mah51" title="Maintenance">🚧</a> <a href="https://github.com/mah51/ScuffedMDB/pulls?q=is%3Apr+reviewed-by%3Amah51" title="Reviewed Pull Requests">👀</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
