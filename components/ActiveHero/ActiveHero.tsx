@@ -2,8 +2,7 @@ import {
   AspectRatio,
   Flex,
   Heading,
-  Tag,
-  Box,
+  Link as ChakraLink,
   Text,
   useColorMode,
   VStack,
@@ -11,6 +10,7 @@ import {
 import { SerializedMovieType } from 'models/movie';
 import { useSession } from 'next-auth/client';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useContext } from 'react';
 import { ReactElement } from 'react';
 import { ReviewModalContext } from 'utils/ModalContext';
@@ -33,16 +33,28 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
   return (
     <Flex
       position="relative"
-      mt="5"
-      direction={{ base: 'column', md: 'row' }}
+      direction="column"
+      mb="5"
       mx="auto"
-      bg={colorMode === 'light' ? 'gray.100' : 'gray.900'}
       border="1px solid"
       borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
       borderRadius="2xl"
       p={5}
     >
-      <Box
+      <Flex
+        mx={-5}
+        mt={-5}
+        mb={5}
+        borderTopRadius="2xl"
+        fontWeight="bold"
+        fontSize="2xl"
+        justifyContent="center"
+        color={colorMode === 'light' ? 'purple.300' : 'purple.500'}
+        bg={colorMode === 'light' ? 'gray.800' : 'white'}
+      >
+        Active Movie
+      </Flex>
+      {/* <Box
         opacity={0}
         top={0}
         zIndex={10}
@@ -75,31 +87,63 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
         >
           {hasReviewed ? 'Edit your review' : 'Add a review'}
         </Text>
-      </Box>
+      </Box> */}
 
-      <AspectRatio mt={{ base: 7, md: 0 }} ratio={16 / 9} minWidth="200px">
-        <Image
-          className={'borderRadius-2xl'}
-          src={movie.image || ''}
-          layout="fill"
-          sizes={'30vw'}
-          alt={`${movie.name} `}
-        />
-      </AspectRatio>
+      <Flex direction={{ base: 'column', md: 'row' }}>
+        <AspectRatio mt={{ base: 7, md: 0 }} ratio={16 / 9} minWidth="200px">
+          <Image
+            className={'borderRadius-2xl'}
+            src={movie.image || ''}
+            layout="fill"
+            sizes={'30vw'}
+            alt={`${movie.name} `}
+          />
+        </AspectRatio>
 
-      <VStack
-        ml={{ base: 0, md: 6 }}
-        mt={{ base: 3, md: 0 }}
-        textColor={colorMode === 'light' ? 'gray.800' : 'white'}
-        alignItems="flex-start"
-        justifyContent="flex-start"
+        <VStack
+          ml={{ base: 0, md: 6 }}
+          mt={{ base: 3, md: 0 }}
+          textColor={colorMode === 'light' ? 'gray.800' : 'white'}
+          alignItems="flex-start"
+          justifyContent="center"
+        >
+          <Heading>{movie.name}</Heading>
+          <Text>{movie.tagLine}</Text>
+        </VStack>
+      </Flex>
+      <Flex
+        mt={5}
+        mb={-5}
+        mx={-5}
+        borderBottomRadius="2xl"
+        borderTop="1px solid"
+        borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
+        fontWeight="semibold"
+        bg={colorMode === 'light' ? 'gray.50' : 'gray.900'}
+        textAlign="center"
       >
-        <Tag mt={-1} alignSelf="flex-end" colorScheme="green">
-          Active Movie
-        </Tag>
-        <Heading>{movie.name}</Heading>
-        <Text>{movie.tagLine}</Text>
-      </VStack>
+        <Link href={`/movie/${movie._id}`} passHref>
+          <ChakraLink
+            width="50%"
+            p={2}
+            borderRight="1px solid"
+            borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
+          >
+            Details
+          </ChakraLink>
+        </Link>
+        <ChakraLink
+          as={'p'}
+          onClick={() => {
+            setMovie(movie);
+            onOpen();
+          }}
+          width="50%"
+          p={2}
+        >
+          {hasReviewed ? 'Edit review' : 'Add review'}
+        </ChakraLink>
+      </Flex>
     </Flex>
   );
 }

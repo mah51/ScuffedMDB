@@ -171,7 +171,11 @@ export const CardGrid: React.FC<CardGridProps> = ({
               .reverse()[0]
           }
         />
-        <Heading fontSize={{ base: '4xl', md: '6xl' }} textAlign="center">
+        <Heading
+          mb={20}
+          fontSize={{ base: '4xl', md: '6xl' }}
+          textAlign="center"
+        >
           We have watched{' '}
           {
             <chakra.span color={useColorModeValue('purple.500', 'purple.300')}>
