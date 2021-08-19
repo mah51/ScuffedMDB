@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/mah51/scuffedmdb/compare/v0.2.1...v0.3.0) (2021-08-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **Customisation:** Almost every file affected
+
+### Features
+
+* **Customisation:** :sparkles: Change the accent colour of the website ([e67aa8d](https://github.com/mah51/scuffedmdb/commit/e67aa8d1c3dedd028143cbffdad7c7528b50b078))
+* **HomePage:** :sparkles: Adding a hero with the active movie ([6205f4c](https://github.com/mah51/scuffedmdb/commit/6205f4cb01815fb9f87d60000b3d9f77153a09d7)), closes [#61](https://github.com/mah51/scuffedmdb/issues/61)
+
+
+### Bug Fixes
+
+* **SECURITY:** :bug: Removal of sensitive info such as client secret ([202d219](https://github.com/mah51/scuffedmdb/commit/202d2192a76c82771a1ade9047855bc5b3a3f141))
+* **UserTableActions:** :bug: Fix logic in reveal modals ([c1eb0db](https://github.com/mah51/scuffedmdb/commit/c1eb0db5acc2619f68fcd3767f6c3054b122c001))
+
+
+### Styling
+
+* **ActiveHero:** :art: Changing layout to add header and footer buttons ([7617a1e](https://github.com/mah51/scuffedmdb/commit/7617a1e24c88d2a26cfdb01e29dc0d029d4ab1e3))
+
+
+### Docs
+
+* **README:** :pencil: Table for env variables ([48e0a6b](https://github.com/mah51/scuffedmdb/commit/48e0a6b41a9801bebd8c47b018784a088d34b483))
+
 ### [0.2.1](https://github.com/mah51/scuffedmdb/compare/v0.2.0...v0.2.1) (2021-08-18)
 
 
