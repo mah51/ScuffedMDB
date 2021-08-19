@@ -9,7 +9,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { SerializedMovieType } from 'models/movie';
-import { session, useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/client';
 import Image from 'next/image';
 import React, { useContext } from 'react';
 import { ReactElement } from 'react';
