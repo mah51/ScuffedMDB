@@ -1,12 +1,15 @@
 # ScuffedMDB
 
 <p align="center">
-  <img src="https://img.shields.io/github/issues/mah51/scuffedmdb?style=for-the-badge">
-  <img src="https://img.shields.io/github/forks/mah51/scuffedmdb?style=for-the-badge"/>
-  <img alt="Github Stars" src="https://img.shields.io/github/stars/mah51/scuffedmdb?style=for-the-badge" />
-   <img alt="Version" src="https://img.shields.io/github/v/tag/mah51/scuffedmdb?label=Version&style=for-the-badge" />
-   <img alt="Version" height='28px'
-   src="https://forthebadge.com/images/badges/not-a-bug-a-feature.svg" />
+   <img alt="Version" src="https://img.shields.io/github/v/tag/mah51/scuffedmdb?label=Version&style=for-the-badge&color=%23E53E3E" />
+  <img alt='Issues' src="https://img.shields.io/github/issues/mah51/scuffedmdb?color=%23ED8936&style=for-the-badge">
+  <img src="https://img.shields.io/github/forks/mah51/scuffedmdb?style=for-the-badge&color=%23F6E05E"/>
+  <img alt="Github Stars" src="https://img.shields.io/github/stars/mah51/scuffedmdb?style=for-the-badge&color=%2348BB78" />
+    <img alt="Checks Passing" src="https://img.shields.io/github/checks-status/mah51/scuffedmdb/main?color=4299e1&style=for-the-badge" />
+     <img alt="Last updated" src="https://img.shields.io/github/last-commit/mah51/scuffedmdb?color=9F7AEA&label=updated&style=for-the-badge" />
+      <img  height='28px'
+src="https://forthebadge.com/images/badges/not-a-bug-a-feature.svg" />
+
 </p>
 
 # Table of Contents
