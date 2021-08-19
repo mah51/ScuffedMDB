@@ -65,7 +65,7 @@ const COLUMNS = (
       const [loaded, setLoaded] = React.useState(false);
       return (
         <Stack spacing={6} isInline alignItems="center">
-          <AspectRatio ratio={16 / 9} width="150px" borderRadius="xl">
+          <AspectRatio ratio={16 / 9} minWidth="150px" borderRadius="xl">
             <Skeleton borderRadius="md" isLoaded={loaded}>
               <Image
                 src={image}
@@ -77,7 +77,7 @@ const COLUMNS = (
               />
             </Skeleton>
           </AspectRatio>
-          <VStack alignItems="flex-start">
+          <VStack alignItems="flex-start" minWidth="250px">
             <Link href={`/movie/${_id}`} passHref>
               <Heading as={ChakraLink} size="lg">
                 {name}
@@ -100,7 +100,7 @@ const COLUMNS = (
       value: { rating: string; reviews: { name: string; image: string }[] };
     }) => {
       return reviews.length > 0 ? (
-        <Stat textAlign="center">
+        <Stat textAlign="center" minWidth="200px">
           <StatNumber
             alignItems="center"
             display="flex"
@@ -125,7 +125,7 @@ const COLUMNS = (
           </StatNumber>
         </Stat>
       ) : (
-        <Heading width="full" textAlign="center" size="md">
+        <Heading width="full" textAlign="center" size="md" minWidth="200px">
           No reviews
         </Heading>
       );
