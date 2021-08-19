@@ -1,0 +1,29 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "mah51",
+      "name": "Michael Hall",
+      "avatar_url": "https://avatars.githubusercontent.com/u/47287285?v=4",
+      "profile": "https://www.michael-hall.me/",
+      "contributions": [
+        "code",
+        "content",
+        "doc",
+        "design",
+        "maintenance",
+        "review"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "ScuffedMDB",
+  "projectOwner": "mah51",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
