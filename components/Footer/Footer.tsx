@@ -1,6 +1,5 @@
 import {
   Box,
-  Flex,
   chakra,
   Link as ChakraLink,
   Stack,
@@ -54,7 +53,7 @@ export const Footer: React.FC = (): React.ReactElement => {
   return (
     <>
       <Box as="footer" role="contentinfo" mt={8} py="6">
-        <Flex
+        <Stack
           direction={{ base: `column`, md: `row` }}
           maxW={{ base: `xl`, md: `7xl` }}
           mx="auto"
@@ -99,7 +98,7 @@ export const Footer: React.FC = (): React.ReactElement => {
               <FaInstagram />
             </SocialIcons>
           </Stack>
-        </Flex>
+        </Stack>
       </Box>
       <ChakraLink
         display="flex"
@@ -108,6 +107,7 @@ export const Footer: React.FC = (): React.ReactElement => {
         fontWeight="bold"
         color={useColorModeValue('white', 'gray.800')}
         py={1}
+        px={3}
         mt={1}
         width="full"
         bg={`${getSecondaryAccentColor()}.${useColorModeValue(500, 300)}`}
@@ -115,7 +115,7 @@ export const Footer: React.FC = (): React.ReactElement => {
       >
         Did you know, you can host this website yourself?{' '}
         <BsArrowRight
-          style={{ display: 'inline', marginInlineStart: '15px' }}
+          style={{ display: 'inline-block', marginInlineStart: '15px' }}
         />
       </ChakraLink>
     </>
