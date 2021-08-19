@@ -1,5 +1,14 @@
 # ScuffedMDB
 
+<p align="center">
+  <img src="https://img.shields.io/github/issues/mah51/scuffedmdb?style=for-the-badge">
+  <img src="https://img.shields.io/github/forks/mah51/scuffedmdb?style=for-the-badge"/>
+  <img alt="Github Stars" src="https://img.shields.io/github/stars/mah51/scuffedmdb?style=for-the-badge" />
+   <img alt="Version" src="https://img.shields.io/github/v/tag/mah51/scuffedmdb?label=Version&style=for-the-badge" />
+   <img alt="Version" height='28px'
+   src="https://forthebadge.com/images/badges/not-a-bug-a-feature.svg" />
+</p>
+
 # Table of Contents
 
 <details>
