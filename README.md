@@ -34,11 +34,11 @@ src="https://forthebadge.com/images/badges/not-a-bug-a-feature.svg" />
 
 ## Introduction
 
-Welcome to [ScuffedMDB's&trade;](https://movie.michael-hall.me) code repository. This website is designed to be used by a friend group to rate movies watched together :).
+Welcome to [ScuffedMDB's&trade;](https://movie.michael-hall.me) code repository. This website is designed to be used by friend groups to rate movies watched together :).
 
 To follow any updates there is a [Changelog](/CHANGELOG.md)
 
-This repo is licensed under an [MIT license](https://github.com/mah51/ScuffedMDB/blob/main/LICENSE), and can therefore be modified and distributed as stated. However, if you do host this yourself, please include some creditation to my github somwhere on the page as a link to this repo / or my homepage. Not only will this help me out, but it allows others to host their own versions i'sf they wish!
+This repo is licensed under an [MIT license](https://github.com/mah51/ScuffedMDB/blob/main/LICENSE), and can therefore be modified and distributed as stated. However, if you do host this yourself, please include some creditation to my github somwhere on the page as a link to this repo / or my homepage. Not only will this help me out, but it allows others to host their own versions if they wish!
 
 Thank you to [@olig89](https://github.com/olig89) for all of the ideas and user testing!
 
@@ -60,24 +60,24 @@ Thank you to [@olig89](https://github.com/olig89) for all of the ideas and user 
 
 #### Required
 
-| Name                | Description                                                                    | Example                              |
-| ------------------- | ------------------------------------------------------------------------------ | ------------------------------------ |
-| NEXT_PUBLIC_APP_URI | The URI of the app                                                             | https://movie.michael-hall.me        |
-| OWNER_ID            | Owner's discord ID                                                             | 234908230323                         |
-| CLIENT_ID           | Discord Application CLIENT_ID on [console](https://discord.com/developers)     | 2398040239849                        |
-| CLIENT_SECRET       | Discord Application CLIENT_SECRET on [console](https://discord.com/developers) | \_adsiojweiurnAWeAFDS23              |
-| JWT_CODE            | Random string used to encode token                                             | dsajoi234opiasdijofp                 |
-| MONGODB_URI         | Connection string to mongoDB                                                   | mongodb://localhost:27017/scuffedmdb |
-| MOVIE_API_KEY       | TMDB **v3** Api Key                                                            | q9uqq9emdasDejwo4                    |
+| Name                | Description                                                                    | Example                                |
+| ------------------- | ------------------------------------------------------------------------------ | -------------------------------------- |
+| NEXT_PUBLIC_APP_URI | The URI of the app                                                             | `https://movie.michael-hall.me`        |
+| OWNER_ID            | Owner's discord ID                                                             | `234908230323`                         |
+| CLIENT_ID           | Discord Application CLIENT_ID on [console](https://discord.com/developers)     | `2398040239849`                        |
+| CLIENT_SECRET       | Discord Application CLIENT_SECRET on [console](https://discord.com/developers) | `\_adsiojweiurnAWeAFDS23`              |
+| JWT_CODE            | Random string used to encode token                                             | `dsajoi234opiasdijofp`                 |
+| MONGODB_URI         | Connection string to mongoDB                                                   | `mongodb://localhost:27017/scuffedmdb` |
+| MOVIE_API_KEY       | TMDB **v3** Api Key                                                            | `q9uqq9emdasDejwo4`                    |
 
 #### Not required
 
 | Name                  | Description                                                                                                                                 | Example                     |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| WEBHOOK_URL           | Endpoint for the discord_bot webhook                                                                                                        | https://bot.michael-hall.me |
+| WEBHOOK_URL           | Endpoint for the discord_bot webhook                                                                                                        | `https://bot.michael-hall.me` |
 | WEBHOOK_TOKEN         | Random string used to authenticate movie websites request, required if using the webhook                                                    | dsajoi234opiasdijofp        |
-| COLOR_THEME           | Color theme for the website, default is purple, view available colors on the [chakra docs](https://chakra-ui.com/docs/theming/theme#colors) | purple                      |
-| NEXT_PUBLIC_SITE_NAME | Name of the website, default is ScuffedMDB                                                                                                  | ScuffedMDB                  |
+| COLOR_THEME           | Color theme for the website, options: [chakra docs](https://chakra-ui.com/docs/theming/theme#colors) | `purple`                      |
+| NEXT_PUBLIC_SITE_NAME | Name of the website, default is ScuffedMDB                                                                                                  | `ScuffedMDB`                  |
 
 ## How to host this yourself:
 
