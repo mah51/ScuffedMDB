@@ -4,7 +4,8 @@
    <img alt="Version" src="https://img.shields.io/github/v/tag/mah51/scuffedmdb?label=Version&style=for-the-badge&color=%23E53E3E" />
   <img alt='Issues' src="https://img.shields.io/github/issues/mah51/scuffedmdb?color=%23ED8936&style=for-the-badge">
      <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<a href="#contributors">
+<img alt="contributors" src="https://img.shields.io/badge/all_contributors-2-orange.svg?style=for-the-badge&color=%23F6E05E" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <img alt="Github Stars" src="https://img.shields.io/github/stars/mah51/scuffedmdb?style=for-the-badge&color=%2348BB78" />
     <img alt="Checks Passing" src="https://img.shields.io/github/checks-status/mah51/scuffedmdb/main?color=4299e1&style=for-the-badge" />
@@ -183,6 +184,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://www.michael-hall.me/"><img src="https://avatars.githubusercontent.com/u/47287285?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Michael Hall</b></sub></a><br /><a href="https://github.com/mah51/ScuffedMDB/commits?author=mah51" title="Code">💻</a> <a href="#content-mah51" title="Content">🖋</a> <a href="https://github.com/mah51/ScuffedMDB/commits?author=mah51" title="Documentation">📖</a> <a href="#design-mah51" title="Design">🎨</a> <a href="#maintenance-mah51" title="Maintenance">🚧</a> <a href="https://github.com/mah51/ScuffedMDB/pulls?q=is%3Apr+reviewed-by%3Amah51" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="http://olivergill.com"><img src="https://avatars.githubusercontent.com/u/24813487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Oli Gill</b></sub></a><br /><a href="https://github.com/mah51/ScuffedMDB/issues?q=author%3Aolig89" title="Bug reports">🐛</a> <a href="#ideas-olig89" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/mah51/ScuffedMDB/commits?author=olig89" title="Tests">⚠️</a></td>
   </tr>
 </table>
 

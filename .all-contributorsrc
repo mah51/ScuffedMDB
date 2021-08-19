@@ -19,6 +19,17 @@
         "maintenance",
         "review"
       ]
+    },
+    {
+      "login": "olig89",
+      "name": "Oli Gill",
+      "avatar_url": "https://avatars.githubusercontent.com/u/24813487?v=4",
+      "profile": "http://olivergill.com",
+      "contributions": [
+        "bug",
+        "ideas",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
