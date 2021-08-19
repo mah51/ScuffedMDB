@@ -27,7 +27,7 @@ To follow any updates there is a [Changelog](/CHANGELOG.md)
 
 This repo is licensed under an [MIT license](https://github.com/mah51/ScuffedMDB/blob/main/LICENSE), and can therefore be modified and distributed as stated. However, if you do host this yourself, please include some creditation to my github somwhere on the page as a link to this repo / or my homepage. Not only will this help me out, but it allows others to host their own versions i'sf they wish!
 
-Thank you to [@oli89](https://github.com/oli89) for all of the ideas and user testing!
+Thank you to [@olig89](https://github.com/olig89) for all of the ideas and user testing!
 
 <table>
   <tr>
