@@ -7,6 +7,7 @@ import {
   useColorMode,
   VStack,
 } from '@chakra-ui/react';
+import { transparentize } from '@chakra-ui/theme-tools';
 import { SerializedMovieType } from 'models/movie';
 import { useSession } from 'next-auth/client';
 import Image from 'next/image';
@@ -41,9 +42,10 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
       borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
       borderRadius="2xl"
       p={5}
+      px={7}
     >
       <Flex
-        mx={-5}
+        mx={-7}
         mt={-5}
         py={1}
         mb={5}
@@ -121,7 +123,7 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
       <Flex
         mt={5}
         mb={-5}
-        mx={-5}
+        mx={-7}
         borderBottomRadius="2xl"
         borderTop="1px solid"
         borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
@@ -134,6 +136,13 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
             width="50%"
             p={2}
             borderRight="1px solid"
+            _hover={{
+              bg: transparentize(
+                `gray.${colorMode === 'light' ? 500 : 200}`,
+                0.16
+              ),
+            }}
+            color={`${colorMode === 'light' ? 'gray.800' : 'white'}`}
             borderBottomLeftRadius="2xl"
             borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
           >
@@ -145,6 +154,15 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
           onClick={() => {
             setMovie(movie);
             onOpen();
+          }}
+          color={`${process.env.COLOR_THEME}.${
+            colorMode === 'light' ? 500 : 300
+          }`}
+          _hover={{
+            bg: transparentize(
+              `${process.env.COLOR_THEME}.${colorMode === 'light' ? 500 : 200}`,
+              0.16
+            ),
           }}
           borderBottomRightRadius="2xl"
           width="50%"
