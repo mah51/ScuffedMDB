@@ -51,10 +51,10 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
         fontWeight="bold"
         fontSize="2xl"
         justifyContent="center"
-        color={
+        bg={
           colorMode === 'light'
-            ? `${process.env.COLOR_THEME}.500`
-            : `${process.env.COLOR_THEME}.300`
+            ? `${process.env.COLOR_THEME}.200`
+            : `${process.env.COLOR_THEME}.600`
         }
         borderBottom="1px solid"
         borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
