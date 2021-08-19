@@ -49,6 +49,7 @@ import { BsGrid3X3Gap } from 'react-icons/bs';
 import { HiViewList } from 'react-icons/hi';
 import { getColorSchemeCharCode, getMovieGenres } from '../../utils/utils';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import ActiveHero from '@components/ActiveHero';
 
 interface CardGridProps {
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
@@ -150,7 +151,14 @@ export const CardGrid: React.FC<CardGridProps> = ({
         description={'A private movie rating website'}
       />
 
-      <Container maxW="container.xl" mt={10}>
+      <Container
+        maxW="container.xl"
+        mt={10}
+        display="flex"
+        flexDir="column"
+        justifyContent="flex-start"
+        alignItems="center"
+      >
         <Heading fontSize={{ base: '4xl', md: '6xl' }} textAlign="center">
           We have watched{' '}
           {
@@ -160,6 +168,18 @@ export const CardGrid: React.FC<CardGridProps> = ({
           }{' '}
           movies
         </Heading>
+        <ActiveHero
+          movie={
+            unSortedMovies
+              ?.sort((a, b) => {
+                return (
+                  new Date(a.createdAt).getTime() -
+                  new Date(b.createdAt).getTime()
+                );
+              })
+              .reverse()[0]
+          }
+        />
         <Flex
           width="full"
           direction={{ base: 'column', md: 'row' }}
@@ -319,6 +339,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
             </Stack>
           </Stack>
         </Flex>
+
         {cardView ? (
           <SimpleGrid
             columns={{ base: 1, md: 2, lg: 3 }}
