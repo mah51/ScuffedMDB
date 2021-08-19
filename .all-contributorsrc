@@ -4,7 +4,7 @@
   ],
   "imageSize": 100,
   "badgeTemplate": "<a href=\"#contributors\">\n<img alt=\"contributors\" src=\"https://img.shields.io/badge/contributors-<%= contributors.length %>-orange.svg?style=for-the-badge&color=%23F6E05E\" /></a>",
-  "commit": false,
+  "commit": true,
   "contributors": [
     {
       "login": "mah51",

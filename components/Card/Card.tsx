@@ -18,9 +18,13 @@ import { useState } from 'react';
 
 interface CardProps {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
+  featuredMovie: string;
 }
 
-export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
+export const Card: React.FC<CardProps> = ({
+  movie,
+  featuredMovie,
+}): React.ReactElement => {
   const { image, name, genres, rating, numReviews, tagLine } = movie;
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   return (
@@ -46,7 +50,7 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
           height="full"
         >
           <Box
-            opacity={0}
+            opacity={featuredMovie === movie._id ? 0.9 : 0}
             top={0}
             zIndex={10}
             left={0}
@@ -69,7 +73,7 @@ export const Card: React.FC<CardProps> = ({ movie }): React.ReactElement => {
               fontWeight="semibold"
               color={useColorModeValue(`gray.800`, `white`)}
             >
-              View more
+              {featuredMovie === movie._id ? 'Review in progress' : 'View more'}
             </Text>
           </Box>
           <Box mt={-6} mx={-6} mb={6} pos="relative">

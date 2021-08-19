@@ -29,6 +29,7 @@ import {
   PopoverHeader,
   Skeleton,
   Link as ChakraLink,
+  Flex,
 } from '@chakra-ui/react';
 import { UserAuthType } from 'next-auth';
 import Image from 'next/image';
@@ -45,6 +46,7 @@ import { SerializedMovieType } from '../../models/movie';
 interface Props {
   movies: SerializedMovieType[];
   user: UserAuthType;
+  featuredMovie: string;
 }
 
 const COLUMNS = (
@@ -58,13 +60,38 @@ const COLUMNS = (
     Header: 'Movie',
     accessor: 'info',
     Cell: ({
-      value: { image, name, tagLine, _id },
+      value: { image, name, tagLine, _id, featuredMovie },
     }: {
-      value: { name: string; image: string; tagLine: string; _id: string };
+      value: {
+        name: string;
+        image: string;
+        tagLine: string;
+        _id: string;
+        featuredMovie: string;
+      };
     }) => {
       const [loaded, setLoaded] = React.useState(false);
       return (
-        <Stack spacing={6} isInline alignItems="center">
+        <Stack position="relative" spacing={6} isInline alignItems="center">
+          <Flex
+            opacity={featuredMovie === _id ? 0.93 : 0}
+            position="absolute"
+            justifyContent="center"
+            alignItems="center"
+            width="full"
+            inset={0}
+            zIndex={1}
+            height="full"
+            bg={useColorModeValue('white', 'gray.800')}
+          >
+            <Text
+              fontSize="4xl"
+              fontWeight="semibold"
+              color={useColorModeValue(`gray.800`, `white`)}
+            >
+              Review in progress
+            </Text>
+          </Flex>
           <AspectRatio ratio={16 / 9} minWidth="150px" borderRadius="xl">
             <Skeleton borderRadius="md" isLoaded={loaded}>
               <Image
@@ -227,7 +254,11 @@ const COLUMNS = (
   },
 ];
 
-export default function MovieGridView({ movies, user }: Props): ReactElement {
+export default function MovieGridView({
+  movies,
+  user,
+  featuredMovie,
+}: Props): ReactElement {
   const toast = useToast();
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -283,6 +314,7 @@ export default function MovieGridView({ movies, user }: Props): ReactElement {
 
   const moviesData = movies.map((movie) => ({
     info: {
+      featuredMovie,
       _id: movie._id.toString(),
       name: movie.name,
       image: movie.image,
