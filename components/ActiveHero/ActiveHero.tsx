@@ -63,40 +63,6 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
       >
         Latest Movie
       </Flex>
-      {/* <Box
-        opacity={0}
-        top={0}
-        zIndex={10}
-        left={0}
-        right={0}
-        bottom={0}
-        borderRadius="2xl"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        position="absolute"
-        transition="all 0.25s"
-        bg={colorMode === 'light' ? `white` : `gray.800`}
-        transitionTimingFunction="spring(1 100 10 10)"
-        onClick={() => {
-          setMovie(movie);
-          onOpen();
-        }}
-        _hover={{
-          opacity: 0.955,
-          cursor: 'pointer',
-          shadow: `2xl`,
-        }}
-      >
-        <Text
-          fontSize="4xl"
-          fontWeight="semibold"
-          textAlign="center"
-          color={colorMode === 'light' ? `gray.800` : `white`}
-        >
-          {hasReviewed ? 'Edit your review' : 'Add a review'}
-        </Text>
-      </Box> */}
 
       <Flex direction={{ base: 'column', md: 'row' }}>
         <AspectRatio ratio={16 / 9} minWidth="200px">
