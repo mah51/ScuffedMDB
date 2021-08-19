@@ -331,7 +331,9 @@ export const CardGrid: React.FC<CardGridProps> = ({
                   <IconButton
                     bg={
                       cardView
-                        ? `${process.env.COLOR_THEME}.300`
+                        ? `${process.env.COLOR_THEME}.${
+                            colorMode === 'light' ? 500 : 300
+                          }`
                         : 'transparent'
                     }
                     size="sm"
