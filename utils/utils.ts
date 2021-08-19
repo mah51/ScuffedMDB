@@ -86,8 +86,15 @@ export const themeColors = [
 ];
 
 export const secondaryThemeColors: Record<string, string> = {
+  red: 'yellow',
+  orange: 'yellow',
+  yellow: 'red',
+  green: 'blue',
+  teal: 'purple',
+  blue: 'pink',
+  cyan: 'purple',
+  pink: 'orange',
   purple: 'cyan',
-  red: 'cyan',
 };
 
 export const getSecondaryAccentColor = (): string => {
