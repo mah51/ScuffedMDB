@@ -71,7 +71,9 @@ module.exports = {
       process.env.COLOR_THEME &&
       !colors.includes(process.env.COLOR_THEME.toLowerCase())
         ? 'purple'
-        : process.env.COLOR_THEME.toLowerCase(),
+        : process.env.COLOR_THEME
+        ? process.env.COLOR_THEME.toLowerCase()
+        : 'purple',
   },
   async headers() {
     return [
