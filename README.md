@@ -1,4 +1,4 @@
-# Movie-Rating website 2.0 aka ScuffedMDB
+# ScuffedMDB
 
 # Table of Contents
 <details>
