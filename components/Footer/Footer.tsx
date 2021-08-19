@@ -2,6 +2,7 @@ import {
   Box,
   Flex,
   chakra,
+  Link as ChakraLink,
   Stack,
   Text,
   Tooltip,
@@ -10,7 +11,9 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import React from 'react';
+import { BsArrowRight } from 'react-icons/bs';
 import { FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { getSecondaryAccentColor } from 'utils/utils';
 
 const SocialIcons = ({
   children,
@@ -49,53 +52,72 @@ export const Footer: React.FC = (): React.ReactElement => {
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
 
   return (
-    <Box as="footer" role="contentinfo" mt={8} py="6">
-      <Flex
-        direction={{ base: `column`, md: `row` }}
-        maxW={{ base: `xl`, md: `7xl` }}
-        mx="auto"
-        px={{ base: `6`, md: `0` }}
-        align="center"
-      >
-        <Link href="/" passHref>
-          <chakra.a
-            ml={{ base: `auto`, md: 5 }}
-            aria-current="page"
-            aria-label="Back to Home page"
-            rel="home"
-          >
-            <h1>{siteName}</h1>
-          </chakra.a>
-        </Link>
-
-        <Text marginStart={{ md: `auto` }} justifySelf="middle">
-          Made by Mikerophone 🤠
-        </Text>
-
-        <Stack
-          direction="row"
-          spacing={6}
-          ml="auto"
-          mr={{ base: `auto`, md: 5 }}
+    <>
+      <Box as="footer" role="contentinfo" mt={8} py="6">
+        <Flex
+          direction={{ base: `column`, md: `row` }}
+          maxW={{ base: `xl`, md: `7xl` }}
+          mx="auto"
+          px={{ base: `6`, md: `0` }}
+          alignItems="center"
         >
-          <SocialIcons label="GitHub" href="https://github.com/mah51/">
-            <FaGithub />
-          </SocialIcons>
-          <SocialIcons
-            label="LinkedIn"
-            href="https://www.linkedin.com/in/michael-hall-86616b17b/"
-          >
-            <FaLinkedin />
-          </SocialIcons>
+          <Link href="/" passHref>
+            <chakra.a
+              ml={{ base: `0`, md: 5 }}
+              aria-current="page"
+              aria-label="Back to Home page"
+              rel="home"
+            >
+              <h1>{siteName}</h1>
+            </chakra.a>
+          </Link>
 
-          <SocialIcons
-            label="Instagram"
-            href="https://www.instagram.com/michael.__.hall/"
+          <Text marginStart={{ md: `auto` }} justifySelf="middle">
+            Made by Mikerophone 🤠
+          </Text>
+
+          <Stack
+            direction="row"
+            spacing={6}
+            ml="auto"
+            mr={{ base: `auto`, md: 5 }}
           >
-            <FaInstagram />
-          </SocialIcons>
-        </Stack>
-      </Flex>
-    </Box>
+            <SocialIcons label="GitHub" href="https://github.com/mah51/">
+              <FaGithub />
+            </SocialIcons>
+            <SocialIcons
+              label="LinkedIn"
+              href="https://www.linkedin.com/in/michael-hall-86616b17b/"
+            >
+              <FaLinkedin />
+            </SocialIcons>
+
+            <SocialIcons
+              label="Instagram"
+              href="https://www.instagram.com/michael.__.hall/"
+            >
+              <FaInstagram />
+            </SocialIcons>
+          </Stack>
+        </Flex>
+      </Box>
+      <ChakraLink
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        fontWeight="bold"
+        color={useColorModeValue('white', 'gray.800')}
+        py={1}
+        mt={1}
+        width="full"
+        bg={`${getSecondaryAccentColor()}.${useColorModeValue(500, 300)}`}
+        href="https://github.com/mah51/scuffedmdb#readme"
+      >
+        Did you know, you can host this website yourself?{' '}
+        <BsArrowRight
+          style={{ display: 'inline', marginInlineStart: '15px' }}
+        />
+      </ChakraLink>
+    </>
   );
 };

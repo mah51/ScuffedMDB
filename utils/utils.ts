@@ -23,17 +23,7 @@ export const getTotalCharCode = (phrase: string): number => {
  */
 export const getColorSchemeCharCode = (
   phrase: string,
-  colors: string[] = [
-    'red',
-    'orange',
-    'yellow',
-    'green',
-    'teal',
-    'blue',
-    'cyan',
-    'pink',
-    'purple',
-  ]
+  colors: string[] = themeColors
 ): string => {
   return colors[getTotalCharCode(phrase) % colors.length];
 };
@@ -81,4 +71,25 @@ export const postDataToWebhook = async (data: WebhookData): Promise<void> => {
   if (response.status > 300) {
     return console.error(`Webhook failed with status ${response.status}`);
   }
+};
+
+export const themeColors = [
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'teal',
+  'blue',
+  'cyan',
+  'pink',
+  'purple',
+];
+
+export const secondaryThemeColors: Record<string, string> = {
+  purple: 'cyan',
+  red: 'cyan',
+};
+
+export const getSecondaryAccentColor = (): string => {
+  return secondaryThemeColors[process.env.COLOR_THEME || 'purple'];
 };

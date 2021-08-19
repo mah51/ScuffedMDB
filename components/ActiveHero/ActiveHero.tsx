@@ -34,6 +34,7 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
     <Flex
       position="relative"
       direction="column"
+      boxShadow="xl"
       mb="8"
       mx="auto"
       border="1px solid"
@@ -44,6 +45,7 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
       <Flex
         mx={-5}
         mt={-5}
+        py={1}
         mb={5}
         borderTopRadius="2xl"
         fontWeight="bold"
@@ -51,12 +53,13 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
         justifyContent="center"
         color={
           colorMode === 'light'
-            ? `${process.env.COLOR_THEME}.300`
-            : `${process.env.COLOR_THEME}.500`
+            ? `${process.env.COLOR_THEME}.500`
+            : `${process.env.COLOR_THEME}.300`
         }
-        bg={colorMode === 'light' ? 'gray.800' : 'white'}
+        borderBottom="1px solid"
+        borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
       >
-        Active Movie
+        Latest Movie
       </Flex>
       {/* <Box
         opacity={0}
@@ -94,7 +97,7 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
       </Box> */}
 
       <Flex direction={{ base: 'column', md: 'row' }}>
-        <AspectRatio mt={{ base: 7, md: 0 }} ratio={16 / 9} minWidth="200px">
+        <AspectRatio ratio={16 / 9} minWidth="200px">
           <Image
             className={'borderRadius-2xl'}
             src={movie.image || ''}
@@ -131,6 +134,7 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
             width="50%"
             p={2}
             borderRight="1px solid"
+            borderBottomLeftRadius="2xl"
             borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
           >
             Details
@@ -142,6 +146,7 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
             setMovie(movie);
             onOpen();
           }}
+          borderBottomRightRadius="2xl"
           width="50%"
           p={2}
         >
