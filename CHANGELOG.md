@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/mah51/scuffedmdb/compare/v0.3.1...v0.3.2) (2021-08-19)
+
+
+### Features
+
+* **SecondaryAccent:** :sparkles: implement secondary colors for primaries ([317436f](https://github.com/mah51/scuffedmdb/commit/317436fd46aaec9e89e933db53052155c358f12b))
+
+
+### Bug Fixes
+
+* **NextConfig:** :bug: Ensure NEXTAUTH_URL is in env ([1c795fd](https://github.com/mah51/scuffedmdb/commit/1c795fdbe12717101c4ede6a40d13fb84ef765c8))
+
+
+### Docs
+
+* **CONTRIBUTING:** :pencil: clear up how to contribute ([b5ea737](https://github.com/mah51/scuffedmdb/commit/b5ea737e0daae200e193312ac978886b6bf11cab))
+* create .all-contributorsrc [skip ci] ([c1e0f4c](https://github.com/mah51/scuffedmdb/commit/c1e0f4c4def936c9dc1482cdd6ba376cb1a2ae6a))
+* **README:** :pencil: aesthetic changes ([e6cbeb6](https://github.com/mah51/scuffedmdb/commit/e6cbeb6156fdce0e6fdc268fcbbd05f978d8682e))
+* **README:** :pencil: aesthetic changes ([ebdad70](https://github.com/mah51/scuffedmdb/commit/ebdad70b67894a05babbdab701cdadd178f45d39))
+* **Remembering short site name:** :pencil: ([a416deb](https://github.com/mah51/scuffedmdb/commit/a416deb8145c1667fa7c68020ec3afa435e95888))
+* update .all-contributorsrc [skip ci] ([e8aacb7](https://github.com/mah51/scuffedmdb/commit/e8aacb79a8935f58c2006959dd7982a11a15a132))
+* update README.md [skip ci] ([863f7c6](https://github.com/mah51/scuffedmdb/commit/863f7c64fd2e1dc66ed0ac66a52e804ff5605936))
+* update README.md [skip ci] ([0b4b764](https://github.com/mah51/scuffedmdb/commit/0b4b764557f7a17b9c24d633b30c2a39cc233ab5))
+
+
+### Styling
+
+* **ActiveHero:** :art: visual changes to buttons ([de2e26d](https://github.com/mah51/scuffedmdb/commit/de2e26dcfe06dcbb6f5f1ccd7a6c6eb8302f96dc))
+* **AlertBanner:** :art: promotion now uses secondary color ([44e96af](https://github.com/mah51/scuffedmdb/commit/44e96af4910aaa6c7cef87042289d088a9f5d842))
+* **SecondaryColor:** :art: adding secondary accent colour & footer banner ([ca56c90](https://github.com/mah51/scuffedmdb/commit/ca56c908b9be7f4e9947314d7e264f5e6148a00f))
+* **ToggleGrid:** :art: incosistent bg color ([638db56](https://github.com/mah51/scuffedmdb/commit/638db56391e90d428974972db366d9f59e48b96d))
+
 ### [0.3.1](https://github.com/mah51/scuffedmdb/compare/v0.3.0...v0.3.1) (2021-08-19)
 
 ## [0.3.0](https://github.com/mah51/scuffedmdb/compare/v0.2.1...v0.3.0) (2021-08-19)
