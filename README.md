@@ -75,7 +75,7 @@ Thank you to [@olig89](https://github.com/olig89) for all of the ideas and user 
 | Name                  | Description                                                                                                                                 | Example                     |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
 | WEBHOOK_URL           | Endpoint for the discord_bot webhook                                                                                                        | `https://bot.michael-hall.me` |
-| WEBHOOK_TOKEN         | Random string used to authenticate movie websites request, required if using the webhook                                                    | dsajoi234opiasdijofp        |
+| WEBHOOK_TOKEN         | Random string used to authenticate movie websites request, required if using the webhook                                                    | `dsajoi234opiasdijofp`        |
 | COLOR_THEME           | Color theme for the website, options: [chakra docs](https://chakra-ui.com/docs/theming/theme#colors) | `purple`                      |
 | NEXT_PUBLIC_SITE_NAME | Name of the website, default is ScuffedMDB                                                                                                  | `ScuffedMDB`                  |
 
