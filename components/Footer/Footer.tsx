@@ -24,7 +24,7 @@ const SocialIcons = ({
   label: string;
 }) => {
   return (
-    <Tooltip label={label}>
+    <Tooltip label={label} placement="top">
       <chakra.button
         bg={useColorModeValue(`blackAlpha.100`, `whiteAlpha.100`)}
         rounded="full"
