@@ -79,7 +79,7 @@ Thank you to [@olig89](https://github.com/olig89) for all of the ideas and user 
 
 | Name                        | Description                                                                                          | Example                       |
 | --------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------- |
-| ALLOWED_USERS               | A comma separated list of users that can log into the website. If left blank, all users can login.   | `234908230323,234908230324`   |
+| ALLOWED_USERS               | A comma separated list of discord ids representing users that can log into the website. If left blank, all users can login.   | `234908230323,234908230324`   |
 | WEBHOOK_URL                 | Endpoint for the discord_bot webhook                                                                 | `https://bot.michael-hall.me` |
 | WEBHOOK_TOKEN               | Random string used to authenticate movie websites request, required if using the webhook             | `dsajoi234opiasdijofp`        |
 | COLOR_THEME                 | Color theme for the website, options: [chakra docs](https://chakra-ui.com/docs/theming/theme#colors) | `purple`                      |
