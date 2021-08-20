@@ -22,7 +22,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       {!user.isAdmin && !user.isReviewer && (
         <AlertBanner
           storageName="dismissReadOnlyAlert"
-          color="green"
+          color="red"
           title="App is in read only mode!"
           message="You need reviewer permissions to add content."
         />

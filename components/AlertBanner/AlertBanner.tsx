@@ -20,6 +20,7 @@ export default function AlertBanner({
     transparentize(`${color}.700`, 0.2),
     transparentize(`${color}.300`, 0.1)
   );
+
   useEffect(() => {
     const cookie = window.localStorage.getItem(storageName);
 
