@@ -13,9 +13,11 @@
   <img alt="Github Stars" src="https://img.shields.io/github/stars/mah51/scuffedmdb?style=for-the-badge&color=%2348BB78" />
     <img alt="Checks Passing" src="https://img.shields.io/github/checks-status/mah51/scuffedmdb/main?color=4299e1&style=for-the-badge" />
    <img alt="License" src="https://img.shields.io/github/license/mah51/Scuffedmdb?style=for-the-badge&color=%239F7AEA" />
-      <img  height='28px'src="https://forthebadge.com/images/badges/not-a-bug-a-feature.svg" />
-
 </p>
+
+<p align="center">
+   <img  height='28px'src="https://forthebadge.com/images/badges/not-a-bug-a-feature.svg" />
+  </p>
 
 # Table of Contents
 
