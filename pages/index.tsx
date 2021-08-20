@@ -21,8 +21,7 @@ export default function Home({
   singleMovieData,
   desiredUser,
 }: HomePageProps): React.ReactNode {
-  const [session, loading] = useSession();
-  if (typeof window !== 'undefined' && loading) return null;
+  const [session] = useSession();
 
   if (!session?.user) {
     return (
