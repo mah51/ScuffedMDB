@@ -152,7 +152,7 @@ __Make sure you have a fork of the repository by clicking the fork button top ri
 
 3. All the default settings are as should be, just click deploy. (Be warned it wont work just yet, we still need to provide our environment variables!)
 
-4. Return to the homepage and find your project, click on it and follow the tabs at the top to 'settings', then click environment variables on the left hand menu. Here you can add all of the environment variables from your .env.local file, one at a time using the box at the top.
+4. Once deployed, click the big 'Go to dashboard' button, follow the tabs at the top to 'settings', then click environment variables on the left hand menu. Here you can add all of the environment variables from your .env.local file, one at a time using the box at the top.
 
 5. CLIENT_ID, CLIENT_SECRET, OWNER_ID, and MOVIE_API_KEY will be the same as your local environment.
 
