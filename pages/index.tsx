@@ -67,6 +67,7 @@ export const getServerSideProps = async (
       ReviewType<PopulatedUserType>[]
     > | null = null;
     let desiredUser = null;
+
     if (ctx.query.movie) {
       singleMovieData = await getMovie(ctx.query.movie, true);
     }
@@ -95,7 +96,9 @@ export const getServerSideProps = async (
   if (ctx.query.movie) {
     return {
       redirect: {
-        destination: `/movie/${ctx.query.movie}`,
+        destination: `/movie/${ctx.query.movie}${
+          ctx.query.review === 'true' ? '?review=true' : ''
+        }`,
         permanent: false,
       },
     };

@@ -19,13 +19,13 @@ export const LandingPage: React.FC<{
 }> = ({ movie, desiredUser }): React.ReactElement => {
   const { colorMode } = useColorMode();
   const router = useRouter();
-  const { user: userID, movie: movieID } = router.query;
+  const { user: userID, movie: movieID, review } = router.query;
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
   const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URI}/${
     userID && movieID ? `?movie=${movieID}&user=${userID}` : ''
   }${userID && !movieID ? `?user=${userID}` : ''}${
     !userID && movieID ? `?movie=${movieID}` : ''
-  }`;
+  }${review && `&review=${review}`}`;
 
   return (
     <>
