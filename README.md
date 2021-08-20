@@ -67,26 +67,27 @@ Thank you to [@olig89](https://github.com/olig89) for all of the ideas and user 
 
 #### Required
 
-| Name                | Description                                                                    | Example                                |
-| ------------------- | ------------------------------------------------------------------------------ | -------------------------------------- |
-| NEXT_PUBLIC_APP_URI | The URI of the app                                                             | `https://movie.michael-hall.me`        |
-| OWNER_ID            | Owner's discord ID                                                             | `234908230323`                         |
-| CLIENT_ID           | Discord Application CLIENT_ID on [console](https://discord.com/developers)     | `2398040239849`                        |
-| CLIENT_SECRET       | Discord Application CLIENT_SECRET on [console](https://discord.com/developers) | `\_adsiojweiurnAWeAFDS23`              |
-| JWT_CODE            | Random string used to encode token                                             | `dsajoi234opiasdijofp`                 |
-| MONGODB_URI         | Connection string to mongoDB                                                   | `mongodb://localhost:27017/scuffedmdb` |
-| MOVIE_API_KEY       | TMDB **v3** Api Key                                                            | `q9uqq9emdasDejwo4`                    |
+| Name                | Description                                                                    | Example                                                     |
+| ------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| NEXT_PUBLIC_APP_URI | The URI of the app                                                             | `https://movie.michael-hall.me`                             |
+| OWNER_ID            | Owner's discord ID                                                             | `234908230323`                                              |
+| CLIENT_ID           | Discord Application CLIENT_ID on [console](https://discord.com/developers)     | `2398040239849`                                             |
+| CLIENT_SECRET       | Discord Application CLIENT_SECRET on [console](https://discord.com/developers) | `\_adsiojweiurnAWeAFDS23`                                   |
+| JWT_H512            | Used to sign token -> `jose newkey -s 256 -t oct -a HS512`                     | `{"kty":"oct","kid":"-token-","alg":"HS512","k":"-token-"}` |
+| JWT_CODE            | Random string used to encode token                                             | `dsajoi234opiasdijofp`                                      |
+| MONGODB_URI         | Connection string to mongoDB                                                   | `mongodb://localhost:27017/scuffedmdb`                      |
+| MOVIE_API_KEY       | TMDB **v3** Api Key                                                            | `q9uqq9emdasDejwo4`                                         |
 
 #### Not required
 
-| Name                        | Description                                                                                          | Example                       |
-| --------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------- |
-| ALLOWED_USERS               | A comma separated list of discord ids representing users that can log into the website. If left blank, all users can login.   | `234908230323,234908230324`   |
-| WEBHOOK_URL                 | Endpoint for the discord_bot webhook                                                                 | `https://bot.michael-hall.me` |
-| WEBHOOK_TOKEN               | Random string used to authenticate movie websites request, required if using the webhook             | `dsajoi234opiasdijofp`        |
-| COLOR_THEME                 | Color theme for the website, options: [chakra docs](https://chakra-ui.com/docs/theming/theme#colors) | `purple`                      |
-| NEXT_PUBLIC_SITE_NAME       | Name of the website, default is ScuffedMDB                                                           | `ScuffedMDB`                  |
-| NEXT_PUBLIC_SHORT_SITE_NAME | Short name of the website, default is SMDB                                                           | `SMDB`                        |
+| Name                        | Description                                                                                                                 | Example                       |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| ALLOWED_USERS               | A comma separated list of discord ids representing users that can log into the website. If left blank, all users can login. | `234908230323,234908230324`   |
+| WEBHOOK_URL                 | Endpoint for the discord_bot webhook                                                                                        | `https://bot.michael-hall.me` |
+| WEBHOOK_TOKEN               | Random string used to authenticate movie websites request, required if using the webhook                                    | `dsajoi234opiasdijofp`        |
+| COLOR_THEME                 | Color theme for the website, options: [chakra docs](https://chakra-ui.com/docs/theming/theme#colors)                        | `purple`                      |
+| NEXT_PUBLIC_SITE_NAME       | Name of the website, default is ScuffedMDB                                                                                  | `ScuffedMDB`                  |
+| NEXT_PUBLIC_SHORT_SITE_NAME | Short name of the website, default is SMDB                                                                                  | `SMDB`                        |
 
 ## How to host this yourself:
 
@@ -97,7 +98,7 @@ Thank you to [@olig89](https://github.com/olig89) for all of the ideas and user 
 It is beneficial to set up a local environment to make quick changes without having to wait for the website to rebuild on vercel.
 
 1. Fork this repository at the top right of this page.
-  
+
 2. Clone to your computer
 
 `git clone https://github.com/<YOUR GITHUB USERNAME>/scuffedmdb`
@@ -164,11 +165,19 @@ __Make sure you have a fork of the repository by clicking the fork button top ri
 
 `NEXT_PUBLIC_APP_URI=https://movie.michael-hall.me`
 
-8.  Finally generate another JWT_CODE for production and enter into the vercel settings panel.
+8. Create a HS512 compliant code using the following command:
 
-9.  Go back to the overview tab and click redeploy.
+`npm install -g node-jose-tools`
 
-10. Thats it! your very own live movie rating website. The world is yours ... and everytime you push a change to your repo, it automatically redeploys (<3 vercel).
+`jose newkey -s 256 -t oct -a HS512`
+
+Copy the whole output and paste into the .env.local file under 'JWT_HS512'.
+
+9. Finally generate a random string for the JWT_CODE env variable for production and enter into the vercel settings panel.
+
+10. Go back to the overview tab and click redeploy.
+
+11. Thats it! your very own live movie rating website. The world is yours ... and everytime you push a change to your repo, it automatically redeploys (<3 vercel).
 </details>
 
 ## Using the discord bot with the website:
