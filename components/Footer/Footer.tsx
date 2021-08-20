@@ -59,6 +59,7 @@ export const Footer: React.FC = (): React.ReactElement => {
           mx="auto"
           px={{ base: `6`, md: `0` }}
           alignItems="center"
+          justifyContent="space-between"
         >
           <Link href="/" passHref>
             <chakra.a
