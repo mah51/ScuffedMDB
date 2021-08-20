@@ -109,7 +109,22 @@ export default NextAuth({
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    // async signIn(user, account, profile) { return true },
+    async signIn(user, account, profile) {
+      const ALLOWED_USERS = process.env.ALLOWED_USERS;
+      if (ALLOWED_USERS) {
+        if (
+          ALLOWED_USERS.replace(/\s/, '')
+            .split(',')
+            .includes(profile?.id as string)
+        ) {
+          console.log('ALLOWED_USERS', ALLOWED_USERS);
+          console.log('profile', profile);
+          return true;
+        }
+        return false;
+      }
+      return true;
+    },
     // async redirect(url, baseUrl) { return baseUrl },
     async session(session, token: User) {
       //TODO fix session func types in next auth. This type isn't done correctly, but I don't know how to do it :/.

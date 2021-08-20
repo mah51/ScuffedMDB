@@ -22,7 +22,6 @@ export default function Home({
   desiredUser,
 }: HomePageProps): React.ReactNode {
   const [session, loading] = useSession();
-
   if (typeof window !== 'undefined' && loading) return null;
 
   if (!session?.user) {

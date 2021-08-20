@@ -66,6 +66,7 @@ module.exports = {
   },
   env: {
     NEXT_PUBLIC_APP_URI: process.env.NEXT_PUBLIC_APP_URI,
+    ALLOWED_USERS: process.env.ALLOWED_USERS,
     NEXTAUTH_URL: process.env.NEXT_PUBLIC_APP_URI + '/api/auth',
     OWNER_ID: process.env.OWNER_ID,
     COLOR_THEME:
