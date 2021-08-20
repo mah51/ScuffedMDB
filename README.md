@@ -5,7 +5,7 @@
   <img alt='Issues' src="https://img.shields.io/github/issues/mah51/scuffedmdb?color=%23ED8936&style=for-the-badge">
      <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="#contributors">
-<img alt="contributors" src="https://img.shields.io/badge/all_contributors-2-orange.svg?style=for-the-badge&color=%23F6E05E" /></a>
+<img alt="contributors" src="https://img.shields.io/badge/contributors-2-orange.svg?style=for-the-badge&color=%23F6E05E" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <img alt="Github Stars" src="https://img.shields.io/github/stars/mah51/scuffedmdb?style=for-the-badge&color=%2348BB78" />
     <img alt="Checks Passing" src="https://img.shields.io/github/checks-status/mah51/scuffedmdb/main?color=4299e1&style=for-the-badge" />
