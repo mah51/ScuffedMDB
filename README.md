@@ -97,6 +97,7 @@ Thank you to [@olig89](https://github.com/olig89) for all of the ideas and user 
 It is beneficial to set up a local environment to make quick changes without having to wait for the website to rebuild on vercel.
 
 1. Fork this repository at the top right of this page.
+  
 2. Clone to your computer
 
 `git clone https://github.com/<YOUR GITHUB USERNAME>/scuffedmdb`
@@ -142,6 +143,9 @@ _and again_
 
 <details>
   <summary>Click to expand</summary>
+ 
+__Make sure you have a fork of the repository by clicking the fork button top right__  
+  
 1. Login to https://vercel.com/ with your github.
 
 2. Go to the homepage and create new project, select 'ScuffedMDB' and click import.
