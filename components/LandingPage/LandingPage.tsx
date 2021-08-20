@@ -25,7 +25,7 @@ export const LandingPage: React.FC<{
     userID && movieID ? `?movie=${movieID}&user=${userID}` : ''
   }${userID && !movieID ? `?user=${userID}` : ''}${
     !userID && movieID ? `?movie=${movieID}` : ''
-  }${review && `&review=${review}`}`;
+  }${review ? `&review=${review}` : ''}`;
 
   return (
     <>

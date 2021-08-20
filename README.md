@@ -155,7 +155,7 @@ __Make sure you have a fork of the repository by clicking the fork button top ri
 
 4. Once deployed, click the big 'Go to dashboard' button, follow the tabs at the top to 'settings', then click environment variables on the left hand menu. Here you can add all of the environment variables from your .env.local file, one at a time using the box at the top.
 
-5. CLIENT_ID, CLIENT_SECRET, OWNER_ID, and MOVIE_API_KEY will be the same as your local environment.
+5. CLIENT_ID, CLIENT_SECRET, OWNER_ID, NEXTAUTH_URL, and MOVIE_API_KEY will be the same as your local environment.
 
 6. MONGO_URI should use a production database that is not the same as your local environment so set the database to a different name.
 
