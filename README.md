@@ -127,7 +127,7 @@ _(these aren't mine before you try -\_-)_
 
 _and again_
 
-8. I recommend using [cloud atlas](https://www.mongodb.com/cloud/atlas) to host your mongo database, but just create an account and a m.0 db, then copy the connection uri and paste into the .env.local file and append the database name.
+8. I recommend using [cloud atlas](https://www.mongodb.com/cloud/atlas) to host your mongo database, but just create an account and a m.0 db, (Vercel does not allow you to set location on the free plan, and its normally in NA, I recommend setting the mongo server to NA as well, it is slightly snappier). Next copy the connection uri and paste into the .env.local file and append the database name.
 
 `MONGODB_URI=<connection string>/local-movie-database`
 
