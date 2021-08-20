@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import Nav from '../Nav';
 import Footer from '../Footer';
 import { UserAuthType } from 'next-auth';
+import { Flex } from '@chakra-ui/react';
 
 interface AppLayoutProps {
   user: UserAuthType;
@@ -16,7 +17,7 @@ export const AppLayout = ({
   user,
   children,
 }: AppLayoutProps): React.ReactElement => (
-  <>
+  <Flex minHeight="calc(100vh + 80px)" direction="column">
     <Nav
       user={user}
       showMovies={showMovies || false}
@@ -24,5 +25,5 @@ export const AppLayout = ({
     />
     {children}
     <Footer />
-  </>
+  </Flex>
 );

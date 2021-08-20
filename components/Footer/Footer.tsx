@@ -52,7 +52,7 @@ export const Footer: React.FC = (): React.ReactElement => {
 
   return (
     <>
-      <Box as="footer" role="contentinfo" mt={8} py="6">
+      <Box as="footer" role="contentinfo" mt={'auto'} py="6">
         <Stack
           direction={{ base: `column`, md: `row` }}
           maxW={{ base: `xl`, md: `7xl` }}

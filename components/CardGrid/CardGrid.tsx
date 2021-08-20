@@ -153,7 +153,8 @@ export const CardGrid: React.FC<CardGridProps> = ({
 
       <Container
         maxW="container.xl"
-        mt={10}
+        height="full"
+        my={10}
         display="flex"
         flexDir="column"
         justifyContent="flex-start"

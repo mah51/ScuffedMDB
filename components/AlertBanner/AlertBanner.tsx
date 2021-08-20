@@ -1,36 +1,24 @@
 import { CloseButton, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import React, { ReactElement } from 'react';
 import { useEffect } from 'react';
-import { getSecondaryAccentColor } from 'utils/utils';
-
+import { transparentize } from '@chakra-ui/theme-tools';
 interface Props {
   message: string;
   title: string;
   storageName: string;
-  type: 'error' | 'success';
+  color: string;
 }
-
-const colors = {
-  error: { bg: { light: 'red.500', dark: 'red.200' } },
-  success: {
-    bg: {
-      light: `${getSecondaryAccentColor()}.500`,
-      dark: `${getSecondaryAccentColor()}.300`,
-    },
-  },
-};
 
 export default function AlertBanner({
   message,
   title,
-  type,
+  color,
   storageName,
 }: Props): ReactElement {
   const [isOpen, setIsOpen] = React.useState(false);
-  const color = useColorModeValue('white', 'gray.800');
   const bg = useColorModeValue(
-    `${colors[type].bg.light}`,
-    `${colors[type].bg.dark}`
+    transparentize(`${color}.700`, 0.2),
+    transparentize(`${color}.300`, 0.1)
   );
   useEffect(() => {
     const cookie = window.localStorage.getItem(storageName);
@@ -51,10 +39,11 @@ export default function AlertBanner({
       justifyContent="center"
       alignItems={{ base: 'flex-start', md: 'center' }}
       direction={{ base: 'column', md: 'row' }}
+      //@ts-ignore
       bg={bg}
       px="3"
       py={{ base: isOpen ? 4 : 0, md: '0' }}
-      color={color}
+      color={useColorModeValue(`${color}.800`, `${color}.300`)}
     >
       <Text
         visibility={isOpen ? 'visible' : 'hidden'}
