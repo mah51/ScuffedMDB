@@ -18,6 +18,5 @@
     { "type": "test", "section": "Tests", "hidden": false },
     { "type": "build", "section": "Build System", "hidden": false },
     { "type": "ci", "section": "CI", "hidden": false }
-  ],
-  "releaseCommitMessageFormat": "chore(release): {{previousTag}} -> {{currentTag}}"
+  ]
 }
