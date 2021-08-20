@@ -17,7 +17,7 @@ import { ReactElement } from 'react';
 import { ReviewModalContext } from 'utils/ModalContext';
 
 interface Props {
-  movie: SerializedMovieType;
+  movie: SerializedMovieType | undefined;
 }
 
 export default function ActiveHero({ movie }: Props): ReactElement | null {
@@ -26,8 +26,8 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
   const [session] = useSession();
 
   const { onOpen, setMovie } = useContext(ReviewModalContext);
-  const hasReviewed = movie.reviews.some(
-    (m) => m.user?._id === session?.user.sub
+  const hasReviewed = movie?.reviews?.some(
+    (m) => m?.user?._id === session?.user.sub
   );
   if (!movie) return null;
 
