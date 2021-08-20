@@ -360,62 +360,42 @@ export const CardGrid: React.FC<CardGridProps> = ({
             </Stack>
           </Stack>
         </Flex>
-        {movies?.data?.length > 0 ? (
-          cardView ? (
-            <SimpleGrid
-              columns={{ base: 1, md: 2, lg: 3 }}
-              spacing={10}
-              alignItems="stretch"
-            >
-              {movies?.data?.map(
-                (
-                  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
-                  i
-                ) => (
-                  <Card
-                    movie={movie}
-                    key={`${i.toString()}card`}
-                    featuredMovie={featuredMovie}
-                  />
-                )
-              )}
-            </SimpleGrid>
-          ) : (
-            <chakra.div
-              overflowX={
-                ['base', 'sm', 'md'].includes(bp || '') ? 'scroll' : 'hidden'
-              }
-              shadow="lg"
-              maxW="full"
-              borderRadius="xl"
-              border="1px solid"
-              borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
-            >
-              <MovieGridView
-                user={user}
-                movies={movies.data}
-                featuredMovie={featuredMovie}
-              />
-            </chakra.div>
-          )
-        ) : (
-          <Flex
-            width="full"
-            h="full"
-            minH="200px"
-            justifyContent="center"
-            alignItems="center"
+        {cardView ? (
+          <SimpleGrid
+            columns={{ base: 1, md: 2, lg: 3 }}
+            spacing={10}
+            alignItems="stretch"
           >
-            <Heading
-              size={{ base: 'xl', md: '2xl', lg: '4xl' }[bp || 'base']}
-              fontWeight="extrabold"
-              color={
-                colorMode === 'light' ? 'rgba(0, 0, 0, 0.25)' : 'whiteAlpha.300'
-              }
-            >
-              To get started add a movie.
-            </Heading>
-          </Flex>
+            {movies?.data?.map(
+              (
+                movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
+                i
+              ) => (
+                <Card
+                  movie={movie}
+                  key={`${i.toString()}card`}
+                  featuredMovie={featuredMovie}
+                />
+              )
+            )}
+          </SimpleGrid>
+        ) : (
+          <chakra.div
+            overflowX={
+              ['base', 'sm', 'md'].includes(bp || '') ? 'scroll' : 'hidden'
+            }
+            shadow="lg"
+            maxW="full"
+            borderRadius="xl"
+            border="1px solid"
+            borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
+          >
+            <MovieGridView
+              user={user}
+              movies={movies.data}
+              featuredMovie={featuredMovie}
+            />
+          </chakra.div>
         )}
       </Container>
     </>
