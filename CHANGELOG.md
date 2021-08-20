@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/mah51/scuffedmdb/compare/v0.3.2...v0.4.0) (2021-08-20)
+
+
+### Features
+
+* **404Page:** :sparkles: Added 404 ([5cba14a](https://github.com/mah51/scuffedmdb/commit/5cba14a2b32050e09e812536c1f93e0732f53e4c))
+* **HomePage:** :sparkles: abstract movie card when it is featured ([2f276d5](https://github.com/mah51/scuffedmdb/commit/2f276d547992180acddd85fb8ae10d5c914e3c5e))
+* **SECURITY:** :sparkles: New .env option to limit users that can sign in ([d8d84c3](https://github.com/mah51/scuffedmdb/commit/d8d84c38cfc00e26d11f6b837ea875e636f27acf))
+
+
+### Bug Fixes
+
+* **Footer:** :bug: fix footer alignment ([0c16f63](https://github.com/mah51/scuffedmdb/commit/0c16f63e963cb7cc0772965963fb4c99e32e79d6))
+* **MovieGrid:** :bug: fix images changing sizes ([4da43e1](https://github.com/mah51/scuffedmdb/commit/4da43e190c3ae4ebf5e846722ef0545566f11aa6))
+* **VersionRC:** :bug: ([e651064](https://github.com/mah51/scuffedmdb/commit/e651064b4b378df73b3524da12a0f685703bff80))
+
+
+### Styling
+
+* **Footer:** :art: spacing on mobile ([1661711](https://github.com/mah51/scuffedmdb/commit/1661711360c5747a1910976ead719aff366af358))
+
+
+### Code Refactoring
+
+* **Footer:** :recycle: position of social icon tooltip ([c91e6d4](https://github.com/mah51/scuffedmdb/commit/c91e6d4f29bd3e96cafe6dafbf2e4b282d11156e))
+
 ### [0.3.2](https://github.com/mah51/scuffedmdb/compare/v0.3.1...v0.3.2) (2021-08-19)
 
 
