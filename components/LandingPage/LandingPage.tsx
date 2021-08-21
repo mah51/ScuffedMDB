@@ -2,7 +2,6 @@ import {
   Box,
   chakra,
   useColorModeValue,
-  Text,
   Button,
   Icon,
   Flex,
@@ -66,21 +65,14 @@ export const LandingPage: React.FC<{
           <chakra.h1
             mb={6}
             fontSize={{ base: `4xl`, md: `6xl` }}
-            fontWeight="bold"
             lineHeight="none"
             letterSpacing={{ base: `normal`, md: `tight` }}
-            color={useColorModeValue(`gray.900`, `gray.100`)}
+            w="full"
+            bgClip="text"
+            bgGradient="linear(to-r, green.400,purple.500)"
+            fontWeight="extrabold"
           >
-            <Text
-              display={{ base: `block`, lg: `inline` }}
-              w="full"
-              bgClip="text"
-              bgGradient="linear(to-r, green.400,purple.500)"
-              fontWeight="extrabold"
-            >
-              {siteName}
-            </Text>
-            {` `}
+            {siteName}
           </chakra.h1>
           <chakra.p
             px={{ base: 0, lg: 24 }}

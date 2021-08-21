@@ -11,7 +11,8 @@
     "prepare": "husky install",
     "pre-commit": "npm run lint",
     "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-    "lint": "npx eslint . --fix && npx tsc"
+    "lint": "npx eslint . --fix && npx tsc",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.6",
@@ -51,6 +52,7 @@
     "babel-jest": "^27.0.2",
     "commitizen": "^4.2.4",
     "cross-env": "^7.0.3",
+    "cypress": "^8.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "cz-emoji": "^1.3.1",
     "eslint": "7.24.0",
