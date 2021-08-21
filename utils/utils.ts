@@ -1,5 +1,6 @@
 import { UserAuthType } from 'next-auth';
 import { SerializedMovieType, MovieType, ReviewType } from './../models/movie';
+
 export const getTotalCharCode = (phrase: string): number => {
   return phrase?.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
 };
@@ -82,6 +83,7 @@ export const themeColors = [
   'blue',
   'cyan',
   'pink',
+  'gray',
   'purple',
 ];
 
@@ -89,14 +91,18 @@ export const secondaryThemeColors: Record<string, string> = {
   red: 'yellow',
   orange: 'yellow',
   yellow: 'red',
-  green: 'blue',
+  green: 'teal',
   teal: 'purple',
   blue: 'pink',
   cyan: 'purple',
-  pink: 'orange',
+  pink: 'purple',
   purple: 'cyan',
+  gray: 'red',
 };
 
 export const getSecondaryAccentColor = (): string => {
+  if (process.env.SECONDARY_COLOR_THEME) {
+    return process.env.SECONDARY_COLOR_THEME;
+  }
   return secondaryThemeColors[process.env.COLOR_THEME || 'purple'];
 };
