@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://github.com/mah51/scuffedmdb/compare/v0.4.0...v0.4.1) (2021-08-21)
+
+
+### Features
+
+* **Review param pass through login flow:** :sparkles: ([0db7cf1](https://github.com/mah51/scuffedmdb/commit/0db7cf13f4264bf2a3e5ee8bf49318ee2ba55aaf))
+
+
+### Bug Fixes
+
+* **CardGrid:** :bug: throws error on undefined ([c4783db](https://github.com/mah51/scuffedmdb/commit/c4783dbfa0b52eadd7bdd5ff57c281448751efc0))
+* **Flash of no content landing:** :bug: ([88d3ed9](https://github.com/mah51/scuffedmdb/commit/88d3ed91bf532d151fbce15c99acc8be2264c2e6))
+* **MovieArray:** :bug: when array length = 0, error fix ([74bdfb3](https://github.com/mah51/scuffedmdb/commit/74bdfb36d11d496f15a343698900ea6e7b6d4ecd))
+* **NextAuth:** :bug: adding JWT_HS512 to remove warning ([d256d5a](https://github.com/mah51/scuffedmdb/commit/d256d5a9513abb9e6aa5a3b8c944474196386c89))
+
+
+### Styling
+
+* **CardSize fix:** :art: ([624aa04](https://github.com/mah51/scuffedmdb/commit/624aa04efb16aa263b9f91251f50e4b02f5a4e2d))
+* **MinH and AlertBanner style changes:** :art: ([591db9e](https://github.com/mah51/scuffedmdb/commit/591db9e831439fc69c6c5c407f9f75572de47d68))
+* **Styling updates:** :art: ([ba2bb74](https://github.com/mah51/scuffedmdb/commit/ba2bb744f232139c4d38aa8daef10ba7084e11f3))
+
+
+### Docs
+
+* **README:** :pencil: mongo server set to NA explanation ([b762fa7](https://github.com/mah51/scuffedmdb/commit/b762fa78698d5361cb94ae2d41ab72bf408b490e))
+
+
+### Code Refactoring
+
+* **CardGrid:** :recycle: provide text placeholder when movies len = 0 ([f9352d8](https://github.com/mah51/scuffedmdb/commit/f9352d8f96735866e15e13cfd2f083b83acf3148))
+
 ## [0.4.0](https://github.com/mah51/scuffedmdb/compare/v0.3.2...v0.4.0) (2021-08-20)
 
 
