@@ -29,7 +29,7 @@ export const Card: React.FC<CardProps> = ({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   return (
     <Link href={`/movie/${movie._id}`} passHref>
-      <Box as={'a'} height="full" minWidth="400px">
+      <Box as={'a'} height="full">
         <chakra.div
           position="relative"
           direction="column"

@@ -365,6 +365,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
             <SimpleGrid
               columns={{ base: 1, md: 2, lg: 3 }}
               spacing={10}
+              width="full"
               alignItems="stretch"
             >
               {movies?.data?.map(
