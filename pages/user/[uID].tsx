@@ -9,13 +9,16 @@ import UserReviewSection from '../../components/UserReviewSection';
 import type { GetServerSidePropsContext } from 'next';
 import dbConnect from '../../utils/dbConnect';
 import { getSession, useSession } from 'next-auth/client';
-import type { Session, UserAuthType } from 'next-auth';
+import type { Session } from 'next-auth';
 import { useQuery } from 'react-query';
 import { NextSeo } from 'next-seo';
 import ErrorPage from '@components/ErrorPage';
 
+export interface UserPageUser extends SerializedUser {
+  sub: string;
+}
 interface EditUserProps {
-  desiredUser: UserAuthType | null;
+  desiredUser: UserPageUser | null;
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
 }
 
@@ -92,7 +95,7 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
 interface SSRProps {
   props: {
     session: Session | null;
-    desiredUser: SerializedUser | null;
+    desiredUser: Omit<SerializedUser, 'sub'> | null;
     movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
   };
 }

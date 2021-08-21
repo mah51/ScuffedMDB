@@ -10,10 +10,10 @@ import {
 } from '@chakra-ui/react';
 import { PopulatedUserType } from '../../models/user';
 import { ReviewType } from '../../models/movie';
-import { UserAuthType } from 'next-auth';
+import { UserPageUser } from 'pages/user/[uID]';
 
 interface AboutUserSectionProps {
-  user: UserAuthType;
+  user: UserPageUser;
   reviews: (
     | (ReviewType<PopulatedUserType> & {
         movie?: { name: string; image?: string };

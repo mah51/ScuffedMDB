@@ -34,6 +34,7 @@ import { useContext } from 'react';
 import Link from 'next/link';
 import { ReviewModalContext } from '../../utils/ModalContext';
 import { useQueryClient } from 'react-query';
+import { UserPageUser } from 'pages/user/[uID]';
 
 interface Props {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
@@ -147,7 +148,7 @@ export const ReviewActions = ({
 };
 
 interface ReviewProps {
-  user: UserAuthType;
+  user: UserAuthType | UserPageUser;
   review: ReviewType<PopulatedUserType>;
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
 }

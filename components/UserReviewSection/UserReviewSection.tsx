@@ -9,17 +9,17 @@ import {
   useBreakpoint,
 } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
-import { UserAuthType } from 'next-auth';
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { ReviewActions } from '../MovieReviewSection/MovieReviewSection';
+import { UserPageUser } from 'pages/user/[uID]';
 
 export const UserReviewSection: React.FC<{
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
-  user: UserAuthType;
+  user: UserPageUser;
 }> = ({ movies, user }): React.ReactElement => {
   const bp = useBreakpoint();
   return (
