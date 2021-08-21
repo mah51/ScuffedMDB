@@ -127,7 +127,7 @@ _(these aren't mine before you try -\_-)_
 
 _and again_
 
-8. I recommend using [cloud atlas](https://www.mongodb.com/cloud/atlas) to host your mongo database, but just create an account and a m.0 db, (Vercel does not allow you to set location on the free plan, and its normally in NA, I recommend setting the mongo server to NA as well, it is slightly snappier). Next copy the connection uri and paste into the .env.local file and append the database name.
+8. I recommend using [cloud atlas](https://www.mongodb.com/cloud/atlas) to host your mongo database, but just create an account and a m.0 db, (Vercel does not allow you to set location on the free plan, and its normally in NA, I recommend setting the mongo server to NA as well, it is slightly snappier). Also ensure the the ip address in network access is set to 0.0.0.0, as this will allow any server to connect (also why you need to create a user with a strong password), this is because we dont know the IP of the vercel instance that our server will be booted up on. Next copy the connection uri and paste into the .env.local file and append the database name.
 
 `MONGODB_URI=<connection string>/local-movie-database`
 
@@ -173,7 +173,7 @@ __Make sure you have a fork of the repository by clicking the fork button top ri
 
 Copy the whole output and paste into the .env.local file under 'JWT_HS512'.
 
-9. Finally generate a random string for the JWT_CODE env variable for production and enter into the vercel settings panel.
+9. Finally generate a random string for the JWT_CODE env variable for production and enter into the Vercel settings panel.
 
 10. Go back to the overview tab and click redeploy.
 
