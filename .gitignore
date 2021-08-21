@@ -10,6 +10,8 @@
 
 # next.js
 /.next/
+
+*.snap
 /out/
 
 # production
