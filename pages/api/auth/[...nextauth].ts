@@ -1,3 +1,4 @@
+import { Session } from 'next-auth';
 /* eslint-disable no-console */
 import { MongoUser } from './../../../models/user';
 import NextAuth, { User } from 'next-auth';
@@ -128,7 +129,7 @@ export default NextAuth({
       return true;
     },
     // async redirect(url, baseUrl) { return baseUrl },
-    async session(session, token: User) {
+    async session(session, token: User): Promise<Session> {
       //TODO fix session func types in next auth. This type isn't done correctly, but I don't know how to do it :/.
       if (session?.user) {
         try {
@@ -140,6 +141,8 @@ export default NextAuth({
           if (!findUser) {
             console.log(token.sub || session.user.id);
             console.error('User not found in session callback');
+            //@ts-ignore - return null to throw error and log the user out.
+            return null;
           }
 
           if (findUser) {
