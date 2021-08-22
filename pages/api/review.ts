@@ -74,7 +74,7 @@ const handler = async (
         user: session.user,
         type: 'review',
         action: existingReview ? 'modified' : 'added',
-      }).catch(console.error);
+      });
       return res
         .status(200)
         .json({ movie, type: existingReview ? `modification` : `addition` });

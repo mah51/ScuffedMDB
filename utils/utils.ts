@@ -52,7 +52,7 @@ interface WebhookData {
   review?: ReviewType<string>;
 }
 
-export const postDataToWebhook = async (data: WebhookData): Promise<void> => {
+export const postDataToWebhook = (data: WebhookData): void => {
   if (!process.env.WEBHOOK_URL) return;
   if (!process.env.WEBHOOK_TOKEN) {
     return console.error('Must provide a webhook token to send webhooks');

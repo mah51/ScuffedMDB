@@ -66,7 +66,7 @@ const MovieAPI = async (
         movie: newMovie,
         type: 'movie',
         action: 'added',
-      }).catch();
+      });
 
       return res.status(200).send({ data: newMovie, type: `addition` });
     } catch (err) {
@@ -105,7 +105,7 @@ const MovieAPI = async (
         movie: movie,
         type: 'movie',
         action: 'deleted',
-      }).catch();
+      });
       return res.status(200).json(movie);
     }
 
