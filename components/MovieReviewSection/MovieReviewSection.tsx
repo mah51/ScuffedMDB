@@ -82,7 +82,9 @@ export const ReviewActions = ({
         status: 'success',
         variant: 'subtle',
       });
-      await queryClient.invalidateQueries(toInvalidate || `movie`);
+      await queryClient.invalidateQueries(
+        toInvalidate || `movie-${movie?.name}`
+      );
     }
   };
   if (review?.user?._id === userId) {
