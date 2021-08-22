@@ -5,6 +5,7 @@ import {
   Link as ChakraLink,
   Text,
   useColorMode,
+  useToast,
   VStack,
 } from '@chakra-ui/react';
 import { transparentize } from '@chakra-ui/theme-tools';
@@ -24,6 +25,7 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
   const { colorMode } = useColorMode();
 
   const [session] = useSession();
+  const toast = useToast();
 
   const { onOpen, setMovie } = useContext(ReviewModalContext);
   const hasReviewed = movie?.reviews?.some(
@@ -118,8 +120,19 @@ export default function ActiveHero({ movie }: Props): ReactElement | null {
         <ChakraLink
           as={'p'}
           onClick={() => {
-            setMovie(movie);
-            onOpen();
+            if (session?.user?.isAdmin || session?.user?.isReviewer) {
+              setMovie(movie);
+              onOpen();
+            } else {
+              return toast({
+                variant: `subtle`,
+                title: `You can't add or remove reviews.`,
+                description: `Contact the owner of the site to obtain the correct permissions.`,
+                status: `error`,
+                duration: 5000,
+                isClosable: true,
+              });
+            }
           }}
           color={`${process.env.COLOR_THEME}.${
             colorMode === 'light' ? 500 : 300
