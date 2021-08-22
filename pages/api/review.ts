@@ -34,7 +34,7 @@ const handler = async (
         _id: movieID,
       });
       if (!movie) {
-        return res.status(404);
+        return res.status(404).json({ error: 'movie not found' });
       }
       const existingReview = movie.reviews.filter(
         // eslint-disable-next-line no-underscore-dangle
