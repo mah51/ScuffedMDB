@@ -59,7 +59,7 @@ const handler = async (
     user.isBanned = !user.isBanned;
 
     const updatedUser = await user.save();
-    await postDataToWebhook({
+    postDataToWebhook({
       //@ts-ignore
       user: updatedUser,
       //@ts-ignore

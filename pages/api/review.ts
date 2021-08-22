@@ -62,7 +62,7 @@ const handler = async (
             rvw.user.toString()
           )
         ) || review;
-      await postDataToWebhook({
+      postDataToWebhook({
         //@ts-ignore
         review: {
           ...updatedReview,
@@ -74,7 +74,7 @@ const handler = async (
         user: session.user,
         type: 'review',
         action: existingReview ? 'modified' : 'added',
-      });
+      }).catch(console.error);
       return res
         .status(200)
         .json({ movie, type: existingReview ? `modification` : `addition` });
@@ -128,7 +128,7 @@ const handler = async (
 
     await movie.save();
 
-    await postDataToWebhook({
+    postDataToWebhook({
       //@ts-ignore
       review: review,
       movie: movie,

@@ -24,7 +24,7 @@ const MovieAPI = async (
         `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.MOVIE_API_KEY}&language=en-US`
       );
 
-      const  movieData  = await movieResponse.json()
+      const movieData = await movieResponse.json();
 
       if (movieResponse.status !== 200 || movieData.status_code) {
         return res.status(movieResponse.status);
@@ -62,11 +62,11 @@ const MovieAPI = async (
       });
       await newMovie.save();
 
-      await postDataToWebhook({
+      postDataToWebhook({
         movie: newMovie,
         type: 'movie',
         action: 'added',
-      });
+      }).catch();
 
       return res.status(200).send({ data: newMovie, type: `addition` });
     } catch (err) {
@@ -101,11 +101,11 @@ const MovieAPI = async (
     }
     const deletedMovie = await Movie.deleteOne({ _id: id });
     if (deletedMovie.ok === 1) {
-      await postDataToWebhook({
+      postDataToWebhook({
         movie: movie,
         type: 'movie',
         action: 'deleted',
-      });
+      }).catch();
       return res.status(200).json(movie);
     }
 
