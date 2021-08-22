@@ -8,6 +8,8 @@ import {
   HStack,
   Tag,
   Skeleton,
+  Avatar,
+  AvatarGroup,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
@@ -59,6 +61,7 @@ export const Card: React.FC<CardProps> = ({
             display="flex"
             justifyContent="center"
             alignItems="center"
+            flexDir="column"
             position="absolute"
             transition="all 0.25s"
             bg={useColorModeValue(`white`, `gray.800`)}
@@ -75,6 +78,13 @@ export const Card: React.FC<CardProps> = ({
             >
               {featuredMovie === movie._id ? 'Review in progress' : 'View more'}
             </Text>
+            {featuredMovie === movie._id && (
+              <AvatarGroup mt={3} max={3}>
+                {movie?.reviews?.map((review) => (
+                  <Avatar key={review._id} src={review.user?.image} />
+                ))}
+              </AvatarGroup>
+            )}
           </Box>
           <Box mt={-6} mx={-6} mb={6} pos="relative">
             {image && (
