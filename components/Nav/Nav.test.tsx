@@ -1,10 +1,11 @@
 import { Session } from 'next-auth';
 import React from 'react';
-import { QueryClientProvider, useQueryClient } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import Nav from '.';
 import { render } from '@testing-library/react';
-//
+
 describe('<Nav />', () => {
+  const queryClient = new QueryClient();
   it('matches screenshot', () => {
     const mockSession: Session = {
       expires: '1',
@@ -32,8 +33,6 @@ describe('<Nav />', () => {
         mfa_enabled: true,
       },
     };
-
-    const queryClient = useQueryClient();
 
     const component = render(
       <QueryClientProvider client={queryClient}>

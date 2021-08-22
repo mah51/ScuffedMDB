@@ -195,6 +195,13 @@ const Review = ({ review, user, movie }: ReviewProps) => {
       <Text
         fontSize="lg"
         listStylePosition="inside"
+        className="test"
+        sx={{
+          //Select all children bar the first element and add margin to emulate paragraph  separation
+          'p:first-child ~ p': {
+            marginTop: '3',
+          },
+        }}
         color={
           review?.comment
             ? colorMode === 'light'
