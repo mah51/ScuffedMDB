@@ -61,7 +61,6 @@ interface Props {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   user: UserAuthType;
 }
-
 //TODO: Add SEO here
 export default function MovieDetailsSection({
   movie,
