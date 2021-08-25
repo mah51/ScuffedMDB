@@ -8,6 +8,7 @@ import {
   Spinner,
   AspectRatio,
   Skeleton,
+  Heading,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
@@ -19,6 +20,7 @@ function SkeletonImage({ result }: { result: OMDBMovie }) {
   return (
     <Skeleton isLoaded={imageLoaded} width="full" height="full">
       <Image
+        sizes="150px"
         onLoad={() => setImageLoaded(true)}
         alt={`${result?.original_title} poster`}
         layout="fill"
@@ -88,18 +90,25 @@ export const SearchResults: React.FC<{
             onClick={async () => await addMovie(result?.id?.toString())}
           />
           {result.backdrop_path && (
-            <AspectRatio ratio={16 / 9} width="150px">
+            <AspectRatio
+              ratio={16 / 9}
+              maxWidth="150px"
+              width="full"
+              minWidth="150px"
+            >
               <SkeletonImage result={result} key={index.toString()} />
             </AspectRatio>
           )}
 
-          <Center margin="auto">
+          <VStack margin="auto" maxWidth="53%">
+            <Heading isTruncated maxWidth="full" size="md">
+              {result.title}
+            </Heading>
             <Text mx={8} textAlign="center">
-              {result.title} -{' '}
               {result?.release_date &&
                 new Date(result?.release_date).getFullYear()}
             </Text>
-          </Center>
+          </VStack>
         </Flex>
       ))}
     </VStack>
