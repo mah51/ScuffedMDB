@@ -120,6 +120,8 @@ export const Card: React.FC<CardProps> = ({
                   {name}
                 </Text>
                 <Tag
+                  whiteSpace="nowrap"
+                  ml="5px!important"
                   colorScheme={getColorSchemeCharCode(genres[0])}
                   fontWeight="600"
                   minW="auto"

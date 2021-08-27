@@ -10,7 +10,11 @@ export const Rating = ({
   numReviews: number;
 }): React.ReactElement => {
   if (numReviews === 0) {
-    return <Text>No reviews</Text>;
+    return (
+      <Text whiteSpace="nowrap" ml="10px!important">
+        No reviews
+      </Text>
+    );
   }
   const stars = [];
   const roundedRating = Math.round(rating) / 2;
