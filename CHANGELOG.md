@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [](https://github.com/mah51/scuffedmdb/compare/v0.4.1...v) (2021-08-27)
+## [1.0.0](https://github.com/mah51/scuffedmdb/compare/v0.4.1...v1.0.0) (2021-08-27)
 
 
 ### Features
@@ -24,6 +24,11 @@ All notable changes to this project will be documented in this file. See [standa
 * **webhook:** :bug: ([7fa4e22](https://github.com/mah51/scuffedmdb/commit/7fa4e22ec91ef8831f395bea2e4597b34d56721c))
 
 
+### Reverts
+
+* Revert "style(Improve movie modal styling slightly): :art: & image loading" ([808fb96](https://github.com/mah51/scuffedmdb/commit/808fb9691649bb99d403202d18d07ae157e4b386))
+
+
 ### Docs
 
 * **Mongo access description:** :pencil: ([6978f81](https://github.com/mah51/scuffedmdb/commit/6978f8192102c1d0ce57fefbb1bf2ad17cdad3ef))
@@ -35,12 +40,18 @@ All notable changes to this project will be documented in this file. See [standa
 * **Webhook:** :chart-with-upwards-trend: dont wait for webhook ([dcfeb99](https://github.com/mah51/scuffedmdb/commit/dcfeb995de1355c95a4f7ad305a2aeaa589ae1dc))
 
 
+### Others
+
+* **release:** null ([a5bbdb8](https://github.com/mah51/scuffedmdb/commit/a5bbdb81cdfcea414bc17ac52c136ea6d2ad1583))
+
+
 ### Styling
 
-* **Improve movie modal styling slightly:** :art: & image loading ([6c8548a](https://github.com/mah51/scuffedmdb/commit/6c8548a6fbc2ac85740f310580b6b96a4a6f7848))
+* **improve movie modal styling slightly and image loading:** :art: ([6b41041](https://github.com/mah51/scuffedmdb/commit/6b4104148dcf39d667182880b2f87cd2f30704c0))
 * **MobileCards:** :art: ([009daba](https://github.com/mah51/scuffedmdb/commit/009dabac503244ec3d5deb8fe195b1a7bcd39c38))
 * **Nav spacing:** :art: making nav spacing consistent ([4673167](https://github.com/mah51/scuffedmdb/commit/46731672dad9e1bc3ab8d301bf08369085372a1c))
 * **Review Markdwon:** :art: bigger gap ([e2376bd](https://github.com/mah51/scuffedmdb/commit/e2376bd5c33e2067e0a2b9a9484e61000bf39705))
+* **UserTable:** :art: fix unresponsive scroll on mobile ([7604097](https://github.com/mah51/scuffedmdb/commit/76040975fd0b7a1ce9a93dba0e2d5e650b685138))
 
 ### [0.4.1](https://github.com/mah51/scuffedmdb/compare/v0.4.0...v0.4.1) (2021-08-21)
 
