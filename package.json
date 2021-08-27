@@ -1,6 +1,6 @@
 {
   "name": "scuffedmdb",
-  "version": "0.4.1",
+  "version": null,
   "private": true,
   "scripts": {
     "dev": "next dev",

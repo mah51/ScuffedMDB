@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [](https://github.com/mah51/scuffedmdb/compare/v0.4.1...v) (2021-08-27)
+
+
+### Features
+
+* **Customisation:** :sparkles: add a secondary color choice ([07dcba5](https://github.com/mah51/scuffedmdb/commit/07dcba5069cb0584afe4ca1fa1d7988f578e55f6))
+* **Cypress testing:** :sparkles: ([955ba0f](https://github.com/mah51/scuffedmdb/commit/955ba0fc9c5f5362c39d76ba30cff4d8efdb66ae))
+* **FeaturedCard:** :sparkles: Add avatars to the feature card ([41458b7](https://github.com/mah51/scuffedmdb/commit/41458b72726bb8fd9113137fe6299e3493d64597))
+
+
+### Bug Fixes
+
+* **add review:** :bug: prevent strangers from adding reviews ([5ef49bf](https://github.com/mah51/scuffedmdb/commit/5ef49bfcc30b22395a0b239d3cfafc14e5e3cf2c))
+* **Delete review:** :bug: not invalidating data ([efb95cb](https://github.com/mah51/scuffedmdb/commit/efb95cb5772c1a2d3c9d9eefe529086b408ed531))
+* **Edit review:** :bug: Fix not refetching data on add review ([0f4d2a5](https://github.com/mah51/scuffedmdb/commit/0f4d2a5761715b863a27d141d3a8d1f46486174d))
+* **height of toggle:** :bug: ([fdb9e3e](https://github.com/mah51/scuffedmdb/commit/fdb9e3e1b91a4bd71f7f0ef5c5e135a05d0e139f))
+* **Review Markdwon:** :bug: Fixes paragraph breaks ([e98a40c](https://github.com/mah51/scuffedmdb/commit/e98a40c229d8d3cfb36d38937888a1d3ab180212))
+* **User login:** :bug: dont let user load page if their user doesnt exist ([48483cb](https://github.com/mah51/scuffedmdb/commit/48483cb11be1d43d5f9fa415c7e517f2dab0d325))
+* **Webhook post :** :bug: now async, to prevent erroring if it is not activ ([7a6d758](https://github.com/mah51/scuffedmdb/commit/7a6d7586f192005de4f14ffdadeb5e913032ba00))
+* **webhook:** :bug: ([7fa4e22](https://github.com/mah51/scuffedmdb/commit/7fa4e22ec91ef8831f395bea2e4597b34d56721c))
+
+
+### Docs
+
+* **Mongo access description:** :pencil: ([6978f81](https://github.com/mah51/scuffedmdb/commit/6978f8192102c1d0ce57fefbb1bf2ad17cdad3ef))
+
+
+### Feature Improvements
+
+* :chart-with-upwards-trend: ([1483a9f](https://github.com/mah51/scuffedmdb/commit/1483a9f36d37b7b0b0df4ad8aea93fd8caaa11e3))
+* **Webhook:** :chart-with-upwards-trend: dont wait for webhook ([dcfeb99](https://github.com/mah51/scuffedmdb/commit/dcfeb995de1355c95a4f7ad305a2aeaa589ae1dc))
+
+
+### Styling
+
+* **Improve movie modal styling slightly:** :art: & image loading ([6c8548a](https://github.com/mah51/scuffedmdb/commit/6c8548a6fbc2ac85740f310580b6b96a4a6f7848))
+* **MobileCards:** :art: ([009daba](https://github.com/mah51/scuffedmdb/commit/009dabac503244ec3d5deb8fe195b1a7bcd39c38))
+* **Nav spacing:** :art: making nav spacing consistent ([4673167](https://github.com/mah51/scuffedmdb/commit/46731672dad9e1bc3ab8d301bf08369085372a1c))
+* **Review Markdwon:** :art: bigger gap ([e2376bd](https://github.com/mah51/scuffedmdb/commit/e2376bd5c33e2067e0a2b9a9484e61000bf39705))
+
 ### [0.4.1](https://github.com/mah51/scuffedmdb/compare/v0.4.0...v0.4.1) (2021-08-21)
 
 
