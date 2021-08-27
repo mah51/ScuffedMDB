@@ -17,7 +17,7 @@ export const AppLayout = ({
   user,
   children,
 }: AppLayoutProps): React.ReactElement => (
-  <Flex minHeight="calc(100vh + 86px)" direction="column">
+  <Flex minHeight="calc(100vh + 115px)" direction="column">
     <Nav
       user={user}
       showMovies={showMovies || false}
