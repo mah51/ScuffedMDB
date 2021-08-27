@@ -457,10 +457,10 @@ export const UserTable: React.FC<{
 
   return (
     <chakra.div
-      ml={'10px!important'}
+      mx={'auto'}
       overflowX={['base', 'sm', 'md'].includes(bp || '') ? 'scroll' : 'hidden'}
       shadow="lg"
-      maxW="full"
+      maxW="95vw"
       borderRadius="xl"
       border="1px solid"
       borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
