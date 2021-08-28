@@ -119,7 +119,12 @@ export default function MovieDetailsSection({
         direction="column"
         width="full"
         justifyContent="center"
-        mt={{ base: 'max(-80px,-1vh)', xl: '0', '2xl': '6em', '4xl': '12em' }}
+        mt={{
+          base: 'max(-80px,-1vh)',
+          xl: '5vh',
+          '2xl': '10vh',
+          '4xl': '12em',
+        }}
       >
         {/* Scroll down section */}
         {bp && !['base', 'sm', 'md', 'lg'].includes(bp) && (
