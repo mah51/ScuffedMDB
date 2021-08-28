@@ -42,6 +42,7 @@ export default NextAuth({
           isAdmin: false,
           isReviewer: false,
           isBanned: false,
+          banReason: '',
           username: profile.username,
         };
       },
@@ -173,6 +174,7 @@ export default NextAuth({
             if (changesMade) {
               await findUser.save();
             }
+            token.banReason = findUser.banReason;
             token.isBanned = findUser.isBanned;
             token.isReviewer = findUser.isReviewer;
             token.isAdmin = findUser.isAdmin;
