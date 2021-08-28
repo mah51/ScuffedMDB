@@ -72,6 +72,7 @@ export const Card: React.FC<CardProps> = ({
             }}
           >
             <Text
+              textAlign="center"
               fontSize="4xl"
               fontWeight="semibold"
               color={useColorModeValue(`gray.800`, `white`)}

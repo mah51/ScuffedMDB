@@ -33,12 +33,14 @@ const handler = async (
       const movie: MovieType<ReviewType<string>[]> = await Movie.findOne({
         _id: movieID,
       });
+
       if (!movie) {
         return res.status(404).json({ error: 'movie not found' });
       }
       const existingReview = movie.reviews.filter(
         // eslint-disable-next-line no-underscore-dangle
-        (rv) => rv.user.toString() === session.user._id
+        (rv) =>
+          [session?.user?._id, session?.user?.sub].includes(rv.user.toString())
       )[0];
       if (existingReview) {
         const index = movie.reviews.indexOf(existingReview);
