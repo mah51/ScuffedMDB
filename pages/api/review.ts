@@ -43,7 +43,11 @@ const handler = async (
           [session?.user?._id, session?.user?.sub].includes(rv.user.toString())
       )[0];
       if (existingReview) {
-        if (existingReview.user !== session?.user?._id) {
+        if (
+          [session?.user?._id, session?.user?.sub].includes(
+            existingReview.user.toString()
+          )
+        ) {
           return res.status(400).json({
             message: `You may not edit a review that is not your own`,
           });
