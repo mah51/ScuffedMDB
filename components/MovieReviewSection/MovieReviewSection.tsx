@@ -85,22 +85,23 @@ export const ReviewActions = ({
       );
     }
   };
-  if (review?.user?._id === userId) {
+  if (review?.user?._id === userId || session?.user?.isAdmin) {
     return (
       <Stack isInline ml={{ base: 0, md: 3 }}>
-        <Tooltip placement="top" label="Edit your review">
-          <IconButton
-            icon={<EditIcon />}
-            aria-label="Edit review"
-            colorScheme={process.env.COLOR_THEME}
-            variant="ghost"
-            onClick={() => {
-              setMovie(movie);
-              onOpen();
-            }}
-          />
-        </Tooltip>
-
+        {review?.user?._id === userId && (
+          <Tooltip placement="top" label="Edit your review">
+            <IconButton
+              icon={<EditIcon />}
+              aria-label="Edit review"
+              colorScheme={process.env.COLOR_THEME}
+              variant="ghost"
+              onClick={() => {
+                setMovie(movie);
+                onOpen();
+              }}
+            />
+          </Tooltip>
+        )}
         <Popover>
           <Tooltip
             placement="top"
