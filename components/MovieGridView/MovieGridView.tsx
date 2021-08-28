@@ -174,16 +174,20 @@ const COLUMNS = (
             hasArrow
             placement="top"
           >
-            <IconButton
+            <Link
               href={`${process.env.NEXT_PUBLIC_APP_URI}/movie/${movieID}`}
-              aria-label="View more info"
-              size="2xl"
-              p={2}
-              as={'a'}
-              icon={<CgDetailsMore size="3em" />}
-              colorScheme={process.env.COLOR_THEME}
-              variant="ghost"
-            />
+              passHref
+            >
+              <IconButton
+                aria-label="View more info"
+                size="2xl"
+                p={2}
+                as={'a'}
+                icon={<CgDetailsMore size="3em" />}
+                colorScheme={process.env.COLOR_THEME}
+                variant="ghost"
+              />
+            </Link>
           </Tooltip>
           <Tooltip
             label="View on IMDB"
