@@ -10,11 +10,24 @@ import React, { useState, useEffect } from 'react';
 import theme from '../styles/theme';
 import { ReviewType, SerializedMovieType } from '../models/movie';
 import { PopulatedUserType } from '../models/user';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
+import nProgress from 'nprogress';
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
+  useEffect(() => {
+    nProgress.configure({ showSpinner: false });
+    Router.events.on('routeChangeStart', () => nProgress.start());
+    Router.events.on('routeChangeComplete', () => nProgress.done());
+    Router.events.on('routeChangeError', () => nProgress.done());
+
+    return () => {
+      Router.events.off('routeChangeStart', () => nProgress.start());
+      Router.events.off('routeChangeComplete', () => nProgress.done());
+      Router.events.off('routeChangeError', () => nProgress.done());
+    };
+  }, []);
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [movie, setMovie] = useState<SerializedMovieType<
     ReviewType<PopulatedUserType>[]
