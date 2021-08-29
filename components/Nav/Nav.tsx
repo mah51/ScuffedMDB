@@ -87,7 +87,6 @@ export const Nav: React.FC<NavProps> = ({
             ? `${process.env.COLOR_THEME}.500`
             : `${process.env.COLOR_THEME}.300`
         }
-        s
       >
         <Flex
           h={20}

@@ -135,7 +135,6 @@ export const ReviewModal: React.FC<{
     });
 
     const successData = await res.json();
-
     if (res.status === 200) {
       setSuccess(successData.type);
       setComment(``);
@@ -143,7 +142,7 @@ export const ReviewModal: React.FC<{
       return onClose();
     }
     if (res.status === 401) return setCommentError('You are not authorized');
-    return setCommentError(`There was an error...`);
+    return setCommentError(successData?.message || `There was an error...`);
   };
 
   const handleRatingChange = (x: number): void => {
