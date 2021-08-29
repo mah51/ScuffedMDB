@@ -11,7 +11,6 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useColorModeValue,
   useColorMode,
   Stack,
   Heading,
@@ -27,6 +26,8 @@ import MovieModal from '../MovieModal';
 import { UserAuthType } from 'next-auth';
 import ReviewModal from '../ReviewModal';
 import { signout } from 'next-auth/client';
+import { useEffect, useState } from 'react';
+import Router from 'next/router';
 
 interface NavProps {
   user: UserAuthType;
@@ -48,15 +49,45 @@ export const Nav: React.FC<NavProps> = ({
   const bp = useBreakpointValue({ base: 'mobile', md: 'big' });
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME;
   const shortSiteName = process.env.NEXT_PUBLIC_SHORT_SITE_NAME;
+  const [isTransparent, setIsTransparent] = useState(false);
+
+  useEffect(() => {
+    Router.events.on('routeChangeStart', () => {
+      setIsTransparent(true);
+    });
+    Router.events.on('routeChangeComplete', () => {
+      setTimeout(() => setIsTransparent(false), 1000);
+    });
+    Router.events.on('routeChangeError', () => {
+      setTimeout(() => setIsTransparent(false), 1000);
+    });
+
+    return () => {
+      Router.events.off('routeChangeStart', () => {
+        setIsTransparent(true);
+      });
+      Router.events.off('routeChangeComplete', () => {
+        setTimeout(() => setIsTransparent(false), 1000);
+      });
+      Router.events.off('routeChangeError', () => {
+        setTimeout(() => setIsTransparent(false), 1000);
+      });
+    };
+  }, []);
   return (
     <>
       <Box
         width="100vw"
         borderTop={'5px solid'}
-        borderColor={useColorModeValue(
-          `${process.env.COLOR_THEME}.500`,
-          `${process.env.COLOR_THEME}.300`
-        )}
+        transition="all 0.3s ease-in-out"
+        borderColor={
+          isTransparent
+            ? 'transparent'
+            : colorMode === 'light'
+            ? `${process.env.COLOR_THEME}.500`
+            : `${process.env.COLOR_THEME}.300`
+        }
+        s
       >
         <Flex
           h={20}
