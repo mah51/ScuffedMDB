@@ -129,8 +129,11 @@ export default NextAuth({
       }
       return true;
     },
+
     // async redirect(url, baseUrl) { return baseUrl },
     async session(session, token: User): Promise<Session> {
+      console.log('session', session);
+      console.log('token', token);
       //TODO fix session func types in next auth. This type isn't done correctly, but I don't know how to do it :/.
       if (session?.user) {
         try {

@@ -5,24 +5,24 @@ import LandingPage from '../components/LandingPage';
 import { getMovie, getMovies } from '../utils/queries';
 import BannedPage from '../components/BannedPage';
 import { ReviewType, SerializedMovieType } from '../models/movie';
-import { getSession, useSession } from 'next-auth/client';
+import { getSession } from 'next-auth/client';
 import user, { PopulatedUserType } from '../models/user';
 import { GetServerSidePropsContext } from 'next';
 import { Session } from 'next-auth';
 
 interface HomePageProps {
+  session: Session;
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
   singleMovieData: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   desiredUser?: { username: string; _id: string; image: string };
 }
 
 export default function Home({
+  session,
   movies,
   singleMovieData,
   desiredUser,
 }: HomePageProps): React.ReactNode {
-  const [session] = useSession();
-
   if (!session?.user) {
     return (
       <LandingPage

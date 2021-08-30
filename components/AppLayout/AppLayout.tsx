@@ -37,7 +37,7 @@ export const AppLayout = ({
           z-index: 9999;
           top: 0;
           left: 0;
-          width: 100%;
+          width: calc(100% - 20px);
           height: 5px;
         }
 
