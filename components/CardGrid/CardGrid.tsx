@@ -92,7 +92,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
       })
       .filter((mv) => {
         if (isGenreFilterActive) {
-          return mv.genres.some((g) => genres.includes(g));
+          return mv.genres.every((g) => genres.includes(g));
         }
         return true;
       })
