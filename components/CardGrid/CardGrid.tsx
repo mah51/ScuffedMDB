@@ -92,7 +92,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
       })
       .filter((mv) => {
         if (isGenreFilterActive) {
-          return mv.genres.every((g) => genres.includes(g));
+          return genres.every((g) => mv.genres.includes(g));
         }
         return true;
       })
@@ -230,42 +230,40 @@ export const CardGrid: React.FC<CardGridProps> = ({
                     </PopoverHeader>
                     <PopoverBody>
                       <Flex wrap="wrap">
-                        {getMovieGenres(unSortedMovies).map(
-                          (genre: string, i) => {
-                            const genreColor = getColorSchemeCharCode(genre);
-                            const dark = transparentize(
-                              `${genreColor}.200`,
-                              0.16
-                            )(theme);
-                            const light = transparentize(
-                              `${genreColor}.500`,
-                              0.2
-                            )(theme);
-                            return (
-                              <Tag
-                                mx="5px"
-                                my="3px"
-                                key={i.toString() + 'genreTag'}
-                                fontWeight="semibold"
+                        {getMovieGenres(movies.data).map((genre: string, i) => {
+                          const genreColor = getColorSchemeCharCode(genre);
+                          const dark = transparentize(
+                            `${genreColor}.200`,
+                            0.16
+                          )(theme);
+                          const light = transparentize(
+                            `${genreColor}.500`,
+                            0.2
+                          )(theme);
+                          return (
+                            <Tag
+                              mx="5px"
+                              my="3px"
+                              key={i.toString() + 'genreTag'}
+                              fontWeight="semibold"
+                              colorScheme={genreColor}
+                              bg={colorMode === 'light' ? light : dark}
+                              cursor="pointer"
+                              userSelect="none"
+                              onClick={() => handleGenreClick(genre)}
+                            >
+                              <Checkbox
+                                isChecked={genres.includes(genre)}
                                 colorScheme={genreColor}
-                                bg={colorMode === 'light' ? light : dark}
-                                cursor="pointer"
-                                userSelect="none"
-                                onClick={() => handleGenreClick(genre)}
-                              >
-                                <Checkbox
-                                  isChecked={genres.includes(genre)}
-                                  colorScheme={genreColor}
-                                  borderColor={`${genreColor}.300`}
-                                  mr="4px"
-                                  zIndex="-1"
-                                  size="sm"
-                                />
-                                {genre}
-                              </Tag>
-                            );
-                          }
-                        )}
+                                borderColor={`${genreColor}.300`}
+                                mr="4px"
+                                zIndex="-1"
+                                size="sm"
+                              />
+                              {genre}
+                            </Tag>
+                          );
+                        })}
                       </Flex>
                     </PopoverBody>
                     <PopoverFooter display="flex" justifyContent="flex-end">
