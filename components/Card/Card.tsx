@@ -36,6 +36,7 @@ export const Card: React.FC<CardProps> = ({
           position="relative"
           direction="column"
           maxW="400px"
+          mx="auto"
           w="full"
           bg={useColorModeValue(`white`, `gray.900`)}
           boxShadow="xl"

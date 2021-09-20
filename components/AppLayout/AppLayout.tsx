@@ -63,7 +63,6 @@ export const AppLayout = ({
         }
       `}
     />
-
     <Nav
       user={user}
       showMovies={showMovies || false}

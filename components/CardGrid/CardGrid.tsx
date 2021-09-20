@@ -213,7 +213,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
                 onChange={(e) => setFilter(e.target.value.toLowerCase())}
               />
             </InputGroup>
-            <Stack isInline alignItems="center">
+            <Stack isInline justifyContent="center" alignItems="center">
               <Popover>
                 <PopoverTrigger>
                   <Button rightIcon={<ChevronDownIcon />} isTruncated>
