@@ -45,8 +45,9 @@ export const UserReviewSection: React.FC<{
             >
               <Image
                 src={movie?.image || ''}
-                alt={review?.user?.username + "'s profile"}
+                alt={movie.name + ' movie poster'}
                 layout="fill"
+                sizes="200px"
                 className={'borderRadius-xl'}
               />
             </AspectRatio>
