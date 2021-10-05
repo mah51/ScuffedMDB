@@ -41,12 +41,14 @@ interface Props {
 
 interface ReviewActionsProps extends Omit<ReviewProps, 'user'> {
   toInvalidate?: string;
+  centred?: boolean;
 }
 
 export const ReviewActions = ({
   review,
   toInvalidate,
   movie,
+  centred,
 }: ReviewActionsProps): JSX.Element | null => {
   const [session] = useSession();
   const userId = session?.user?._id || session?.user?.sub; // accomodate incase theya re UserAuthtype or MongoUserType
@@ -87,7 +89,11 @@ export const ReviewActions = ({
   };
   if (review?.user?._id === userId || session?.user?.isAdmin) {
     return (
-      <Stack isInline ml={{ base: 0, md: 3 }}>
+      <Stack
+        isInline
+        ml={{ base: 0, md: 3 }}
+        justifyContent={centred ? 'center' : 'flex-start'}
+      >
         {review?.user?._id === userId && (
           <Tooltip placement="top" label="Edit your review">
             <IconButton

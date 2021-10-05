@@ -53,12 +53,11 @@ export const UserReviewSection: React.FC<{
             </AspectRatio>
             <Flex direction="column" maxWidth="full">
               <Flex direction={{ base: 'column', md: 'row' }}>
-                <Stack isInline>
+                <Stack isInline justifyContent="center">
                   <Link href={`/movie/${movie?._id}`} passHref>
                     <Heading
                       as={ChakraLink}
                       isTruncated
-                      maxWidth={{ base: 'full', md: 'calc(100vw - 430px)' }}
                       size={['base', 'sm'].includes(bp || '') ? 'lg' : 'xl'}
                     >
                       {movie?.name}
@@ -76,6 +75,7 @@ export const UserReviewSection: React.FC<{
 
                 {review && (
                   <ReviewActions
+                    centred
                     toInvalidate={'movies'}
                     movie={movie}
                     review={review}
