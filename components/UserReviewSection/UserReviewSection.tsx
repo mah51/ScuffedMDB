@@ -32,7 +32,8 @@ export const UserReviewSection: React.FC<{
         return (
           <Flex
             mt={10}
-            mx={{ base: 5, md: 0 }}
+            width="92%"
+            mx="auto"
             maxWidth="6xl"
             key={i.toString()}
             direction={{ base: 'column', md: 'row' }}
