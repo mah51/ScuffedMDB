@@ -72,7 +72,19 @@ export const UserReviewSection: React.FC<{
                     </chakra.span>
                   </Heading>
                 </Stack>
-
+                {bp === 'base' && (
+                  <Text
+                    fontSize={{ base: 'lg', md: '2xl' }}
+                    listStylePosition="inside"
+                  >
+                    <ReactMarkdown
+                      skipHtml
+                      disallowedElements={['img', 'a', 'code', 'pre']}
+                    >
+                      {review?.comment || ''}
+                    </ReactMarkdown>
+                  </Text>
+                )}
                 {review && (
                   <ReviewActions
                     centred
@@ -83,17 +95,19 @@ export const UserReviewSection: React.FC<{
                 )}
               </Flex>
 
-              <Text
-                fontSize={{ base: 'lg', md: '2xl' }}
-                listStylePosition="inside"
-              >
-                <ReactMarkdown
-                  skipHtml
-                  disallowedElements={['img', 'a', 'code', 'pre']}
+              {bp !== 'base' && (
+                <Text
+                  fontSize={{ base: 'lg', md: '2xl' }}
+                  listStylePosition="inside"
                 >
-                  {review?.comment || ''}
-                </ReactMarkdown>
-              </Text>
+                  <ReactMarkdown
+                    skipHtml
+                    disallowedElements={['img', 'a', 'code', 'pre']}
+                  >
+                    {review?.comment || ''}
+                  </ReactMarkdown>
+                </Text>
+              )}
             </Flex>
           </Flex>
         );
