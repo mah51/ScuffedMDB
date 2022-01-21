@@ -15,6 +15,7 @@ import {
   InputGroup,
   InputLeftElement,
   useToast,
+  Text,
   useColorModeValue,
   Flex,
 } from '@chakra-ui/react';
@@ -24,6 +25,7 @@ import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import { useQueryClient } from 'react-query';
 import SearchResults from '../SearchResults';
 import { OMDBMovie, OMDBResponse } from '../../pages/api/movie-api';
+import { addMovie } from '@components/SearchResults/SearchResults';
 
 export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
   inMobileNav = false,
@@ -34,6 +36,8 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
   const [success, setSuccess] = useState<{ type: string; data: any } | null>(
     null
   );
+
+  const [searchByID, setSearchByID] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -76,9 +80,40 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (error) setError(``);
-    setLoading(true);
     const target = e.target as typeof e.target & FormFields;
+
+    if (error) setError(``);
+    if (searchByID) {
+      const resID = await addMovie(target['0'].value);
+      if (resID.success) {
+        onClose();
+        toast({
+          variant: `subtle`,
+          title: `Movie Added`,
+          description: `${
+            (resID?.data as any)?.data?.name
+          } was successfully added`,
+          status: `success`,
+          duration: 5000,
+          isClosable: true,
+        });
+        await queryClient.invalidateQueries(`movies`).catch(console.error);
+        return;
+      } else {
+        toast({
+          variant: `subtle`,
+          title: `Movie could not be added`,
+          description: `${resID.message}`,
+          status: `error`,
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
+      }
+    }
+
+    setLoading(true);
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_APP_URI}/api/movie-api?search=${target['0'].value}`
@@ -135,7 +170,27 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit}>
               <FormControl>
-                <FormLabel>Find movie</FormLabel>
+                <FormLabel display={'flex'}>
+                  <Text
+                    _hover={{
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => setSearchByID(false)}
+                    color={searchByID ? 'gray.500' : 'white'}
+                  >
+                    Search for movie /
+                  </Text>{' '}
+                  <Text
+                    _hover={{
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => setSearchByID(true)}
+                    ml="2"
+                    color={searchByID ? 'white' : 'gray.500'}
+                  >
+                    Or add by ID
+                  </Text>
+                </FormLabel>
                 <Flex>
                   <InputGroup>
                     <InputLeftElement pointerEvents="none">

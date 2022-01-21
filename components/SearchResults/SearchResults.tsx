@@ -30,6 +30,24 @@ function SkeletonImage({ result }: { result: OMDBMovie }) {
   );
 }
 
+export const addMovie = async (
+  movieID: string | undefined
+): Promise<{ success: boolean; message?: string; data?: unknown }> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URI}/api/movie/`,
+    {
+      method: `post`,
+      body: JSON.stringify({ id: movieID }),
+    }
+  );
+  const dta = await response.json();
+  if (response.status === 200) {
+    return { success: true, data: dta };
+  } else {
+    return { success: false, message: dta.message };
+  }
+};
+
 export const SearchResults: React.FC<{
   data: any;
   loading: boolean;
@@ -37,22 +55,6 @@ export const SearchResults: React.FC<{
   setSuccess: any;
   setError: any;
 }> = ({ data, loading, error, setSuccess, setError }): React.ReactElement => {
-  const addMovie = async (movieID: string | undefined) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URI}/api/movie/`,
-      {
-        method: `post`,
-        body: JSON.stringify({ id: movieID }),
-      }
-    );
-    const dta = await response.json();
-    if (response.status === 200) {
-      setSuccess(dta);
-    } else {
-      setError(dta.message);
-    }
-  };
-
   // eslint-disable-next-line no-nested-ternary
   return loading ? (
     <Center>
@@ -87,7 +89,14 @@ export const SearchResults: React.FC<{
             colorScheme={process.env.COLOR_THEME}
             aria-label="Search database"
             icon={<AddIcon />}
-            onClick={async () => await addMovie(result?.id?.toString())}
+            onClick={async () => {
+              const res = await addMovie(result?.id?.toString());
+              if (res.success) {
+                setSuccess(res.data);
+              } else {
+                setError(res.message);
+              }
+            }}
           />
           {result.backdrop_path && (
             <AspectRatio

@@ -39,10 +39,11 @@ const handler = async (
       .json({ message: `You are not authorized to do that :(` });
   }
   try {
-    const { search } = req.query;
-
+    const { search, tv } = req.query;
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=en-US&query=${search}&page=1&include_adult=false`
+      `https://api.themoviedb.org/3/search/${tv ? 'tv' : 'movie'}?api_key=${
+        process.env.MOVIE_API_KEY
+      }&language=en-US&query=${search}&page=1&include_adult=false`
     );
     const data: OMDBResponse = await response.json();
     return res.status(200).send(data);
