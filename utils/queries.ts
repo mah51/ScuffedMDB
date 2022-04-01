@@ -11,7 +11,7 @@ export const getMovies = async (): Promise<
   const unsortedMovies: {
     data: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
   } = await res.json();
-
+  if (!unsortedMovies) return unsortedMovies;
   const movies: SerializedMovieType<
     ReviewType<PopulatedUserType>[]
   >[] = unsortedMovies.data

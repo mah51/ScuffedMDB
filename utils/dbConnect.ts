@@ -3,7 +3,7 @@ import movie from '../models/movie';
 import user from '../models/user';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-async function dbConnect() {
+async function dbConnect(connectionURL = process.env.MONGODB_URI) {
   // check if we have a connection to the database or if it's currently
   // connecting or disconnecting (readyState 1, 2 and 3)
 
@@ -18,13 +18,13 @@ async function dbConnect() {
       return;
     }
 
-    if (!process.env.MONGODB_URI) {
+    if (!connectionURL) {
       throw new Error(
         'MONGODB_URI not set in .env.local, cannot connect to the db'
       );
     }
 
-    return mongoose.connect(process.env.MONGODB_URI, {
+    return mongoose.connect(connectionURL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,

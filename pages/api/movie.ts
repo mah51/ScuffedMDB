@@ -75,6 +75,12 @@ const MovieAPI = async (
     }
   } else if (req.method === `GET`) {
     try {
+      const session = await getSession({ req });
+      if (!session?.user) {
+        return res
+          .status(401)
+          .json({ message: 'Please log in to view this content' });
+      }
       const movies = await Movie.find({}).populate(
         `reviews.user`,
         `username discord_id image discriminator`

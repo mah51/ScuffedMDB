@@ -97,6 +97,23 @@ export const LandingPage: React.FC<{
                 </chakra.span>
               </>
             )}
+            {desiredUser && (
+              <>
+                <br />
+                Sign in to see{' '}
+                <chakra.span
+                  fontWeight="semibold"
+                  color={
+                    colorMode === 'light'
+                      ? `${process.env.COLOR_THEME}.500`
+                      : `${process.env.COLOR_THEME}.300`
+                  }
+                >
+                  {desiredUser.username}&apos;s
+                </chakra.span>{' '}
+                reviews.
+              </>
+            )}
           </chakra.p>
           <Button
             variant="solid"

@@ -36,3 +36,5 @@ yarn-error.log*
 .vercel
 dump
 cypress.env.json
+screenshotsFolder
+videosFolder
