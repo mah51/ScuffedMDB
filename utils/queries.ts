@@ -2,7 +2,7 @@ import { SerializedUser, PopulatedUserType } from './../models/user';
 import { ReviewType, SerializedMovieType } from '../models/movie';
 
 export const getMovies = async (): Promise<
-  SerializedMovieType<ReviewType<PopulatedUserType>[]>[]
+  SerializedMovieType<ReviewType<PopulatedUserType>[]>[] | null
 > => {
   const res: Response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URI}/api/movie`
@@ -11,15 +11,12 @@ export const getMovies = async (): Promise<
   const unsortedMovies: {
     data: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
   } = await res.json();
-  if (!unsortedMovies) return unsortedMovies;
-  const movies: SerializedMovieType<
-    ReviewType<PopulatedUserType>[]
-  >[] = unsortedMovies.data
-    .sort(
-      (a, b) =>
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    )
-    .reverse();
+
+  if (!unsortedMovies?.data) return null;
+
+  const movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] =
+    unsortedMovies.data;
+
   return movies;
 };
 

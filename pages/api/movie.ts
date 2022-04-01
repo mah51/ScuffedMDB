@@ -81,10 +81,7 @@ const MovieAPI = async (
           .status(401)
           .json({ message: 'Please log in to view this content' });
       }
-      const movies = await Movie.find({}).populate(
-        `reviews.user`,
-        `username discord_id image discriminator`
-      );
+      const movies = await fetchAllMovies();
 
       return res.status(200).send({ data: movies });
     } catch (err) {
@@ -122,3 +119,10 @@ const MovieAPI = async (
 };
 
 export default MovieAPI;
+
+export const fetchAllMovies = async (): Promise<MovieType[]> => {
+  const movies = Movie.find({})
+    .populate(`reviews.user`, `username discord_id image discriminator`)
+    .sort({ createdAt: -1 });
+  return movies;
+};

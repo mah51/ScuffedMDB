@@ -45,7 +45,6 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
     );
   }
   desiredUser.sub = desiredUser._id as string;
-
   if (!movies) {
     return <div>Loading movies :(</div>;
   }
@@ -96,7 +95,7 @@ interface SSRProps {
   props: {
     session: Session | null;
     desiredUser: Omit<SerializedUser, 'sub'> | null;
-    movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+    movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] | null;
   };
 }
 

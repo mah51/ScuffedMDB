@@ -12,7 +12,7 @@ import { Session } from 'next-auth';
 
 interface HomePageProps {
   session: Session;
-  movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+  movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] | null;
   singleMovieData: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   desiredUser?: { username: string; _id: string; image: string };
 }
@@ -53,7 +53,7 @@ export const getServerSideProps = async (
 
   props?: {
     session?: Session | null;
-    movies?: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+    movies?: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] | null;
     singleMovieData?: SerializedMovieType<
       ReviewType<PopulatedUserType>[]
     > | null;
@@ -110,7 +110,10 @@ export const getServerSideProps = async (
       },
     };
   }
-  const movies = await getMovies();
+  let movies = null;
+  if (session?.user) {
+    movies = await getMovies();
+  }
 
   return { props: { session, movies } };
 };
