@@ -41,7 +41,7 @@
 
 ## Introduction
 
-Welcome to [ScuffedMDB's&trade;](https://movie.michael-hall.me) code repository. This website is designed to be used by friend groups to rate movies watched together :).
+Welcome to [ScuffedMDB's&trade;](https://smdb.mikeroph.one) code repository. This website is designed to be used by friend groups to rate movies watched together :).
 
 To follow any updates there is a [Changelog](/CHANGELOG.md)
 
@@ -69,7 +69,7 @@ Thank you to [@olig89](https://github.com/olig89) for all of the ideas and user 
 
 | Name                | Description                                                                    | Example                                                     |
 | ------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------- |
-| NEXT_PUBLIC_APP_URI | The URI of the app                                                             | `https://movie.michael-hall.me`                             |
+| NEXT_PUBLIC_APP_URI | The URI of the app                                                             | `https://smdb.mikeroph.one`                             |
 | OWNER_ID            | Owner's discord ID                                                             | `234908230323`                                              |
 | CLIENT_ID           | Discord Application CLIENT_ID on [console](https://discord.com/developers)     | `2398040239849`                                             |
 | CLIENT_SECRET       | Discord Application CLIENT_SECRET on [console](https://discord.com/developers) | `\_adsiojweiurnAWeAFDS23`                                   |
@@ -83,7 +83,7 @@ Thank you to [@olig89](https://github.com/olig89) for all of the ideas and user 
 | Name                        | Description                                                                                                                 | Example                       |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
 | ALLOWED_USERS               | A comma separated list of discord ids representing users that can log into the website. If left blank, all users can login. | `234908230323,234908230324`   |
-| WEBHOOK_URL                 | Endpoint for the discord_bot webhook                                                                                        | `https://bot.michael-hall.me` |
+| WEBHOOK_URL                 | Endpoint for the discord_bot webhook                                                                                        | `https://bot.mikeroph.one` |
 | WEBHOOK_TOKEN               | Random string used to authenticate movie websites request, required if using the webhook                                    | `dsajoi234opiasdijofp`        |
 | COLOR_THEME                 | Color theme for the website, options: [chakra docs](https://chakra-ui.com/docs/theming/theme#colors)                        | `purple`                      |
 | SECONDARY_COLOR_THEME       | Secondary accent color of the website, same options as COLOR_THEME                                                          | `cyan`                        |
@@ -121,7 +121,7 @@ CLIENT_ID=24534589043255834
 
 _(these aren't mine before you try -\_-)_
 
-6. Go to the oauth tab of your new discord application and add your production and development callback urls to the redirect tab. For example mine are: http://localhost:3000/api/auth/callback/discord and https://movie.michael-hall.me/api/auth/callback/discord - <yourdomain>/api/auth/callback/discord
+6. Go to the oauth tab of your new discord application and add your production and development callback urls to the redirect tab. For example mine are: http://localhost:3000/api/auth/callback/discord and https://smdb.mikeroph.one/api/auth/callback/discord - <yourdomain>/api/auth/callback/discord
 7. Return to your .env.local file and enter a [random string](https://onlinerandomtools.com/generate-random-string) into JWT_CODE which is kept secret (just to encrypt the user data in the cookie).
 
 `JWT_CODE=SlOQwlMMnwVY3ypfNLFOtlEauH5Ra2DE`
@@ -164,7 +164,7 @@ __Make sure you have a fork of the repository by clicking the fork button top ri
 
 7. NEXT_PUBLIC_APP_URI needs to be the domain of your project on vercel. You can set a custom domain as shown in [vercels' docs](https://vercel.com/docs/custom-domains), but you need to click on your project to see the default domain, normally something like https://scuffedmdb.vercel.com (refer to 6 of setting up local environment to add domain to discord callback if you havent already)
 
-`NEXT_PUBLIC_APP_URI=https://movie.michael-hall.me`
+`NEXT_PUBLIC_APP_URI=https://smdb.mikeroph.one`
 
 8. Create a HS512 compliant code using the following command:
 
@@ -202,7 +202,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://www.michael-hall.me/"><img src="https://avatars.githubusercontent.com/u/47287285?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Michael Hall</b></sub></a><br /><a href="https://github.com/mah51/ScuffedMDB/commits?author=mah51" title="Code">💻</a> <a href="#content-mah51" title="Content">🖋</a> <a href="https://github.com/mah51/ScuffedMDB/commits?author=mah51" title="Documentation">📖</a> <a href="#design-mah51" title="Design">🎨</a> <a href="#maintenance-mah51" title="Maintenance">🚧</a> <a href="https://github.com/mah51/ScuffedMDB/pulls?q=is%3Apr+reviewed-by%3Amah51" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://www.mikeroph.one/"><img src="https://avatars.githubusercontent.com/u/47287285?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Michael Hall</b></sub></a><br /><a href="https://github.com/mah51/ScuffedMDB/commits?author=mah51" title="Code">💻</a> <a href="#content-mah51" title="Content">🖋</a> <a href="https://github.com/mah51/ScuffedMDB/commits?author=mah51" title="Documentation">📖</a> <a href="#design-mah51" title="Design">🎨</a> <a href="#maintenance-mah51" title="Maintenance">🚧</a> <a href="https://github.com/mah51/ScuffedMDB/pulls?q=is%3Apr+reviewed-by%3Amah51" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="http://olivergill.com"><img src="https://avatars.githubusercontent.com/u/24813487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Oli Gill</b></sub></a><br /><a href="https://github.com/mah51/ScuffedMDB/issues?q=author%3Aolig89" title="Bug reports">🐛</a> <a href="#ideas-olig89" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/mah51/ScuffedMDB/commits?author=olig89" title="Tests">⚠️</a></td>
   </tr>
 </table>
