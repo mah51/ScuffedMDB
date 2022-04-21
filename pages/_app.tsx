@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
     }
   }, [router.pathname]);
   const siteURI =
-    process.env.NEXT_PUBLIC_APP_URI || 'https://www.movie.michael-hall.me';
+    process.env.NEXT_PUBLIC_APP_URI || 'https://www.movie.mikeroph.one';
   return (
     <>
       <DefaultSeo
@@ -66,11 +66,11 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
         }}
       />
       <PlausibleProvider
-        domain="movie.michael-hall.me"
+        domain="movie.mikeroph.one"
         selfHosted
         trackOutboundLinks
         enabled={process.env.NODE_ENV === 'production'}
-        customDomain={'https://stats.michael-hall.me'}
+        customDomain={'https://stats.mikeroph.one'}
       >
         <NextAuthProvider
           session={pageProps.session}

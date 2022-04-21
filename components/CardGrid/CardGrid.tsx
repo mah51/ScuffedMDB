@@ -143,7 +143,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
             {
               width: 2542,
               height: 1312,
-              url: `https://www.movie.michael-hall.me/sitePicture.png`,
+              url: `https://www.movie.mikeroph.one/sitePicture.png`,
               alt: siteName + ' webpage',
             },
           ],
