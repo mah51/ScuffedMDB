@@ -1,14 +1,14 @@
-import React from 'react';
-import { useQuery } from 'react-query';
-import HomePage from '../components/HomePage';
-import LandingPage from '../components/LandingPage';
-import { getMovie, getMovies } from '../utils/queries';
-import BannedPage from '../components/BannedPage';
-import { ReviewType, SerializedMovieType } from '../models/movie';
-import { getSession } from 'next-auth/client';
-import user, { PopulatedUserType } from '../models/user';
 import { GetServerSidePropsContext } from 'next';
 import { Session } from 'next-auth';
+import { getSession } from 'next-auth/client';
+import React from 'react';
+import { useQuery } from 'react-query';
+import BannedPage from '../components/BannedPage';
+import HomePage from '../components/HomePage';
+import LandingPage from '../components/LandingPage';
+import { ReviewType, SerializedMovieType } from '../models/movie';
+import user, { PopulatedUserType } from '../models/user';
+import { getMovie, getMovies } from '../utils/queries';
 
 interface HomePageProps {
   session: Session;
@@ -35,12 +35,16 @@ export default function Home({
     return <BannedPage user={session.user} />;
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data } = useQuery(`movies`, getMovies, {
+  const { data, error } = useQuery(`movies`, getMovies, {
     initialData: movies,
   });
 
-  if (!data) {
+  if (error) {
     return <div>There was an error locating movie data :(</div>;
+  }
+
+  if (!data) {
+    return <div />;
   }
 
   return <HomePage user={session.user} movies={data} />;
