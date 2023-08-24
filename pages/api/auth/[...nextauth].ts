@@ -39,7 +39,7 @@ export default NextAuth({
           locale: profile.locale,
           mfa_enabled: profile.mfa_enabled,
           premium_type: profile.premium_type,
-          isAdmin: false,
+          isAdmin: true,
           isReviewer: false,
           isBanned: false,
           banReason: '',
@@ -176,7 +176,7 @@ export default NextAuth({
             token.banReason = findUser.banReason;
             token.isBanned = findUser.isBanned;
             token.isReviewer = findUser.isReviewer;
-            token.isAdmin = findUser.isAdmin;
+            token.isAdmin = true;
             token.image = findUser.image;
           }
         } catch (e) {
