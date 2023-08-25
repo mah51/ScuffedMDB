@@ -1,18 +1,14 @@
 import {
   Box,
   chakra,
-  Link as ChakraLink,
   Stack,
-  Text,
   Tooltip,
   useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import React from 'react';
-import { BsArrowRight } from 'react-icons/bs';
-import { FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
-import { getSecondaryAccentColor } from 'utils/utils';
+import { FaGithub } from 'react-icons/fa';
 
 const SocialIcons = ({
   children,
@@ -72,10 +68,6 @@ export const Footer: React.FC = (): React.ReactElement => {
             </chakra.a>
           </Link>
 
-          <Text marginStart={{ md: `auto` }} justifySelf="middle">
-            Made by Mikerophone 🤠
-          </Text>
-
           <Stack
             direction="row"
             spacing={6}
@@ -85,40 +77,9 @@ export const Footer: React.FC = (): React.ReactElement => {
             <SocialIcons label="GitHub" href="https://github.com/mah51/">
               <FaGithub />
             </SocialIcons>
-            <SocialIcons
-              label="LinkedIn"
-              href="https://www.linkedin.com/in/michael-hall-86616b17b/"
-            >
-              <FaLinkedin />
-            </SocialIcons>
-
-            <SocialIcons
-              label="Instagram"
-              href="https://www.instagram.com/michael.__.hall/"
-            >
-              <FaInstagram />
-            </SocialIcons>
           </Stack>
         </Stack>
       </Box>
-      <ChakraLink
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        fontWeight="bold"
-        color={useColorModeValue('white', 'gray.800')}
-        py={1}
-        px={3}
-        mt={1}
-        width="full"
-        bg={`${getSecondaryAccentColor()}.${useColorModeValue(500, 300)}`}
-        href="https://github.com/mah51/scuffedmdb#readme"
-      >
-        Did you know, you can host this website yourself?{' '}
-        <BsArrowRight
-          style={{ display: 'inline-block', marginInlineStart: '15px' }}
-        />
-      </ChakraLink>
     </>
   );
 };
