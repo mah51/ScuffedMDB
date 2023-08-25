@@ -46,7 +46,7 @@ import { SerializedMovieType } from '../../models/movie';
 interface Props {
   movies: SerializedMovieType[];
   user: UserAuthType;
-  featuredMovie: string;
+  featuredMovie?: string;
 }
 
 const COLUMNS = (

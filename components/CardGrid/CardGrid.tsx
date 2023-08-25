@@ -66,7 +66,6 @@ export const CardGrid: React.FC<CardGridProps> = ({
   const [cardView, setCardView] = useState(true);
   const [genres, setGenres] = useState<string[]>([]);
   const [isGenreFilterActive, setIsGenreFilterActive] = useState(false);
-  const featuredMovie = unSortedMovies[0]?._id;
   const toast = useToast();
   const { colorMode } = useColorMode();
   // Fix for https://github.com/chakra-ui/chakra-ui/issues/3076
@@ -379,7 +378,6 @@ export const CardGrid: React.FC<CardGridProps> = ({
                   <Card
                     movie={movie}
                     key={`${i.toString()}card`}
-                    featuredMovie={featuredMovie}
                   />
                 )
               )}
@@ -398,7 +396,6 @@ export const CardGrid: React.FC<CardGridProps> = ({
               <MovieGridView
                 user={user}
                 movies={movies.data}
-                featuredMovie={featuredMovie}
               />
             </chakra.div>
           )

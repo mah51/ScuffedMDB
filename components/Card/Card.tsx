@@ -20,7 +20,7 @@ import { useState } from 'react';
 
 interface CardProps {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
-  featuredMovie: string;
+  featuredMovie?: string;
 }
 
 export const Card: React.FC<CardProps> = ({
