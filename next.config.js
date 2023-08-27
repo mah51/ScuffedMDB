@@ -63,7 +63,7 @@ const themeColors = [
 module.exports = {
   webpack5: true,
   images: {
-    domains: ['image.tmdb.org'],
+    domains: ['image.tmdb.org', 's3-media4.fl.yelpcdn.com'],
   },
   env: {
     NEXT_PUBLIC_APP_URI: process.env.NEXT_PUBLIC_APP_URI,
