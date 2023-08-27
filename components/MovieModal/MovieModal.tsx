@@ -32,6 +32,7 @@ import { addMovie } from '@components/SearchResults/SearchResults';
 import { useQueryClient } from 'react-query';
 import { OMDBMovie, OMDBResponse } from '../../pages/api/movie-api';
 import SearchResults from '../SearchResults';
+import RestaurantModal from '../RestaurantModal';
 
 export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
   inMobileNav = false,
@@ -166,7 +167,6 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
             Open menu
           </MenuButton>
           <MenuList>
-            {/* MenuItems are not rendered unless Menu is open */}
             <MenuItem onClick={onOpen}>Add Movie</MenuItem>
             <MenuItem onClick={onRestaurantOpen}>Add Restaurant</MenuItem>
             <MenuItem>Add Event</MenuItem>
@@ -234,7 +234,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
                 setError={setError}
               />
             ) : (
-              ``
+              `asd`
             )}
           </ModalBody>
 
@@ -248,46 +248,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Modal isOpen={isRestaurantOpen} onClose={onRestaurantClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Add a restaurant</ModalHeader>
-          <ModalCloseButton />
-          <form>
-            <FormControl className='px-3 py-3' isRequired>
-              <VStack align='flex-start'>
-                <FormLabel display={'flex'}>Name</FormLabel>
-                <Input placeholder='Example Name' />
-              </VStack>
-              <VStack align='flex-start'>
-                <FormLabel display={'flex'}>Address</FormLabel>
-                <Input placeholder='123 Main St' />
-              </VStack>
-              <VStack align='flex-start'>
-                <FormLabel display={'flex'}>City</FormLabel>
-                <Input placeholder='Gotham' />
-              </VStack>
-              <VStack align='flex-start'>
-                <FormLabel display={'flex'}>State</FormLabel>
-                <Input placeholder='MI' />
-              </VStack>
-              <VStack align='flex-start'>
-                <FormLabel display={'flex'}>State</FormLabel>
-                <Input placeholder='US' />
-              </VStack>
-              <Flex align='flex-start'>
-                <Button
-                  type="submit"
-                  className="mt-2"
-                  colorScheme={process.env.COLOR_THEME}
-                >
-                  Search
-                </Button>
-              </Flex>
-            </FormControl>
-          </form>
-        </ModalContent>
-      </Modal>
+      <RestaurantModal isRestaurantOpen={isRestaurantOpen} onRestaurantClose={onRestaurantClose}/>
     </>
   );
 };
