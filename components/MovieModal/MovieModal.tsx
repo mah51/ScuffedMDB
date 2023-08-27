@@ -1,37 +1,37 @@
-import React, { FormEvent, useEffect, useState } from 'react';
 import {
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   Button,
+  Flex,
   FormControl,
   FormLabel,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
-  useToast,
-  Text,
-  useColorModeValue,
-  Flex,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem,
-  IconButton,
-  VStack
+  MenuList,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  VStack,
+  useColorModeValue,
+  useDisclosure,
+  useToast
 } from '@chakra-ui/react';
+import React, { FormEvent, useEffect, useState } from 'react';
 
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 
-import { useQueryClient } from 'react-query';
-import SearchResults from '../SearchResults';
-import { OMDBMovie, OMDBResponse } from '../../pages/api/movie-api';
 import { addMovie } from '@components/SearchResults/SearchResults';
+import { useQueryClient } from 'react-query';
+import { OMDBMovie, OMDBResponse } from '../../pages/api/movie-api';
+import SearchResults from '../SearchResults';
 
 export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
   inMobileNav = false,
@@ -254,27 +254,36 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
           <ModalHeader>Add a restaurant</ModalHeader>
           <ModalCloseButton />
           <form>
-            <FormControl isRequired>
+            <FormControl className='px-3 py-3' isRequired>
               <VStack align='flex-start'>
-              <FormLabel display={'flex'}>Name</FormLabel>
-              <Input placeholder='Example Name' />
+                <FormLabel display={'flex'}>Name</FormLabel>
+                <Input placeholder='Example Name' />
               </VStack>
               <VStack align='flex-start'>
-              <FormLabel display={'flex'}>Address</FormLabel>
-              <Input placeholder='123 Main St' />
+                <FormLabel display={'flex'}>Address</FormLabel>
+                <Input placeholder='123 Main St' />
               </VStack>
               <VStack align='flex-start'>
-              <FormLabel display={'flex'}>City</FormLabel>
-              <Input placeholder='Gotham' />
+                <FormLabel display={'flex'}>City</FormLabel>
+                <Input placeholder='Gotham' />
               </VStack>
               <VStack align='flex-start'>
-              <FormLabel display={'flex'}>State</FormLabel>
-              <Input placeholder='MI' />
+                <FormLabel display={'flex'}>State</FormLabel>
+                <Input placeholder='MI' />
               </VStack>
               <VStack align='flex-start'>
-              <FormLabel display={'flex'}>State</FormLabel>
-              <Input placeholder='US' />
+                <FormLabel display={'flex'}>State</FormLabel>
+                <Input placeholder='US' />
               </VStack>
+              <Flex align='flex-start'>
+                <Button
+                  type="submit"
+                  className="mt-2"
+                  colorScheme={process.env.COLOR_THEME}
+                >
+                  Search
+                </Button>
+              </Flex>
             </FormControl>
           </form>
         </ModalContent>
