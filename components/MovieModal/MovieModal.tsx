@@ -18,6 +18,12 @@ import {
   Text,
   useColorModeValue,
   Flex,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
+  VStack
 } from '@chakra-ui/react';
 
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
@@ -40,6 +46,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
   const [searchByID, setSearchByID] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isRestaurantOpen, onOpen: onRestaurantOpen, onClose: onRestaurantClose } = useDisclosure();
 
   const initialRef = React.useRef(null);
   const queryClient = useQueryClient();
@@ -90,9 +97,8 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
         toast({
           variant: `subtle`,
           title: `Movie Added`,
-          description: `${
-            (resID?.data as any)?.data?.name
-          } was successfully added`,
+          description: `${(resID?.data as any)?.data?.name
+            } was successfully added`,
           status: `success`,
           duration: 5000,
           isClosable: true,
@@ -151,17 +157,22 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
           Add movie
         </Button>
       ) : (
-        <Button
-          variant="solid"
-          colorScheme={process.env.COLOR_THEME}
-          mr={3}
-          leftIcon={<AddIcon />}
-          onClick={onOpen}
-        >
-          Add movie
-        </Button>
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label='Options'
+            icon={<AddIcon />} variant='ghost'
+          >
+            Open menu
+          </MenuButton>
+          <MenuList>
+            {/* MenuItems are not rendered unless Menu is open */}
+            <MenuItem onClick={onOpen}>Add Movie</MenuItem>
+            <MenuItem onClick={onRestaurantOpen}>Add Restaurant</MenuItem>
+            <MenuItem>Add Event</MenuItem>
+          </MenuList>
+        </Menu>
       )}
-
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -235,6 +246,37 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
               Cancel
             </Button>
           </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={isRestaurantOpen} onClose={onRestaurantClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add a restaurant</ModalHeader>
+          <ModalCloseButton />
+          <form>
+            <FormControl isRequired>
+              <VStack align='flex-start'>
+              <FormLabel display={'flex'}>Name</FormLabel>
+              <Input placeholder='Example Name' />
+              </VStack>
+              <VStack align='flex-start'>
+              <FormLabel display={'flex'}>Address</FormLabel>
+              <Input placeholder='123 Main St' />
+              </VStack>
+              <VStack align='flex-start'>
+              <FormLabel display={'flex'}>City</FormLabel>
+              <Input placeholder='Gotham' />
+              </VStack>
+              <VStack align='flex-start'>
+              <FormLabel display={'flex'}>State</FormLabel>
+              <Input placeholder='MI' />
+              </VStack>
+              <VStack align='flex-start'>
+              <FormLabel display={'flex'}>State</FormLabel>
+              <Input placeholder='US' />
+              </VStack>
+            </FormControl>
+          </form>
         </ModalContent>
       </Modal>
     </>

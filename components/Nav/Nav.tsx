@@ -84,8 +84,8 @@ export const Nav: React.FC<NavProps> = ({
           isTransparent
             ? 'transparent'
             : colorMode === 'light'
-            ? `${process.env.COLOR_THEME}.500`
-            : `${process.env.COLOR_THEME}.300`
+              ? `${process.env.COLOR_THEME}.500`
+              : `${process.env.COLOR_THEME}.300`
         }
       >
         <Flex
