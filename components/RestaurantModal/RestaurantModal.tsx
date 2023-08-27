@@ -16,9 +16,10 @@ import {
     Heading,
     HStack,
     Text,
-    Box
+    Box,
+    Select
 } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons';
+import { StarIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import { YelpMatchResponse } from "../../pages/api/restaurant-api";
 
@@ -51,7 +52,17 @@ export const RestaurantModal: React.FC<{
     onRestaurantClose,
     setError
 }): React.ReactElement => {
+        // constants
+        const countries = [
+            { name: 'United States', code: 'US' },
+            { name: 'Canada', code: 'CA' },
+            { name: 'United Kingdom', code: 'UK' },
+            // ...add other countries as needed
+        ];
+
+
         // Form states
+        const [showForm, setShowForm] = useState(true);
         const [name, setName] = useState('');
         const [address, setAddress] = useState('');
         const [city, setCity] = useState('');
@@ -59,6 +70,7 @@ export const RestaurantModal: React.FC<{
         const [country, setCountry] = useState('');
 
         const [restaurant, setRestaurant] = useState<YelpMatchResponse>(null);
+
 
         const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
@@ -69,6 +81,7 @@ export const RestaurantModal: React.FC<{
                 if (response.status === 200) {
                     const data: YelpMatchResponse = await response.json();
                     console.log(data)
+                    setShowForm(false);
                     setRestaurant(data);
                 }
                 else {
@@ -91,8 +104,17 @@ export const RestaurantModal: React.FC<{
                     <ModalContent>
                         <ModalHeader>Add a restaurant</ModalHeader>
                         <ModalCloseButton />
-                        {restaurant ?
+                        {restaurant && !showForm ?
                             <VStack spacing={4} className="p-5" align="stretch">
+                                <Box>
+                                    <Button
+                                        leftIcon={<ArrowBackIcon />}
+                                        colorScheme={process.env.COLOR_THEME}
+                                        onClick={() => setShowForm(true)}
+                                    >
+                                        Go Back
+                                    </Button>
+                                </Box>
                                 <Flex>
                                     <SkeletonImage data={restaurant} />
                                 </Flex>
@@ -123,23 +145,29 @@ export const RestaurantModal: React.FC<{
                                 <FormControl className='px-3 py-3' isRequired>
                                     <VStack align='flex-start'>
                                         <FormLabel display={'flex'}>Name</FormLabel>
-                                        <Input placeholder='Example Name' onChange={e => setName(e.currentTarget.value)} />
+                                        <Input placeholder='Example Name' value={name} onChange={e => setName(e.currentTarget.value)} />
                                     </VStack>
                                     <VStack align='flex-start'>
                                         <FormLabel display={'flex'}>Address</FormLabel>
-                                        <Input placeholder='123 Main St' onChange={e => setAddress(e.currentTarget.value)} />
+                                        <Input placeholder='123 Main St' value={address} onChange={e => setAddress(e.currentTarget.value)} />
                                     </VStack>
                                     <VStack align='flex-start'>
                                         <FormLabel display={'flex'}>City</FormLabel>
-                                        <Input placeholder='Gotham' onChange={e => setCity(e.currentTarget.value)} />
+                                        <Input placeholder='Gotham' value={city} onChange={e => setCity(e.currentTarget.value)} />
                                     </VStack>
                                     <VStack align='flex-start'>
                                         <FormLabel display={'flex'}>State</FormLabel>
-                                        <Input placeholder='MI' onChange={e => setState(e.currentTarget.value)} />
+                                        <Input placeholder='MI' value={state} onChange={e => setState(e.currentTarget.value)} />
                                     </VStack>
                                     <VStack align='flex-start'>
                                         <FormLabel display={'flex'}>Country</FormLabel>
-                                        <Input placeholder='US' onChange={e => setCountry(e.currentTarget.value)} />
+                                        <Select placeholder="Select country" value={country} onChange={e => setCountry(e.currentTarget.value)}>
+                                            {countries.map((country, index) => (
+                                                <option key={index} value={country.code}>
+                                                    {country.code}
+                                                </option>
+                                            ))}
+                                        </Select>
                                     </VStack>
                                     <Flex align='flex-start'>
                                         <Button

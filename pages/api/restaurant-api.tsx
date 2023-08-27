@@ -135,7 +135,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           "delivery"
         ]
       };
-      return res.status(200).json(mock);
+      return res.status(200).json(mock)
 
       const query = req.query;
       
