@@ -19,7 +19,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
-  VStack,
   useColorModeValue,
   useDisclosure,
   useToast
@@ -27,7 +26,6 @@ import {
 import React, { FormEvent, useEffect, useState } from 'react';
 
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
-
 import { addMovie } from '@components/SearchResults/SearchResults';
 import { useQueryClient } from 'react-query';
 import { OMDBMovie, OMDBResponse } from '../../pages/api/movie-api';
@@ -187,7 +185,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
                       cursor: 'pointer',
                     }}
                     onClick={() => setSearchByID(false)}
-                    color={searchByID ? 'gray.500' : 'white'}
+                    color={searchByID ? 'gray.500' : 'lightblue'}
                   >
                     Search for movie /
                   </Text>{' '}
@@ -197,7 +195,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
                     }}
                     onClick={() => setSearchByID(true)}
                     ml="2"
-                    color={searchByID ? 'white' : 'gray.500'}
+                    color={searchByID ? 'lightblue' : 'gray.500'}
                   >
                     Or add by ID
                   </Text>
@@ -234,7 +232,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
                 setError={setError}
               />
             ) : (
-              `asd`
+              ``
             )}
           </ModalBody>
 
@@ -248,7 +246,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <RestaurantModal isRestaurantOpen={isRestaurantOpen} onRestaurantClose={onRestaurantClose}/>
+      <RestaurantModal isRestaurantOpen={isRestaurantOpen} onRestaurantClose={onRestaurantClose} setError={setError}/>
     </>
   );
 };
