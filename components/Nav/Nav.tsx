@@ -28,6 +28,7 @@ import ReviewModal from '../ReviewModal';
 import { signout } from 'next-auth/client';
 import { useEffect, useState } from 'react';
 import Router from 'next/router';
+import Image from 'next/image';
 
 interface NavProps {
   user: UserAuthType;
@@ -89,21 +90,18 @@ export const Nav: React.FC<NavProps> = ({
         }
       >
         <Flex
-          h={20}
+          h={40}
           maxWidth="full"
           alignItems="center"
           justifyContent="space-between"
         >
           <HStack spacing={8} alignItems="center" ml={5}>
             <Link href="/">
-              <a>
-                <Heading fontSize="2xl">
-                  {useBreakpointValue({
-                    base: shortSiteName || 'SMDB',
-                    md: siteName || 'ScuffedMDB',
-                  })}
-                </Heading>
-              </a>
+              <Image
+                src={`/svg/logo-no-background-${process.env.COLOR_THEME}.svg`}
+                width={90}
+                height={90}
+                alt="Picture of the author" />
             </Link>
           </HStack>
 
