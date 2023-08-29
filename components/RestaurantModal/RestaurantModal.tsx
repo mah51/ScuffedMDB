@@ -46,11 +46,13 @@ function SkeletonImage({ data }: { data: YelpMatchResponse }) {
 export const RestaurantModal: React.FC<{
     isRestaurantOpen: any,
     onRestaurantClose: any,
-    setError: any
+    setError: any,
+    setSuccess: any
 }> = ({
     isRestaurantOpen,
     onRestaurantClose,
-    setError
+    setError,
+    setSuccess
 }): React.ReactElement => {
         // constants
         const countries = [
@@ -96,6 +98,24 @@ export const RestaurantModal: React.FC<{
             }
         };
 
+        const addRestaurant = async () => {
+            const options = {
+                method: 'post',
+                body: JSON.stringify(restaurant)
+            };
+            const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URI}/api/restaurant/`, options);
+            const data = await response.json();
+            console.log(data);
+            if (response.status === 200) {
+                setSuccess(data);
+                onRestaurantClose();
+                setRestaurant(null);
+              } else {
+                setError(data.message);
+              }
+        }
+
+
 
         return (
             <>
@@ -140,6 +160,11 @@ export const RestaurantModal: React.FC<{
                                         {restaurant?.review_count} reviews
                                     </Box>
                                 </Box>
+                                <Flex align='flex-start'>
+                                    <Button onClick={addRestaurant} width={'fit-content'} colorScheme={process.env.COLOR_THEME}>
+                                        Add Restaurant
+                                    </Button>
+                                </Flex>
                             </VStack> :
                             <form onSubmit={handleSubmit}>
                                 <FormControl className='px-3 py-3' isRequired>

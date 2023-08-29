@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import movie from '../models/movie';
 import user from '../models/user';
+import restaurant from 'models/restaurant';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function dbConnect(connectionURL = process.env.MONGODB_URI) {
@@ -12,6 +13,9 @@ async function dbConnect(connectionURL = process.env.MONGODB_URI) {
   }
   if (!mongoose.models?.Movie) {
     movie.schema;
+  }
+  if (!mongoose.models?.Restaurant) {
+    restaurant.schema;
   }
   try {
     if (mongoose.connection.readyState >= 1) {

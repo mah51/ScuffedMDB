@@ -246,7 +246,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <RestaurantModal isRestaurantOpen={isRestaurantOpen} onRestaurantClose={onRestaurantClose} setError={setError}/>
+      <RestaurantModal isRestaurantOpen={isRestaurantOpen} onRestaurantClose={onRestaurantClose} setError={setError} setSuccess={setSuccess}/>
     </>
   );
 };

@@ -6,6 +6,7 @@ interface YelpLocation {
     zip_code?: number
     country?: string;
     state?: string;
+    display_address?: string[];
 }
 
 export interface YelpMatchResponse {
@@ -14,7 +15,9 @@ export interface YelpMatchResponse {
     name?: string;
     location?: YelpLocation;
     phone?: string;
+    display_phone?: string;
     image_url?: string;
+    is_closed?: boolean
     url?: string;
     review_count?: number;
     rating?: number;
