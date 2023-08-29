@@ -54,11 +54,10 @@ export const UserReviewSection: React.FC<{
             </AspectRatio>
             <Flex direction="column" maxWidth="full">
               <Flex direction={{ base: 'column', md: 'row' }}>
-                <Stack isInline justifyContent="center">
+                <Stack className='text-center md:text-left'>
                   <Link href={`/movie/${movie?._id}`} passHref>
                     <Heading
                       as={ChakraLink}
-                      isTruncated
                       size={['base', 'sm'].includes(bp || '') ? 'lg' : 'xl'}
                     >
                       {movie?.name}
@@ -69,7 +68,7 @@ export const UserReviewSection: React.FC<{
                   >
                     {' '}
                     <chakra.span color="gray.500">
-                      • {review?.rating.toFixed(1)}
+                      Rating: {review?.rating.toFixed(1)}
                     </chakra.span>
                   </Heading>
                 </Stack>
