@@ -36,6 +36,10 @@ interface NavProps {
   showReview: boolean;
 }
 
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
 export const Nav: React.FC<NavProps> = ({
   user,
   showMovies,
@@ -51,6 +55,26 @@ export const Nav: React.FC<NavProps> = ({
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME;
   const shortSiteName = process.env.NEXT_PUBLIC_SHORT_SITE_NAME;
   const [isTransparent, setIsTransparent] = useState(false);
+
+  const [navigation, setNavigation] = useState([
+    { name: 'Movies', href: '#', current: false },
+    { name: 'Restaurants', href: '#', current: true },
+  ]);
+
+  // function onTabChange(index) {
+  //   const updateNav = navigation.map((c, i) => {
+  //     if (i === index) {
+  //       c.current = true;
+  //       // Increment the clicked counter
+  //       return c;
+  //     } else {
+  //       c.current = false;
+  //       return c;
+  //     }
+  //     console.log(updateNav);
+  //     setNavigation(updateNav);
+  //   });
+  // }
 
   useEffect(() => {
     Router.events.on('routeChangeStart', () => {
@@ -101,10 +125,28 @@ export const Nav: React.FC<NavProps> = ({
                 src={`/svg/logo-no-background-${process.env.COLOR_THEME}.svg`}
                 width={90}
                 height={90}
-                alt="Picture of the author" />
+                alt="Logo" />
             </Link>
           </HStack>
-
+          <HStack>
+            <div className="hidden sm:ml-6 sm:block">
+              <div className="flex space-x-4">
+                {navigation.map((item, i) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={classNames(
+                      item.current ? `bg-${process.env.COLOR_THEME}-900 text-white` : `hover:bg-gray-200 hover:text-black`,
+                      'rounded-md px-3 py-2 text-sm font-medium'
+                    )}
+                    aria-current={item.current ? 'page' : undefined}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </HStack>
           <HStack align="center" spacing={'15px'} mx={4}>
             <IconButton
               variant="ghost"
