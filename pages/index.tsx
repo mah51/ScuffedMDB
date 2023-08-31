@@ -45,7 +45,6 @@ export default function Home({
     initialData: restaurants,
   })
 
-  console.log('restaurants', restaurantData)
   if (error || restaurantError) {
     return <div>There was an error locating data :(</div>;
   }
@@ -54,7 +53,7 @@ export default function Home({
     return <div />;
   }
 
-  return <HomePage user={session.user} movies={data} />;
+  return <HomePage user={session.user} movies={data} restaurants={restaurantData}/>;
 }
 
 export const getServerSideProps = async (

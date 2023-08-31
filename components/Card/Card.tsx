@@ -16,21 +16,53 @@ import { ReviewType, SerializedMovieType } from '../../models/movie';
 import Rating from '../Rating';
 import { PopulatedUserType } from '../../models/user';
 import { getColorSchemeCharCode } from '../../utils/utils';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface CardProps {
-  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
+  movie?: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   featuredMovie?: string;
+  restaurant?: any;
 }
 
 export const Card: React.FC<CardProps> = ({
   movie,
   featuredMovie,
+  restaurant
 }): React.ReactElement => {
-  const { image, name, genres, rating, numReviews, tagLine } = movie;
+  // const { image, name, genres, rating, numReviews, tagLine } = movie;
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [image, setImage] = useState();
+  const [name, setName] = useState();
+  const [genres, setGenres] = useState([]);
+  const [rating, setRating] = useState();
+  const [numReviews, setNumReviews] = useState();
+  const [tagLine, setTagLine] = useState('');
+  const [view, setView] = useState();
+
+  useEffect(() => {
+    if (movie) {
+      console.log(movie)
+      setView(movie);
+      setImage(movie.image);
+      setName(movie.name);
+      setGenres(movie.genres);
+      setRating(movie.rating);
+      setNumReviews(movie.numReviews);
+      setTagLine(movie.tagLine);
+    }
+    else if (restaurant) {
+      setView(restaurant);
+      setImage(restaurant.image_url);
+      setName(restaurant.name);
+      setGenres(restaurant?.categories.map((x) => x.alias));
+      setRating(restaurant.rating * 2);
+      setNumReviews(restaurant.review_count);
+      setTagLine(`${restaurant?.address[0]} ${restaurant?.address[1]}`);
+    }
+  })
+
   return (
-    <Link href={`/movie/${movie._id}`} passHref>
+    <Link href={`/movie/${view?._id}`} passHref>
       <Box as={'a'} height="full">
         <chakra.div
           position="relative"
@@ -53,7 +85,7 @@ export const Card: React.FC<CardProps> = ({
           height="full"
         >
           <Box
-            opacity={featuredMovie === movie._id ? 0.9 : 0}
+            opacity={featuredMovie === view?._id ? 0.9 : 0}
             top={0}
             zIndex={10}
             left={0}
@@ -78,11 +110,11 @@ export const Card: React.FC<CardProps> = ({
               fontWeight="semibold"
               color={useColorModeValue(`gray.800`, `white`)}
             >
-              {featuredMovie === movie._id ? 'Review in progress' : 'View more'}
+              {featuredMovie === view?._id ? 'Review in progress' : 'View more'}
             </Text>
-            {featuredMovie === movie._id && (
+            {featuredMovie === view?._id && (
               <AvatarGroup mt={3} max={3}>
-                {movie?.reviews?.map((review) => (
+                {view?.reviews?.map((review) => (
                   <Avatar key={review._id} src={review.user?.image} />
                 ))}
               </AvatarGroup>
@@ -98,7 +130,7 @@ export const Card: React.FC<CardProps> = ({
                   onLoad={() => setIsImageLoaded(true)}
                   sizes="(max-width: 2561px) 400px"
                   height="225px"
-                  alt={`${movie?.name} poster`}
+                  alt={`${view?.name} poster`}
                 />
               </Skeleton>
             )}
@@ -136,7 +168,7 @@ export const Card: React.FC<CardProps> = ({
                 alignItems="flex-start"
                 mt={3}
               >
-                <Text color="gray.500" isTruncated>
+                <Text color="gray.500">
                   {tagLine || 'No tag line :(...'}
                 </Text>
 

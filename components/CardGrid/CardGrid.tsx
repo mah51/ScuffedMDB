@@ -66,6 +66,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('recent');
   const [cardView, setCardView] = useState(true);
+  const [movieView, setMovieView] = useState(true);
   const [genres, setGenres] = useState<string[]>([]);
   const [isGenreFilterActive, setIsGenreFilterActive] = useState(false);
   const toast = useToast();
@@ -81,7 +82,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
       isClosable: true,
     });
   }, [colorMode, toast]);
-
+  console.log(restaurants)
   const movies = {
     data: unSortedMovies
       ?.filter((mv) => {
@@ -149,7 +150,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
             },
           ],
         }}
-        
+
         description={'A private movie rating website'}
       />
 
@@ -337,9 +338,8 @@ export const CardGrid: React.FC<CardGridProps> = ({
                   <IconButton
                     bg={
                       cardView
-                        ? `${process.env.COLOR_THEME}.${
-                            colorMode === 'light' ? 500 : 300
-                          }`
+                        ? `${process.env.COLOR_THEME}.${colorMode === 'light' ? 500 : 300
+                        }`
                         : 'transparent'
                     }
                     size="sm"
@@ -373,17 +373,29 @@ export const CardGrid: React.FC<CardGridProps> = ({
               width="full"
               alignItems="stretch"
             >
-              {movies?.data?.map(
-                (
-                  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
-                  i
-                ) => (
-                  <Card
-                    movie={movie}
-                    key={`${i.toString()}card`}
-                  />
+
+              {movieView ? (
+                movies?.data?.map(
+                  (
+                    movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
+                    i
+                  ) => (
+                    <Card
+                      movie={movie}
+                      key={`${i.toString()}card`}
+                      restaurant={restaurants[0]}
+                    />
+                  )
                 )
-              )}
+              ) : (
+                restaurants?.data?.map((restaurant, i) => (
+                  <Card
+                    restaurant={restaurant}
+                    key={`${i.toString()}-restaurant-card`}
+                  />
+                ))
+              )
+              }
             </SimpleGrid>
           ) : (
             <chakra.div
