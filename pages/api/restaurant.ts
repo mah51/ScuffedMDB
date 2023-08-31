@@ -30,6 +30,7 @@ export default async function handler(
                 address: body?.location?.display_address,
                 photos: body?.photos,
                 price: body.price,
+                numReviews: 0,
                 reviews: []
             })
             await newRestaurant.save();

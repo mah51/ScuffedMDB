@@ -383,7 +383,6 @@ export const CardGrid: React.FC<CardGridProps> = ({
                     <Card
                       movie={movie}
                       key={`${i.toString()}card`}
-                      restaurant={restaurants[0]}
                     />
                   )
                 )
