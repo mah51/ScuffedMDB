@@ -8,11 +8,12 @@ import HomePage from '../components/HomePage';
 import LandingPage from '../components/LandingPage';
 import { ReviewType, SerializedMovieType } from '../models/movie';
 import user, { PopulatedUserType } from '../models/user';
-import { getMovie, getMovies } from '../utils/queries';
+import { getMovie, getMovies, getRestaurants } from '../utils/queries';
 
 interface HomePageProps {
   session: Session;
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] | null;
+  restaurants: any | null;
   singleMovieData: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   desiredUser?: { username: string; _id: string; image: string };
 }
@@ -20,6 +21,7 @@ interface HomePageProps {
 export default function Home({
   session,
   movies,
+  restaurants,
   singleMovieData,
   desiredUser,
 }: HomePageProps): React.ReactNode {
@@ -39,8 +41,13 @@ export default function Home({
     initialData: movies,
   });
 
-  if (error) {
-    return <div>There was an error locating movie data :(</div>;
+  const {data: restaurantData, error: restaurantError} = useQuery(`restaurants`, getRestaurants, {
+    initialData: restaurants,
+  })
+
+  console.log('restaurants', restaurantData)
+  if (error || restaurantError) {
+    return <div>There was an error locating data :(</div>;
   }
 
   if (!data) {

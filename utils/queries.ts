@@ -57,3 +57,14 @@ export const getUsers = async (): Promise<SerializedUser[]> => {
 
   return users;
 };
+
+export const getRestaurants = async() : Promise<any> => {
+  const res: Response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URI}/api/restaurant`
+  );
+  // eslint-disable-next-line no-return-await
+  const unsortedRestaurants = await res.json();
+  if (!unsortedRestaurants?.data) return null;
+  const restaurants = unsortedRestaurants.data;
+  return unsortedRestaurants;
+}

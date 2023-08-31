@@ -36,10 +36,6 @@ interface NavProps {
   showReview: boolean;
 }
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
 export const Nav: React.FC<NavProps> = ({
   user,
   showMovies,
@@ -57,24 +53,23 @@ export const Nav: React.FC<NavProps> = ({
   const [isTransparent, setIsTransparent] = useState(false);
 
   const [navigation, setNavigation] = useState([
-    { name: 'Movies', href: '#', current: false },
-    { name: 'Restaurants', href: '#', current: true },
+    { name: 'Movies', href: '/', current: false },
+    { name: 'Restaurants', href: '/restaurants', current: true },
   ]);
 
-  // function onTabChange(index) {
-  //   const updateNav = navigation.map((c, i) => {
-  //     if (i === index) {
-  //       c.current = true;
-  //       // Increment the clicked counter
-  //       return c;
-  //     } else {
-  //       c.current = false;
-  //       return c;
-  //     }
-  //     console.log(updateNav);
-  //     setNavigation(updateNav);
-  //   });
-  // }
+  const onTabChange = (index: Number): void => {
+    const updateNav = navigation.map((c, i) => {
+      if (i === index) {
+        c.current = true;
+        // Increment the clicked counter
+        return c;
+      } else {
+        c.current = false;
+        return c;
+      }
+    });
+    setNavigation(updateNav);
+  }
 
   useEffect(() => {
     Router.events.on('routeChangeStart', () => {
@@ -132,17 +127,11 @@ export const Nav: React.FC<NavProps> = ({
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 {navigation.map((item, i) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current ? `bg-${process.env.COLOR_THEME}-900 text-white` : `hover:bg-gray-200 hover:text-black`,
-                      'rounded-md px-3 py-2 text-sm font-medium'
-                    )}
-                    aria-current={item.current ? 'page' : undefined}
-                  >
-                    {item.name}
-                  </a>
+                  <Link key={item.name} href={item.href}>
+                    <ChakraLink colorScheme={process.env.COLOR_THEME}>
+                      {item.name}
+                    </ChakraLink>
+                  </Link>
                 ))}
               </div>
             </div>

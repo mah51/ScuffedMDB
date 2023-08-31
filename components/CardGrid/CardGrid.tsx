@@ -54,10 +54,12 @@ import ActiveHero from '@components/ActiveHero';
 interface CardGridProps {
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
   user: UserAuthType;
+  restaurants?: any;
 }
 
 export const CardGrid: React.FC<CardGridProps> = ({
   movies: unSortedMovies,
+  restaurants,
   user,
 }): React.ReactElement => {
   const bp = useBreakpoint();
@@ -147,6 +149,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
             },
           ],
         }}
+        
         description={'A private movie rating website'}
       />
 
