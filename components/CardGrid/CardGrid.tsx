@@ -66,7 +66,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('recent');
   const [cardView, setCardView] = useState(true);
-  const [movieView, setMovieView] = useState(true);
+  const [view, setView] = useState('movies');
   const [genres, setGenres] = useState<string[]>([]);
   const [isGenreFilterActive, setIsGenreFilterActive] = useState(false);
   const toast = useToast();
@@ -82,7 +82,6 @@ export const CardGrid: React.FC<CardGridProps> = ({
       isClosable: true,
     });
   }, [colorMode, toast]);
-  console.log(restaurants)
   const movies = {
     data: unSortedMovies
       ?.filter((mv) => {
@@ -374,7 +373,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
               alignItems="stretch"
             >
 
-              {movieView ? (
+              {view === 'movies' && (
                 movies?.data?.map(
                   (
                     movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
@@ -386,14 +385,17 @@ export const CardGrid: React.FC<CardGridProps> = ({
                     />
                   )
                 )
-              ) : (
-                restaurants?.data?.map((restaurant, i) => (
-                  <Card
-                    restaurant={restaurant}
-                    key={`${i.toString()}-restaurant-card`}
-                  />
-                ))
               )
+              }
+              {
+                view === 'restaurants' && (
+                  restaurants?.data?.map((restaurant, i) => (
+                    <Card
+                      restaurant={restaurant}
+                      key={`${i.toString()}-restaurant-card`}
+                    />
+                  ))
+                )
               }
             </SimpleGrid>
           ) : (

@@ -76,13 +76,11 @@ export const RestaurantModal: React.FC<{
 
         const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            console.log(`submit: ${name} ${address} ${city} ${state} ${country}`)
             try {
                 const url = `${process.env.NEXT_PUBLIC_APP_URI}/api/restaurant-api?name=${name}&address=${address}&city=${city}&state=${state}&country=${country}`
                 const response = await fetch(url);
                 if (response.status === 200) {
                     const data: YelpMatchResponse = await response.json();
-                    console.log(data)
                     setShowForm(false);
                     setRestaurant(data);
                 }
@@ -105,7 +103,6 @@ export const RestaurantModal: React.FC<{
             };
             const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URI}/api/restaurant/`, options);
             const data = await response.json();
-            console.log(data);
             if (response.status === 200) {
                 setSuccess(data);
                 onRestaurantClose();

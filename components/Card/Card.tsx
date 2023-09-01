@@ -41,7 +41,6 @@ export const Card: React.FC<CardProps> = ({
 
   useEffect(() => {
     if (movie) {
-      console.log(movie)
       setView(movie);
       setImage(movie.image);
       setName(movie.name);

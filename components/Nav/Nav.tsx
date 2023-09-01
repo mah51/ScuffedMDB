@@ -29,6 +29,7 @@ import { signout } from 'next-auth/client';
 import { useEffect, useState } from 'react';
 import Router from 'next/router';
 import Image from 'next/image';
+import useStore from 'hooks/useBearStore.hook';
 
 interface NavProps {
   user: UserAuthType;
@@ -53,23 +54,10 @@ export const Nav: React.FC<NavProps> = ({
   const [isTransparent, setIsTransparent] = useState(false);
 
   const [navigation, setNavigation] = useState([
-    { name: 'Movies', href: '/', current: false },
-    { name: 'Restaurants', href: '/restaurants', current: true },
+    { name: 'Movies', href: {pathname: "/", query: { "view": "movies" }}, current: false },
+    { name: 'Restaurants', href: {pathname: "/", query: { "view": "restaurants" }}, current: true },
   ]);
-
-  const onTabChange = (index: Number): void => {
-    const updateNav = navigation.map((c, i) => {
-      if (i === index) {
-        c.current = true;
-        // Increment the clicked counter
-        return c;
-      } else {
-        c.current = false;
-        return c;
-      }
-    });
-    setNavigation(updateNav);
-  }
+  const setView = useStore((state) => state.setView);
 
   useEffect(() => {
     Router.events.on('routeChangeStart', () => {
