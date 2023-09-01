@@ -31,9 +31,10 @@ import { EditIcon } from '@chakra-ui/icons';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { useContext } from 'react';
 import Link from 'next/link';
-import { ReviewModalContext } from '../../utils/ModalContext';
+import { ReviewModalContext } from 'utils/ModalContext';
 import { useQueryClient } from 'react-query';
 import { useSession } from 'next-auth/client';
+import ReviewModal from '../ReviewModal';
 
 interface Props {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
@@ -53,7 +54,7 @@ export const ReviewActions = ({
   const [session] = useSession();
   const userId = session?.user?._id || session?.user?.sub; // accomodate incase theya re UserAuthtype or MongoUserType
   const toast = useToast();
-  const { setMovie, onOpen } = useContext(ReviewModalContext);
+  const { onOpen, setMovie} = useContext(ReviewModalContext);
   const queryClient = useQueryClient();
   const handleReviewDelete = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -94,6 +95,7 @@ export const ReviewActions = ({
         ml={{ base: 0, md: 3 }}
         justifyContent={centred ? 'center' : 'flex-start'}
       >
+        <ReviewModal user={session?.user} inMobileNav/>
         {review?.user?._id === userId && (
           <Tooltip placement="top" label="Edit your review">
             <IconButton

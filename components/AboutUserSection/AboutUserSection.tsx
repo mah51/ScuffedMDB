@@ -31,6 +31,7 @@ export const AboutUserSection: React.FC<AboutUserSectionProps> = ({
       justifyContent="center"
       alignItems={{ base: 'center', md: 'flex-start' }}
       direction={{ base: 'column', md: 'row' }}
+      className='rounded shadow p-10 border'
     >
       <Avatar
         mr={{ base: 0, md: 10 }}

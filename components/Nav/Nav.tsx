@@ -54,8 +54,8 @@ export const Nav: React.FC<NavProps> = ({
   const [isTransparent, setIsTransparent] = useState(false);
 
   const [navigation, setNavigation] = useState([
-    { name: 'Movies', href: {pathname: "/", query: { "view": "movies" }}, current: false },
-    { name: 'Restaurants', href: {pathname: "/", query: { "view": "restaurants" }}, current: true },
+    { name: 'Movies', href: "/", current: false },
+    { name: 'Restaurants', href: "/", current: true },
   ]);
   const setView = useStore((state) => state.setView);
 
