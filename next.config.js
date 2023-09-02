@@ -63,7 +63,16 @@ const themeColors = [
 module.exports = {
   webpack5: true,
   images: {
-    domains: ['image.tmdb.org', 's3-media4.fl.yelpcdn.com'],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "image.tmdb.org"
+      },
+    ],
   },
   env: {
     NEXT_PUBLIC_APP_URI: process.env.NEXT_PUBLIC_APP_URI,
@@ -72,11 +81,11 @@ module.exports = {
     OWNER_ID: process.env.OWNER_ID,
     COLOR_THEME:
       process.env.COLOR_THEME &&
-      !themeColors.includes(process.env.COLOR_THEME.toLowerCase())
+        !themeColors.includes(process.env.COLOR_THEME.toLowerCase())
         ? 'purple'
         : process.env.COLOR_THEME
-        ? process.env.COLOR_THEME.toLowerCase()
-        : 'purple',
+          ? process.env.COLOR_THEME.toLowerCase()
+          : 'purple',
   },
   async headers() {
     return [
