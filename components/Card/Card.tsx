@@ -56,12 +56,12 @@ export const Card: React.FC<CardProps> = ({
       setView(restaurant);
       setImage(restaurant.image_url);
       setName(restaurant.name);
-      setGenres(restaurant?.categories.map((x) => x.alias));
+      setGenres(restaurant?.categories.map((x) => x.title));
       setRating(restaurant.rating * 2);
       setNumReviews(restaurant.numReviews);
       setTagLine(`${restaurant?.address[0]} ${restaurant?.address[1]}`);
     }
-  }, [view])
+  }, [restaurant, movie])
 
   return (
     <Link href={view?.href ?? ''} passHref>

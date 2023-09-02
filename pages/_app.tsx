@@ -14,6 +14,7 @@ import Router, { useRouter } from 'next/router';
 import nProgress from 'nprogress';
 import { GetServerSidePropsContext } from 'next';
 import { Session } from 'next-auth';
+import { SerializedRestaurantType } from 'models/restaurant';
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,9 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
   const [movie, setMovie] = useState<SerializedMovieType<
     ReviewType<PopulatedUserType>[]
   > | null>(null);
+  const [restaurant, setRestaurant] = useState<SerializedRestaurantType<
+  ReviewType<PopulatedUserType>[]
+> | null>(null);
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
   const shortSiteName =
     process.env.NEXT_PUBLIC_SHORT_SITE_NAME ||
@@ -82,7 +86,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
           <QueryClientProvider client={queryClient}>
             <ChakraProvider theme={theme}>
               <ReviewModalContext.Provider
-                value={{ isOpen, onOpen, onClose, movie, setMovie }}
+                value={{ isOpen, onOpen, onClose, movie, setMovie, restaurant, setRestaurant }}
               >
                 <Component {...pageProps} />
               </ReviewModalContext.Provider>
