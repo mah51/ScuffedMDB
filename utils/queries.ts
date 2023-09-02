@@ -1,5 +1,6 @@
 import { SerializedUser, PopulatedUserType } from './../models/user';
 import { ReviewType, SerializedMovieType } from '../models/movie';
+import { SerializedRestaurantType } from 'models/restaurant';
 
 export const getMovies = async (): Promise<
   SerializedMovieType<ReviewType<PopulatedUserType>[]>[] | null
@@ -65,6 +66,34 @@ export const getRestaurants = async() : Promise<any> => {
   // eslint-disable-next-line no-return-await
   const unsortedRestaurants = await res.json();
   if (!unsortedRestaurants?.data) return null;
-  const restaurants = unsortedRestaurants.data;
   return unsortedRestaurants;
 }
+
+
+export const getRestaurant = async (
+  id: string | string[] | undefined,
+  isLean: boolean
+): Promise<SerializedRestaurantType<ReviewType<PopulatedUserType>[]> | null> => {
+  if (!id) {
+    return null;
+  }
+  if (Array.isArray(id)) {
+    id = id.join('');
+  }
+  const res: Response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URI}/api/restaurant/${id}/${
+      isLean && '?isLean=true'
+    }`
+  );
+
+  // eslint-disable-next-line no-return-await
+  const restaurant: SerializedRestaurantType<
+    ReviewType<PopulatedUserType>[]
+  > = await res.json();
+
+  if (((restaurant as unknown) as { error: string })?.error) {
+    return null;
+  }
+
+  return restaurant;
+};

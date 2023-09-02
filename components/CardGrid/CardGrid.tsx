@@ -66,7 +66,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('recent');
   const [cardView, setCardView] = useState(true);
-  const [view, setView] = useState('movies');
+  const [view, setView] = useState('restaurants');
   const [genres, setGenres] = useState<string[]>([]);
   const [isGenreFilterActive, setIsGenreFilterActive] = useState(false);
   const toast = useToast();
@@ -162,18 +162,6 @@ export const CardGrid: React.FC<CardGridProps> = ({
         justifyContent="flex-start"
         alignItems="center"
       >
-        <ActiveHero
-          movie={
-            unSortedMovies
-              ?.sort((a, b) => {
-                return (
-                  new Date(a.createdAt).getTime() -
-                  new Date(b.createdAt).getTime()
-                );
-              })
-              .reverse()[0]
-          }
-        />
         <Heading
           mb={10}
           fontSize={{ base: '4xl', md: '6xl' }}
@@ -373,7 +361,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
               alignItems="stretch"
             >
 
-              {view === 'movies' && (
+              {true && (
                 movies?.data?.map(
                   (
                     movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
@@ -388,7 +376,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
               )
               }
               {
-                view === 'restaurants' && (
+                true && (
                   restaurants?.data?.map((restaurant, i) => (
                     <Card
                       restaurant={restaurant}

@@ -17,6 +17,7 @@ import Rating from '../Rating';
 import { PopulatedUserType } from '../../models/user';
 import { getColorSchemeCharCode } from '../../utils/utils';
 import { useState, useEffect } from 'react';
+import restaurant from 'models/restaurant';
 
 interface CardProps {
   movie?: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
@@ -41,6 +42,7 @@ export const Card: React.FC<CardProps> = ({
 
   useEffect(() => {
     if (movie) {
+      movie.href = `/movie/${movie?._id}`;
       setView(movie);
       setImage(movie.image);
       setName(movie.name);
@@ -50,18 +52,19 @@ export const Card: React.FC<CardProps> = ({
       setTagLine(movie.tagLine);
     }
     else if (restaurant) {
+      restaurant.href = `/restaurant/${restaurant?._id}`;
       setView(restaurant);
       setImage(restaurant.image_url);
       setName(restaurant.name);
       setGenres(restaurant?.categories.map((x) => x.alias));
       setRating(restaurant.rating * 2);
-      setNumReviews(restaurant.review_count);
+      setNumReviews(restaurant.numReviews);
       setTagLine(`${restaurant?.address[0]} ${restaurant?.address[1]}`);
     }
-  })
+  }, [view])
 
   return (
-    <Link href={`/movie/${view?._id}`} passHref>
+    <Link href={view?.href ?? ''} passHref>
       <Box as={'a'} height="full">
         <chakra.div
           position="relative"

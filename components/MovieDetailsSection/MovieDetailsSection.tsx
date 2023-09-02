@@ -104,8 +104,8 @@ export default function MovieDetailsSection({
   const averageReview =
     movie.reviews.length > 0
       ? (
-          movie.reviews.reduce((a, c) => a + c.rating, 0) / movie.reviews.length
-        ).toFixed(1)
+        movie.reviews.reduce((a, c) => a + c.rating, 0) / movie.reviews.length
+      ).toFixed(1)
       : false;
   const { scrollPosition } = useScrollPosition();
 
