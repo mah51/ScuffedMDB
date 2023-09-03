@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import Movie, { MovieType, ReviewType } from '../../models/movie';
-import Restaurant, {RestaurantType} from 'models/restaurant';
+import Restaurant, { RestaurantType } from 'models/restaurant';
 import dbConnect from '../../utils/dbConnect';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
 
@@ -131,50 +131,88 @@ const handler = async (
       return res.status(500);
     }
   } else if (req.method === `DELETE`) {
-    const { movieID, reviewID } = JSON.parse(req.body);
+    const { movieID, restaurantID, reviewID } = JSON.parse(req.body);
     const session = await getSession({ req });
     if (!session?.user?.isAdmin && !session?.user?.isReviewer) {
       return res
         .status(401)
         .json({ message: `You are not authorized to do that :(` });
     }
-    const movie: MovieType = await Movie.findOne({
-      _id: movieID,
-    }).populate('reviews.user', '_id discord_id image username discriminator');
-    if (!movie) {
-      return res.status(404).json({ message: 'movie not found' });
-    }
+    if (movieID) {
+      const movie: MovieType = await Movie.findOne({
+        _id: movieID,
+      }).populate('reviews.user', '_id discord_id image username discriminator');
+      if (!movie) {
+        return res.status(404).json({ message: 'movie not found' });
+      }
 
-    const review = movie.reviews.find(
-      (rvw) =>
-        rvw._id?.toString() === reviewID ||
-        rvw.user?._id?.toString() === session?.user?.id
-    );
-    if (!review) {
-      return res
-        .status(404)
-        .json({ message: 'You have not posted a review on that movie' });
-    }
-    if (
-      !session.user.isAdmin &&
-      review.user?._id.toString() !== session.user.id
-    ) {
-      return res
-        .status(401)
-        .json({ message: 'You do not have permissions to delete that review' });
-    }
-    movie.reviews.splice(movie.reviews.indexOf(review), 1);
-    movie.numReviews = movie.reviews.length;
-    movie.rating = movie.reviews.length
-      ? Math.round(
-        (movie.reviews.reduce<number>((a, b) => a + b.rating, 0) /
-          movie.reviews.length) *
-        10
-      ) / 10
-      : 0;
-    movie.markModified(`reviews`);
+      const review = movie.reviews.find(
+        (rvw) =>
+          rvw._id?.toString() === reviewID ||
+          rvw.user?._id?.toString() === session?.user?.id
+      );
+      if (!review) {
+        return res
+          .status(404)
+          .json({ message: 'You have not posted a review on that movie' });
+      }
+      if (
+        !session.user.isAdmin &&
+        review.user?._id.toString() !== session.user.id
+      ) {
+        return res
+          .status(401)
+          .json({ message: 'You do not have permissions to delete that review' });
+      }
+      movie.reviews.splice(movie.reviews.indexOf(review), 1);
+      movie.numReviews = movie.reviews.length;
+      movie.rating = movie.reviews.length
+        ? Math.round(
+          (movie.reviews.reduce<number>((a, b) => a + b.rating, 0) /
+            movie.reviews.length) *
+          10
+        ) / 10
+        : 0;
+      movie.markModified(`reviews`);
 
-    await movie.save();
+      await movie.save();
+    }
+    else if (restaurantID) {
+      const restaurant: RestaurantType = await Restaurant.findOne({ _id: restaurantID }).populate('reviews.user', '_id discord_id image username discriminator');
+      if (!restaurant) {
+        return res.status(404).json({ message: 'restaurant not found' });
+      }
+      const review = restaurant.reviews.find(
+        (rvw) =>
+          rvw._id?.toString() === reviewID ||
+          rvw.user?._id?.toString() === session?.user?.id
+      );
+      if (!review) {
+        return res
+          .status(404)
+          .json({ message: 'You have not posted a review on that movie' });
+      }
+      if (
+        !session.user.isAdmin &&
+        review.user?._id.toString() !== session.user.id
+      ) {
+        return res
+          .status(401)
+          .json({ message: 'You do not have permissions to delete that review' });
+      }
+      restaurant.reviews.splice(restaurant.reviews.indexOf(review), 1);
+      restaurant.numReviews = restaurant.reviews.length;
+      restaurant.rating = restaurant.reviews.length
+        ? Math.round(
+          (restaurant.reviews.reduce<number>((a, b) => a + b.rating, 0) /
+            restaurant.reviews.length) *
+          10
+        ) / 10
+        : 0;
+      restaurant.markModified(`reviews`);
+
+      await restaurant.save();
+    }
     return res.status(200).json({ message: `Review deleted` });
   } else {
     return res.status(405).send({ message: `method not allowed :(` });

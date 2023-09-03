@@ -14,7 +14,7 @@ import React from 'react';
 import Image from 'next/image';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
-import { ReviewActions } from '../MovieReviewSection/MovieReviewSection';
+import { ReviewActions } from 'components/ReviewSection/ReviewSection';
 import { UserPageUser } from 'pages/user/[uID]';
 
 export const UserReviewSection: React.FC<{

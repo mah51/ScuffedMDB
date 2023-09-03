@@ -43,7 +43,8 @@ export const ReviewModal: React.FC<{
   user: User;
   inNav?: boolean;
   inMobileNav?: boolean;
-}> = ({ user, inNav = false, inMobileNav = false }): React.ReactElement => {
+  showReviewButton?: boolean;
+}> = ({ user, inNav = false, inMobileNav = false, showReviewButton = true }): React.ReactElement => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose, movie, setMovie, restaurant, setRestaurant } = useContext(
     ReviewModalContext
@@ -71,6 +72,9 @@ export const ReviewModal: React.FC<{
     if (success) {
       queryClient
         .invalidateQueries(`movie-${movie?.name}`)
+        .catch(console.error);
+      queryClient
+        .invalidateQueries(`restaurant-${restaurant?._id}`)
         .catch(console.error);
       queryClient.invalidateQueries(`movies`).catch(console.error);
       queryClient.invalidateQueries(`restaurants`).catch(console.error);
@@ -186,7 +190,7 @@ export const ReviewModal: React.FC<{
 
   return (
     <>
-      {inMobileNav ? (
+      {(inMobileNav && showReviewButton) && (
         <Button
           mt={2}
           leftIcon={<AddIcon />}
@@ -200,7 +204,8 @@ export const ReviewModal: React.FC<{
         >
           Add review
         </Button>
-      ) : (
+      )}
+      {showReviewButton && (
         <Button
           variant="ghost"
           width={inNav ? '' : 'full'}

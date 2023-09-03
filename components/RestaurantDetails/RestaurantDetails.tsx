@@ -92,7 +92,7 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                             ratio={16 / 9}
                             width={{
                                 base: '90vw',
-                                lg: '90vw'
+                                lg: 'auto'
                             }} className='mb-4'>
                             <Skeleton borderRadius="xl" isLoaded={isImageLoaded}>
                                 <Image
@@ -108,10 +108,9 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                         <Wrap spacing={3} mt={{ base: '5', lg: 0 }}>
                             {restaurant?.categories?.map((category, i) => {
                                 return (
-                                    <WrapItem>
+                                    <WrapItem key={i.toString()}>
                                         <Tag
                                             size={isLargerThan800 ? 'md' : 'sm'}
-                                            key={i.toString()}
                                             colorScheme={getColorSchemeCharCode(category.alias)}
                                         >
                                             <TagLabel fontWeight={'600'}> {category?.title}</TagLabel>

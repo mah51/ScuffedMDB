@@ -13,6 +13,7 @@ import type { Session } from 'next-auth';
 import { useQuery } from 'react-query';
 import { NextSeo } from 'next-seo';
 import ErrorPage from '@components/ErrorPage';
+import { ReviewModal } from '@components/ReviewModal/ReviewModal';
 
 export interface UserPageUser extends SerializedUser {
   sub: string;
@@ -85,7 +86,7 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
         <AboutUserSection user={desiredUser} reviews={allRatings} />
         <Divider mt={10} />
         <UserReviewSection movies={movies} user={desiredUser} />
-        {/* <UserStatsSection /> */}
+        <ReviewModal user={session?.user} showReviewButton={false}/>
       </Flex>
     </AppLayout>
   );

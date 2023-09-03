@@ -6,13 +6,13 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import AppLayout from '../../components/AppLayout';
 import MovieDetailsSection from '../../components/MovieDetailsSection';
-import MovieReviewSection from '../../components/MovieReviewSection';
 import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { getMovie } from '../../utils/queries';
 import { NextSeo } from 'next-seo';
 import ErrorPage from '@components/ErrorPage';
 import ReviewModal from '@components/ReviewModal';
+import ReviewSection from '@components/ReviewSection/ReviewSection';
 
 
 interface MoviePageProps {
@@ -58,8 +58,8 @@ export default function MoviePage({
     <AppLayout user={user} showMovies showReview>
       <NextSeo title={data.name} />
       <MovieDetailsSection movie={data} user={user} />
-      <MovieReviewSection movie={data} />
-      <ReviewModal user={session?.user} inMobileNav/>
+      <ReviewSection movie={data} />
+      <ReviewModal user={session?.user} showReviewButton={false}/>
     </AppLayout>
   );
 }
