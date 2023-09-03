@@ -7,6 +7,7 @@ import { useQuery } from 'react-query';
 import ErrorPage from '@components/ErrorPage';
 import AppLayout from '@components/AppLayout';
 import RestaurantDetails from '@components/RestaurantDetails';
+import { NextSeo } from 'next-seo';
 
 interface RestaurantPageProps {
     movie: SerializedRestaurantType<ReviewType<PopulatedUserType>[]>;
@@ -45,6 +46,7 @@ export default function RestaurantPage({ error, ...props }: RestaurantPageProps)
 
     return (
         <AppLayout user={user} showMovies>
+            <NextSeo title={data.name} />
             <RestaurantDetails restaurant={data} user={user}/>
         </AppLayout>
     )
