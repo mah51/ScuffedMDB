@@ -59,7 +59,7 @@ export const StarRating = ({ rating } : any) => {
 };
 
 
-const Star = ({ icon, color = "goldenrod", ...props }) => (
+const Star = ({ icon, color = "goldenrod" } : any) => (
   <Box
     as="span"
     display="inline-block"
@@ -67,7 +67,6 @@ const Star = ({ icon, color = "goldenrod", ...props }) => (
     borderColor={color}
     borderRadius="3px"
     mx={0.5}
-    {...props}
   >
     {React.createElement(icon, { color })}
   </Box>

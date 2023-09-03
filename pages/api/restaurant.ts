@@ -53,6 +53,18 @@ export default async function handler(
             return res.status(500).json({message: "Internal server error"});
         }
     }
+    else if (req.method === 'DELETE') {
+        const {id} = JSON.parse(req.body);
+        const restaurant = await Restaurant.findOne({_id: id});
+        if(!restaurant){
+            return res.status(404).json({message: "Unable to find by id"});
+        }
+        const deleted = await Restaurant.deleteOne({_id: id});
+        if(deleted.ok === 1){
+            return res.status(200).json(restaurant);
+        }
+        return res.status(500);
+    }
     return res.status(405).json({ message: "Method not supported" });
 }
 

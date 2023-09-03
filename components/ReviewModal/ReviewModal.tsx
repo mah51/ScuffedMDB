@@ -56,6 +56,7 @@ export const ReviewModal: React.FC<{
   const [isEditingReview, setIsEditingReview] = useState(false);
 
   const [isOpenedFromMovie, setIsOpenedFromMovie] = useState(false);
+  const [isOpenedFromRestaurant, setIsOpenedFromRestaurant] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState(``);
   const [commentError, setCommentError] = useState(``);
@@ -95,6 +96,7 @@ export const ReviewModal: React.FC<{
       setComment(``);
       setOption('');
       setIsOpenedFromMovie(false);
+      setIsOpenedFromRestaurant(false);
       return;
     }
     if (movie) {
@@ -125,10 +127,14 @@ export const ReviewModal: React.FC<{
 
   useEffect(() => {
     if (!isOpen) {
+      setIsOpenedFromRestaurant(false);
       return setIsOpenedFromMovie(false);
     }
     if (movie) {
       setIsOpenedFromMovie(true);
+    }
+    if (restaurant) {
+      setIsOpenedFromRestaurant(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
@@ -231,7 +237,7 @@ export const ReviewModal: React.FC<{
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              {!isOpenedFromMovie && (
+              {(!isOpenedFromMovie && !isOpenedFromRestaurant) && (
                 <>
                   <FormLabel mb={3} fontSize="1.1em" fontWeight="semibold">
                     Select Option
@@ -322,7 +328,7 @@ export const ReviewModal: React.FC<{
                 </Text>
               )}
               {
-                (option || isOpenedFromMovie) &&
+                (option || isOpenedFromMovie || isOpenedFromRestaurant) &&
                 <>
                   <FormLabel my={3}>
                     <Flex justifyContent="space-between">
@@ -431,6 +437,7 @@ export const ReviewModal: React.FC<{
                 onClose();
                 setMovie(null);
                 setIsOpenedFromMovie(false);
+                setIsOpenedFromRestaurant(false);
                 setRestaurant(null);
               }}
             >

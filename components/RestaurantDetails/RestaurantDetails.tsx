@@ -48,7 +48,7 @@ import useScrollPosition from 'hooks/useScrollPosition.hook';
 import Image from 'next/image';
 import { getColorSchemeCharCode } from 'utils/utils';
 import AdminOptions from 'components/AdminOptions';
-import { PhoneIcon } from '@chakra-ui/icons'
+import { PhoneIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { StarRating } from '@components/Rating/Rating';
 import Link from 'next/link';
 
@@ -85,7 +85,7 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                 }}
             >
                 <Box minHeight="calc(100vh - 80px)">
-                    <AdminOptions user={user} />
+                    <AdminOptions user={user} restaurant={restaurant} />
                     <VStack align='stretch' className='m-2'>
                         <AspectRatio borderRadius="xl"
                             shadow={'6px 8px 19px 4px rgba(0, 0, 0, 0.25)'}
@@ -128,13 +128,39 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                                 </WrapItem>
                             }
                         </Wrap>
-                        <Heading
-                            lineHeight="1.1em"
-                            transform={'translateX(-3px)'}
-                            fontSize="6xl"
-                        >
-                            {restaurant?.name}
-                        </Heading>
+                        <Flex align='center'>
+                            <Box w='50vw'>
+                                <Heading
+                                    lineHeight="1.1em"
+                                    transform={'translateX(-3px)'}
+                                    fontSize={{
+                                        'base': '3xl',
+                                        'lg': '6xl'
+                                    }}
+                                >
+                                    {restaurant?.name}
+                                </Heading>
+                            </Box>
+                            {
+                                restaurant?.url &&
+                                <Box>
+                                    <Link href={restaurant?.url} passHref>
+                                        <IconButton
+                                            mt={'auto'}
+                                            aria-label="View on Yelp"
+                                            size="xl"
+                                            p={2}
+                                            as={'a'}
+                                            target="_blank"
+                                            icon={<FaYelp size="2em" />}
+                                            alignSelf="flex-end"
+                                            variant="outline"
+                                            color={'rgba(224,7,7,1)'}
+                                        />
+                                    </Link>
+                                </Box>
+                            }
+                        </Flex>
                         {
                             restaurant?.phone &&
                             <Box>
@@ -166,30 +192,6 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                                 <Text color={'gray.500'} fontSize={'sm'}>{restaurant.yelp_rating}</Text>
                                 <Text color={'gray.500'} fontSize={'sm'}>({restaurant.review_count} reviews)</Text>
                             </HStack>
-                        }
-                        {
-                            restaurant?.url &&
-                            <Wrap spacing={3}>
-                                <WrapItem className='self-center'>
-                                    <Text color={'gray.500'} fontSize="lg">View on Yelp</Text>
-                                </WrapItem>
-                                <WrapItem>
-                                    <Link href={restaurant?.url} passHref>
-                                        <IconButton
-                                            mt={'auto'}
-                                            aria-label="View on IMDB"
-                                            size="xl"
-                                            p={2}
-                                            as={'a'}
-                                            target="_blank"
-                                            icon={<FaYelp size="2em"/>}
-                                            alignSelf="flex-end"
-                                            variant="outline"
-                                            color={'rgba(224,7,7,1)'}
-                                        />
-                                    </Link>
-                                </WrapItem>
-                            </Wrap>
                         }
                     </VStack>
                 </Box>

@@ -6,7 +6,7 @@ import React, { ReactElement, useContext, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import { ReviewModalContext } from 'utils/ModalContext';
-import { SettingsIcon, ArrowBackIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icons';
+import { SettingsIcon, ArrowBackIcon, EditIcon, ExternalLinkIcon, AddIcon } from '@chakra-ui/icons';
 import {
     Flex,
     Box,
@@ -66,6 +66,11 @@ export default function AdminOptions({
     const router = useRouter();
     const queryClient = useQueryClient();
 
+    function showAddIcon() {
+        return (movie && !movie.reviews.find((rvw) => rvw.user?._id === user.sub))
+            || (restaurant && !restaurant.reviews.find((rvw) => rvw.user?._id === user.sub))
+    };
+
     const handleMovieDelete = async () => {
         try {
             const response = await fetch(
@@ -109,6 +114,49 @@ export default function AdminOptions({
             });
         }
     };
+
+    const handleRestaurantDelete = async () => {
+        try {
+            const options = {
+                method: 'delete',
+                body: JSON.stringify({ id: restaurant?._id })
+            }
+            const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URI}/api/restaurant`, options);
+
+            const data = await response.json();
+
+            if (response.status !== 200) {
+                return toast({
+                    variant: `subtle`,
+                    title: `There was an error`,
+                    description: data.message,
+                    status: `error`,
+                    duration: 5000,
+                    isClosable: true,
+                });
+            }
+            await queryClient.invalidateQueries(`restaurant`);
+            router.push('/');
+            toast({
+                variant: `subtle`,
+                title: `Restaurant Deleted`,
+                description: `${data.name} was deleted successfully :)`,
+                status: `success`,
+                duration: 5000,
+                isClosable: true,
+            });
+        }
+        catch (err) {
+            toast({
+                variant: `subtle`,
+                title: `There was an error`,
+                description: err.message,
+                status: `error`,
+                duration: 5000,
+                isClosable: true,
+            });
+        }
+    }
     return (
         <Stack
             isInline
@@ -133,13 +181,11 @@ export default function AdminOptions({
                 <AlertDialogOverlay>
                     <AlertDialogContent>
                         <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                            Delete {movie?.name}
+                            Delete {movie ? movie?.name : restaurant?.name}
                         </AlertDialogHeader>
 
                         <AlertDialogBody>
-                            Are you sure? This is permanent, the movie and{' '}
-                            {movie?.reviews.length} review
-                            {movie?.reviews.length !== 1 && 's'} will be deleted
+                            Are you sure? This is permanent, the movie and reviews will be deleted
                         </AlertDialogBody>
 
                         <AlertDialogFooter>
@@ -150,7 +196,12 @@ export default function AdminOptions({
                                 colorScheme="red"
                                 onClick={() => {
                                     onClose();
-                                    return handleMovieDelete();
+                                    if (movie) {
+                                        return handleMovieDelete();
+                                    }
+                                    else if (restaurant) {
+                                        return handleRestaurantDelete();
+                                    }
                                 }}
                                 ml={3}
                             >
@@ -181,14 +232,15 @@ export default function AdminOptions({
                                 return reviewOnOpen();
                             }}
                             icon={
-                                !movie.reviews.find((rvw) => rvw.user?._id === user.sub) ? (
+                                (movie && !movie.reviews.find((rvw) => rvw.user?._id === user.sub)) || (restaurant && !restaurant.reviews.find((rvw) => rvw.user?._id === user.sub))? (
                                     <AddIcon />
                                 ) : (
                                     <EditIcon />
                                 )
                             }
                         >
-                            {!movie.reviews.find((rvw) => rvw.user?._id === user.sub)
+                            {(movie && !movie.reviews.find((rvw) => rvw.user?._id === user.sub)) ||
+                                (restaurant && !restaurant.reviews.find((rvw) => rvw.user?._id === user.sub))
                                 ? 'Add Review'
                                 : 'Edit Review'}
                         </MenuItem>
@@ -197,14 +249,21 @@ export default function AdminOptions({
                                 toast({
                                     variant: 'subtle',
                                     title: 'Copied to clipboard',
-                                    description: `${movie?.name} copied to clipboard`,
+                                    description: `${movie ? movie?.name : restaurant?.name} copied to clipboard`,
                                     isClosable: true,
                                     duration: 5000,
                                     status: 'success',
                                 });
-                                navigator.clipboard.writeText(
-                                    `${process.env.NEXT_PUBLIC_APP_URI}/movie/${movie?._id}`
-                                );
+                                if(movie){
+                                    navigator.clipboard.writeText(
+                                        `${process.env.NEXT_PUBLIC_APP_URI}/movie/${movie?._id}`
+                                    );
+                                }
+                                else if (restaurant) {
+                                    navigator.clipboard.writeText(
+                                        `${process.env.NEXT_PUBLIC_APP_URI}/restaurant/${restaurant?._id}`
+                                    );
+                                }
                             }}
                             icon={<ExternalLinkIcon />}
                         >
