@@ -103,7 +103,7 @@ export const Nav: React.FC<NavProps> = ({
           justifyContent="space-between"
         >
           <HStack spacing={8} alignItems="center" ml={5}>
-            <Link href="/">
+            <Link href="/" passHref>
               <Image
                 src={`/svg/logo-no-background-${process.env.COLOR_THEME}.svg`}
                 width={90}

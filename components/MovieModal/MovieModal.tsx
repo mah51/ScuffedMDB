@@ -145,16 +145,28 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
   return (
     <>
       {inMobileNav ? (
-        <Button
-          variant="ghost"
-          width="95%"
-          mx="auto"
-          mt={2}
-          leftIcon={<AddIcon />}
-          onClick={onOpen}
-        >
-          Add movie
-        </Button>
+        <>
+          <Button
+            variant="ghost"
+            width="95%"
+            mx="auto"
+            mt={2}
+            leftIcon={<AddIcon />}
+            onClick={onOpen}
+          >
+            Add movie
+          </Button>
+          <Button
+            variant="ghost"
+            width="95%"
+            mx="auto"
+            mt={2}
+            leftIcon={<AddIcon />}
+            onClick={onRestaurantOpen}
+          >
+            Add Restaurant
+          </Button>
+        </>
       ) : (
         <Menu>
           <MenuButton
@@ -246,7 +258,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <RestaurantModal isRestaurantOpen={isRestaurantOpen} onRestaurantClose={onRestaurantClose} setError={setError} setSuccess={setSuccess}/>
+      <RestaurantModal isRestaurantOpen={isRestaurantOpen} onRestaurantClose={onRestaurantClose} setError={setError} setSuccess={setSuccess} />
     </>
   );
 };

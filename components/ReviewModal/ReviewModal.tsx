@@ -86,7 +86,7 @@ export const ReviewModal: React.FC<{
       });
       setSuccess('');
     }
-  }, [movie, queryClient, success, toast]);
+  }, [movie, queryClient, success, toast, restaurant]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -329,7 +329,7 @@ export const ReviewModal: React.FC<{
                       <Text fontSize="1.1em" fontWeight="semibold">
                         Rating
                       </Text>
-                      <Text color={useColorModeValue(`gray.600`, `gray.400`)}>
+                      <Text color='gray.400'>
                         {rating}/10
                       </Text>
                     </Flex>
