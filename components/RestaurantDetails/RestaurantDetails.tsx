@@ -33,10 +33,13 @@ import {
     AlertDialogOverlay,
     useColorModeValue,
     Skeleton,
-    Spacer
+    Spacer,
+    HStack,
+    Wrap,
+    WrapItem
 } from '@chakra-ui/react';
 import { IoChevronDown, IoLocationOutline } from 'react-icons/io5';
-import { FaYelp } from 'react-icons/fa';
+import { FaYelp, FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import React, { ReactElement, useContext, useState, useEffect } from 'react';
 import { ReviewType, SerializedRestaurantType } from 'models/restaurant';
 import { PopulatedUserType } from 'models/user';
@@ -46,6 +49,8 @@ import Image from 'next/image';
 import { getColorSchemeCharCode } from 'utils/utils';
 import AdminOptions from 'components/AdminOptions';
 import { PhoneIcon } from '@chakra-ui/icons'
+import { StarRating } from '@components/Rating/Rating';
+import Link from 'next/link';
 
 
 interface Props {
@@ -81,13 +86,13 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
             >
                 <Box minHeight="calc(100vh - 80px)">
                     <AdminOptions user={user} />
-                    <VStack align='stretch'>
+                    <VStack align='stretch' className='m-2'>
                         <AspectRatio borderRadius="xl"
                             shadow={'6px 8px 19px 4px rgba(0, 0, 0, 0.25)'}
                             ratio={16 / 9}
                             width={{
                                 base: '90vw',
-                                lg: '40vw'
+                                lg: '90vw'
                             }} className='mb-4'>
                             <Skeleton borderRadius="xl" isLoaded={isImageLoaded}>
                                 <Image
@@ -100,28 +105,29 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                                 />
                             </Skeleton>
                         </AspectRatio>
-                        <Stack spacing={3} mt={{ base: '5', lg: 0 }} isInline>
+                        <Wrap spacing={3} mt={{ base: '5', lg: 0 }}>
                             {restaurant?.categories?.map((category, i) => {
                                 return (
-                                    <Tag
-                                        size={isLargerThan800 ? 'md' : 'sm'}
-                                        key={i.toString()}
-                                        colorScheme={getColorSchemeCharCode(category.alias)}
-                                    >
-                                        <TagLabel fontWeight={'600'}> {category?.title}</TagLabel>
-                                    </Tag>
+                                    <WrapItem>
+                                        <Tag
+                                            size={isLargerThan800 ? 'md' : 'sm'}
+                                            key={i.toString()}
+                                            colorScheme={getColorSchemeCharCode(category.alias)}
+                                        >
+                                            <TagLabel fontWeight={'600'}> {category?.title}</TagLabel>
+                                        </Tag>
+                                    </WrapItem>
                                 );
                             })}
                             {
                                 restaurant?.price &&
-                                <>
-                                    <div>|</div>
+                                <WrapItem>
                                     <Tag size={isLargerThan800 ? 'md' : 'sm'}>
                                         {restaurant.price}
                                     </Tag>
-                                </>
+                                </WrapItem>
                             }
-                        </Stack>
+                        </Wrap>
                         <Heading
                             lineHeight="1.1em"
                             transform={'translateX(-3px)'}
@@ -146,12 +152,44 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                                     <Stack isInline>
                                         {restaurant?.address.map(val => {
                                             return (
-                                                <Text>{val}</Text>
+                                                <Text fontSize='md' key={val}>{val}</Text>
                                             );
                                         })}
                                     </Stack>
                                 </Stack>
                             </Box>
+                        }
+                        {
+                            restaurant?.yelp_rating &&
+                            <HStack>
+                                <StarRating rating={restaurant.yelp_rating} />
+                                <Text color={'gray.500'} fontSize={'sm'}>{restaurant.yelp_rating}</Text>
+                                <Text color={'gray.500'} fontSize={'sm'}>({restaurant.review_count} reviews)</Text>
+                            </HStack>
+                        }
+                        {
+                            restaurant?.url &&
+                            <Wrap spacing={3}>
+                                <WrapItem className='self-center'>
+                                    <Text color={'gray.500'} fontSize="lg">View on Yelp</Text>
+                                </WrapItem>
+                                <WrapItem>
+                                    <Link href={restaurant?.url} passHref>
+                                        <IconButton
+                                            mt={'auto'}
+                                            aria-label="View on IMDB"
+                                            size="xl"
+                                            p={2}
+                                            as={'a'}
+                                            target="_blank"
+                                            icon={<FaYelp size="2em"/>}
+                                            alignSelf="flex-end"
+                                            variant="outline"
+                                            color={'rgba(224,7,7,1)'}
+                                        />
+                                    </Link>
+                                </WrapItem>
+                            </Wrap>
                         }
                     </VStack>
                 </Box>

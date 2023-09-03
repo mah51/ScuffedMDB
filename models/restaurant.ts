@@ -33,6 +33,7 @@ const restaurantSchema = new mongoose.Schema(
         review_count: { type: Number },
         categories: [categorySchema],
         rating: { type: Number },
+        yelp_rating: {type: Number},
         address: [{ type: String }],
         photos: [{type: String}],
         price: { type: String },
@@ -71,6 +72,7 @@ export interface RestaurantType<T = ReviewType[]> extends Document {
     photos: string[];
     price: string;
     numReviews: number;
+    yelp_rating: number;
     reviews: T;
     createdAt: Date;
     updatedAt: Date;

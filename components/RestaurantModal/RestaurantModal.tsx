@@ -22,6 +22,7 @@ import {
 import { StarIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import { YelpMatchResponse } from "../../pages/api/restaurant-api";
+import { StarRating } from '@components/Rating/Rating';
 
 
 function SkeletonImage({ data }: { data: YelpMatchResponse }) {
@@ -145,14 +146,7 @@ export const RestaurantModal: React.FC<{
                                         </HStack> : ''
                                 }
                                 <Box display='flex' mt='2' alignItems='center'>
-                                    {Array(5)
-                                        .fill('')
-                                        .map((_, i) => (
-                                            <StarIcon
-                                                key={i}
-                                                color={i < restaurant?.rating ? 'yellow.500' : 'gray.300'}
-                                            />
-                                        ))}
+                                    <StarRating rating={restaurant?.rating}/>
                                     <Box as='span' ml='2' color='gray.600' fontSize='sm'>
                                         {restaurant?.review_count} reviews
                                     </Box>

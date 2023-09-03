@@ -1,5 +1,6 @@
-import { HStack, Text } from '@chakra-ui/react';
+import { HStack, Text, Box } from '@chakra-ui/react';
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
+import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import React from 'react';
 
 export const Rating = ({
@@ -30,3 +31,44 @@ export const Rating = ({
 
   return <HStack direction="row">{stars}</HStack>;
 };
+
+export const StarRating = ({ rating } : any) => {
+  const fullStars = Math.floor(rating);
+  const halfStars = rating - fullStars >= 0.5 ? 1 : 0;
+  const emptyStars = 5 - fullStars - halfStars;
+
+  return (
+    <Box display="flex">
+      {Array(fullStars)
+        .fill('')
+        .map((_, idx) => (
+          <Star key={idx} icon={FaStar} />
+        ))}
+      {Array(halfStars)
+        .fill('')
+        .map((_, idx) => (
+          <Star key={idx} icon={FaStarHalfAlt} />
+        ))}
+      {Array(emptyStars)
+        .fill('')
+        .map((_, idx) => (
+          <Star key={idx} icon={FaRegStar} />
+        ))}
+    </Box>
+  );
+};
+
+
+const Star = ({ icon, color = "goldenrod", ...props }) => (
+  <Box
+    as="span"
+    display="inline-block"
+    border="1px solid"
+    borderColor={color}
+    borderRadius="3px"
+    mx={0.5}
+    {...props}
+  >
+    {React.createElement(icon, { color })}
+  </Box>
+);

@@ -111,19 +111,6 @@ export const Nav: React.FC<NavProps> = ({
                 alt="Logo" />
             </Link>
           </HStack>
-          <HStack>
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
-                {navigation.map((item, i) => (
-                  <Link key={item.name} href={item.href}>
-                    <ChakraLink colorScheme={process.env.COLOR_THEME}>
-                      {item.name}
-                    </ChakraLink>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </HStack>
           <HStack align="center" spacing={'15px'} mx={4}>
             <IconButton
               variant="ghost"
