@@ -3,7 +3,8 @@ export interface MovieEndpointBodyType {
 }
 
 export interface ReviewEndpointBodyType {
-  movieID: string;
+  restaurantID?: string;
+  movieID?: string;
   comment?: string;
   rating: number;
 }

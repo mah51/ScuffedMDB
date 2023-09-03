@@ -72,7 +72,7 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                     '4xl': '12em',
                 }}
             >
-                {bp && !['base', 'sm', 'md', 'lg'].includes(bp) && (
+                {bp && !['base', 'sm', 'md'].includes(bp) && (
                     <Flex
                         direction="column"
                         alignItems="center"

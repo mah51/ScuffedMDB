@@ -3,8 +3,93 @@ import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import Movie, { MovieType, ReviewType } from '../../models/movie';
+import Restaurant, {RestaurantType} from 'models/restaurant';
 import dbConnect from '../../utils/dbConnect';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
+
+const addMovieReview = async (review: any, movieID: any, session: any, res: any) => {
+  const movie: MovieType<ReviewType<string>[]> = await Movie.findOne({
+    _id: movieID,
+  });
+
+  if (!movie) {
+    return res.status(404).json({ message: 'movie not found' });;
+  }
+  const existingReview = movie.reviews.filter(
+    // eslint-disable-next-line no-underscore-dangle
+    (rv) =>
+      [session?.user?._id, session?.user?.sub].includes(rv.user.toString())
+  )[0];
+  if (existingReview) {
+    if (
+      ![session?.user?._id, session?.user?.sub].includes(
+        existingReview.user.toString()
+      )
+    ) {
+      return res.status(400).json({
+        message: `You may not edit a review that is not your own`,
+      });
+    }
+    const index = movie.reviews.indexOf(existingReview);
+    movie.reviews.splice(index, 1);
+  }
+  //@ts-ignore
+  movie.reviews.push(review);
+  movie.numReviews = movie.reviews.length;
+  movie.rating =
+    Math.round(
+      (movie.reviews.reduce<number>((a, b) => a + b.rating, 0) /
+        movie.reviews.length) *
+      10
+    ) / 10;
+  movie.markModified(`reviews`);
+  await movie.save();
+  return res
+    .status(200)
+    .json({ movie, type: existingReview ? `modification` : `addition` });
+}
+
+const addRestaurantReview = async (review: any, restaurantID: any, session: any, res: any) => {
+  const restaurant: RestaurantType<ReviewType<string>[]> = await Restaurant.findOne({
+    _id: restaurantID,
+  });
+
+  if (!restaurant) {
+    return res.status(404).json({ message: 'restaurant not found' });;
+  }
+  const existingReview = restaurant.reviews.filter(
+    // eslint-disable-next-line no-underscore-dangle
+    (rv) =>
+      [session?.user?._id, session?.user?.sub].includes(rv.user.toString())
+  )[0];
+  if (existingReview) {
+    if (
+      ![session?.user?._id, session?.user?.sub].includes(
+        existingReview.user.toString()
+      )
+    ) {
+      return res.status(400).json({
+        message: `You may not edit a review that is not your own`,
+      });
+    }
+    const index = restaurant.reviews.indexOf(existingReview);
+    restaurant.reviews.splice(index, 1);
+  }
+  //@ts-ignore
+  restaurant.reviews.push(review);
+  restaurant.numReviews = restaurant.reviews.length;
+  restaurant.rating =
+    Math.round(
+      (restaurant.reviews.reduce<number>((a, b) => a + b.rating, 0) /
+        restaurant.reviews.length) *
+      10
+    ) / 10;
+  restaurant.markModified(`reviews`);
+  await restaurant.save();
+  return res
+    .status(200)
+    .json({ restaurant, type: existingReview ? `modification` : `addition` });
+}
 
 const handler = async (
   req: NextApiRequest,
@@ -12,7 +97,7 @@ const handler = async (
 ): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
   if (req.method === `POST`) {
-    const { comment, rating, movieID }: ReviewEndpointBodyType = JSON.parse(
+    const { comment, rating, movieID, restaurantID }: ReviewEndpointBodyType = JSON.parse(
       req.body
     );
     try {
@@ -22,73 +107,25 @@ const handler = async (
           .status(401)
           .json({ message: `You are not authorized to do that :(` });
       }
+      if (movieID) {
+        const review = {
+          // eslint-disable-next-line no-underscore-dangle
+          user: session.user._id || session.user.sub,
+          comment,
+          rating,
+        };
 
-      const review = {
-        // eslint-disable-next-line no-underscore-dangle
-        user: session.user._id || session.user.sub,
-        comment,
-        rating,
-      };
-
-      const movie: MovieType<ReviewType<string>[]> = await Movie.findOne({
-        _id: movieID,
-      });
-
-      if (!movie) {
-        return res.status(404).json({ error: 'movie not found' });
+        await addMovieReview(review, movieID, session, res);
       }
-      const existingReview = movie.reviews.filter(
-        // eslint-disable-next-line no-underscore-dangle
-        (rv) =>
-          [session?.user?._id, session?.user?.sub].includes(rv.user.toString())
-      )[0];
-      if (existingReview) {
-        if (
-          ![session?.user?._id, session?.user?.sub].includes(
-            existingReview.user.toString()
-          )
-        ) {
-          return res.status(400).json({
-            message: `You may not edit a review that is not your own`,
-          });
+      else if (restaurantID) {
+        const review = {
+          // eslint-disable-next-line no-underscore-dangle
+          user: session.user._id || session.user.sub,
+          comment,
+          rating,
         }
-        const index = movie.reviews.indexOf(existingReview);
-        movie.reviews.splice(index, 1);
+        await addRestaurantReview(review, restaurantID, session, res);
       }
-      //@ts-ignore
-      movie.reviews.push(review);
-      movie.numReviews = movie.reviews.length;
-      movie.rating =
-        Math.round(
-          (movie.reviews.reduce<number>((a, b) => a + b.rating, 0) /
-            movie.reviews.length) *
-            10
-        ) / 10;
-      movie.markModified(`reviews`);
-      const mrv = await movie.save();
-      const updatedMovie = mrv.toJSON();
-      const updatedReview =
-        updatedMovie.reviews.find((rvw) =>
-          [session.user._id, session.user.sub, session.user.id].includes(
-            rvw.user.toString()
-          )
-        ) || review;
-      postDataToWebhook({
-        //@ts-ignore
-        review: {
-          ...updatedReview,
-          _id: ((updatedReview as unknown) as ReviewType)._id?.toString?.(),
-          user: updatedReview.user.toString(),
-        },
-        //@ts-ignore
-        movie: updatedMovie,
-        user: session.user,
-        type: 'review',
-        action: existingReview ? 'modified' : 'added',
-      });
-      return res
-        .status(200)
-        .json({ movie, type: existingReview ? `modification` : `addition` });
     } catch (err) {
       console.error(err);
       return res.status(500);
@@ -130,23 +167,14 @@ const handler = async (
     movie.numReviews = movie.reviews.length;
     movie.rating = movie.reviews.length
       ? Math.round(
-          (movie.reviews.reduce<number>((a, b) => a + b.rating, 0) /
-            movie.reviews.length) *
-            10
-        ) / 10
+        (movie.reviews.reduce<number>((a, b) => a + b.rating, 0) /
+          movie.reviews.length) *
+        10
+      ) / 10
       : 0;
     movie.markModified(`reviews`);
 
     await movie.save();
-
-    postDataToWebhook({
-      //@ts-ignore
-      review: review,
-      movie: movie,
-      user: session.user,
-      type: 'review',
-      action: 'deleted',
-    });
     return res.status(200).json({ message: `Review deleted` });
   } else {
     return res.status(405).send({ message: `method not allowed :(` });

@@ -125,9 +125,12 @@ export default function MovieDetailsSection({
           '2xl': '10vh',
           '4xl': '12em',
         }}
+        mx={{
+          lg: '2vw'
+        }}
       >
         {/* Scroll down section */}
-        {bp && !['base', 'sm', 'md', 'lg'].includes(bp) && (
+        {bp && !['base', 'sm', 'md'].includes(bp) && (
           <Flex
             direction="column"
             alignItems="center"
@@ -328,7 +331,7 @@ const AdditionalMovieDetails = ({
   >
     <StatGroup
       flexDirection={{ base: 'column', lg: 'row' }}
-      alignItems="center"
+      alignItems="stretch"
       justifyContent="space-between"
       width="full"
       textAlign="center"

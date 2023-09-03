@@ -78,8 +78,8 @@ export const ReviewModal: React.FC<{
         title: success === `addition` ? `Review Added` : `Review Modified`,
         description:
           success === `addition`
-            ? `Your review was successfully added to ${movie?.name}`
-            : `Your review on ${movie?.name} was successfully modified`,
+            ? `Your review was successfully added to ${movie ? movie?.name : restaurant?.name}`
+            : `Your review on ${movie ? movie?.name : restaurant?.name} was successfully modified`,
         status: `success`,
         duration: 5000,
         isClosable: true,
@@ -94,6 +94,7 @@ export const ReviewModal: React.FC<{
       setRating(0);
       setComment(``);
       setOption('');
+      setIsOpenedFromMovie(false);
       return;
     }
     if (movie) {
@@ -137,12 +138,18 @@ export const ReviewModal: React.FC<{
     onClose: () => void
   ) => {
     e.preventDefault();
-    if (!movie) {
-      return setselectionError(`Please select a valid movie.`);
+    if (!movie && !restaurant) {
+      if (!movie){
+        return setselectionError(`Please select a valid movie.`); 
+      }
+      if (!restaurant){
+        return setselectionError('Please select a valid restaurant')
+      }
     }
     const data: ReviewEndpointBodyType = {
       // eslint-disable-next-line no-underscore-dangle
-      movieID: movie._id,
+      movieID: movie?._id,
+      restaurantID: restaurant?._id,
       comment,
       rating,
     };
@@ -156,6 +163,7 @@ export const ReviewModal: React.FC<{
       setSuccess(successData.type);
       setComment(``);
       setMovie(null);
+      setRestaurant(null);
       return onClose();
     }
     if (res.status === 401) return setCommentError('You are not authorized');
@@ -314,7 +322,7 @@ export const ReviewModal: React.FC<{
                 </Text>
               )}
               {
-                option &&
+                (option || isOpenedFromMovie) &&
                 <>
                   <FormLabel my={3}>
                     <Flex justifyContent="space-between">
@@ -423,6 +431,7 @@ export const ReviewModal: React.FC<{
                 onClose();
                 setMovie(null);
                 setIsOpenedFromMovie(false);
+                setRestaurant(null);
               }}
             >
               Cancel
