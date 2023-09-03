@@ -21,6 +21,7 @@ const breakpoints = createBreakpoints({
 
 const config: CustomTheme = {
   useSystemColorMode: true,
+  initialColorMode: 'dark'
 };
 
 const components = {

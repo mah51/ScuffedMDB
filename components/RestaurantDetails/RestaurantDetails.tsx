@@ -33,8 +33,10 @@ import {
     AlertDialogOverlay,
     useColorModeValue,
     Skeleton,
+    Spacer
 } from '@chakra-ui/react';
-import { IoChevronDown } from 'react-icons/io5';
+import { IoChevronDown, IoLocationOutline } from 'react-icons/io5';
+import { FaYelp } from 'react-icons/fa';
 import React, { ReactElement, useContext, useState, useEffect } from 'react';
 import { ReviewType, SerializedRestaurantType } from 'models/restaurant';
 import { PopulatedUserType } from 'models/user';
@@ -42,6 +44,8 @@ import { UserAuthType } from 'next-auth';
 import useScrollPosition from 'hooks/useScrollPosition.hook';
 import Image from 'next/image';
 import { getColorSchemeCharCode } from 'utils/utils';
+import AdminOptions from 'components/AdminOptions';
+import { PhoneIcon } from '@chakra-ui/icons'
 
 
 interface Props {
@@ -60,7 +64,7 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
     }, []);
 
     return (
-        <Flex maxWidth="7xl" mx='10vw' mt="10px">
+        <Flex maxWidth="7xl" mx={'auto'} mt="10px">
             <Flex
                 direction="column"
                 width="full"
@@ -71,126 +75,87 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                     '2xl': '10vh',
                     '4xl': '12em',
                 }}
+                mx={{
+                    lg: '2vw'
+                }}
             >
-                {bp && !['base', 'sm', 'md'].includes(bp) && (
-                    <Flex
-                        direction="column"
-                        alignItems="center"
-                        position="absolute"
-                        bottom={'60px'}
-                        left={'50%'}
-                        transform={'translateX(-50%)'}
-                        color={'gray.500'}
-                        visibility={scrollPosition ? 'hidden' : 'visible'}
-                        opacity={scrollPosition ? 0 : 1}
-                        transition={'all 0.25s'}
-                    >
-                        <Text fontWeight="semibold">Scroll to see reviews</Text>
-                        <Icon
-                            className="bouncing-arrow"
-                            as={(props) => <IoChevronDown strokeWidth="20" {...props} />}
-                            height={6}
-                            mt={2}
-                            width={6}
-                        />
-                    </Flex>
-                )}
                 <Box minHeight="calc(100vh - 80px)">
-                    <Flex direction={{ base: 'column', lg: 'row' }}>
-                        <Flex
-                            width={{ base: '90%', lg: '50%' }}
-                            mx="auto"
-                            maxWidth="full"
-                            alignItems="center"
-                            pr={{ base: 0, lg: '20px' }}
+                    <AdminOptions user={user} />
+                    <VStack align='stretch'>
+                        <AspectRatio borderRadius="xl"
+                            shadow={'6px 8px 19px 4px rgba(0, 0, 0, 0.25)'}
+                            ratio={16 / 9}
+                            width={{
+                                base: '90vw',
+                                lg: '40vw'
+                            }} className='mb-4'>
+                            <Skeleton borderRadius="xl" isLoaded={isImageLoaded}>
+                                <Image
+                                    src={restaurant?.image_url}
+                                    alt='naruto'
+                                    objectFit='cover'
+                                    sizes={'50vw'}
+                                    layout='fill'
+                                    onLoad={() => setIsImageLoaded(true)}
+                                />
+                            </Skeleton>
+                        </AspectRatio>
+                        <Stack spacing={3} mt={{ base: '5', lg: 0 }} isInline>
+                            {restaurant?.categories?.map((category, i) => {
+                                return (
+                                    <Tag
+                                        size={isLargerThan800 ? 'md' : 'sm'}
+                                        key={i.toString()}
+                                        colorScheme={getColorSchemeCharCode(category.alias)}
+                                    >
+                                        <TagLabel fontWeight={'600'}> {category?.title}</TagLabel>
+                                    </Tag>
+                                );
+                            })}
+                            {
+                                restaurant?.price &&
+                                <>
+                                    <div>|</div>
+                                    <Tag size={isLargerThan800 ? 'md' : 'sm'}>
+                                        {restaurant.price}
+                                    </Tag>
+                                </>
+                            }
+                        </Stack>
+                        <Heading
+                            lineHeight="1.1em"
+                            transform={'translateX(-3px)'}
+                            fontSize="6xl"
                         >
-                            <AspectRatio
-                                borderRadius="xl"
-                                shadow={'6px 8px 19px 4px rgba(0, 0, 0, 0.25)'}
-                                ratio={10 / 5}
-                                width="full"
-
-                            >
-                                <Skeleton borderRadius="xl" isLoaded={isImageLoaded}>
-                                    <Image
-                                        className={'borderRadius-xl'}
-                                        src={restaurant?.image_url}
-                                        alt={`${restaurant.name} poster`}
-                                        sizes={'50vw'}
-                                        layout="fill"
-                                        onLoad={() => setIsImageLoaded(true)}
-                                    />
-                                </Skeleton>
-                            </AspectRatio>
-                        </Flex>
-                        <VStack
-                            // mx="auto"
-                            pl={{ base: 0, lg: '20px' }}
-                            alignItems="flex-start"
-                            maxWidth={{ base: '90%', lg: '50%' }}
-                        >
-                            <Stack spacing={3} mt={{ base: '5', lg: 0 }} isInline>
-                                {restaurant?.categories?.map((category, i) => {
-                                    return (
-                                        <Tag
-                                            size={isLargerThan800 ? 'md' : 'sm'}
-                                            key={i.toString()}
-                                            colorScheme={getColorSchemeCharCode(category.alias)}
-                                        >
-                                            <TagLabel fontWeight={'600'}> {category.title}</TagLabel>
-                                        </Tag>
-                                    );
-                                })}
-                            </Stack>
-                            <Heading
-                                lineHeight="1.1em"
-                                transform={'translateX(-3px)'}
-                                fontSize="6xl"
-                            >
-                                {restaurant.name}
-                            </Heading>
-                            <Text
-                                fontSize="lg"
-                                fontStyle="italic"
-                                color={'gray.500'}
-                                fontWeight="bold"
-                            >
-                                {restaurant.display_phone}
-                            </Text>
-                            <Flex
-                                justifyContent="space-between"
-                                width="full"
-                                mt={{ base: '20px!important', lg: 'auto!important' }}
-                            >
-                                <VStack spacing={1}>
-                                    <Text color={'gray.500'} fontSize="sm">
-                                        Address
-                                    </Text>
-                                    <Text fontSize="sm" fontWeight="bold">
-                                        {restaurant?.address[0]}
-                                    </Text>
-                                </VStack>
-                                <VStack spacing={1}>
-                                    <Text color={'gray.500'} fontSize="sm">
-                                        City
-                                    </Text>
-                                    <Text fontSize="sm" fontWeight="bold">
-                                        {restaurant?.address[1]}
-                                    </Text>
-                                </VStack>
-                                <VStack spacing={1}>
-                                    <Text color={'gray.500'} fontSize="sm">
-                                        Price
-                                    </Text>
-                                    <Text fontSize="sm" fontWeight="bold">
-                                        {restaurant?.price}
-                                    </Text>
-                                </VStack>
-                            </Flex>
-                        </VStack>
-                    </Flex>
+                            {restaurant?.name}
+                        </Heading>
+                        {
+                            restaurant?.phone &&
+                            <Box>
+                                <Stack spacing={3} align='center' isInline>
+                                    <PhoneIcon color={`${process.env.COLOR_THEME}.300`} />
+                                    <a className='hover:underline' href={`tel:${restaurant?.phone}`}>{restaurant?.display_phone}</a>
+                                </Stack>
+                            </Box>
+                        }
+                        {
+                            restaurant?.address &&
+                            <Box>
+                                <Stack spacing={3} align='center' isInline>
+                                    <Icon as={IoLocationOutline} color={`${process.env.COLOR_THEME}.300`} />
+                                    <Stack isInline>
+                                        {restaurant?.address.map(val => {
+                                            return (
+                                                <Text>{val}</Text>
+                                            );
+                                        })}
+                                    </Stack>
+                                </Stack>
+                            </Box>
+                        }
+                    </VStack>
                 </Box>
             </Flex>
-        </Flex>
+        </Flex >
     )
 }

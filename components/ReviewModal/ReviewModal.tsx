@@ -139,10 +139,10 @@ export const ReviewModal: React.FC<{
   ) => {
     e.preventDefault();
     if (!movie && !restaurant) {
-      if (!movie){
-        return setselectionError(`Please select a valid movie.`); 
+      if (!movie) {
+        return setselectionError(`Please select a valid movie.`);
       }
-      if (!restaurant){
+      if (!restaurant) {
         return setselectionError('Please select a valid restaurant')
       }
     }
@@ -292,10 +292,10 @@ export const ReviewModal: React.FC<{
                         placeholder={restaurant?.name || 'No Restaurant Selected'}
                         onChange={(e) => {
                           e.preventDefault();
-                          const found = restaurants?.data?.find((res : any) => {
+                          const found = restaurants?.data?.find((res: any) => {
                             return res?.name === e.target.value;
                           });
-                          if (!found){
+                          if (!found) {
                             return setselectionError('Please a select a valid restaurant!');
                           }
                           setselectionError('');

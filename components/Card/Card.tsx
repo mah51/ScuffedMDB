@@ -133,6 +133,7 @@ export const Card: React.FC<CardProps> = ({
                   sizes="(max-width: 2561px) 400px"
                   height="225px"
                   alt={`${view?.name} poster`}
+                  objectFit={'cover'}
                 />
               </Skeleton>
             )}
