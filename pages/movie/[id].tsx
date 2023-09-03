@@ -12,6 +12,9 @@ import { PopulatedUserType } from '../../models/user';
 import { getMovie } from '../../utils/queries';
 import { NextSeo } from 'next-seo';
 import ErrorPage from '@components/ErrorPage';
+import ReviewModal from '@components/ReviewModal';
+
+
 interface MoviePageProps {
   movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   error?: string;
@@ -56,6 +59,7 @@ export default function MoviePage({
       <NextSeo title={data.name} />
       <MovieDetailsSection movie={data} user={user} />
       <MovieReviewSection movie={data} />
+      <ReviewModal user={session?.user} inMobileNav/>
     </AppLayout>
   );
 }

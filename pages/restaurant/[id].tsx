@@ -8,6 +8,7 @@ import ErrorPage from '@components/ErrorPage';
 import AppLayout from '@components/AppLayout';
 import RestaurantDetails from '@components/RestaurantDetails';
 import { NextSeo } from 'next-seo';
+import ReviewModal from '@components/ReviewModal';
 
 interface RestaurantPageProps {
     movie: SerializedRestaurantType<ReviewType<PopulatedUserType>[]>;
@@ -48,6 +49,7 @@ export default function RestaurantPage({ error, ...props }: RestaurantPageProps)
         <AppLayout user={user} showMovies>
             <NextSeo title={data.name} />
             <RestaurantDetails restaurant={data} user={user}/>
+            <ReviewModal user={session?.user} inMobileNav/>
         </AppLayout>
     )
 }
