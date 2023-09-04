@@ -29,8 +29,8 @@ import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import { addMovie } from '@components/SearchResults/SearchResults';
 import { useQueryClient } from 'react-query';
 import { OMDBMovie, OMDBResponse } from '../../pages/api/movie-api';
-import SearchResults from '../SearchResults';
 import RestaurantModal from '../RestaurantModal';
+import SearchResults from '../SearchResults';
 
 export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
   inMobileNav = false,
@@ -179,7 +179,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
           <MenuList>
             <MenuItem onClick={onOpen}>Add Movie</MenuItem>
             <MenuItem onClick={onRestaurantOpen}>Add Restaurant</MenuItem>
-            <MenuItem>Add Event</MenuItem>
+            {/* <MenuItem>Add Event</MenuItem> */}
           </MenuList>
         </Menu>
       )}

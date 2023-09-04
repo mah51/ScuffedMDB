@@ -161,21 +161,21 @@ export const RestaurantModal: React.FC<{
                                 <FormControl className='px-3 py-3' isRequired>
                                     <VStack align='flex-start'>
                                         <FormLabel display={'flex'}>Name</FormLabel>
-                                        <Input placeholder='Example Name' value={name} onChange={e => setName(e.currentTarget.value)} />
+                                        <Input placeholder='Restaurant Name' value={name} onChange={e => setName(e.currentTarget.value)} />
                                     </VStack>
-                                    <VStack align='flex-start'>
+                                    <VStack mt='3' align='flex-start'>
                                         <FormLabel display={'flex'}>Address</FormLabel>
                                         <Input placeholder='123 Main St' value={address} onChange={e => setAddress(e.currentTarget.value)} />
                                     </VStack>
-                                    <VStack align='flex-start'>
+                                    <VStack mt='3' align='flex-start'>
                                         <FormLabel display={'flex'}>City</FormLabel>
                                         <Input placeholder='Gotham' value={city} onChange={e => setCity(e.currentTarget.value)} />
                                     </VStack>
-                                    <VStack align='flex-start'>
+                                    <VStack mt='3' align='flex-start'>
                                         <FormLabel display={'flex'}>State</FormLabel>
                                         <Input placeholder='MI' value={state} onChange={e => setState(e.currentTarget.value)} />
                                     </VStack>
-                                    <VStack align='flex-start'>
+                                    <VStack mt='3' align='flex-start'>
                                         <FormLabel display={'flex'}>Country</FormLabel>
                                         <Select placeholder="Select country" value={country} onChange={e => setCountry(e.currentTarget.value)}>
                                             {countries.map((country, index) => (
@@ -185,7 +185,7 @@ export const RestaurantModal: React.FC<{
                                             ))}
                                         </Select>
                                     </VStack>
-                                    <Flex align='flex-start'>
+                                    <Flex mt='3' align='flex-start'>
                                         <Button
                                             type="submit"
                                             className="mt-2"
