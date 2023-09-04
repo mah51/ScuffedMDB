@@ -161,7 +161,6 @@ export async function getServerSideProps(
   const movies = await getMovies();
   const restaurants = await getRestaurants();
 
-  console.log('serverside', restaurants)
   return {
     props: {
       session,

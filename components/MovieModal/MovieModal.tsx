@@ -53,6 +53,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
   useEffect(() => {
     if (success) {
       queryClient.invalidateQueries(`movies`).catch(console.error);
+      queryClient.invalidateQueries(`restaurants`).catch(console.error);
       toast({
         variant: `subtle`,
         title: success.type === `addition` ? `Movie Added` : `Movie Deleted`,

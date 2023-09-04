@@ -38,6 +38,7 @@ function SkeletonImage({ data }: { data: YelpMatchResponse }) {
                     alt={`${data?.name}`}
                     layout="fill"
                     src={`${data?.image_url}`}
+                    objectFit='cover'
                 />
             </Skeleton>
         </AspectRatio>
