@@ -2,12 +2,20 @@ import Restaurant, { RestaurantType } from '../../models/restaurant';
 import dbConnect from '../../utils/dbConnect';
 import { YelpMatchResponse } from './restaurant-api'
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getSession } from 'next-auth/client';
+
 
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ): Promise<void | NextApiResponse<any>> {
+    const session = await getSession({ req });
+    if (!session?.user) {
+      return res
+        .status(401)
+        .json({ message: 'Please log in to view this content' });
+    }
     await dbConnect();
     if (req.method === `POST`) {
         try {

@@ -35,7 +35,7 @@ function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
     { initialData: props.movies }
   );
   const { data: restaurantData } = useQuery(`restaurants`, getRestaurants, {
-    initialData: props.restaurants,
+    initialData: props?.restaurants,
   })
 
   const movies = data;
@@ -160,12 +160,14 @@ export async function getServerSideProps(
   assertsIsSerializedUser(desiredUser);
   const movies = await getMovies();
   const restaurants = await getRestaurants();
+
+  console.log('serverside', restaurants)
   return {
     props: {
       session,
       desiredUser: desiredUser || null,
       movies: movies,
-      restaurants: restaurants?.data
+      restaurants: restaurants?.data || null
     },
   };
 }

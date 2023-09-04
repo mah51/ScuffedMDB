@@ -74,7 +74,7 @@ export const Footer: React.FC = (): React.ReactElement => {
             ml="auto"
             mr={{ base: `auto`, md: 5 }}
           >
-            <SocialIcons label="GitHub" href="https://github.com/mah51/">
+            <SocialIcons label="GitHub" href="https://github.com/mo-schmo">
               <FaGithub />
             </SocialIcons>
           </Stack>
