@@ -90,6 +90,8 @@ export const ReviewModal: React.FC<{
         isClosable: true,
       });
       setSuccess('');
+      setMovie(null);
+      setRestaurant(null);
     }
   }, [movie, queryClient, success, toast, restaurant]);
 
@@ -172,8 +174,6 @@ export const ReviewModal: React.FC<{
     if (res.status === 200) {
       setSuccess(successData.type);
       setComment(``);
-      setMovie(null);
-      setRestaurant(null);
       return onClose();
     }
     if (res.status === 401) return setCommentError('You are not authorized');
