@@ -1,55 +1,53 @@
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
+  Button,
+  Checkbox,
   Container,
-  SimpleGrid,
   Flex,
+  Heading,
+  IconButton,
+  Input,
   InputGroup,
   InputLeftElement,
-  Input,
-  Button,
-  Heading,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  chakra,
-  useColorModeValue,
-  useToast,
-  useColorMode,
-  Stack,
-  IconButton,
-  Tooltip,
-  useBreakpoint,
   Popover,
-  PopoverTrigger,
-  PopoverCloseButton,
   PopoverArrow,
-  PopoverContent,
-  PopoverHeader,
   PopoverBody,
-  Tag,
-  Checkbox,
-  Portal,
+  PopoverCloseButton,
+  PopoverContent,
   PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
+  Portal,
+  SimpleGrid,
+  Stack,
+  Tag,
+  Tooltip,
+  chakra,
+  useBreakpoint,
+  useColorMode,
+  useColorModeValue,
   useTheme,
+  useToast,
 } from '@chakra-ui/react';
 import { transparentize } from '@chakra-ui/theme-tools';
+import { UserAuthType } from 'next-auth';
+import { NextSeo } from 'next-seo';
+import { useContext, useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiChevronDown } from 'react-icons/bi';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import Card from '../Card';
-import { ReviewType, SerializedMovieType } from '../../models/movie';
-import { PopulatedUserType } from '../../models/user';
-import { NextSeo } from 'next-seo';
-import ReviewModal from '../ReviewModal';
-import { UserAuthType } from 'next-auth';
-
-import MovieGridView from '../MovieGridView';
 import { BsGrid3X3Gap } from 'react-icons/bs';
 import { HiViewList } from 'react-icons/hi';
+import { ViewContext } from 'utils/ViewContext';
+import { ReviewType, SerializedMovieType } from '../../models/movie';
+import { PopulatedUserType } from '../../models/user';
 import { getColorSchemeCharCode, getMovieGenres } from '../../utils/utils';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import ActiveHero from '@components/ActiveHero';
+import Card from '../Card';
+import MovieGridView from '../MovieGridView';
+import ReviewModal from '../ReviewModal';
 
 interface CardGridProps {
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
@@ -66,12 +64,32 @@ export const CardGrid: React.FC<CardGridProps> = ({
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('recent');
   const [cardView, setCardView] = useState(true);
-  const [view, setView] = useState('restaurants');
+  const [isMovieView, setMovieView] = useState(false);
+  const [isRestaurantView, setRestaurantView] = useState(false);
+  const { view } = useContext(ViewContext);
+  const [viewData, setViewData] = useState(unSortedMovies);
   const [genres, setGenres] = useState<string[]>([]);
   const [isGenreFilterActive, setIsGenreFilterActive] = useState(false);
   const toast = useToast();
   const { colorMode } = useColorMode();
   // Fix for https://github.com/chakra-ui/chakra-ui/issues/3076
+
+  useEffect(() => {
+    if (view === 'movies') {
+      setMovieView(true);
+      setRestaurantView(false);
+      setViewData(unSortedMovies);
+      return;
+    }
+    if (view === 'restaurants') {
+      setRestaurantView(true);
+      setMovieView(false);
+      setCardView(true)
+      setViewData(restaurants?.data);
+      return;
+    }
+  }, [view])
+
   useEffect(() => {
     toast.update(`otherToast`, {
       variant: `subtle`,
@@ -82,6 +100,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
       isClosable: true,
     });
   }, [colorMode, toast]);
+
   const movies = {
     data: unSortedMovies
       ?.filter((mv) => {
@@ -162,24 +181,48 @@ export const CardGrid: React.FC<CardGridProps> = ({
         justifyContent="flex-start"
         alignItems="center"
       >
-        <Heading
-          mb={10}
-          fontSize={{ base: '4xl', md: '6xl' }}
-          textAlign="center"
-        >
-          We have watched{' '}
-          {
-            <chakra.span
-              color={useColorModeValue(
-                `${process.env.COLOR_THEME}.500`,
-                `${process.env.COLOR_THEME}.300`
-              )}
-            >
-              {unSortedMovies?.length}
-            </chakra.span>
-          }{' '}
-          movie{unSortedMovies.length !== 1 ? 's' : ''}
-        </Heading>
+        {
+          isMovieView &&
+          <Heading
+            mb={10}
+            fontSize={{ base: '4xl', md: '6xl' }}
+            textAlign="center"
+          >
+            We have watched{' '}
+            {
+              <chakra.span
+                color={useColorModeValue(
+                  `${process.env.COLOR_THEME}.500`,
+                  `${process.env.COLOR_THEME}.300`
+                )}
+              >
+                {unSortedMovies?.length}
+              </chakra.span>
+            }{' '}
+            movie{unSortedMovies.length !== 1 ? 's' : ''}
+          </Heading>
+        }
+        {
+          isRestaurantView &&
+          <Heading
+            mb={10}
+            fontSize={{ base: '4xl', md: '6xl' }}
+            textAlign="center"
+          >
+            We have visited{' '}
+            {
+              <chakra.span
+                color={useColorModeValue(
+                  `${process.env.COLOR_THEME}.500`,
+                  `${process.env.COLOR_THEME}.300`
+                )}
+              >
+                {restaurants?.data?.length}
+              </chakra.span>
+            }{' '}
+            restaurant{restaurants?.data?.length !== 1 ? 's' : ''}
+          </Heading>
+        }
 
         <Flex
           width="full"
@@ -192,167 +235,174 @@ export const CardGrid: React.FC<CardGridProps> = ({
           </Flex>
 
           <Stack alignItems="stretch" direction={{ base: 'column', md: 'row' }}>
-            <InputGroup maxWidth={{ base: 'full', md: '200px' }}>
-              <InputLeftElement pointerEvents="none">
-                <AiOutlineSearch color="gray.300" />
-              </InputLeftElement>
-              <Input
-                variant="filled"
-                type="text"
-                placeholder="Search"
-                onChange={(e) => setFilter(e.target.value.toLowerCase())}
-              />
-            </InputGroup>
+            {
+              isMovieView &&
+              <InputGroup maxWidth={{ base: 'full', md: '200px' }}>
+                <InputLeftElement pointerEvents="none">
+                  <AiOutlineSearch color="gray.300" />
+                </InputLeftElement>
+                <Input
+                  variant="filled"
+                  type="text"
+                  placeholder="Search"
+                  onChange={(e) => setFilter(e.target.value.toLowerCase())}
+                />
+              </InputGroup>
+            }
             <Stack isInline justifyContent="center" alignItems="center">
-              <Popover>
-                <PopoverTrigger>
-                  <Button rightIcon={<ChevronDownIcon />} isTruncated>
-                    Filter by genre
-                  </Button>
-                </PopoverTrigger>
-                <Portal>
-                  {/* render into a portal to prevent the card underneath interfering with the popover */}
-                  <PopoverContent zIndex={10000}>
-                    <PopoverArrow />
-                    <PopoverCloseButton />
-                    <PopoverHeader ml="5px" fontWeight="bold">
-                      Filter search by genre
-                    </PopoverHeader>
-                    <PopoverBody>
-                      <Flex wrap="wrap">
-                        {getMovieGenres(movies.data).map((genre: string, i) => {
-                          const genreColor = getColorSchemeCharCode(genre);
-                          const dark = transparentize(
-                            `${genreColor}.200`,
-                            0.16
-                          )(theme);
-                          const light = transparentize(
-                            `${genreColor}.500`,
-                            0.2
-                          )(theme);
-                          return (
-                            <Tag
-                              mx="5px"
-                              my="3px"
-                              key={i.toString() + 'genreTag'}
-                              fontWeight="semibold"
-                              colorScheme={genreColor}
-                              bg={colorMode === 'light' ? light : dark}
-                              cursor="pointer"
-                              userSelect="none"
-                              onClick={() => handleGenreClick(genre)}
-                            >
-                              <Checkbox
-                                isChecked={genres.includes(genre)}
-                                colorScheme={genreColor}
-                                borderColor={`${genreColor}.300`}
-                                mr="4px"
-                                zIndex="-1"
-                                size="sm"
-                              />
-                              {genre}
-                            </Tag>
-                          );
-                        })}
-                      </Flex>
-                    </PopoverBody>
-                    <PopoverFooter display="flex" justifyContent="flex-end">
-                      <Button
-                        onClick={() => {
-                          setGenres([]);
-                          setIsGenreFilterActive(false);
-                        }}
-                      >
-                        Clear All
+              {
+                isMovieView &&
+                <>
+                  <Popover>
+                    <PopoverTrigger>
+                      <Button rightIcon={<ChevronDownIcon />} isTruncated>
+                        Filter by genre
                       </Button>
-                    </PopoverFooter>
-                  </PopoverContent>
-                </Portal>
-              </Popover>
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rightIcon={<BiChevronDown />}
-                  isTruncated
-                >
-                  Sort by...
-                </MenuButton>
-                <MenuList zIndex={998}>
-                  <MenuItem
-                    zIndex={999}
-                    isDisabled={sort === 'recent'}
-                    onClick={() => setSort('recent')}
+                    </PopoverTrigger>
+                    <Portal>
+                      {/* render into a portal to prevent the card underneath interfering with the popover */}
+                      <PopoverContent zIndex={10000}>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverHeader ml="5px" fontWeight="bold">
+                          Filter search by genre
+                        </PopoverHeader>
+                        <PopoverBody>
+                          <Flex wrap="wrap">
+                            {getMovieGenres(movies.data).map((genre: string, i) => {
+                              const genreColor = getColorSchemeCharCode(genre);
+                              const dark = transparentize(
+                                `${genreColor}.200`,
+                                0.16
+                              )(theme);
+                              const light = transparentize(
+                                `${genreColor}.500`,
+                                0.2
+                              )(theme);
+                              return (
+                                <Tag
+                                  mx="5px"
+                                  my="3px"
+                                  key={i.toString() + 'genreTag'}
+                                  fontWeight="semibold"
+                                  colorScheme={genreColor}
+                                  bg={colorMode === 'light' ? light : dark}
+                                  cursor="pointer"
+                                  userSelect="none"
+                                  onClick={() => handleGenreClick(genre)}
+                                >
+                                  <Checkbox
+                                    isChecked={genres.includes(genre)}
+                                    colorScheme={genreColor}
+                                    borderColor={`${genreColor}.300`}
+                                    mr="4px"
+                                    zIndex="-1"
+                                    size="sm"
+                                  />
+                                  {genre}
+                                </Tag>
+                              );
+                            })}
+                          </Flex>
+                        </PopoverBody>
+                        <PopoverFooter display="flex" justifyContent="flex-end">
+                          <Button
+                            onClick={() => {
+                              setGenres([]);
+                              setIsGenreFilterActive(false);
+                            }}
+                          >
+                            Clear All
+                          </Button>
+                        </PopoverFooter>
+                      </PopoverContent>
+                    </Portal>
+                  </Popover>
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      rightIcon={<BiChevronDown />}
+                      isTruncated
+                    >
+                      Sort by...
+                    </MenuButton>
+                    <MenuList zIndex={998}>
+                      <MenuItem
+                        zIndex={999}
+                        isDisabled={sort === 'recent'}
+                        onClick={() => setSort('recent')}
+                      >
+                        Recent
+                      </MenuItem>
+                      <MenuItem
+                        zIndex={999}
+                        isDisabled={sort === 'old'}
+                        onClick={() => setSort('old')}
+                      >
+                        Old
+                      </MenuItem>
+                      <MenuItem
+                        zIndex={999}
+                        isDisabled={sort === 'best'}
+                        onClick={() => setSort('best')}
+                      >
+                        Best
+                      </MenuItem>
+                      <MenuItem
+                        zIndex={999}
+                        isDisabled={sort === 'worst'}
+                        onClick={() => setSort('worst')}
+                      >
+                        Worst
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                  <Tooltip
+                    label="Toggle between card and table view"
+                    placement="top"
                   >
-                    Recent
-                  </MenuItem>
-                  <MenuItem
-                    zIndex={999}
-                    isDisabled={sort === 'old'}
-                    onClick={() => setSort('old')}
-                  >
-                    Old
-                  </MenuItem>
-                  <MenuItem
-                    zIndex={999}
-                    isDisabled={sort === 'best'}
-                    onClick={() => setSort('best')}
-                  >
-                    Best
-                  </MenuItem>
-                  <MenuItem
-                    zIndex={999}
-                    isDisabled={sort === 'worst'}
-                    onClick={() => setSort('worst')}
-                  >
-                    Worst
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-
-              <Tooltip
-                label="Toggle between card and table view"
-                placement="top"
-              >
-                <Stack
-                  isInline
-                  bg={useColorModeValue('gray.100', 'whiteAlpha.200')}
-                  height="full"
-                  alignItems="center"
-                  alignSelf="stretch"
-                  px={1}
-                  borderRadius="md"
-                >
-                  <IconButton
-                    bg={
-                      cardView
-                        ? `${process.env.COLOR_THEME}.${colorMode === 'light' ? 500 : 300
-                        }`
-                        : 'transparent'
-                    }
-                    size="sm"
-                    onClick={() => setCardView(true)}
-                    aria-label="Activate table mode"
-                    colorScheme={cardView ? process.env.COLOR_THEME : 'gray'}
-                    icon={<BsGrid3X3Gap size="1.1rem" />}
-                  />
-                  <IconButton
-                    size="sm"
-                    bg={
-                      !cardView
-                        ? `${process.env.COLOR_THEME}.300`
-                        : 'transparent'
-                    }
-                    onClick={() => setCardView(false)}
-                    aria-label="Activate table mode"
-                    colorScheme={!cardView ? process.env.COLOR_THEME : 'gray'}
-                    icon={<HiViewList size="1.1rem" />}
-                  />
-                </Stack>
-              </Tooltip>
+                    <Stack
+                      isInline
+                      bg={useColorModeValue('gray.100', 'whiteAlpha.200')}
+                      height="full"
+                      alignItems="center"
+                      alignSelf="stretch"
+                      px={1}
+                      borderRadius="md"
+                    >
+                      <IconButton
+                        bg={
+                          cardView
+                            ? `${process.env.COLOR_THEME}.${colorMode === 'light' ? 500 : 300
+                            }`
+                            : 'transparent'
+                        }
+                        size="sm"
+                        onClick={() => setCardView(true)}
+                        aria-label="Activate table mode"
+                        colorScheme={cardView ? process.env.COLOR_THEME : 'gray'}
+                        icon={<BsGrid3X3Gap size="1.1rem" />}
+                      />
+                      <IconButton
+                        size="sm"
+                        bg={
+                          !cardView
+                            ? `${process.env.COLOR_THEME}.300`
+                            : 'transparent'
+                        }
+                        onClick={() => setCardView(false)}
+                        aria-label="Activate table mode"
+                        colorScheme={!cardView ? process.env.COLOR_THEME : 'gray'}
+                        icon={<HiViewList size="1.1rem" />}
+                      />
+                    </Stack>
+                  </Tooltip>
+                </>
+              }
             </Stack>
           </Stack>
         </Flex>
-        {movies?.data?.length > 0 ? (
+        {viewData?.length > 0 ? (
           cardView ? (
             <SimpleGrid
               columns={{ base: 1, md: 2, lg: 3 }}
@@ -361,7 +411,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
               alignItems="stretch"
             >
 
-              {true && (
+              {isMovieView && (
                 movies?.data?.map(
                   (
                     movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>,
@@ -376,7 +426,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
               )
               }
               {
-                true && (
+                isRestaurantView && (
                   restaurants?.data?.map((restaurant, i) => (
                     <Card
                       restaurant={restaurant}
@@ -418,7 +468,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
                 colorMode === 'light' ? 'rgba(0, 0, 0, 0.25)' : 'whiteAlpha.300'
               }
             >
-              To get started add a movie.
+              To get started add a movie/restaurant.
             </Heading>
           </Flex>
         )}

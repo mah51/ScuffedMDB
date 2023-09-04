@@ -6,6 +6,7 @@ import { getSession, Provider as NextAuthProvider } from 'next-auth/client';
 import PlausibleProvider from 'next-plausible';
 import { DefaultSeo } from 'next-seo';
 import { ReviewModalContext } from '../utils/ModalContext';
+import { ViewContext } from 'utils/ViewContext';
 import React, { useState, useEffect } from 'react';
 import theme from '../styles/theme';
 import { ReviewType, SerializedMovieType } from '../models/movie';
@@ -36,8 +37,10 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
     ReviewType<PopulatedUserType>[]
   > | null>(null);
   const [restaurant, setRestaurant] = useState<SerializedRestaurantType<
-  ReviewType<PopulatedUserType>[]
-> | null>(null);
+    ReviewType<PopulatedUserType>[]
+  > | null>(null);
+  const [view, setView] = useState('movies');
+
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
   const shortSiteName =
     process.env.NEXT_PUBLIC_SHORT_SITE_NAME ||
@@ -88,7 +91,9 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
               <ReviewModalContext.Provider
                 value={{ isOpen, onOpen, onClose, movie, setMovie, restaurant, setRestaurant }}
               >
-                <Component {...pageProps} />
+                <ViewContext.Provider value={{view, setView}}>
+                  <Component {...pageProps} />
+                </ViewContext.Provider>
               </ReviewModalContext.Provider>
             </ChakraProvider>
           </QueryClientProvider>

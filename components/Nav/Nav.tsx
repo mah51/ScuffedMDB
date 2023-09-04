@@ -17,19 +17,20 @@ import {
   Link as ChakraLink,
   useBreakpointValue,
   useDisclosure,
-  chakra,
+  chakra
 } from '@chakra-ui/react';
 import { transparentize } from '@chakra-ui/theme-tools';
-import { IoMoon, IoSunny } from 'react-icons/io5';
+import { IoMoon, IoSunny, IoRestaurant } from 'react-icons/io5';
+import { BiCameraMovie } from "react-icons/bi";
 import Link from 'next/link';
 import MovieModal from '../MovieModal';
 import { UserAuthType } from 'next-auth';
 import ReviewModal from '../ReviewModal';
 import { signout } from 'next-auth/client';
-import { useEffect, useState } from 'react';
-import Router from 'next/router';
+import { useEffect, useState, useContext } from 'react';
+import Router, { useRouter } from 'next/router';
 import Image from 'next/image';
-import useStore from 'hooks/useBearStore.hook';
+import { ViewContext } from 'utils/ViewContext';
 
 interface NavProps {
   user: UserAuthType;
@@ -49,16 +50,9 @@ export const Nav: React.FC<NavProps> = ({
   ];
   const { colorMode, toggleColorMode } = useColorMode();
   const bp = useBreakpointValue({ base: 'mobile', md: 'big' });
-  const siteName = process.env.NEXT_PUBLIC_SITE_NAME;
-  const shortSiteName = process.env.NEXT_PUBLIC_SHORT_SITE_NAME;
   const [isTransparent, setIsTransparent] = useState(false);
-
-  const [navigation, setNavigation] = useState([
-    { name: 'Movies', href: "/", current: false },
-    { name: 'Restaurants', href: "/", current: true },
-  ]);
-  const setView = useStore((state) => state.setView);
-
+  const router = useRouter();
+  const { setView } = useContext(ViewContext);
   useEffect(() => {
     Router.events.on('routeChangeStart', () => {
       setIsTransparent(true);
@@ -110,6 +104,49 @@ export const Nav: React.FC<NavProps> = ({
                 height={90}
                 alt="Logo" />
             </Link>
+          </HStack>
+          <HStack>
+            {
+              bp !== 'mobile' ? (
+                <>
+                  <Button onClick={() => {
+                    setView('movies');
+                    router.push('/');
+                  }}
+                    colorScheme={`${process.env.COLOR_THEME}`}
+                    variant='ghost'
+                  >Movies</Button>
+                  <Button onClick={() => {
+                    setView('restaurants');
+                    router.push('/');
+                  }}
+                    colorScheme={`${process.env.COLOR_THEME}`}
+                    variant='ghost'
+                  >Restaurants</Button>
+                </>
+              ) : (
+                <>
+                  <IconButton
+                    variant='ghost'
+                    icon={<BiCameraMovie size={30} />}
+                    colorScheme={process.env.COLOR_THEME}
+                    onClick={() => {
+                      setView('movies');
+                      router.push('/');
+                    }}
+                  />
+                  <IconButton
+                    variant='ghost'
+                    icon={<IoRestaurant size={30} />}
+                    colorScheme={process.env.COLOR_THEME}
+                    onClick={() => {
+                      setView('restaurants');
+                      router.push('/');
+                    }}
+                  />
+                </>
+              )
+            }
           </HStack>
           <HStack align="center" spacing={'15px'} mx={4}>
             <IconButton
