@@ -159,11 +159,13 @@ export async function getServerSideProps(
 
   assertsIsSerializedUser(desiredUser);
   const movies = await getMovies();
+  const restaurants = await getRestaurants();
   return {
     props: {
       session,
       desiredUser: desiredUser || null,
       movies: movies,
+      restaurants: restaurants?.data
     },
   };
 }
