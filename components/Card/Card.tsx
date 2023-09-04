@@ -127,13 +127,12 @@ export const Card: React.FC<CardProps> = ({
               <Skeleton isLoaded={isImageLoaded}>
                 <Image
                   src={image}
-                  layout="responsive"
-                  width="400px"
+                  width="0"
                   onLoad={() => setIsImageLoaded(true)}
                   sizes="(max-width: 2561px) 400px"
-                  height="225px"
+                  height="0"
                   alt={`${view?.name} poster`}
-                  objectFit={'cover'}
+                  className="w-[400px] h-[225px] object-cover"
                 />
               </Skeleton>
             )}
