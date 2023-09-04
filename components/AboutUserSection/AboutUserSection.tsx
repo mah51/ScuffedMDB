@@ -16,8 +16,9 @@ interface AboutUserSectionProps {
   user: UserPageUser;
   reviews: (
     | (ReviewType<PopulatedUserType> & {
-        movie?: { name: string; image?: string };
-      })
+      movie?: { name: string; image?: string };
+      restaurant?: { name: string; image?: string };
+    })
     | null
   )[];
 }
@@ -57,11 +58,11 @@ export const AboutUserSection: React.FC<AboutUserSectionProps> = ({
           {reviews.length > 1 ? 's' : ''}{' '}
           {reviews.length > 0 &&
             '·  ' +
-              (
-                reviews.reduce((a, c) => (c?.rating ? a + c?.rating : a), 0) /
-                reviews.length
-              ).toFixed(1) +
-              '    Average Rating'}
+            (
+              reviews.reduce((a, c) => (c?.rating ? a + c?.rating : a), 0) /
+              reviews.length
+            ).toFixed(1) +
+            '    Average Rating'}
         </Text>
       </VStack>
     </Flex>

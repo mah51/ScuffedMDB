@@ -16,15 +16,17 @@ import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { ReviewActions } from 'components/ReviewSection/ReviewSection';
 import { UserPageUser } from 'pages/user/[uID]';
+import { SerializedRestaurantType } from 'models/restaurant';
 
 export const UserReviewSection: React.FC<{
-  movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+  movies?: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
+  restaurants?: SerializedRestaurantType<ReviewType<PopulatedUserType>[]>[];
   user: UserPageUser;
-}> = ({ movies, user }): React.ReactElement => {
+}> = ({ movies, user, restaurants }): React.ReactElement => {
   const bp = useBreakpoint();
   return (
     <Flex mt={5} maxW="6xl" width="full" direction="column">
-      {movies.map((movie, i) => {
+      {movies && movies?.map((movie, i) => {
         const review = movie?.reviews?.find(
           (review) => review?.user?._id === user._id
         );
@@ -90,6 +92,94 @@ export const UserReviewSection: React.FC<{
                     centred
                     toInvalidate={'movies'}
                     movie={movie}
+                    review={review}
+                  />
+                )}
+              </Flex>
+
+              {bp !== 'base' && (
+                <Text
+                  fontSize={{ base: 'lg', md: '2xl' }}
+                  listStylePosition="inside"
+                >
+                  <ReactMarkdown
+                    skipHtml
+                    disallowedElements={['img', 'a', 'code', 'pre']}
+                  >
+                    {review?.comment || ''}
+                  </ReactMarkdown>
+                </Text>
+              )}
+            </Flex>
+          </Flex>
+        );
+      })}
+      {restaurants && restaurants?.map((restaurant, i) => {
+        const review = restaurant?.reviews?.find(
+          (review) => review?.user?._id === user._id
+        );
+        if (!review) return null;
+        return (
+          <Flex
+            mt={10}
+            width="92%"
+            mx="auto"
+            maxWidth="6xl"
+            key={i.toString()}
+            direction={{ base: 'column', md: 'row' }}
+            alignItems="center"
+          >
+            <AspectRatio
+              ratio={16 / 9}
+              minWidth="200px"
+              mr={{ base: 0, md: 7 }}
+            >
+              <Image
+                src={restaurant?.image_url || ''}
+                alt={restaurant.name + ' movie poster'}
+                layout="fill"
+                sizes="200px"
+                className={'borderRadius-xl'}
+              />
+            </AspectRatio>
+            <Flex direction="column" maxWidth="full">
+              <Flex direction={{ base: 'column', md: 'row' }}>
+                <Stack className='text-center md:text-left'>
+                  <Link href={`/restaurant/${restaurant?._id}`} passHref>
+                    <Heading
+                      as={ChakraLink}
+                      size={['base', 'sm'].includes(bp || '') ? 'lg' : 'xl'}
+                    >
+                      {restaurant?.name}
+                    </Heading>
+                  </Link>
+                  <Heading
+                    size={['base', 'sm'].includes(bp || '') ? 'lg' : 'xl'}
+                  >
+                    {' '}
+                    <chakra.span color="gray.500">
+                      Rating: {review?.rating.toFixed(1)}
+                    </chakra.span>
+                  </Heading>
+                </Stack>
+                {bp === 'base' && (
+                  <Text
+                    fontSize={{ base: 'lg', md: '2xl' }}
+                    listStylePosition="inside"
+                  >
+                    <ReactMarkdown
+                      skipHtml
+                      disallowedElements={['img', 'a', 'code', 'pre']}
+                    >
+                      {review?.comment || ''}
+                    </ReactMarkdown>
+                  </Text>
+                )}
+                {review && (
+                  <ReviewActions
+                    centred
+                    toInvalidate={'restaurants'}
+                    restaurant={restaurant}
                     review={review}
                   />
                 )}
