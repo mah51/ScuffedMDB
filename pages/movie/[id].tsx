@@ -2,11 +2,11 @@ import { GetServerSidePropsContext } from 'next';
 import { Session } from 'next-auth';
 import { getSession, useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useQuery } from 'react-query';
 import AppLayout from '../../components/AppLayout';
 import MovieDetailsSection from '../../components/MovieDetailsSection';
-import { ReviewType, SerializedMovieType } from '../../models/movie';
+import movie, { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { getMovie } from '../../utils/queries';
 import { NextSeo } from 'next-seo';
@@ -28,14 +28,11 @@ export default function MoviePage({
 
   const router = useRouter();
   const { id } = router.query;
-
   const { data, isLoading } = useQuery(
     `movie-${props?.movie?.name}`,
     async () => {
       return await getMovie(id, true);
     },
-
-    { initialData: props?.movie }
   );
 
   if ((typeof window !== 'undefined' && loading) || !session) return null;

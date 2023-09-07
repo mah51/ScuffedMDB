@@ -11,25 +11,26 @@ import { signIn } from 'next-auth/client';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { SerializedMovieType } from '../../models/movie';
+import { SerializedRestaurantType } from 'models/restaurant';
 
 export const LandingPage: React.FC<{
   movie?: SerializedMovieType;
+  restaurant?: SerializedRestaurantType;
   desiredUser?: { username: string; image: string; _id: string };
-}> = ({ movie, desiredUser }): React.ReactElement => {
+}> = ({ movie, desiredUser, restaurant }): React.ReactElement => {
   const { colorMode } = useColorMode();
   const router = useRouter();
-  const { user: userID, movie: movieID, review } = router.query;
+  const { user: userID, movie: movieID, restaurant: restaurantID, review } = router.query;
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
   const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URI}/${
     userID && movieID ? `?movie=${movieID}&user=${userID}` : ''
   }${userID && !movieID ? `?user=${userID}` : ''}${
     !userID && movieID ? `?movie=${movieID}` : ''
-  }${review ? `&review=${review}` : ''}`;
-
+  }${restaurantID ? `?restaurant=${restaurantID}` : ''}${review ? `&review=${review}` : ''}`;
   return (
     <>
       <NextSeo
-        title={movie?.name || desiredUser?.username || 'Welcome'}
+        title={movie?.name || restaurant?.name || desiredUser?.username || 'Welcome' }
         openGraph={{
           title: movie?.name
             ? `${movie?.name} on ${siteName}`
@@ -47,7 +48,7 @@ export const LandingPage: React.FC<{
             },
           ],
         }}
-        description={movie?.description || 'A private movie rating website'}
+        description={'A review website'}
       />
       <Flex
         minH="100vh"
@@ -80,8 +81,7 @@ export const LandingPage: React.FC<{
             fontSize={{ base: `lg`, md: `xl` }}
             color={useColorModeValue(`gray.600`, `gray.300`)}
           >
-            The website where cool kids write movie reviews :).
-            {movie && (
+            {(movie || restaurant) && (
               <>
                 <br />
                 Sign in to see details about{' '}
@@ -93,7 +93,7 @@ export const LandingPage: React.FC<{
                       : `${process.env.COLOR_THEME}.300`
                   }
                 >
-                  {movie.name}
+                  {movie ? movie.name : restaurant?.name}
                 </chakra.span>
               </>
             )}

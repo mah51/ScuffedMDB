@@ -73,11 +73,10 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
         }}
       />
       <PlausibleProvider
-        domain="movie.mikeroph.one"
+        domain="madham.vercel.com"
         selfHosted
         trackOutboundLinks
         enabled={process.env.NODE_ENV === 'production'}
-        customDomain={'https://stats.mikeroph.one'}
       >
         <NextAuthProvider
           session={pageProps.session}

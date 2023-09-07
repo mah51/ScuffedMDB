@@ -24,7 +24,6 @@ export default async function handler(
             if (exists) {
                 return res.status(400).send({ message: "Restaurant already exists" })
             }
-            console.log(body);
             const newRestaurant: RestaurantType = new Restaurant({
                 alias: body.alias,
                 name: body.name,

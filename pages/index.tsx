@@ -8,13 +8,15 @@ import HomePage from '../components/HomePage';
 import LandingPage from '../components/LandingPage';
 import { ReviewType, SerializedMovieType } from '../models/movie';
 import user, { PopulatedUserType } from '../models/user';
-import { getMovie, getMovies, getRestaurants } from '../utils/queries';
+import { getMovie, getMovies, getRestaurant, getRestaurants } from '../utils/queries';
+import { SerializedRestaurantType } from 'models/restaurant';
 
 interface HomePageProps {
   session: Session;
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] | null;
-  restaurants: any | null;
+  restaurants: SerializedRestaurantType<ReviewType<PopulatedUserType>[]>[] | null;
   singleMovieData: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
+  singleRestaurantData: SerializedRestaurantType<ReviewType<PopulatedUserType>[]>;
   desiredUser?: { username: string; _id: string; image: string };
 }
 
@@ -23,6 +25,7 @@ export default function Home({
   movies,
   restaurants,
   singleMovieData,
+  singleRestaurantData,
   desiredUser,
 }: HomePageProps): React.ReactNode {
   if (!session?.user) {
@@ -30,6 +33,7 @@ export default function Home({
       <LandingPage
         desiredUser={desiredUser || undefined}
         movie={singleMovieData || undefined}
+        restaurant={singleRestaurantData || undefined}
       />
     );
   }
@@ -64,9 +68,11 @@ export const getServerSideProps = async (
   props?: {
     session?: Session | null;
     movies?: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] | null;
+    restaurants?: SerializedRestaurantType<ReviewType<PopulatedUserType>[]>[] | null;
     singleMovieData?: SerializedMovieType<
       ReviewType<PopulatedUserType>[]
     > | null;
+    singleRestaurantData?: SerializedRestaurantType<ReviewType<PopulatedUserType>[]> | null;
     desiredUser?: { username: string; sub: string; image: string } | null;
   };
 }> => {
@@ -75,10 +81,16 @@ export const getServerSideProps = async (
     let singleMovieData: SerializedMovieType<
       ReviewType<PopulatedUserType>[]
     > | null = null;
+    let singleRestaurantData: SerializedRestaurantType<
+    ReviewType<PopulatedUserType>[]
+  > | null = null;
     let desiredUser = null;
 
     if (ctx.query.movie) {
       singleMovieData = await getMovie(ctx.query.movie, true);
+    }
+    if (ctx.query.restaurant) {
+      singleRestaurantData = await getRestaurant(ctx.query.restaurant, true);
     }
     if (ctx.query.user) {
       try {
@@ -91,7 +103,9 @@ export const getServerSideProps = async (
       props: {
         session,
         movies: [],
+        restaurants: [],
         singleMovieData: singleMovieData ? singleMovieData : null,
+        singleRestaurantData: singleRestaurantData ? singleRestaurantData : null,
         desiredUser: desiredUser
           ? {
               username: desiredUser.username,
@@ -112,6 +126,14 @@ export const getServerSideProps = async (
       },
     };
   }
+  if (ctx.query.restaurant) {
+    return {
+      redirect: {
+        destination: `/restaurant/${ctx.query.restaurant}${ctx.query.review === 'true' ? '?review=true' : ''}`,
+        permanent: false
+      },
+    }
+  };
   if (ctx.query.user) {
     return {
       redirect: {
