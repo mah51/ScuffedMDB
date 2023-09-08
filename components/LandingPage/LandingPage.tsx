@@ -5,13 +5,14 @@ import {
   Button,
   Icon,
   Flex,
-  useColorMode,
+  useColorMode
 } from '@chakra-ui/react';
 import { signIn } from 'next-auth/client';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { SerializedMovieType } from '../../models/movie';
 import { SerializedRestaurantType } from 'models/restaurant';
+import Image from 'next/image';
 
 export const LandingPage: React.FC<{
   movie?: SerializedMovieType;
@@ -22,21 +23,19 @@ export const LandingPage: React.FC<{
   const router = useRouter();
   const { user: userID, movie: movieID, restaurant: restaurantID, review } = router.query;
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
-  const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URI}/${
-    userID && movieID ? `?movie=${movieID}&user=${userID}` : ''
-  }${userID && !movieID ? `?user=${userID}` : ''}${
-    !userID && movieID ? `?movie=${movieID}` : ''
-  }${restaurantID ? `?restaurant=${restaurantID}` : ''}${review ? `&review=${review}` : ''}`;
+  const callbackUrl = `${process.env.NEXT_PUBLIC_APP_URI}/${userID && movieID ? `?movie=${movieID}&user=${userID}` : ''
+    }${userID && !movieID ? `?user=${userID}` : ''}${!userID && movieID ? `?movie=${movieID}` : ''
+    }${restaurantID ? `?restaurant=${restaurantID}` : ''}${review ? `&review=${review}` : ''}`;
   return (
-    <>
+    <div className="h-screen bg-slate-950">
       <NextSeo
-        title={movie?.name || restaurant?.name || desiredUser?.username || 'Welcome' }
+        title={movie?.name || restaurant?.name || desiredUser?.username || 'Welcome'}
         openGraph={{
           title: movie?.name
             ? `${movie?.name} on ${siteName}`
             : desiredUser?.username
-            ? `${desiredUser?.username} on ${siteName}`
-            : 'Welcome',
+              ? `${desiredUser?.username} on ${siteName}`
+              : 'Welcome',
           type: `website`,
           site_name: siteName,
           images: [
@@ -51,7 +50,6 @@ export const LandingPage: React.FC<{
         description={'A review website'}
       />
       <Flex
-        minH="100vh"
         flex={1}
         p={5}
         direction="row"
@@ -59,10 +57,18 @@ export const LandingPage: React.FC<{
         justify="center"
       >
         <Box
+          className=''
           w={{ base: `full`, md: 11 / 12, xl: 8 / 12 }}
           mx="auto"
           textAlign={{ base: `left`, sm: `center` }}
         >
+          <Flex className='content-center items-center justify-center' alignItems='center' minH={{base:'60vh', md: '80vw'}}>
+            <Image
+              src={`/svg/logo-pink-landing.svg`}
+              width={400}
+              height={400}
+              alt="Logo" />
+          </Flex>
           <chakra.h1
             mb={6}
             fontSize={{ base: `4xl`, md: `6xl` }}
@@ -70,8 +76,9 @@ export const LandingPage: React.FC<{
             letterSpacing={{ base: `normal`, md: `tight` }}
             w="full"
             bgClip="text"
-            bgGradient="linear(to-r, green.400,purple.500)"
+            bgGradient="linear(to-r, pink.400,teal.500)"
             fontWeight="extrabold"
+            className='text-center'
           >
             {siteName}
           </chakra.h1>
@@ -147,6 +154,6 @@ export const LandingPage: React.FC<{
           </Button>
         </Box>
       </Flex>
-    </>
+    </div>
   );
 };
