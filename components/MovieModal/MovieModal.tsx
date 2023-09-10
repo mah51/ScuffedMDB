@@ -56,7 +56,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
       queryClient.invalidateQueries(`restaurants`).catch(console.error);
       toast({
         variant: `subtle`,
-        title: success.type === `addition` ? `Movie Added` : `Movie Deleted`,
+        title: success.type === `addition` ? `${success.data?.alias ? 'Restaurant' : 'Movie'} Added` : `${success.data?.alias ? 'Restaurant' : 'Movie'} Deleted`,
         description:
           success.type === `addition`
             ? `${success.data?.name} was successfully added`

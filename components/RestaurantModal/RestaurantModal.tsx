@@ -61,6 +61,9 @@ export const RestaurantModal: React.FC<{
             { name: 'United States', code: 'US' },
             { name: 'Canada', code: 'CA' },
             { name: 'United Kingdom', code: 'UK' },
+            { name: 'Spain', code: 'ES' },
+            { name: 'Portugal', code: 'PT' },
+            { name: 'Italy', code: 'IT' }
             // ...add other countries as needed
         ];
 
@@ -87,13 +90,13 @@ export const RestaurantModal: React.FC<{
                     setRestaurant(data);
                 }
                 else {
-                    setError('Error searching for restaurant');
+                    setError('Error searching for restaurant. Look at inputs and try again.');
                 }
             }
             catch (err) {
                 console.error(err);
                 if (err) {
-                    setError(err.message);
+                    setError(err?.message);
                 }
             }
         };
@@ -109,11 +112,10 @@ export const RestaurantModal: React.FC<{
                 setSuccess(data);
                 onRestaurantClose();
                 setRestaurant(null);
-              } else {
+            } else {
                 setError(data.message);
-              }
+            }
         }
-
 
 
         return (
@@ -140,6 +142,9 @@ export const RestaurantModal: React.FC<{
                                 <Heading>
                                     {restaurant?.name}
                                 </Heading>
+                                <Heading as='h5' size='sm'>
+                                    {restaurant?.location?.city + ', ' + restaurant?.location?.country}
+                                </Heading>
                                 {
                                     restaurant.categories ?
                                         <HStack>
@@ -147,7 +152,7 @@ export const RestaurantModal: React.FC<{
                                         </HStack> : ''
                                 }
                                 <Box display='flex' mt='2' alignItems='center'>
-                                    <StarRating rating={restaurant?.rating}/>
+                                    <StarRating rating={restaurant?.rating} />
                                     <Box as='span' ml='2' color='gray.600' fontSize='sm'>
                                         {restaurant?.review_count} reviews
                                     </Box>
@@ -165,27 +170,46 @@ export const RestaurantModal: React.FC<{
                                         <Input placeholder='Restaurant Name' value={name} onChange={e => setName(e.currentTarget.value)} />
                                     </VStack>
                                     <VStack mt='3' align='flex-start'>
-                                        <FormLabel display={'flex'}>Address</FormLabel>
-                                        <Input placeholder='123 Main St' value={address} onChange={e => setAddress(e.currentTarget.value)} />
-                                    </VStack>
-                                    <VStack mt='3' align='flex-start'>
-                                        <FormLabel display={'flex'}>City</FormLabel>
-                                        <Input placeholder='Gotham' value={city} onChange={e => setCity(e.currentTarget.value)} />
-                                    </VStack>
-                                    <VStack mt='3' align='flex-start'>
-                                        <FormLabel display={'flex'}>State</FormLabel>
-                                        <Input placeholder='MI' value={state} onChange={e => setState(e.currentTarget.value)} />
-                                    </VStack>
-                                    <VStack mt='3' align='flex-start'>
                                         <FormLabel display={'flex'}>Country</FormLabel>
-                                        <Select placeholder="Select country" value={country} onChange={e => setCountry(e.currentTarget.value)}>
+                                        <Select placeholder="Select country" value={country} onChange={e => {
+                                            setCountry(e.currentTarget.value);
+                                            setState('');
+                                        }}>
                                             {countries.map((country, index) => (
                                                 <option key={index} value={country.code}>
-                                                    {country.code}
+                                                    {country.name}
                                                 </option>
                                             ))}
                                         </Select>
                                     </VStack>
+                                    {
+                                        ['US', 'CA'].includes(country) ?
+                                            <>
+                                                <VStack mt='3' align='flex-start'>
+                                                    <FormLabel display={'flex'}>State</FormLabel>
+                                                    <Input placeholder='MI' value={state} onChange={e => setState(e.currentTarget.value)} />
+                                                </VStack>
+                                                <VStack mt='3' align='flex-start'>
+                                                    <FormLabel display={'flex'}>City</FormLabel>
+                                                    <Input placeholder='Gotham' value={city} onChange={e => setCity(e.currentTarget.value)} />
+                                                </VStack>
+                                                <VStack mt='3' align='flex-start'>
+                                                    <FormLabel display={'flex'}>Address</FormLabel>
+                                                    <Input placeholder='123 Main St' value={address} onChange={e => setAddress(e.currentTarget.value)} />
+                                                </VStack>
+                                            </>
+                                            :
+                                            <>
+                                                <VStack mt='3' align='flex-start'>
+                                                    <FormLabel display={'flex'}>City</FormLabel>
+                                                    <Input placeholder='Gotham' value={city} onChange={e => setCity(e.currentTarget.value)} />
+                                                </VStack>
+                                                <VStack mt='3' align='flex-start'>
+                                                    <FormLabel display={'flex'}>Address</FormLabel>
+                                                    <Input placeholder='123 Main St' value={address} onChange={e => setAddress(e.currentTarget.value)} />
+                                                </VStack>
+                                            </>
+                                    }
                                     <Flex mt='3' align='flex-start'>
                                         <Button
                                             type="submit"
