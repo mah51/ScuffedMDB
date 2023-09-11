@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
 
 interface YelpLocation {
-  address?: string;
+  address1?: string;
   city?: string;
   zip_code?: number
   country?: string;

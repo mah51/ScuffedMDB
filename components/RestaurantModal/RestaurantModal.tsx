@@ -17,7 +17,8 @@ import {
     HStack,
     Text,
     Box,
-    Select
+    Select,
+    useColorMode
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
@@ -69,6 +70,8 @@ export const RestaurantModal: React.FC<{
 
 
         // Form states
+        const { colorMode } = useColorMode();
+
         const [showForm, setShowForm] = useState(true);
         const [name, setName] = useState('');
         const [address, setAddress] = useState('');
@@ -150,9 +153,17 @@ export const RestaurantModal: React.FC<{
                                 <Heading>
                                     {restaurant?.name}
                                 </Heading>
-                                <Heading as='h5' size='sm'>
-                                    {restaurant?.location?.city + ', ' + restaurant?.location?.country}
-                                </Heading>
+                                {
+                                    restaurant?.location &&
+                                    <VStack spacing={0} align='start'>
+                                        <Heading as='h5' size='sm' className='m-0'>
+                                            {restaurant?.location?.address1}
+                                        </Heading>
+                                        <Heading as='h5' size='sm' className='m-0'>
+                                            {restaurant?.location?.city + ', ' + restaurant?.location?.country}
+                                        </Heading>
+                                    </VStack>
+                                }
                                 {
                                     restaurant.categories ?
                                         <HStack>
@@ -161,7 +172,7 @@ export const RestaurantModal: React.FC<{
                                 }
                                 <Box display='flex' mt='2' alignItems='center'>
                                     <StarRating rating={restaurant?.rating} />
-                                    <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+                                    <Box as='span' ml='2' color={colorMode === 'light' ? 'gray.600' : 'gray.300'} fontSize='sm'>
                                         {restaurant?.review_count} reviews
                                     </Box>
                                 </Box>
