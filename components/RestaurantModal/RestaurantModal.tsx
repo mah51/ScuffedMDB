@@ -19,7 +19,7 @@ import {
     Box,
     Select
 } from '@chakra-ui/react';
-import { StarIcon, ArrowBackIcon } from '@chakra-ui/icons';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import { YelpMatchResponse } from "../../pages/api/restaurant-api";
 import { StarRating } from '@components/Rating/Rating';
@@ -78,6 +78,13 @@ export const RestaurantModal: React.FC<{
 
         const [restaurant, setRestaurant] = useState<YelpMatchResponse>(null);
 
+        const clearForm = () => {
+            setName('');
+            setAddress('');
+            setCity('');
+            setState('');
+            setCountry('');
+        }
 
         const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
@@ -90,7 +97,7 @@ export const RestaurantModal: React.FC<{
                     setRestaurant(data);
                 }
                 else {
-                    setError('Error searching for restaurant. Look at inputs and try again.');
+                    setError('Error searching for restaurant. Check inputs and try again.');
                 }
             }
             catch (err) {
@@ -110,6 +117,7 @@ export const RestaurantModal: React.FC<{
             const data = await response.json();
             if (response.status === 200) {
                 setSuccess(data);
+                clearForm();
                 onRestaurantClose();
                 setRestaurant(null);
             } else {
@@ -193,10 +201,6 @@ export const RestaurantModal: React.FC<{
                                                     <FormLabel display={'flex'}>City</FormLabel>
                                                     <Input placeholder='Gotham' value={city} onChange={e => setCity(e.currentTarget.value)} />
                                                 </VStack>
-                                                <VStack mt='3' align='flex-start'>
-                                                    <FormLabel display={'flex'}>Address</FormLabel>
-                                                    <Input placeholder='123 Main St' value={address} onChange={e => setAddress(e.currentTarget.value)} />
-                                                </VStack>
                                             </>
                                             :
                                             <>
@@ -204,13 +208,17 @@ export const RestaurantModal: React.FC<{
                                                     <FormLabel display={'flex'}>City</FormLabel>
                                                     <Input placeholder='Gotham' value={city} onChange={e => setCity(e.currentTarget.value)} />
                                                 </VStack>
-                                                <VStack mt='3' align='flex-start'>
-                                                    <FormLabel display={'flex'}>Address</FormLabel>
-                                                    <Input placeholder='123 Main St' value={address} onChange={e => setAddress(e.currentTarget.value)} />
-                                                </VStack>
                                             </>
                                     }
-                                    <Flex mt='3' align='flex-start'>
+                                </FormControl>
+                                <FormControl className='px-3'>
+                                    <VStack align='flex-start'>
+                                        <FormLabel display={'flex'}>Street/Address</FormLabel>
+                                        <Input placeholder='123 Main St' value={address} onChange={e => setAddress(e.currentTarget.value)} />
+                                    </VStack>
+                                </FormControl>
+                                <Flex className='px-3 py-3' align='flex-start'>
+                                    <HStack align='flex-end'>
                                         <Button
                                             type="submit"
                                             className="mt-2"
@@ -218,8 +226,15 @@ export const RestaurantModal: React.FC<{
                                         >
                                             Search
                                         </Button>
-                                    </Flex>
-                                </FormControl>
+                                        <Button
+                                            onClick={clearForm}
+                                            className="mt-2"
+                                            colorScheme={process.env.COLOR_THEME}
+                                        >
+                                            Clear
+                                        </Button>
+                                    </HStack>
+                                </Flex>
                             </form>
                         }
                     </ModalContent>

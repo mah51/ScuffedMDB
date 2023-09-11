@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const query = req.query;
 
     // Check if necessary query parameters are present
-    if (query.state && query.state.length > 0) {
+    if ((query.state && query.state.length > 0) && (query.address && query.address.length > 0)) {
       await useMatchesEndpoint(query, res);
     }
     else {
@@ -88,7 +88,7 @@ const useMatchesEndpoint = async (query: any, res: NextApiResponse) => {
 }
 
 const useSearchEndpoint = async (query: any, res: NextApiResponse) => {
-  if (!query.name || !query.address || !query.city || !query.country) {
+  if (!query.name || !query.city || !query.country) {
     res.status(400).json({ message: "Required query parameters are missing" });
     return;
   }
