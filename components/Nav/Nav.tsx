@@ -13,14 +13,13 @@ import {
   MenuDivider,
   useColorMode,
   Stack,
-  Heading,
   Link as ChakraLink,
   useBreakpointValue,
   useDisclosure,
   chakra
 } from '@chakra-ui/react';
 import { transparentize } from '@chakra-ui/theme-tools';
-import { IoMoon, IoSunny, IoRestaurant } from 'react-icons/io5';
+import { IoMoon, IoSunny, IoRestaurant, IoHomeOutline } from 'react-icons/io5';
 import { BiCameraMovie } from "react-icons/bi";
 import Link from 'next/link';
 import MovieModal from '../MovieModal';
@@ -107,7 +106,7 @@ export const Nav: React.FC<NavProps> = ({
           </HStack>
           <HStack>
             {
-              bp !== 'mobile' ? (
+              bp !== 'mobile' && (
                 <>
                   <Button onClick={() => {
                     setView('movies');
@@ -123,27 +122,6 @@ export const Nav: React.FC<NavProps> = ({
                     colorScheme={`${process.env.COLOR_THEME}`}
                     variant='ghost'
                   >Restaurants</Button>
-                </>
-              ) : (
-                <>
-                  <IconButton
-                    variant='ghost'
-                    icon={<BiCameraMovie size={30} />}
-                    colorScheme={process.env.COLOR_THEME}
-                    onClick={() => {
-                      setView('movies');
-                      router.push('/');
-                    }}
-                  />
-                  <IconButton
-                    variant='ghost'
-                    icon={<IoRestaurant size={30} />}
-                    colorScheme={process.env.COLOR_THEME}
-                    onClick={() => {
-                      setView('restaurants');
-                      router.push('/');
-                    }}
-                  />
                 </>
               )
             }
@@ -230,6 +208,8 @@ interface MobileNavProps {
 }
 
 const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
+  const { view, setView } = useContext(ViewContext);
+  const router = useRouter();
   const mobileNav = useDisclosure();
   const { colorMode } = useColorMode();
   const darkBg = transparentize(`${process.env.COLOR_THEME}.200`, 0.16);
@@ -319,6 +299,51 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
           Sign Out
         </Button>
       </Flex>
+      <Stack className="fixed bottom-20 right-6 z-[100] animate-[bounce_1s_5s]">
+        {
+          router.pathname !== '/' &&
+          <IconButton
+            isRound={true}
+            variant='solid'
+            colorScheme={process.env.COLOR_THEME}
+            aria-label='Done'
+            fontSize='20px'
+            size='lg'
+            icon={<IoHomeOutline />}
+            onClick={() => router.push('/')}
+          />
+        }
+        {
+          router.pathname === '/' && view === 'movies' &&
+          <IconButton
+            isRound={true}
+            variant='solid'
+            colorScheme={process.env.COLOR_THEME}
+            aria-label='Done'
+            fontSize='20px'
+            size='lg'
+            icon={<IoRestaurant />}
+            onClick={() => {
+              setView('restaurants');
+            }}
+          />
+        }
+        {
+          router.pathname === '/' && view === 'restaurants' &&
+          <IconButton
+            isRound={true}
+            variant='solid'
+            colorScheme={process.env.COLOR_THEME}
+            aria-label='Done'
+            fontSize='20px'
+            size='lg'
+            icon={<BiCameraMovie />}
+            onClick={() => {
+              setView('movies');
+            }}
+          />
+        }
+      </Stack>
     </>
   ) : null;
 };
