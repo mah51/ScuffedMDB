@@ -19,7 +19,7 @@ import {
   chakra
 } from '@chakra-ui/react';
 import { transparentize } from '@chakra-ui/theme-tools';
-import { IoMoon, IoSunny, IoRestaurant, IoHomeOutline } from 'react-icons/io5';
+import { IoMoon, IoSunny, IoRestaurantOutline, IoHomeOutline } from 'react-icons/io5';
 import { BiCameraMovie } from "react-icons/bi";
 import Link from 'next/link';
 import MovieModal from '../MovieModal';
@@ -310,7 +310,16 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
             fontSize='20px'
             size='lg'
             icon={<IoHomeOutline />}
-            onClick={() => router.push('/')}
+            onClick={() => {
+              if (router?.pathname.includes('restaurant')) {
+                setView('restaurants');
+              }
+              else if (router?.pathname.includes('movie')) {
+                setView('movies');
+              }
+              router.push('/');
+            }
+            }
           />
         }
         {
@@ -322,7 +331,7 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
             aria-label='Done'
             fontSize='20px'
             size='lg'
-            icon={<IoRestaurant />}
+            icon={<IoRestaurantOutline />}
             onClick={() => {
               setView('restaurants');
             }}

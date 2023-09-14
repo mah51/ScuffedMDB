@@ -18,19 +18,7 @@ import {
   Icon,
   useBreakpoint,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  MenuDivider,
-  useColorMode,
   useToast,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   useColorModeValue,
   Skeleton,
 } from '@chakra-ui/react';
@@ -204,7 +192,10 @@ export default function MovieDetailsSection({
               <Heading
                 lineHeight="1.1em"
                 transform={'translateX(-3px)'}
-                fontSize="6xl"
+                fontSize={{
+                  'base': '4xl',
+                  'lg': '6xl'
+                }}
               >
                 {movie.name}
               </Heading>

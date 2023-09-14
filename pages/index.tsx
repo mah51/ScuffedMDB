@@ -96,7 +96,7 @@ export const getServerSideProps = async (
       try {
         desiredUser = await user.findById(ctx.query.user).lean();
       } catch (e) {
-        return { props: { session, movies: [] } };
+        return { props: { session, movies: [], restaurants: [] } };
       }
     }
     return {
@@ -143,9 +143,11 @@ export const getServerSideProps = async (
     };
   }
   let movies = null;
+  let restaurants = null
   if (session?.user) {
     movies = await getMovies();
+    restaurants = await getRestaurants();
   }
 
-  return { props: { session, movies } };
+  return { props: { session, movies, restaurants } };
 };

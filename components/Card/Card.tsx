@@ -39,6 +39,7 @@ export const Card: React.FC<CardProps> = ({
   const [numReviews, setNumReviews] = useState();
   const [tagLine, setTagLine] = useState('');
   const [view, setView] = useState();
+  const [isViewLoaded, setViewLoaded] = useState(false);
 
   useEffect(() => {
     if (movie) {
@@ -61,125 +62,128 @@ export const Card: React.FC<CardProps> = ({
       setNumReviews(restaurant.numReviews);
       setTagLine(`${restaurant?.address[0]} ${restaurant?.address[1]}`);
     }
+    setViewLoaded(true);
   }, [restaurant, movie])
 
   return (
-    <Link href={view?.href ?? ''} passHref>
-      <Box as={'a'} height="full">
-        <chakra.div
-          position="relative"
-          direction="column"
-          maxW="400px"
-          mx="auto"
-          w="full"
-          bg={useColorModeValue(`white`, `gray.900`)}
-          boxShadow="xl"
-          rounded="md"
-          transition="all 0.25s"
-          transitionTimingFunction="spring(1 100 10 10)"
-          p={6}
-          _hover={{
-            transform: `translateY(-4px)`,
-            shadow: `2xl`,
-            cursor: 'pointer',
-          }}
-          overflow="hidden"
-          height="full"
-        >
-          <Box
-            opacity={featuredMovie === view?._id ? 0.9 : 0}
-            top={0}
-            zIndex={10}
-            left={0}
-            right={0}
-            bottom={0}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            flexDir="column"
-            position="absolute"
+    <Skeleton isLoaded={isViewLoaded}>
+      <Link href={view?.href ?? ''} passHref>
+        <Box as={'a'} height="full">
+          <chakra.div
+            position="relative"
+            direction="column"
+            maxW="400px"
+            mx="auto"
+            w="full"
+            bg={useColorModeValue(`white`, `gray.900`)}
+            boxShadow="xl"
+            rounded="md"
             transition="all 0.25s"
-            bg={useColorModeValue(`white`, `gray.800`)}
             transitionTimingFunction="spring(1 100 10 10)"
+            p={6}
             _hover={{
-              opacity: 0.95,
+              transform: `translateY(-4px)`,
               shadow: `2xl`,
+              cursor: 'pointer',
             }}
+            overflow="hidden"
+            height="full"
           >
-            <Text
-              textAlign="center"
-              fontSize="4xl"
-              fontWeight="semibold"
-              color={useColorModeValue(`gray.800`, `white`)}
+            <Box
+              opacity={featuredMovie === view?._id ? 0.9 : 0}
+              top={0}
+              zIndex={10}
+              left={0}
+              right={0}
+              bottom={0}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              flexDir="column"
+              position="absolute"
+              transition="all 0.25s"
+              bg={useColorModeValue(`white`, `gray.800`)}
+              transitionTimingFunction="spring(1 100 10 10)"
+              _hover={{
+                opacity: 0.95,
+                shadow: `2xl`,
+              }}
             >
-              {featuredMovie === view?._id ? 'Review in progress' : 'View more'}
-            </Text>
-            {featuredMovie === view?._id && (
-              <AvatarGroup mt={3} max={3}>
-                {view?.reviews?.map((review) => (
-                  <Avatar key={review._id} src={review.user?.image} />
-                ))}
-              </AvatarGroup>
-            )}
-          </Box>
-          <Box mt={-6} mx={-6} mb={6} pos="relative">
-            {image && (
-              <Skeleton isLoaded={isImageLoaded}>
-                <Image
-                  src={image}
-                  width="0"
-                  onLoad={() => setIsImageLoaded(true)}
-                  sizes="(max-width: 2561px) 400px"
-                  height="0"
-                  alt={`${view?.name} poster`}
-                  className="w-[400px] h-[225px] object-cover"
-                />
-              </Skeleton>
-            )}
-          </Box>
-
-          <Flex direction="column" justifyContent="space-between">
-            <Flex direction={'column'}>
-              <Flex
-                justifyContent="space-between"
-                alignItems="center"
-                maxW="full"
+              <Text
+                textAlign="center"
+                fontSize="4xl"
+                fontWeight="semibold"
+                color={useColorModeValue(`gray.800`, `white`)}
               >
-                <Text
-                  as="h3"
-                  color={useColorModeValue(`gray.700`, `white`)}
-                  fontSize="2xl"
-                  fontWeight="bold"
+                View more
+              </Text>
+              {featuredMovie === view?._id && (
+                <AvatarGroup mt={3} max={3}>
+                  {view?.reviews?.map((review) => (
+                    <Avatar key={review._id} src={review.user?.image} />
+                  ))}
+                </AvatarGroup>
+              )}
+            </Box>
+            <Box mt={-6} mx={-6} mb={6} pos="relative">
+              {image && (
+                <Skeleton isLoaded={isImageLoaded}>
+                  <Image
+                    src={image}
+                    width="0"
+                    onLoad={() => setIsImageLoaded(true)}
+                    sizes="(max-width: 2561px) 400px"
+                    height="0"
+                    alt={`${view?.name} poster`}
+                    className="w-[400px] h-[225px] object-cover"
+                  />
+                </Skeleton>
+              )}
+            </Box>
+
+            <Flex direction="column" justifyContent="space-between">
+              <Flex direction={'column'}>
+                <Flex
+                  justifyContent="space-between"
+                  alignItems="center"
                   maxW="full"
-                  isTruncated
                 >
-                  {name}
-                </Text>
-                <Tag
-                  whiteSpace="nowrap"
-                  ml="5px!important"
-                  colorScheme={getColorSchemeCharCode(genres[0])}
-                  fontWeight="600"
-                  minW="auto"
+                  <Text
+                    as="h3"
+                    color={useColorModeValue(`gray.700`, `white`)}
+                    fontSize="2xl"
+                    fontWeight="bold"
+                    maxW="full"
+                    isTruncated
+                  >
+                    {name}
+                  </Text>
+                  <Tag
+                    whiteSpace="nowrap"
+                    ml="5px!important"
+                    colorScheme={getColorSchemeCharCode(genres[0])}
+                    fontWeight="600"
+                    minW="auto"
+                  >
+                    {genres[0]}
+                  </Tag>
+                </Flex>
+                <HStack
+                  justifyContent="space-between"
+                  alignItems="flex-start"
+                  mt={3}
                 >
-                  {genres[0]}
-                </Tag>
-              </Flex>
-              <HStack
-                justifyContent="space-between"
-                alignItems="flex-start"
-                mt={3}
-              >
-                <Text color="gray.500">
-                  {tagLine || 'No tag line :(...'}
-                </Text>
+                  <Text color="gray.500">
+                    {tagLine || 'No tag line :(...'}
+                  </Text>
 
-                <Rating rating={rating} numReviews={numReviews} />
-              </HStack>
+                  <Rating rating={rating} numReviews={numReviews} />
+                </HStack>
+              </Flex>
             </Flex>
-          </Flex>
-        </chakra.div>
-      </Box>
-    </Link>
+          </chakra.div>
+        </Box>
+      </Link>
+    </Skeleton>
   );
 };
