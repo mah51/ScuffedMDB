@@ -126,10 +126,9 @@ export const Card: React.FC<CardProps> = ({
               )}
             </Box>
             <Box mt={-6} mx={-6} mb={6} pos="relative">
-              {image && (
                 <Skeleton isLoaded={isImageLoaded}>
                   <Image
-                    src={image}
+                    src={image ? image : `/svg/logo-no-background-${process.env.COLOR_THEME}.svg`}
                     width="0"
                     onLoad={() => setIsImageLoaded(true)}
                     sizes="(max-width: 2561px) 400px"
@@ -138,7 +137,6 @@ export const Card: React.FC<CardProps> = ({
                     className="w-[400px] h-[225px] object-cover"
                   />
                 </Skeleton>
-              )}
             </Box>
 
             <Flex direction="column" justifyContent="space-between">

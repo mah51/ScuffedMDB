@@ -95,14 +95,26 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                                 lg: 'auto'
                             }} className='mb-4'>
                             <Skeleton borderRadius="xl" isLoaded={isImageLoaded}>
-                                <Image
-                                    src={restaurant?.image_url}
-                                    alt='naruto'
-                                    objectFit='cover'
-                                    sizes={'50vw'}
-                                    layout='fill'
-                                    onLoad={() => setIsImageLoaded(true)}
-                                />
+                                {
+                                    restaurant?.image_url ?
+                                        <Image
+                                            src={restaurant?.image_url}
+                                            alt={`${restaurant?.name} Image`}
+                                            objectFit='cover'
+                                            sizes={'50vw'}
+                                            layout='fill'
+                                            onLoad={() => setIsImageLoaded(true)}
+                                        />
+                                        :
+                                        <Image
+                                            src={`/svg/logo-no-background-${process.env.COLOR_THEME}.svg`}
+                                            alt={`${restaurant?.name} Image`}
+                                            objectFit='cover'
+                                            sizes={'50vw'}
+                                            layout='fill'
+                                            onLoad={() => setIsImageLoaded(true)}
+                                        />
+                                }
                             </Skeleton>
                         </AspectRatio>
                         <Wrap spacing={3} mt={{ base: '5', lg: 0 }}>
