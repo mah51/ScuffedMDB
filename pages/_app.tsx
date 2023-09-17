@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
   const [restaurant, setRestaurant] = useState<SerializedRestaurantType<
     ReviewType<PopulatedUserType>[]
   > | null>(null);
-  const [view, setView] = useState('restaurants');
+  const [view, setView] = useState('movies');
 
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
   const shortSiteName =

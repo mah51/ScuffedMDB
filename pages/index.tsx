@@ -10,6 +10,10 @@ import { ReviewType, SerializedMovieType } from '../models/movie';
 import user, { PopulatedUserType } from '../models/user';
 import { getMovie, getMovies, getRestaurant, getRestaurants } from '../utils/queries';
 import { SerializedRestaurantType } from 'models/restaurant';
+import {
+  Center,
+  Spinner,
+} from '@chakra-ui/react';
 
 interface HomePageProps {
   session: Session;
@@ -41,11 +45,11 @@ export default function Home({
     return <BannedPage user={session.user} />;
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data, error } = useQuery(`movies`, getMovies, {
+  const { data, error, isLoading: movieLoading } = useQuery(`movies`, getMovies, {
     initialData: movies,
   });
 
-  const {data: restaurantData, error: restaurantError} = useQuery(`restaurants`, getRestaurants, {
+  const { data: restaurantData, error: restaurantError, isLoading: restaurantLoading } = useQuery(`restaurants`, getRestaurants, {
     initialData: restaurants,
   })
 
@@ -57,7 +61,26 @@ export default function Home({
     return <div />;
   }
 
-  return <HomePage user={session.user} movies={data} restaurants={restaurantData}/>;
+  return (
+    <>
+      {
+        (movieLoading || restaurantLoading) ? (
+          <Center className='h-screen'>
+            <Spinner
+              mt={6}
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color={`${process.env.COLOR_THEME}.200`}
+              size="xl"
+            />
+          </Center>
+        ) : (
+          <HomePage user={session.user} movies={data} restaurants={restaurantData} />
+        )
+      }
+    </>
+  )
 }
 
 export const getServerSideProps = async (
@@ -82,8 +105,8 @@ export const getServerSideProps = async (
       ReviewType<PopulatedUserType>[]
     > | null = null;
     let singleRestaurantData: SerializedRestaurantType<
-    ReviewType<PopulatedUserType>[]
-  > | null = null;
+      ReviewType<PopulatedUserType>[]
+    > | null = null;
     let desiredUser = null;
 
     if (ctx.query.movie) {
@@ -108,10 +131,10 @@ export const getServerSideProps = async (
         singleRestaurantData: singleRestaurantData ? singleRestaurantData : null,
         desiredUser: desiredUser
           ? {
-              username: desiredUser.username,
-              sub: desiredUser._id.toString(),
-              image: desiredUser.image,
-            }
+            username: desiredUser.username,
+            sub: desiredUser._id.toString(),
+            image: desiredUser.image,
+          }
           : null,
       },
     };
@@ -119,9 +142,8 @@ export const getServerSideProps = async (
   if (ctx.query.movie) {
     return {
       redirect: {
-        destination: `/movie/${ctx.query.movie}${
-          ctx.query.review === 'true' ? '?review=true' : ''
-        }`,
+        destination: `/movie/${ctx.query.movie}${ctx.query.review === 'true' ? '?review=true' : ''
+          }`,
         permanent: false,
       },
     };
@@ -143,11 +165,9 @@ export const getServerSideProps = async (
     };
   }
   let movies = null;
-  let restaurants = null
   if (session?.user) {
     movies = await getMovies();
-    restaurants = await getRestaurants();
   }
 
-  return { props: { session, movies, restaurants } };
+  return { props: { session, movies } };
 };

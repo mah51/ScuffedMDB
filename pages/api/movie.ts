@@ -10,10 +10,10 @@ const MovieAPI = async (
   res: NextApiResponse
 ): Promise<void | NextApiResponse<any>> => {
   await dbConnect();
+  const session = await getSession({ req });
   if (req.method === `POST`) {
     const { id: movieID }: MovieEndpointBodyType = JSON.parse(req.body);
     try {
-      const session = await getSession({ req });
       if (!session?.user?.isAdmin) {
         return res
           .status(401)
@@ -75,7 +75,6 @@ const MovieAPI = async (
     }
   } else if (req.method === `GET`) {
     try {
-      const session = await getSession({ req });
       if (!session?.user) {
         return res
           .status(401)
@@ -91,7 +90,6 @@ const MovieAPI = async (
   } else if (req.method === `DELETE`) {
     const { id } = JSON.parse(req.body);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const session = await getSession({ req });
     if (!session?.user?.isAdmin) {
       return res
         .status(401)

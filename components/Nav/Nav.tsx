@@ -104,27 +104,21 @@ export const Nav: React.FC<NavProps> = ({
                 alt="Logo" />
             </Link>
           </HStack>
-          <HStack>
-            {
-              bp !== 'mobile' && (
-                <>
-                  <Button onClick={() => {
-                    setView('movies');
-                    router.push('/');
-                  }}
-                    colorScheme={`${process.env.COLOR_THEME}`}
-                    variant='ghost'
-                  >Movies</Button>
-                  <Button onClick={() => {
-                    setView('restaurants');
-                    router.push('/');
-                  }}
-                    colorScheme={`${process.env.COLOR_THEME}`}
-                    variant='ghost'
-                  >Restaurants</Button>
-                </>
-              )
-            }
+          <HStack className="!hidden md:!flex">
+            <Button onClick={() => {
+              setView('movies');
+              router.push('/');
+            }}
+              colorScheme={`${process.env.COLOR_THEME}`}
+              variant='ghost'
+            >Movies</Button>
+            <Button onClick={() => {
+              setView('restaurants');
+              router.push('/');
+            }}
+              colorScheme={`${process.env.COLOR_THEME}`}
+              variant='ghost'
+            >Restaurants</Button>
           </HStack>
           <HStack align="center" spacing={'15px'} mx={4}>
             <IconButton

@@ -67,23 +67,12 @@ export const CardGrid: React.FC<CardGridProps> = ({
   const [isMovieView, setMovieView] = useState(false);
   const [isRestaurantView, setRestaurantView] = useState(false);
   const { view } = useContext(ViewContext);
-  const [viewData, setViewData] = useState([]);
+  const [viewData, setViewData] = useState(unSortedMovies);
   const [genres, setGenres] = useState<string[]>([]);
   const [isGenreFilterActive, setIsGenreFilterActive] = useState(false);
   const toast = useToast();
   const { colorMode } = useColorMode();
   // Fix for https://github.com/chakra-ui/chakra-ui/issues/3076
-
-  useEffect(() => {
-    if (view === 'movies') {
-      setViewData(unSortedMovies);
-      return;
-    }
-    else {
-      setViewData(restaurants?.data);
-      return;
-    }
-  });
 
   useEffect(() => {
     if (view === 'movies') {
@@ -95,7 +84,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
     if (view === 'restaurants') {
       setRestaurantView(true);
       setMovieView(false);
-      setCardView(true)
+      setCardView(true);
       setViewData(restaurants?.data);
       return;
     }
