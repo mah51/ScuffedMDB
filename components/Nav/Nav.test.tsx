@@ -1,6 +1,6 @@
 import { Session } from 'next-auth';
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Nav from '.';
 import { render } from '@testing-library/react';
 

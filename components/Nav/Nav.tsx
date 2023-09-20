@@ -107,14 +107,14 @@ export const Nav: React.FC<NavProps> = ({
           <HStack className="!hidden md:!flex">
             <Button onClick={() => {
               setView('movies');
-              router.push('/');
+              router.push('/', undefined, { shallow: true });
             }}
               colorScheme={`${process.env.COLOR_THEME}`}
               variant='ghost'
             >Movies</Button>
             <Button onClick={() => {
               setView('restaurants');
-              router.push('/');
+              router.push('/', undefined, { shallow: true })
             }}
               colorScheme={`${process.env.COLOR_THEME}`}
               variant='ghost'
@@ -311,7 +311,7 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
               else if (router?.pathname.includes('movie')) {
                 setView('movies');
               }
-              router.push('/');
+              router.push('/', undefined, { shallow: true })
             }
             }
           />

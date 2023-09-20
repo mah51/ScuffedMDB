@@ -31,8 +31,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { useQuery, useQueryClient } from 'react-query';
-
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { User } from 'next-auth';
 import { AiFillStar } from 'react-icons/ai';
 import { ReviewEndpointBodyType } from '../../types/APITypes';
@@ -50,8 +49,8 @@ export const ReviewModal: React.FC<{
     ReviewModalContext
   );
 
-  const { data: movies } = useQuery(`movies`, getMovies);
-  const { data: restaurants } = useQuery(`restaurants`, getRestaurants);
+  const { data: movies } = useQuery([`movies`], () => getMovies());
+  const { data: restaurants } = useQuery([`restaurants`], () => getRestaurants());
 
 
   const [isEditingReview, setIsEditingReview] = useState(false);
@@ -68,16 +67,13 @@ export const ReviewModal: React.FC<{
   const queryClient = useQueryClient();
   const toast = useToast();
 
+  // other hooks
+
+
+  // use effect hooks
   useEffect(() => {
     if (success) {
-      queryClient
-        .invalidateQueries(`movie-${movie?.name}`)
-        .catch(console.error);
-      queryClient
-        .invalidateQueries(`restaurant-${restaurant?._id}`)
-        .catch(console.error);
-      queryClient.invalidateQueries(`movies`).catch(console.error);
-      queryClient.invalidateQueries(`restaurants`).catch(console.error);
+      queryClient.invalidateQueries();
       toast({
         variant: `subtle`,
         title: success === `addition` ? `Review Added` : `Review Modified`,
@@ -145,6 +141,7 @@ export const ReviewModal: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
+  // functions
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     onClose: () => void

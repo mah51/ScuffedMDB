@@ -5,7 +5,7 @@ import { Session } from 'next-auth';
 import { getSession, useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { getRestaurant } from '../../utils/queries';
-import { useQuery } from 'react-query';
+import { useQuery, dehydrate, QueryClient } from '@tanstack/react-query';
 import ErrorPage from '@components/ErrorPage';
 import AppLayout from '@components/AppLayout';
 import RestaurantDetails from '@components/RestaurantDetails';
@@ -18,17 +18,12 @@ interface RestaurantPageProps {
     error?: string;
 }
 
-export default function RestaurantPage({ error, ...props }: RestaurantPageProps): any {
+export default function RestaurantPage({ error }: RestaurantPageProps): any {
     const [session, loading] = useSession();
     const router = useRouter();
     const { id } = router.query;
 
-    const { data, isLoading } = useQuery(
-        `restaurant-${id}`,
-        async () => {
-            return await getRestaurant(id, true);
-        },
-    );
+    const { data, isLoading } = useQuery([`restaurant-${id}`, id], () => getRestaurant(id, true));
 
 
     if ((typeof window !== 'undefined' && loading) || !session) return null;
@@ -61,7 +56,7 @@ export default function RestaurantPage({ error, ...props }: RestaurantPageProps)
 interface SSRProps {
     props?: {
         session: Session | null;
-        restaurant: SerializedRestaurantType<ReviewType<PopulatedUserType>[]> | null;
+        dehydratedState?: any;
     };
     redirect?: {
         destination: string;
@@ -73,9 +68,10 @@ export async function getServerSideProps(
     ctx: GetServerSidePropsContext
 ): Promise<SSRProps> {
     const { id } = ctx.query;
+    const queryClient = new QueryClient();
     if (!id) {
         return {
-            props: { session: null, restaurant: null },
+            props: { session: null },
         };
     }
     const session = await getSession({ req: ctx.req });
@@ -98,12 +94,11 @@ export async function getServerSideProps(
 
     }
 
-    const restaurant = await getRestaurant(id, true);
+    await queryClient.fetchQuery([`restaurant-${id}`, id], () => getRestaurant(id, true));
 
     return {
         props: {
-            restaurant,
-            session,
+            session
         },
     };
 }

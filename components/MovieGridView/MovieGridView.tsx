@@ -39,7 +39,7 @@ import React, { ReactElement, useMemo } from 'react';
 import { CgDetailsMore } from 'react-icons/cg';
 import { FaImdb } from 'react-icons/fa';
 import { IoTrashBinOutline } from 'react-icons/io5';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTable } from 'react-table';
 import { SerializedMovieType } from '../../models/movie';
 
@@ -56,207 +56,207 @@ const COLUMNS = (
     movieID: string
   ) => void
 ) => [
-  {
-    Header: 'Movie',
-    accessor: 'info',
-    Cell: ({
-      value: { image, name, tagLine, _id, featuredMovie },
-    }: {
-      value: {
-        name: string;
-        image: string;
-        tagLine: string;
-        _id: string;
-        featuredMovie: string;
-      };
-    }) => {
-      const [loaded, setLoaded] = React.useState(false);
-      return (
-        <Stack position="relative" spacing={6} isInline alignItems="center">
-          <Flex
-            opacity={featuredMovie === _id ? 0.93 : 0}
-            position="absolute"
-            justifyContent="center"
-            alignItems="center"
-            width="full"
-            inset={0}
-            zIndex={1}
-            height="full"
-            bg={useColorModeValue('white', 'gray.800')}
-          >
-            <Text
-              fontSize="4xl"
-              fontWeight="semibold"
-              color={useColorModeValue(`gray.800`, `white`)}
+    {
+      Header: 'Movie',
+      accessor: 'info',
+      Cell: ({
+        value: { image, name, tagLine, _id, featuredMovie },
+      }: {
+        value: {
+          name: string;
+          image: string;
+          tagLine: string;
+          _id: string;
+          featuredMovie: string;
+        };
+      }) => {
+        const [loaded, setLoaded] = React.useState(false);
+        return (
+          <Stack position="relative" spacing={6} isInline alignItems="center">
+            <Flex
+              opacity={featuredMovie === _id ? 0.93 : 0}
+              position="absolute"
+              justifyContent="center"
+              alignItems="center"
+              width="full"
+              inset={0}
+              zIndex={1}
+              height="full"
+              bg={useColorModeValue('white', 'gray.800')}
             >
-              Review in progress
-            </Text>
-          </Flex>
-          <AspectRatio ratio={16 / 9} minWidth="150px" borderRadius="xl">
-            <Skeleton borderRadius="md" isLoaded={loaded}>
-              <Image
-                src={image}
-                alt={`${name} poster`}
-                layout="fill"
-                sizes={'150px'}
-                onLoad={() => setLoaded(true)}
-                className={'borderRadius-md'}
-              />
-            </Skeleton>
-          </AspectRatio>
-          <VStack alignItems="flex-start" minWidth="250px">
-            <Link href={`/movie/${_id}`} passHref>
-              <Heading as={ChakraLink} size="lg">
-                {name}
-              </Heading>
-            </Link>
-            <Text color="gray.500" fontWeight="semibold">
-              {tagLine || 'No tag line'}
-            </Text>
-          </VStack>
-        </Stack>
-      );
-    },
-  },
-  {
-    Header: 'Rating',
-    accessor: 'rating',
-    Cell: ({
-      value: { rating, reviews },
-    }: {
-      value: { rating: string; reviews: { name: string; image: string }[] };
-    }) => {
-      return reviews.length > 0 ? (
-        <Stat textAlign="center" minWidth="200px">
-          <StatNumber
-            alignItems="center"
-            display="flex"
-            fontSize="3xl"
-            fontWeight="bold"
-            justifyContent="center"
-          >
-            {rating}
-            <chakra.span fontSize="md" fontWeight="normal" color={'gray.500'}>
-              {' '}
-              /10
-            </chakra.span>
-            <AvatarGroup ml={3} max={3} size="md">
-              {reviews.map((review, i) => (
-                <Avatar
-                  src={review.image}
-                  key={i.toString() + 'avatar'}
-                  name={review.name}
+              <Text
+                fontSize="4xl"
+                fontWeight="semibold"
+                color={useColorModeValue(`gray.800`, `white`)}
+              >
+                Review in progress
+              </Text>
+            </Flex>
+            <AspectRatio ratio={16 / 9} minWidth="150px" borderRadius="xl">
+              <Skeleton borderRadius="md" isLoaded={loaded}>
+                <Image
+                  src={image}
+                  alt={`${name} poster`}
+                  layout="fill"
+                  sizes={'150px'}
+                  onLoad={() => setLoaded(true)}
+                  className={'borderRadius-md'}
                 />
-              ))}
-            </AvatarGroup>
-          </StatNumber>
-        </Stat>
-      ) : (
-        <Heading width="full" textAlign="center" size="md" minWidth="200px">
-          No reviews
-        </Heading>
-      );
+              </Skeleton>
+            </AspectRatio>
+            <VStack alignItems="flex-start" minWidth="250px">
+              <Link href={`/movie/${_id}`} passHref>
+                <Heading as={ChakraLink} size="lg">
+                  {name}
+                </Heading>
+              </Link>
+              <Text color="gray.500" fontWeight="semibold">
+                {tagLine || 'No tag line'}
+              </Text>
+            </VStack>
+          </Stack>
+        );
+      },
     },
-  },
-  {
-    Header: 'Actions',
-    accessor: 'actionInfo',
-    Cell: ({
-      value: { imdbID, movieID, name },
-    }: {
-      value: { imdbID: string; movieID: string; name: string };
-    }) => {
-      return (
-        <Stack isInline width="full" justifyContent="center">
-          <Tooltip
-            label="View more info"
-            aria-label="View more info"
-            hasArrow
-            placement="top"
-          >
-            <Link
-              href={`${process.env.NEXT_PUBLIC_APP_URI}/movie/${movieID}`}
-              passHref
+    {
+      Header: 'Rating',
+      accessor: 'rating',
+      Cell: ({
+        value: { rating, reviews },
+      }: {
+        value: { rating: string; reviews: { name: string; image: string }[] };
+      }) => {
+        return reviews.length > 0 ? (
+          <Stat textAlign="center" minWidth="200px">
+            <StatNumber
+              alignItems="center"
+              display="flex"
+              fontSize="3xl"
+              fontWeight="bold"
+              justifyContent="center"
+            >
+              {rating}
+              <chakra.span fontSize="md" fontWeight="normal" color={'gray.500'}>
+                {' '}
+                /10
+              </chakra.span>
+              <AvatarGroup ml={3} max={3} size="md">
+                {reviews.map((review, i) => (
+                  <Avatar
+                    src={review.image}
+                    key={i.toString() + 'avatar'}
+                    name={review.name}
+                  />
+                ))}
+              </AvatarGroup>
+            </StatNumber>
+          </Stat>
+        ) : (
+          <Heading width="full" textAlign="center" size="md" minWidth="200px">
+            No reviews
+          </Heading>
+        );
+      },
+    },
+    {
+      Header: 'Actions',
+      accessor: 'actionInfo',
+      Cell: ({
+        value: { imdbID, movieID, name },
+      }: {
+        value: { imdbID: string; movieID: string; name: string };
+      }) => {
+        return (
+          <Stack isInline width="full" justifyContent="center">
+            <Tooltip
+              label="View more info"
+              aria-label="View more info"
+              hasArrow
+              placement="top"
+            >
+              <Link
+                href={`${process.env.NEXT_PUBLIC_APP_URI}/movie/${movieID}`}
+                passHref
+              >
+                <IconButton
+                  aria-label="View more info"
+                  size="2xl"
+                  p={2}
+                  as={'a'}
+                  icon={<CgDetailsMore size="3em" />}
+                  colorScheme={process.env.COLOR_THEME}
+                  variant="ghost"
+                />
+              </Link>
+            </Tooltip>
+            <Tooltip
+              label="View on IMDB"
+              aria-label="View on IMDB"
+              hasArrow
+              placement="top"
             >
               <IconButton
-                aria-label="View more info"
+                href={`https://imdb.com/title/${imdbID}`}
+                aria-label="View on IMDB"
                 size="2xl"
                 p={2}
                 as={'a'}
-                icon={<CgDetailsMore size="3em" />}
-                colorScheme={process.env.COLOR_THEME}
-                variant="ghost"
+                target="_blank"
+                icon={<FaImdb size="3em" />}
+                variant="IMDB"
               />
-            </Link>
-          </Tooltip>
-          <Tooltip
-            label="View on IMDB"
-            aria-label="View on IMDB"
-            hasArrow
-            placement="top"
-          >
-            <IconButton
-              href={`https://imdb.com/title/${imdbID}`}
-              aria-label="View on IMDB"
-              size="2xl"
-              p={2}
-              as={'a'}
-              target="_blank"
-              icon={<FaImdb size="3em" />}
-              variant="IMDB"
-            />
-          </Tooltip>
+            </Tooltip>
 
-          {user.isAdmin && (
-            <Popover closeOnBlur={true}>
-              <Tooltip
-                label="Delete movie"
-                aria-label="Delete movie"
-                hasArrow
-                placement="top"
-              >
-                <span>
-                  <PopoverTrigger>
-                    <IconButton
-                      aria-label="Delete movie"
-                      size="2xl"
-                      p={2}
-                      variant="ghost"
-                      colorScheme="red"
-                      icon={<IoTrashBinOutline size="3em" />}
-                    />
-                  </PopoverTrigger>
-                </span>
-              </Tooltip>
-              <PopoverContent>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverHeader fontSize="2xl" p={4} fontWeight="bold">
-                  Delete {name}?
-                </PopoverHeader>
-                <PopoverBody
-                  display="flex"
-                  justifyContent="flex-end"
-                  alignItems="center"
-                  width="full"
-                  height="full"
+            {user.isAdmin && (
+              <Popover closeOnBlur={true}>
+                <Tooltip
+                  label="Delete movie"
+                  aria-label="Delete movie"
+                  hasArrow
+                  placement="top"
                 >
-                  <Button
-                    ml={3}
-                    colorScheme="red"
-                    onClick={(e) => handleMovieDelete(e, movieID)}
+                  <span>
+                    <PopoverTrigger>
+                      <IconButton
+                        aria-label="Delete movie"
+                        size="2xl"
+                        p={2}
+                        variant="ghost"
+                        colorScheme="red"
+                        icon={<IoTrashBinOutline size="3em" />}
+                      />
+                    </PopoverTrigger>
+                  </span>
+                </Tooltip>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverHeader fontSize="2xl" p={4} fontWeight="bold">
+                    Delete {name}?
+                  </PopoverHeader>
+                  <PopoverBody
+                    display="flex"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                    width="full"
+                    height="full"
                   >
-                    Delete
-                  </Button>
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
-          )}
-        </Stack>
-      );
+                    <Button
+                      ml={3}
+                      colorScheme="red"
+                      onClick={(e) => handleMovieDelete(e, movieID)}
+                    >
+                      Delete
+                    </Button>
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+            )}
+          </Stack>
+        );
+      },
     },
-  },
-];
+  ];
 
 export default function MovieGridView({
   movies,
@@ -294,7 +294,7 @@ export default function MovieGridView({
         });
         return;
       }
-      await queryClient.invalidateQueries(`movies`);
+      await queryClient.invalidateQueries({ queryKey: ['movies'] })
       router.push('/');
       toast({
         variant: `subtle`,

@@ -32,7 +32,7 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { useContext } from 'react';
 import Link from 'next/link';
 import { ReviewModalContext } from 'utils/ModalContext';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/client';
 import { SerializedRestaurantType } from 'models/restaurant';
 
@@ -143,12 +143,8 @@ export const ReviewActions = ({
                 status: 'success',
                 variant: 'subtle',
             });
-            await queryClient.invalidateQueries(
-                toInvalidate || `movie-${movie?.name}`
-            );
-            await queryClient.invalidateQueries(
-                toInvalidate || `restaurant-${restaurant?._id}`
-            );
+            await queryClient.invalidateQueries({ queryKey: [(toInvalidate || `movie-${movie?._id}`)] });
+            await queryClient.invalidateQueries({ queryKey: [(toInvalidate || `restaurant-${restaurant?._id}`)] });
         }
     };
     if (review?.user?._id === userId || session?.user?.isAdmin) {

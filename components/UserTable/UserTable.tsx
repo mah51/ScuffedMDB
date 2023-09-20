@@ -35,7 +35,7 @@ import {
   useBreakpoint,
 } from '@chakra-ui/react';
 import { FaUserPlus, FaUserShield, FaUserSlash } from 'react-icons/fa';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { SerializedUser } from '../../models/user';
 import { getFlags } from '../../utils/userFlags';
@@ -78,13 +78,12 @@ const Form = ({
       toast({
         variant: `top-accent`,
         title: `User ${resData.user.isBanned ? `Banned` : `Unbanned`}!`,
-        description: `${resData.user.username} was ${
-          resData.user.isBanned ? `banned` : `unbanned`
-        } successfully`,
+        description: `${resData.user.username} was ${resData.user.isBanned ? `banned` : `unbanned`
+          } successfully`,
         status: `success`,
         isClosable: true,
       });
-      await queryClient.invalidateQueries(`users`);
+      await queryClient.invalidateQueries({ queryKey: ['users'] });
     } else {
       toast({
         variant: `top-accent`,
@@ -225,13 +224,12 @@ export const UserTable: React.FC<{
         isClosable: true,
       });
     } else {
-      await queryClient.invalidateQueries(`users`);
+      await queryClient.invalidateQueries({ queryKey: ['users'] });
       return toast({
         variant: `top-accent`,
         title: `Image ${isImageHidden ? 'hidden' : 'visible'}`,
-        description: `${user} image is now ${
-          isImageHidden ? 'hidden' : 'visible'
-        }.`,
+        description: `${user} image is now ${isImageHidden ? 'hidden' : 'visible'
+          }.`,
         status: `success`,
         duration: 5000,
         isClosable: true,
@@ -258,7 +256,7 @@ export const UserTable: React.FC<{
         status: `success`,
         isClosable: true,
       });
-      await queryClient.invalidateQueries(`users`);
+      await queryClient.invalidateQueries({ queryKey: ['users'] });
     } else {
       toast({
         variant: `top-accent`,

@@ -9,7 +9,7 @@ import type { GetServerSidePropsContext } from 'next';
 import dbConnect from '../../utils/dbConnect';
 import { getSession, useSession } from 'next-auth/client';
 import type { Session } from 'next-auth';
-import { useQuery } from 'react-query';
+import { useQuery, dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
 import { NextSeo } from 'next-seo';
 import ErrorPage from '@components/ErrorPage';
 import { ReviewModal } from '@components/ReviewModal/ReviewModal';
@@ -21,22 +21,11 @@ export interface UserPageUser extends SerializedUser {
 }
 interface EditUserProps {
   desiredUser: UserPageUser | null;
-  movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
-  restaurants: SerializedRestaurantType<ReviewType<PopulatedUserType>[]>[];
 }
 
 function EditUser({ desiredUser, ...props }: EditUserProps): React.ReactNode {
-  const { data } = useQuery(
-    'movies',
-    async () => {
-      return await getMovies();
-    },
-
-    { initialData: props.movies }
-  );
-  const { data: restaurantData } = useQuery(`restaurants`, getRestaurants, {
-    initialData: props?.restaurants,
-  })
+  const { data } = useQuery(['movies'], () => getMovies());
+  const { data: restaurantData } = useQuery([`restaurants`], () => getRestaurants());
 
   const movies = data;
   const restaurants = restaurantData?.data;
@@ -117,7 +106,6 @@ interface SSRProps {
   props: {
     session: Session | null;
     desiredUser: Omit<SerializedUser, 'sub'> | null;
-    movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[] | null;
   };
 }
 
@@ -134,6 +122,7 @@ export async function getServerSideProps(
   const { uID } = ctx.query;
   await dbConnect();
   const session = await getSession(ctx);
+  const queryClient = new QueryClient();
   if (!session || session.user.isBanned) {
     return { redirect: { destination: `/?user=${uID}`, permanent: false } };
   }
@@ -158,15 +147,13 @@ export async function getServerSideProps(
       : desiredUser.updatedAt.toISOString();
 
   assertsIsSerializedUser(desiredUser);
-  const movies = await getMovies();
-  const restaurants = await getRestaurants();
+  await queryClient.fetchQuery([`movies`], () => getMovies());
+  await queryClient.fetchQuery([`restaurants`], () => getMovies());
 
   return {
     props: {
       session,
-      desiredUser: desiredUser || null,
-      movies: movies,
-      restaurants: restaurants?.data || null
+      desiredUser: desiredUser || null
     },
   };
 }

@@ -25,7 +25,6 @@ import {
 import { format } from 'date-fns';
 import millify from 'millify';
 import Link from 'next/link';
-
 import Image from 'next/image';
 import React, { ReactElement, useContext, useState } from 'react';
 import { FaImdb } from 'react-icons/fa';
@@ -33,16 +32,11 @@ import { ReviewType, SerializedMovieType } from '../../models/movie';
 import { PopulatedUserType } from '../../models/user';
 import { getColorSchemeCharCode } from '../../utils/utils';
 import { IoChevronDown } from 'react-icons/io5';
-
 import useScrollPosition from '../../hooks/useScrollPosition.hook';
 import { AddIcon } from '@chakra-ui/icons';
 import { ReviewModalContext } from '../../utils/ModalContext';
-import { ExternalLinkIcon, EditIcon } from '@chakra-ui/icons';
-import { useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
-import { SettingsIcon } from '@chakra-ui/icons';
 import { UserAuthType } from 'next-auth';
-import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useEffect } from 'react';
 import AdminOptions from '@components/AdminOptions';
 
@@ -407,7 +401,7 @@ const AdditionalMovieDetails = ({
             H
           </chakra.span>
 
-          <Link href={`https://imdb.com/title/${movie.imdbID}`} passHref>
+          <Link href={`https://imdb.com/title/${movie.imdbID}`} passHref target="_blank">
             <IconButton
               position={'absolute'}
               top={'50%'}

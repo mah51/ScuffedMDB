@@ -67,26 +67,26 @@ export const CardGrid: React.FC<CardGridProps> = ({
   const [isMovieView, setMovieView] = useState(false);
   const [isRestaurantView, setRestaurantView] = useState(false);
   const { view } = useContext(ViewContext);
-  const [viewData, setViewData] = useState(unSortedMovies);
   const [genres, setGenres] = useState<string[]>([]);
   const [isGenreFilterActive, setIsGenreFilterActive] = useState(false);
   const toast = useToast();
   const { colorMode } = useColorMode();
   // Fix for https://github.com/chakra-ui/chakra-ui/issues/3076
 
+  // hooks
+  const theme = useTheme();
+
+  // use effect hooks
   useEffect(() => {
     if (view === 'movies') {
       setMovieView(true);
       setRestaurantView(false);
-      setViewData(unSortedMovies);
-      return;
+      setCardView(true);
     }
-    if (view === 'restaurants') {
+    else if (view === 'restaurants') {
       setRestaurantView(true);
       setMovieView(false);
       setCardView(true);
-      setViewData(restaurants?.data);
-      return;
     }
   }, [view])
 
@@ -101,6 +101,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
     });
   }, [colorMode, toast]);
 
+  // constants
   const movies = {
     data: unSortedMovies
       ?.filter((mv) => {
@@ -129,12 +130,12 @@ export const CardGrid: React.FC<CardGridProps> = ({
         return 0;
       }),
   };
-
   if (sort === 'best' || sort === 'recent') {
     movies.data = movies.data.reverse();
   }
-
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'ScuffedMDB';
+
+  // functions
   const handleGenreClick = (genre: string) => {
     setGenres((gnr) => {
       setIsGenreFilterActive(true);
@@ -151,7 +152,10 @@ export const CardGrid: React.FC<CardGridProps> = ({
       return [...gnr, genre];
     });
   };
-  const theme = useTheme();
+  function checkForValidView() {
+    return (isMovieView && restaurants?.data) || (isRestaurantView && movies?.data);
+  }
+
   return (
     <>
       <NextSeo
@@ -401,7 +405,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
             </Stack>
           </Stack>
         </Flex>
-        {viewData?.length > 0 ? (
+        {(checkForValidView()) ? (
           cardView ? (
             <SimpleGrid
               columns={{ base: 1, md: 2, lg: 3 }}

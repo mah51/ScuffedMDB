@@ -2,12 +2,10 @@ import { GetServerSidePropsContext } from 'next';
 import { Session } from 'next-auth';
 import { getSession, useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import React, {useEffect, useState} from 'react';
-import { useQuery } from 'react-query';
+import React, { useEffect, useState } from 'react';
+import { useQuery, QueryClient } from '@tanstack/react-query';
 import AppLayout from '../../components/AppLayout';
 import MovieDetailsSection from '../../components/MovieDetailsSection';
-import movie, { ReviewType, SerializedMovieType } from '../../models/movie';
-import { PopulatedUserType } from '../../models/user';
 import { getMovie } from '../../utils/queries';
 import { NextSeo } from 'next-seo';
 import ErrorPage from '@components/ErrorPage';
@@ -16,24 +14,17 @@ import ReviewSection from '@components/ReviewSection/ReviewSection';
 
 
 interface MoviePageProps {
-  movie: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   error?: string;
 }
 
 export default function MoviePage({
-  error,
-  ...props
+  error
 }: MoviePageProps): JSX.Element | null {
   const [session, loading] = useSession();
 
   const router = useRouter();
   const { id } = router.query;
-  const { data, isLoading } = useQuery(
-    `movie-${props?.movie?.name}`,
-    async () => {
-      return await getMovie(id, true);
-    },
-  );
+  const { data, isLoading } = useQuery([`movie-${id}`, id], () => getMovie(id, true));
 
   if ((typeof window !== 'undefined' && loading) || !session) return null;
   if (!id) return <ErrorPage statusCode={404} message="No movie selected" />;
@@ -56,7 +47,7 @@ export default function MoviePage({
       <NextSeo title={data.name} />
       <MovieDetailsSection movie={data} user={user} />
       <ReviewSection movie={data} />
-      <ReviewModal user={session?.user} showReviewButton={false}/>
+      <ReviewModal user={session?.user} showReviewButton={false} />
     </AppLayout>
   );
 }
@@ -64,7 +55,7 @@ export default function MoviePage({
 interface SSRProps {
   props?: {
     session: Session | null;
-    movie: SerializedMovieType<ReviewType<PopulatedUserType>[]> | null;
+    dehydratedState?: any;
   };
   redirect?: {
     destination: string;
@@ -76,10 +67,11 @@ export async function getServerSideProps(
   ctx: GetServerSidePropsContext
 ): Promise<SSRProps> {
   const { id, review } = ctx.query;
+  const queryClient = new QueryClient();
 
   if (!id)
     return {
-      props: { session: null, movie: null },
+      props: { session: null },
     };
   const session = await getSession({ req: ctx.req });
   if (!session)
@@ -98,12 +90,11 @@ export async function getServerSideProps(
       },
     };
 
-  const movie = await getMovie(id, true);
+  await queryClient.fetchQuery([`movie-${id}`, id], () => getMovie(id, true));
 
   return {
     props: {
-      movie,
-      session,
+      session
     },
   };
 }

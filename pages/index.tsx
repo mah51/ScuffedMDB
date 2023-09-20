@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/client';
 import React from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
 import BannedPage from '../components/BannedPage';
 import HomePage from '../components/HomePage';
 import LandingPage from '../components/LandingPage';
@@ -22,6 +22,7 @@ interface HomePageProps {
   singleMovieData: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
   singleRestaurantData: SerializedRestaurantType<ReviewType<PopulatedUserType>[]>;
   desiredUser?: { username: string; _id: string; image: string };
+  dehydratedState?: any;
 }
 
 export default function Home({
@@ -45,13 +46,9 @@ export default function Home({
     return <BannedPage user={session.user} />;
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data, error, isLoading: movieLoading } = useQuery(`movies`, getMovies, {
-    initialData: movies,
-  });
+  const { data, error, isLoading: movieLoading } = useQuery(['movies'], () => getMovies());
 
-  const { data: restaurantData, error: restaurantError, isLoading: restaurantLoading } = useQuery(`restaurants`, getRestaurants, {
-    initialData: restaurants,
-  })
+  const { data: restaurantData, error: restaurantError, isLoading: restaurantLoading } = useQuery(['restaurants'], () => getRestaurants())
 
   if (error || restaurantError) {
     return <div>There was an error locating data :(</div>;
@@ -97,9 +94,11 @@ export const getServerSideProps = async (
     > | null;
     singleRestaurantData?: SerializedRestaurantType<ReviewType<PopulatedUserType>[]> | null;
     desiredUser?: { username: string; sub: string; image: string } | null;
+    dehydratedState?: any;
   };
 }> => {
   const session = await getSession(ctx);
+  const queryClient = new QueryClient();
   if (!session?.user) {
     let singleMovieData: SerializedMovieType<
       ReviewType<PopulatedUserType>[]
@@ -110,10 +109,12 @@ export const getServerSideProps = async (
     let desiredUser = null;
 
     if (ctx.query.movie) {
-      singleMovieData = await getMovie(ctx.query.movie, true);
+      // singleMovieData = await getMovie(ctx.query.movie, true);
+      await queryClient.fetchQuery([`movie-${ctx.query.movie}`, ctx.query.movie], () => getMovie(ctx.query.movie, true));
     }
     if (ctx.query.restaurant) {
-      singleRestaurantData = await getRestaurant(ctx.query.restaurant, true);
+      // singleRestaurantData = await getRestaurant(ctx.query.restaurant, true);
+      await queryClient.fetchQuery([`restaurant-${ctx.query.restaurant}`, ctx.query.movie], () => getRestaurant(ctx.query.restaurant, true));
     }
     if (ctx.query.user) {
       try {
@@ -166,7 +167,8 @@ export const getServerSideProps = async (
   }
   let movies = null;
   if (session?.user) {
-    movies = await getMovies();
+    await queryClient.fetchQuery([`movies`], () => getMovies());
+    await queryClient.fetchQuery([`restaurants`], () => getMovies());
   }
 
   return { props: { session, movies } };

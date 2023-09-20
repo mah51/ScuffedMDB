@@ -66,7 +66,7 @@ export const Card: React.FC<CardProps> = ({
   }, [restaurant, movie])
 
   return (
-    <Skeleton isLoaded={isViewLoaded}>
+    <Skeleton isLoaded={isViewLoaded} shallow={true}>
       <Link href={view?.href ?? ''} passHref>
         <Box as={'a'} height="full">
           <chakra.div

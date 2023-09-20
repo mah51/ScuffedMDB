@@ -27,7 +27,7 @@ import React, { FormEvent, useEffect, useState } from 'react';
 
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import { addMovie } from '@components/SearchResults/SearchResults';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { OMDBMovie, OMDBResponse } from '../../pages/api/movie-api';
 import RestaurantModal from '../RestaurantModal';
 import SearchResults from '../SearchResults';
@@ -52,8 +52,8 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
   const toast = useToast();
   useEffect(() => {
     if (success) {
-      queryClient.invalidateQueries(`movies`).catch(console.error);
-      queryClient.invalidateQueries(`restaurants`).catch(console.error);
+      queryClient.invalidateQueries({ queryKey: [`movies`] });
+      queryClient.invalidateQueries({ queryKey: [`restaurants`] });
       toast({
         variant: `subtle`,
         title: success.type === `addition` ? `${success.data?.alias ? 'Restaurant' : 'Movie'} Added` : `${success.data?.alias ? 'Restaurant' : 'Movie'} Deleted`,
@@ -103,7 +103,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
           duration: 5000,
           isClosable: true,
         });
-        await queryClient.invalidateQueries(`movies`).catch(console.error);
+        await queryClient.invalidateQueries({ queryKey: [`movies`] });
         return;
       } else {
         toast({

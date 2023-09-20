@@ -3,7 +3,7 @@ import { ReviewType, SerializedMovieType } from 'models/movie';
 import { SerializedRestaurantType } from 'models/restaurant';
 import { PopulatedUserType } from 'models/user';
 import React, { ReactElement, useContext, useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { ReviewModalContext } from 'utils/ModalContext';
 import { SettingsIcon, ArrowBackIcon, EditIcon, ExternalLinkIcon, AddIcon } from '@chakra-ui/icons';
@@ -93,7 +93,6 @@ export default function AdminOptions({
                     isClosable: true,
                 });
             }
-            await queryClient.invalidateQueries(`movies`);
             router.push('/');
             toast({
                 variant: `subtle`,
@@ -135,7 +134,6 @@ export default function AdminOptions({
                     isClosable: true,
                 });
             }
-            await queryClient.invalidateQueries(`restaurant`);
             router.push('/');
             toast({
                 variant: `subtle`,
@@ -169,7 +167,7 @@ export default function AdminOptions({
                 leftIcon={<ArrowBackIcon />}
                 variant="ghost"
                 colorScheme={process.env.COLOR_THEME}
-                onClick={() => router.push('/')}
+                onClick={() => router.push('/',  undefined, { shallow: true })}
             >
                 Back to home
             </Button>

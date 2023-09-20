@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import { AppProps } from 'next/app';
 import { ChakraProvider, useDisclosure } from '@chakra-ui/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getSession, Provider as NextAuthProvider } from 'next-auth/client';
 import PlausibleProvider from 'next-plausible';
 import { DefaultSeo } from 'next-seo';
@@ -17,9 +17,11 @@ import { GetServerSidePropsContext } from 'next';
 import { Session } from 'next-auth';
 import { SerializedRestaurantType } from 'models/restaurant';
 
-const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
+
+  const [queryClient] = useState(() => new QueryClient())
+
   useEffect(() => {
     nProgress.configure({ showSpinner: false });
     Router.events.on('routeChangeStart', () => nProgress.start());
@@ -86,15 +88,17 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactChild {
           }}
         >
           <QueryClientProvider client={queryClient}>
-            <ChakraProvider theme={theme}>
-              <ReviewModalContext.Provider
-                value={{ isOpen, onOpen, onClose, movie, setMovie, restaurant, setRestaurant }}
-              >
-                <ViewContext.Provider value={{view, setView}}>
-                  <Component {...pageProps} />
-                </ViewContext.Provider>
-              </ReviewModalContext.Provider>
-            </ChakraProvider>
+            <Hydrate state={pageProps.dehydratedState}>
+              <ChakraProvider theme={theme}>
+                <ReviewModalContext.Provider
+                  value={{ isOpen, onOpen, onClose, movie, setMovie, restaurant, setRestaurant }}
+                >
+                  <ViewContext.Provider value={{ view, setView }}>
+                    <Component {...pageProps} />
+                  </ViewContext.Provider>
+                </ReviewModalContext.Provider>
+              </ChakraProvider>
+            </Hydrate>
           </QueryClientProvider>
         </NextAuthProvider>
       </PlausibleProvider>

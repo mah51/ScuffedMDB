@@ -17,7 +17,7 @@ import { NextSeo } from 'next-seo';
 import { getSession, useSession } from 'next-auth/client';
 import dbConnect from '../utils/dbConnect';
 import { getUsers } from '../utils/queries';
-import { useQuery } from 'react-query';
+import { useQuery, dehydrate, QueryClient, useQueryClient } from '@tanstack/react-query';
 import { Session } from 'next-auth';
 import Wave from '../components/Wave';
 import { BiChevronDown } from 'react-icons/bi';
@@ -26,10 +26,10 @@ interface UsersProps {
   users: SerializedUser[];
 }
 
-function Users({ users }: UsersProps): React.ReactNode {
+function Users(): React.ReactNode {
   const [session, loading] = useSession();
   const [sort, setSort] = useState('recent');
-  const { data } = useQuery(`users`, getUsers, { initialData: users });
+  const { data } = useQuery(['users'], () => getUsers());
 
   if ((typeof window !== 'undefined' && loading) || !session) return null;
 
@@ -92,7 +92,6 @@ export const getServerSideProps = async (
   | {
       props: {
         session: Session | null;
-        users: SerializedUser[];
       };
     }
   | {
@@ -104,11 +103,11 @@ export const getServerSideProps = async (
 > => {
   await dbConnect();
   const session = await getSession(ctx);
+  const queryClient = new QueryClient();
   if (!session || !session.user.isAdmin || session.user.isBanned)
     return { redirect: { destination: '/', permanent: false } };
-  const users = await getUsers();
-
-  return { props: { session, users } };
+  await queryClient.fetchQuery(['users'], () => getUsers());
+  return { props: { session, dehydratedState: dehydrate(queryClient) } };
 };
 
 export default Users;
