@@ -9,34 +9,15 @@ import {
     Heading,
     VStack,
     Text,
-    chakra,
-    StatGroup,
-    Stat,
-    StatLabel,
-    StatNumber,
-    Button,
     Icon,
     useBreakpoint,
+    useBreakpointValue,
     IconButton,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
-    MenuDivider,
-    useColorMode,
-    useToast,
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogOverlay,
-    useColorModeValue,
     Skeleton,
-    Spacer,
     HStack,
     Wrap,
-    WrapItem
+    WrapItem,
+    Container
 } from '@chakra-ui/react';
 import { IoChevronDown, IoLocationOutline } from 'react-icons/io5';
 import { FaYelp, FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
@@ -51,6 +32,8 @@ import AdminOptions from 'components/AdminOptions';
 import { PhoneIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { StarRating } from '@components/Rating/Rating';
 import Link from 'next/link';
+import Slider from 'react-slick';
+import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi'
 
 
 interface Props {
@@ -87,36 +70,44 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                 <Box minHeight="calc(100vh - 80px)">
                     <AdminOptions user={user} restaurant={restaurant} />
                     <VStack align='stretch' className='m-2'>
-                        <AspectRatio borderRadius="xl"
-                            shadow={'6px 8px 19px 4px rgba(0, 0, 0, 0.25)'}
-                            ratio={16 / 9}
-                            width={{
-                                base: '90vw',
-                                lg: 'auto'
-                            }} className='mb-4'>
-                            <Skeleton borderRadius="xl" isLoaded={isImageLoaded}>
-                                {
-                                    restaurant?.image_url ?
-                                        <Image
-                                            src={restaurant?.image_url}
-                                            alt={`${restaurant?.name} Image`}
-                                            objectFit='cover'
-                                            sizes={'50vw'}
-                                            layout='fill'
-                                            onLoad={() => setIsImageLoaded(true)}
-                                        />
-                                        :
-                                        <Image
-                                            src={`/svg/logo-no-background-${process.env.COLOR_THEME}.svg`}
-                                            alt={`${restaurant?.name} Image`}
-                                            objectFit='cover'
-                                            sizes={'50vw'}
-                                            layout='fill'
-                                            onLoad={() => setIsImageLoaded(true)}
-                                        />
-                                }
-                            </Skeleton>
-                        </AspectRatio>
+                        {
+                            restaurant?.photos.length > 0 ? (
+                                <ImageSlider images={restaurant?.photos} />
+                            )
+                                :
+                                (
+                                    <AspectRatio borderRadius="xl"
+                                        shadow={'6px 8px 19px 4px rgba(0, 0, 0, 0.25)'}
+                                        ratio={16 / 9}
+                                        width={{
+                                            base: '90vw',
+                                            lg: 'auto'
+                                        }} className='mb-4'>
+                                        <Skeleton borderRadius="xl" isLoaded={isImageLoaded}>
+                                            {
+                                                restaurant?.image_url ?
+                                                    <Image
+                                                        src={restaurant?.image_url}
+                                                        alt={`${restaurant?.name} Image`}
+                                                        objectFit='cover'
+                                                        sizes={'50vw'}
+                                                        layout='fill'
+                                                        onLoad={() => setIsImageLoaded(true)}
+                                                    />
+                                                    :
+                                                    <Image
+                                                        src={`/svg/logo-no-background-${process.env.COLOR_THEME}.svg`}
+                                                        alt={`${restaurant?.name} Image`}
+                                                        objectFit='cover'
+                                                        sizes={'50vw'}
+                                                        layout='fill'
+                                                        onLoad={() => setIsImageLoaded(true)}
+                                                    />
+                                            }
+                                        </Skeleton>
+                                    </AspectRatio>
+                                )
+                        }
                         <Wrap spacing={3} mt={{ base: '5', lg: 0 }}>
                             {restaurant?.categories?.map((category, i) => {
                                 return (
@@ -155,7 +146,7 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
                             {
                                 restaurant?.url &&
                                 <Box>
-                                    <Link href={restaurant?.url} passHref>
+                                    <Link href={restaurant?.url} passHref target='_blank'>
                                         <IconButton
                                             mt={'auto'}
                                             aria-label="View on Yelp"
@@ -209,4 +200,55 @@ export default function RestaurantDetails({ restaurant, user }: Props): any {
             </Flex>
         </Flex >
     )
+}
+
+function ImageSlider({ images }) {
+    const settings = {
+        dots: true,
+        fade: true,
+        arrows: false,
+        infinite: true,
+        autoplay: true,
+        speed: 500,
+        autoplaySpeed: 5000,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    }
+
+    return (
+        <Box w={{
+            base: '90vw',
+            lg: '80vw'
+        }}
+        >
+            <Slider {...settings} className='mb-6'>
+                {images.map((url, index) => (
+                    <AspectRatio borderRadius="xl"
+                        shadow={'6px 8px 10px 4px rgba(0, 0, 0, 0.25)'}
+                        ratio={16 / 9}
+                        className='mb-4'
+                        key={index}
+                    >
+                        <SkeletonImage image={url} />
+                    </AspectRatio>
+                ))}
+            </Slider>
+        </Box>
+    )
+}
+
+function SkeletonImage({ image }: { image: string }) {
+    const [imageLoaded, setImageLoaded] = useState(false);
+    return (
+        <Skeleton borderRadius="xl" isLoaded={imageLoaded}>
+            <Image
+                onLoad={() => setImageLoaded(true)}
+                src={image}
+                alt={`restaurant Image`}
+                objectFit='contain'
+                sizes={'100vw'}
+                layout='fill'
+            />
+        </Skeleton>
+    );
 }

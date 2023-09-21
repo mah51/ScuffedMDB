@@ -37,7 +37,9 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.2.0",
     "react-markdown": "^7.0.0",
-    "react-table": "^7.6.3"
+    "react-slick": "^0.29.0",
+    "react-table": "^7.6.3",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.14.5",

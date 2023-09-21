@@ -136,7 +136,7 @@ export const UserReviewSection: React.FC<{
             >
               <Image
                 src={restaurant?.image_url || ''}
-                alt={restaurant.name + ' movie poster'}
+                alt={restaurant.name + 'Thumbnail'}
                 layout="fill"
                 sizes="200px"
                 className={'borderRadius-xl'}

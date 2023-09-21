@@ -87,3 +87,15 @@ a {
     transform: translateY(12px);
   }
 }
+
+.slick-dots li {
+  height: 30px !important;
+}
+
+.slick-dots li button:before {
+  color:pink !important;
+}
+
+.slick-dots li button:before {
+  font-size: 10px !important;
+}
