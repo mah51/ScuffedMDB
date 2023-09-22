@@ -45,7 +45,12 @@ export const Card: React.FC<CardProps> = ({
     if (movie) {
       movie.href = `/movie/${movie?._id}`;
       setView(movie);
-      setImage(movie.image);
+      if (movie?.image?.includes('/null')) {
+        setImage(undefined);
+      }
+      else {
+        setImage(movie.image);
+      }
       setName(movie.name);
       setGenres(movie.genres);
       setRating(movie.rating);
@@ -126,17 +131,17 @@ export const Card: React.FC<CardProps> = ({
               )}
             </Box>
             <Box mt={-6} mx={-6} mb={6} pos="relative">
-                <Skeleton isLoaded={isImageLoaded}>
-                  <Image
-                    src={image ? image : `/svg/logo-no-background-${process.env.COLOR_THEME}.svg`}
-                    width="0"
-                    onLoad={() => setIsImageLoaded(true)}
-                    sizes="(max-width: 2561px) 400px"
-                    height="0"
-                    alt={`${view?.name} poster`}
-                    className="w-[400px] h-[225px] object-cover"
-                  />
-                </Skeleton>
+              <Skeleton isLoaded={isImageLoaded}>
+                <Image
+                  src={image ? image : `/svg/logo-no-background-${process.env.COLOR_THEME}.svg`}
+                  width="0"
+                  onLoad={() => setIsImageLoaded(true)}
+                  sizes="(max-width: 2561px) 400px"
+                  height="0"
+                  alt={`${view?.name} poster`}
+                  className="w-[400px] h-[225px] object-cover"
+                />
+              </Skeleton>
             </Box>
 
             <Flex direction="column" justifyContent="space-between">
@@ -156,15 +161,18 @@ export const Card: React.FC<CardProps> = ({
                   >
                     {name}
                   </Text>
-                  <Tag
-                    whiteSpace="nowrap"
-                    ml="5px!important"
-                    colorScheme={getColorSchemeCharCode(genres[0])}
-                    fontWeight="600"
-                    minW="auto"
-                  >
-                    {genres[0]}
-                  </Tag>
+                  {
+                    (genres.length > 0) &&
+                    <Tag
+                      whiteSpace="nowrap"
+                      ml="5px!important"
+                      colorScheme={getColorSchemeCharCode(genres[0])}
+                      fontWeight="600"
+                      minW="auto"
+                    >
+                      {genres[0]}
+                    </Tag>
+                  }
                 </Flex>
                 <HStack
                   justifyContent="space-between"

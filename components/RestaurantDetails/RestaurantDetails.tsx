@@ -218,7 +218,8 @@ function ImageSlider({ images }) {
     return (
         <Box w={{
             base: '90vw',
-            lg: '80vw'
+            lg: '70vw',
+            xl: '75em'
         }}
         >
             <Slider {...settings} className='mb-6'>

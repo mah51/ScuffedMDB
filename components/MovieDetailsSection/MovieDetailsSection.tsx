@@ -153,14 +153,26 @@ export default function MovieDetailsSection({
                 width="full"
               >
                 <Skeleton borderRadius="xl" isLoaded={isImageLoaded}>
-                  <Image
-                    className={'borderRadius-xl'}
-                    src={movie?.image || ''}
-                    alt={`${movie.name} poster`}
-                    sizes={'50vw'}
-                    layout="fill"
-                    onLoad={() => setIsImageLoaded(true)}
-                  />
+                  {
+                    movie?.image?.includes('/null') ?
+                      <Image
+                        className={'borderRadius-xl'}
+                        src={`/svg/logo-no-background-${process.env.COLOR_THEME}.svg`}
+                        alt={`${movie.name} poster`}
+                        sizes={'50vw'}
+                        layout="fill"
+                        onLoad={() => setIsImageLoaded(true)}
+                      />
+                      :
+                      <Image
+                        className={'borderRadius-xl'}
+                        src={movie?.image || ''}
+                        alt={`${movie.name} poster`}
+                        sizes={'50vw'}
+                        layout="fill"
+                        onLoad={() => setIsImageLoaded(true)}
+                      />
+                  }
                 </Skeleton>
               </AspectRatio>
             </Flex>
@@ -207,14 +219,17 @@ export default function MovieDetailsSection({
                 width="full"
                 mt={{ base: '20px!important', lg: 'auto!important' }}
               >
-                <VStack spacing={1}>
-                  <Text color={'gray.500'} fontSize="sm">
-                    Release Date
-                  </Text>
-                  <Text fontSize="lg" fontWeight="bold">
-                    {format(new Date(movie.releaseDate), 'MMM yyyy')}
-                  </Text>
-                </VStack>
+                {
+                  movie?.releaseDate &&
+                  <VStack spacing={1}>
+                    <Text color={'gray.500'} fontSize="sm">
+                      Release Date
+                    </Text>
+                    <Text fontSize="lg" fontWeight="bold">
+                      {format(new Date(movie.releaseDate), 'MMM yyyy')}
+                    </Text>
+                  </VStack>
+                }
                 <VStack spacing={1}>
                   <Text color={'gray.500'} fontSize="sm">
                     Runtime
