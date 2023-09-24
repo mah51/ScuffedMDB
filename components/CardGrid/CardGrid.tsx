@@ -32,6 +32,7 @@ import {
   useColorModeValue,
   useTheme,
   useToast,
+  VStack
 } from '@chakra-ui/react';
 import { transparentize } from '@chakra-ui/theme-tools';
 import { UserAuthType } from 'next-auth';
@@ -48,6 +49,7 @@ import { getColorSchemeCharCode, getMovieGenres } from '../../utils/utils';
 import Card from '../Card';
 import MovieGridView from '../MovieGridView';
 import ReviewModal from '../ReviewModal';
+import { GiBookshelf } from "react-icons/gi";
 
 interface CardGridProps {
   movies: SerializedMovieType<ReviewType<PopulatedUserType>[]>[];
@@ -86,6 +88,11 @@ export const CardGrid: React.FC<CardGridProps> = ({
     else if (view === 'restaurants') {
       setRestaurantView(true);
       setMovieView(false);
+      setCardView(true);
+    }
+    else if (view === 'books') {
+      setMovieView(false);
+      setRestaurantView(false);
       setCardView(true);
     }
   }, [view])
@@ -464,15 +471,39 @@ export const CardGrid: React.FC<CardGridProps> = ({
             justifyContent="center"
             alignItems="center"
           >
-            <Heading
-              size={{ base: 'xl', md: '2xl', lg: '4xl' }[bp || 'base']}
-              fontWeight="extrabold"
-              color={
-                colorMode === 'light' ? 'rgba(0, 0, 0, 0.25)' : 'whiteAlpha.300'
-              }
-            >
-              To get started add a movie/restaurant.
-            </Heading>
+            {
+              view === 'books' ?
+                <VStack spacing={40}>
+                  <Heading fontWeight="extrabold"
+                    color={
+                      colorMode === 'light' ? 'rgba(0, 0, 0, 0.25)' : 'whiteAlpha.300'
+                    }>
+                    Books coming soon...
+                  </Heading>
+                  <IconButton
+                    className='animate-pulse'
+                    variant='transparent'
+                    aria-label='Bookshelf'
+                    fontSize={{
+                      base: '50vw',
+                      md: '200px'
+                    }}
+                    size='lg'
+                    color={colorMode === 'light' ? `${process.env.COLOR_THEME}.500` : process.env.COLOR_THEME}
+                    icon={<GiBookshelf />}
+                  />
+                </VStack>
+                :
+                <Heading
+                  size={{ base: 'xl', md: '2xl', lg: '4xl' }[bp || 'base']}
+                  fontWeight="extrabold"
+                  color={
+                    colorMode === 'light' ? 'rgba(0, 0, 0, 0.25)' : 'whiteAlpha.300'
+                  }
+                >
+                  To get started add a movie/restaurant.
+                </Heading>
+            }
           </Flex>
         )}
       </Container>

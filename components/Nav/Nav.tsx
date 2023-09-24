@@ -16,10 +16,12 @@ import {
   Link as ChakraLink,
   useBreakpointValue,
   useDisclosure,
-  chakra
+  chakra,
+  VStack,
+  Collapse
 } from '@chakra-ui/react';
 import { transparentize } from '@chakra-ui/theme-tools';
-import { IoMoon, IoSunny, IoRestaurantOutline, IoHomeOutline } from 'react-icons/io5';
+import { IoMoon, IoSunny, IoRestaurantOutline, IoHomeOutline, IoBookOutline } from 'react-icons/io5';
 import { BiCameraMovie } from "react-icons/bi";
 import Link from 'next/link';
 import MovieModal from '../MovieModal';
@@ -30,6 +32,7 @@ import { useEffect, useState, useContext } from 'react';
 import Router, { useRouter } from 'next/router';
 import Image from 'next/image';
 import { ViewContext } from 'utils/ViewContext';
+import { AddIcon } from '@chakra-ui/icons'
 
 interface NavProps {
   user: UserAuthType;
@@ -209,6 +212,13 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
   const darkBg = transparentize(`${process.env.COLOR_THEME}.200`, 0.16);
   const lightBg = transparentize(`${process.env.COLOR_THEME}.600`, 0.2);
   const bp = useBreakpointValue({ base: 'mobile', md: 'big' });
+
+
+  const [show, setShow] = useState(false)
+  const handleToggle = () => setShow(!show)
+
+
+
   return bp === 'mobile' ? (
     <>
       {mobileNav.isOpen ? (
@@ -317,34 +327,60 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
           />
         }
         {
-          router.pathname === '/' && view === 'movies' &&
-          <IconButton
-            isRound={true}
-            variant='solid'
-            colorScheme={process.env.COLOR_THEME}
-            aria-label='Done'
-            fontSize='20px'
-            size='lg'
-            icon={<IoRestaurantOutline />}
-            onClick={() => {
-              setView('restaurants');
-            }}
-          />
-        }
-        {
-          router.pathname === '/' && view === 'restaurants' &&
-          <IconButton
-            isRound={true}
-            variant='solid'
-            colorScheme={process.env.COLOR_THEME}
-            aria-label='Done'
-            fontSize='20px'
-            size='lg'
-            icon={<BiCameraMovie />}
-            onClick={() => {
-              setView('movies');
-            }}
-          />
+          router.pathname == '/' &&
+          <>
+            <Collapse in={show}>
+              <VStack>
+                <IconButton
+                  isRound={true}
+                  variant='solid'
+                  colorScheme={process.env.COLOR_THEME}
+                  aria-label='Done'
+                  fontSize='20px'
+                  size='md'
+                  icon={<BiCameraMovie />}
+                  onClick={() => {
+                    setView('movies');
+                  }}
+                />
+                <IconButton
+                  isRound={true}
+                  variant='solid'
+                  colorScheme={process.env.COLOR_THEME}
+                  aria-label='Done'
+                  fontSize='20px'
+                  size='md'
+                  icon={<IoRestaurantOutline />}
+                  onClick={() => {
+                    setView('restaurants');
+                  }}
+                />
+                <IconButton
+                  isRound={true}
+                  variant='solid'
+                  colorScheme={process.env.COLOR_THEME}
+                  aria-label='Done'
+                  fontSize='20px'
+                  size='md'
+                  icon={<IoBookOutline />}
+                  onClick={() => {
+                    setView('books');
+                  }}
+                />
+              </VStack>
+            </Collapse>
+            <IconButton
+              className={show ? 'rotate-45' : 'rotate-0'}
+              isRound={true}
+              variant='solid'
+              colorScheme={process.env.COLOR_THEME}
+              aria-label='Done'
+              fontSize='20px'
+              size='lg'
+              icon={<AddIcon />}
+              onClick={handleToggle}
+            />
+          </>
         }
       </Stack>
     </>
