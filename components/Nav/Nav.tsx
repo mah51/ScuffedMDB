@@ -370,7 +370,7 @@ const MobileNav = ({ links, user }: MobileNavProps): JSX.Element | null => {
               </VStack>
             </Collapse>
             <IconButton
-              className={show ? 'rotate-45' : 'rotate-0'}
+              className={show ? 'rotate-45 outline-none' : 'rotate-0 outline-none'}
               isRound={true}
               variant='solid'
               colorScheme={process.env.COLOR_THEME}

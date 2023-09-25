@@ -40,8 +40,8 @@ import { SerializedRestaurantType } from 'models/restaurant';
 
 interface ReviewProps {
     review: ReviewType<PopulatedUserType>;
-    movie?: SerializedMovieType<ReviewType<PopulatedUserType>[]>;
-    restaurant?: SerializedRestaurantType<ReviewType<PopulatedUserType>[]>;
+    movie?: SerializedMovieType<ReviewType<PopulatedUserType>[]> | null;
+    restaurant?: SerializedRestaurantType<ReviewType<PopulatedUserType>[]> | null;
 }
 
 
