@@ -1,5 +1,11 @@
 {
   "github": {
     "silent": true
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/health",
+      "schedule": "*/10 * * * *"
+    }
+  ]
 }
