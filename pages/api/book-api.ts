@@ -1,3 +1,4 @@
+import { SearchResponse } from 'models/api/books/googleBooksResponse';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
 
@@ -29,7 +30,7 @@ const handler = async (
                 method: 'GET'
               };
             const response = await fetch(url, options); 
-            const data = await response.json();
+            const data : SearchResponse = await response.json();
             return res.status(200).send(data);
         } catch (err) {
             return res.status(500).send(err);

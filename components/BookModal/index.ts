@@ -1,0 +1,1 @@
+export { BookModal as default } from './BookModal';

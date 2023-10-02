@@ -31,6 +31,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { OMDBMovie, OMDBResponse } from '../../pages/api/movie-api';
 import RestaurantModal from '../RestaurantModal';
 import SearchResults from '../SearchResults';
+import BookModal from '@components/BookModal';
 
 export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
   inMobileNav = false,
@@ -46,6 +47,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isRestaurantOpen, onOpen: onRestaurantOpen, onClose: onRestaurantClose } = useDisclosure();
+  const { isOpen: isBookOpen, onOpen: onBookOpen, onClose: onBookClose} = useDisclosure();
 
   const initialRef = React.useRef(null);
   const queryClient = useQueryClient();
@@ -180,7 +182,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
           <MenuList>
             <MenuItem onClick={onOpen}>Add Movie</MenuItem>
             <MenuItem onClick={onRestaurantOpen}>Add Restaurant</MenuItem>
-            {/* <MenuItem>Add Event</MenuItem> */}
+            <MenuItem onClick={onBookOpen}>Add Book</MenuItem>
           </MenuList>
         </Menu>
       )}
@@ -260,6 +262,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
         </ModalContent>
       </Modal>
       <RestaurantModal isRestaurantOpen={isRestaurantOpen} onRestaurantClose={onRestaurantClose} setError={setError} setSuccess={setSuccess} />
+      <BookModal isBookOpen={isBookOpen} onBookClose={onBookClose} setError={setError} setSuccess={setSuccess}/>
     </>
   );
 };
