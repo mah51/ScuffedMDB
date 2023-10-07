@@ -3,7 +3,7 @@ interface ImageLinks {
     thumbnail?: String;
 }
 
-interface BookIdentifier {
+export interface BookIdentifier {
     type: String;
     identifier: String;
 }
@@ -27,10 +27,15 @@ interface VolumeInfo {
     canonicalVolumeLink: String
 }
 
+interface SearchInfo {
+    textSnippet?: String
+}
+
 export interface ItemSchema {
     kind: String;
     id: String;
     selfLink: String;
+    searchInfo?: SearchInfo;
     volumeInfo: VolumeInfo;
 
 }

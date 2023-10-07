@@ -72,6 +72,14 @@ module.exports = {
         protocol: "https",
         hostname: "image.tmdb.org"
       },
+      {
+        protocol: "http",
+        hostname: "images.contentreserve.com"
+      },
+      {
+        protocol: "http",
+        hostname: "books.google.com"
+      },
     ],
   },
   env: {

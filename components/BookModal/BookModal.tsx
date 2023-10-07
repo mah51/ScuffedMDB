@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import {
     Button,
     Flex,
@@ -23,34 +23,15 @@ import {
     InputLeftElement,
     ModalFooter,
     ModalBody,
-    useColorModeValue
+    useColorModeValue,
+    Center,
+    Spinner,
+    IconButton
 } from '@chakra-ui/react';
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
-import { YelpMatchResponse } from "../../pages/api/restaurant-api";
 import { SearchResponse, ItemSchema } from 'models/api/books/googleBooksResponse';
 
-
-
-function SkeletonImage({ data }: { data: YelpMatchResponse }) {
-    const [imageLoaded, setImageLoaded] = useState(false);
-    return (
-        <AspectRatio
-            ratio={16 / 9}
-            width="full"
-        >
-            <Skeleton isLoaded={imageLoaded} width="full" height="full">
-                <Image
-                    onLoad={() => setImageLoaded(true)}
-                    alt={`${data?.name}`}
-                    layout="fill"
-                    src={`${data?.image_url}`}
-                    objectFit='cover'
-                />
-            </Skeleton>
-        </AspectRatio>
-    );
-}
 
 export const BookModal: React.FC<{
     isBookOpen: any,
@@ -66,19 +47,19 @@ export const BookModal: React.FC<{
 
         // Form states
         const { colorMode } = useColorMode();
-
-        const [showForm, setShowForm] = useState(true);
         const [query, setQuery] = useState('');
-        const [searchResults, setSearchResults] = useState<ItemSchema | null>(null);
+        const [loading, setLoading] = useState(false);
+        const [searchResults, setSearchResults] = useState<SearchResponse | null>(null);
 
         const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
+            setLoading(true);
             try {
-                const url = `${process.env.NEXT_PUBLIC_APP_URI}/api/book-api?key=${query}`;
+                const url = `${process.env.NEXT_PUBLIC_APP_URI}/api/book/google?key=${query}`;
                 const response = await fetch(url);
                 if (response.status === 200) {
                     const data: SearchResponse = await response.json();
-                    console.log(data.totalItems);
+                    setSearchResults(data);
                 }
                 else {
                     setError("No results found...")
@@ -87,14 +68,13 @@ export const BookModal: React.FC<{
             catch (err) {
                 console.error(err);
                 if (err) {
-                    setError(err?.message);
+                    setError(err?.message ?? "Error searching for book");
                 }
             }
+            finally {
+                setLoading(false);
+            }
         };
-
-        const addBook = async () => {
-            console.log('Add book')
-        }
 
 
         return (
@@ -129,6 +109,10 @@ export const BookModal: React.FC<{
                                     </Flex>
                                 </FormControl>
                             </form>
+                            {
+                                searchResults &&
+                                <BookSearchResult data={searchResults} loading={loading} setSuccess={setSuccess} setError={setError} />
+                            }
                         </ModalBody>
                         <ModalFooter
                             bg={useColorModeValue(`gray.50`, `gray.800`)}
@@ -143,3 +127,103 @@ export const BookModal: React.FC<{
             </>
         )
     }
+
+
+function BookSearchResult({ data, loading, setSuccess, setError }: any) {
+
+    const addBook = async (result : ItemSchema) => {
+        console.log('Add book');
+        console.log(result);
+    }
+
+    return loading ? (
+        <Center>
+            <Spinner
+                mt={6}
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color={`${process.env.COLOR_THEME}.200`}
+                size="xl"
+            />
+        </Center>
+    ) : (
+        <VStack mt={10} spacing={4} align="stretch">
+            {data?.items?.slice(0, 5).map((result: ItemSchema, index: number) => (
+                <Flex
+                    key={index.toString()}
+                    justifyContent="stretch"
+                    p={5}
+                    shadow="md"
+                    borderWidth="1px"
+                    borderRadius={10}
+                    position="relative"
+                >
+                    <IconButton
+                        size="xs"
+                        position="absolute"
+                        top={2}
+                        right={2}
+                        colorScheme={process.env.COLOR_THEME}
+                        aria-label="Search database"
+                        icon={<AddIcon />}
+                        onClick={async () => addBook(result)}
+                    />
+                    <AspectRatio
+                        ratio={16 / 9}
+                        maxWidth="150px"
+                        width="full"
+                        minWidth="150px"
+                    >
+                        <SkeletonImage data={result} key={index.toString()} />
+                    </AspectRatio>
+
+                    <VStack align={'left'} maxWidth="53%">
+                        <Heading fontSize="md">
+                            {result?.volumeInfo?.title}
+                        </Heading>
+                        <Text fontSize='sm'>
+                            {result?.volumeInfo?.authors && result?.volumeInfo?.authors[0]}
+                        </Text>
+                        <Text fontSize='xs' noOfLines={3}>
+                            {result?.searchInfo?.textSnippet}
+                        </Text>
+                    </VStack>
+                </Flex>
+            ))}
+        </VStack>
+    )
+}
+
+
+function SkeletonImage({ data }: { data: ItemSchema }) {
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const [image, setImage] = useState<String | undefined>();
+
+    useEffect(() => {
+        if (data?.volumeInfo?.imageLinks?.thumbnail) {
+            setImage(data?.volumeInfo?.imageLinks?.thumbnail);
+        }
+        else {
+            setImage('/no_image.jpg');
+        }
+    }, [])
+
+    return (
+        <AspectRatio
+            ratio={16 / 9}
+            width="full"
+        >
+            <Skeleton isLoaded={imageLoaded} width="full" height="full">
+                <Image
+                    onError={() => setImage('/no_image.jpg')}
+                    onLoad={() => setImageLoaded(true)}
+                    alt={`${data?.volumeInfo?.title}`}
+                    layout="fill"
+                    src={image}
+                    objectFit='scale-down'
+                />
+            </Skeleton>
+        </AspectRatio>
+    );
+}
