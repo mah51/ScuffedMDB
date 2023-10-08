@@ -1,8 +1,8 @@
-import Restaurant, { RestaurantType } from '../../models/restaurant';
-import dbConnect from '../../utils/dbConnect';
-import { YelpMatchResponse } from './restaurant-api'
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/client';
+import Restaurant, { RestaurantType } from '../../models/restaurant';
+import dbConnect from '../../utils/dbConnect';
+import { YelpMatchResponse } from './restaurant-api';
 
 
 
@@ -44,7 +44,7 @@ export default async function handler(
             })
             await newRestaurant.save();
 
-            return res.status(200).send({ data: newRestaurant, type: 'addition' });
+            return res.status(200).send({ data: newRestaurant, type: 'addition', category: 'restaurant' });
         }
         catch (err) {
             console.error(err);

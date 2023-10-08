@@ -1,13 +1,13 @@
-interface GoodReadsResponse {
-    [k: string] : GoodReadsSchema
+export interface OpenLibResponse {
+    [k: string] : OpenLibSchema
 }
 
-interface GoodReadsSchema {
+export interface OpenLibSchema {
     url?: string,
     key?: string,
     title: string,
     authors: Author[],
-    identifiers: Identifier[],
+    identifiers: Identifier,
     publishers: Publisher[],
     publish_date: string,
     subjects?: Subject[],

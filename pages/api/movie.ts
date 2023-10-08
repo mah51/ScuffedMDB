@@ -68,7 +68,7 @@ const MovieAPI = async (
         action: 'added',
       });
 
-      return res.status(200).send({ data: newMovie, type: `addition` });
+      return res.status(200).send({ data: newMovie, type: `addition`, category: 'movie' });
     } catch (err) {
       console.error(err);
       return res.status(500);

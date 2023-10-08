@@ -31,6 +31,8 @@ import {
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 import { SearchResponse, ItemSchema } from 'models/api/books/googleBooksResponse';
+import { OpenLibSchema } from 'models/api/books/openLibrarySchema';
+import { BookType } from 'models/book';
 
 
 export const BookModal: React.FC<{
@@ -111,7 +113,7 @@ export const BookModal: React.FC<{
                             </form>
                             {
                                 searchResults &&
-                                <BookSearchResult data={searchResults} loading={loading} setSuccess={setSuccess} setError={setError} />
+                                <BookSearchResult data={searchResults} loading={loading} setSuccess={setSuccess} setError={setError} onClose={onBookClose} />
                             }
                         </ModalBody>
                         <ModalFooter
@@ -129,11 +131,25 @@ export const BookModal: React.FC<{
     }
 
 
-function BookSearchResult({ data, loading, setSuccess, setError }: any) {
+function BookSearchResult({ data, loading, setSuccess, setError, onClose }: any) {
 
-    const addBook = async (result : ItemSchema) => {
-        console.log('Add book');
-        console.log(result);
+    const addBook = async (result: ItemSchema) => {
+        try {
+            const options = {
+                method: 'post',
+                body: JSON.stringify(result)
+            };
+            const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URI}/api/book`, options);
+            if (response.status === 200) {
+                const data = await response.json();
+                console.log(data);
+                setSuccess(data);
+                onClose();
+            }
+        }
+        catch {
+            setError(data?.message ?? "An error occured");
+        }
     }
 
     return loading ? (
@@ -186,7 +202,7 @@ function BookSearchResult({ data, loading, setSuccess, setError }: any) {
                             {result?.volumeInfo?.authors && result?.volumeInfo?.authors[0]}
                         </Text>
                         <Text fontSize='xs' noOfLines={3}>
-                            {result?.searchInfo?.textSnippet}
+                            {result?.searchInfo?.textSnippet && new DOMParser().parseFromString(result?.searchInfo?.textSnippet, 'text/html').body.textContent}
                         </Text>
                     </VStack>
                 </Flex>

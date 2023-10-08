@@ -1,47 +1,47 @@
 interface ImageLinks {
-    smallThumbnail?: String;
-    thumbnail?: String;
+    smallThumbnail?: string;
+    thumbnail?: string;
 }
 
 export interface BookIdentifier {
-    type: String;
-    identifier: String;
+    type: string;
+    identifier: string;
 }
 
 interface VolumeInfo {
-    title: String;
-    subtitle: String;
-    authors: String[];
-    publisher: String;
-    publishedDate: String;
-    description: String;
+    title: string;
+    subtitle: string;
+    authors: string[];
+    publisher: string;
+    publishedDate: string;
+    description: string;
     industryIdentifiers:  BookIdentifier[];
-    pageCount: Number;
-    categories: String[];
-    averageRating: Number;
-    ratingsCount: Number;
+    pageCount: number;
+    categories: string[];
+    averageRating: number;
+    ratingsCount: number;
     imageLinks?: ImageLinks;
-    language: String;
-    previewLink: String;
-    infoLink: String;
-    canonicalVolumeLink: String
+    language: string;
+    previewLink: string;
+    infoLink: string;
+    canonicalVolumeLink: string
 }
 
 interface SearchInfo {
-    textSnippet?: String
+    textSnippet?: string
 }
 
 export interface ItemSchema {
-    kind: String;
-    id: String;
-    selfLink: String;
+    kind: string;
+    id: string;
+    selfLink: string;
     searchInfo?: SearchInfo;
     volumeInfo: VolumeInfo;
 
 }
 
 export interface SearchResponse {
-    kind: String;
-    totalItems: Number;
+    kind: string;
+    totalItems: number;
     items: ItemSchema[];
 }

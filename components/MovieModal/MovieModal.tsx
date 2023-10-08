@@ -47,22 +47,26 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isRestaurantOpen, onOpen: onRestaurantOpen, onClose: onRestaurantClose } = useDisclosure();
-  const { isOpen: isBookOpen, onOpen: onBookOpen, onClose: onBookClose} = useDisclosure();
+  const { isOpen: isBookOpen, onOpen: onBookOpen, onClose: onBookClose } = useDisclosure();
 
   const initialRef = React.useRef(null);
   const queryClient = useQueryClient();
   const toast = useToast();
   useEffect(() => {
     if (success) {
-      queryClient.invalidateQueries({ queryKey: [`movies`] });
-      queryClient.invalidateQueries({ queryKey: [`restaurants`] });
+      if (success?.type === 'addition' && success?.category === 'movie') {
+        queryClient.invalidateQueries({ queryKey: [`movies`] });
+      }
+      if (success?.type === 'addition' && success?.category === 'restaurant') {
+        queryClient.invalidateQueries({ queryKey: [`restaurants`] });
+      }
       toast({
         variant: `subtle`,
         title: success.type === `addition` ? `${success.data?.alias ? 'Restaurant' : 'Movie'} Added` : `${success.data?.alias ? 'Restaurant' : 'Movie'} Deleted`,
         description:
           success.type === `addition`
             ? `${success.data?.name} was successfully added`
-            : `${success.data.name} was successfully deleted`,
+            : `${success.data?.name} was successfully deleted`,
         status: `success`,
         duration: 5000,
         isClosable: true,
@@ -262,7 +266,7 @@ export const MovieModal: React.FC<{ inMobileNav?: boolean }> = ({
         </ModalContent>
       </Modal>
       <RestaurantModal isRestaurantOpen={isRestaurantOpen} onRestaurantClose={onRestaurantClose} setError={setError} setSuccess={setSuccess} />
-      <BookModal isBookOpen={isBookOpen} onBookClose={onBookClose} setError={setError} setSuccess={setSuccess}/>
+      <BookModal isBookOpen={isBookOpen} onBookClose={onBookClose} setError={setError} setSuccess={setSuccess} />
     </>
   );
 };
