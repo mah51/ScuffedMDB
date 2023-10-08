@@ -56,7 +56,9 @@ const handler = async (
                 publishedDate: googleData?.volumeInfo?.publishedDate,
                 imageUrl: googleData?.volumeInfo?.imageLinks?.thumbnail,
                 averageRating: googleData?.volumeInfo?.averageRating,
-                ratingsCount: googleData?.volumeInfo?.ratingsCount
+                ratingsCount: googleData?.volumeInfo?.ratingsCount,
+                rating: 0,
+                reviews: []
             }
 
             const openlibData: OpenLibSchema | null = await fetchOpenlibData(identifier);

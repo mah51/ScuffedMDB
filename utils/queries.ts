@@ -1,6 +1,7 @@
 import { SerializedUser, PopulatedUserType } from './../models/user';
 import { ReviewType, SerializedMovieType } from '../models/movie';
 import { SerializedRestaurantType } from 'models/restaurant';
+import { SerializedBookType } from 'models/book';
 
 export const getMovies = async (): Promise<
   SerializedMovieType<ReviewType<PopulatedUserType>[]>[] | null
@@ -97,3 +98,13 @@ export const getRestaurant = async (
 
   return restaurant;
 };
+
+export const getBooks = async() : Promise<SerializedBookType<ReviewType<PopulatedUserType>[]>[] | null> => {
+  const res: Response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URI}/api/book`
+  );
+  // eslint-disable-next-line no-return-await
+  const allBooks = await res.json();
+  if (!allBooks?.data) return null;
+  return allBooks.data;
+}

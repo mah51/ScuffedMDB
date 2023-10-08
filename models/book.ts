@@ -34,6 +34,7 @@ const bookSchema = new mongoose.Schema(
         imageUrl: {type: String}, //google
         averageRating: {type: Number}, //google
         ratingsCount: {type: Number}, //google
+        rating: { type: Number },
         numReviews: { type: Number, default: 0 },
         reviews: [reviewSchema]
     },
@@ -72,6 +73,7 @@ export interface BookType<T = ReviewType[]> extends Document {
     averageRating?: number,
     ratingsCount?: number,
     numReviews?: number,
+    rating: number,
     reviews?: T;
     createdAt?: Date;
     updatedAt?: Date;
